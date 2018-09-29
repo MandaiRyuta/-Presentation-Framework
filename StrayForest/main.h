@@ -17,6 +17,9 @@
 #pragma comment(lib,"dxguid.lib")
 #pragma comment(lib,"XAudio2.lib")
 
+#include "myimgui\imgui.h"
+#include "myimgui\imgui_impl_dx9.h"
+
 namespace windows_rect
 {
 	constexpr int D3D_SCREEN_WIDTH = 1800;

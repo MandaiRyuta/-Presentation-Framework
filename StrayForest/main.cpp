@@ -6,6 +6,7 @@
 //
 *******************************************************************************/
 #include "main.h"
+#include "Renderer\GameManager.h"
 #include <vector>
 
 const std::string CLASS_NAME = "StrayForest";
@@ -17,17 +18,21 @@ const std::string WINDOW_NAME = "StrayForest";
 //
 //********************************************************************************
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);	// ウィンドウプロシージャ
-bool Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow, int nWindowWidth, int nWindowHeight);
+bool Init(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _nWindowWidth, int _nWindowHeight);
 void Uninit(void);
 void Update(void);
 void Draw(void);
+
+#pragma region IMGUIハンドラー
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam);
+#pragma endregion
 
 //********************************************************************************
 //
 //グローバル変数
 //
 //********************************************************************************
-
+GameManager* gamemanager;
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevinstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	// 使っていない引数の処理
@@ -78,14 +83,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevinstance, LPSTR lpCmdLi
 		CLASS_NAME.c_str(),
 		WINDOW_NAME.c_str(),
 		WStyle,
-		nWindowPosX,
-		nWindowPosY,
+		nWindowPosX + GetSystemMetrics(SM_CXDLGFRAME) * 2,
+		nWindowPosY + GetSystemMetrics(SM_CXDLGFRAME) * 2 + GetSystemMetrics(SM_CYCAPTION),
 		nWindowWidth,
 		nWindowHeight,
 		NULL,
 		NULL,
 		hInstance,
 		NULL);
+	// Setup style
+	ImGui::StyleColorsClassic();
 
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
@@ -128,6 +135,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevinstance, LPSTR lpCmdLi
 
 			if (GetTickCount() > next_game_tick && loops < MAX_FRAMESKIP)
 			{
+				ImGui_ImplDX9_NewFrame();
 				// 更新
 				Update();
 
@@ -136,11 +144,14 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevinstance, LPSTR lpCmdLi
 
 				next_game_tick += SKIP_TICKS;
 				loops++;
+
+				ImGui::EndFrame();
 			}
 			interpolation = float(GetTickCount() + SKIP_TICKS - next_game_tick) / float(SKIP_TICKS);
 		}
 	}
 
+	ImGui_ImplDX9_Shutdown();
 	// 終了
 	Uninit();
 
@@ -155,14 +166,15 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevinstance, LPSTR lpCmdLi
 //
 //================================================================================
 
-bool Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow, int nWindowWidth, int nWindowHeight)
+bool Init(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _nWindowWidth, int _nWindowHeight)
 {
-	bool bSetWindow;
 	// 使っていない引数の処理
-	hInstance = hInstance;
+	_hInstance = _hInstance;
 
-	bWindow >= 1 ? bSetWindow = true : bSetWindow = false;
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);
 
+	gamemanager = new GameManager(_hInstance,_hWnd, _bWindow, _nWindowWidth, _nWindowHeight);
+	gamemanager->Init();
 
 	return true;
 }
@@ -174,7 +186,8 @@ bool Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow, int nWindowWidth, int nW
 //================================================================================
 void Uninit(void)
 {
-
+	gamemanager->Uninit();
+	delete gamemanager;
 }
 
 //================================================================================
@@ -184,7 +197,7 @@ void Uninit(void)
 //================================================================================
 void Update(void)
 {
-
+	gamemanager->Update();
 }
 
 //================================================================================
@@ -194,31 +207,50 @@ void Update(void)
 //================================================================================
 void Draw(void)
 {
-
+	gamemanager->Draw();
 }
 //================================================================================
 //
 // ウィンドウプロシージャ関数
 //
 //================================================================================
-LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WndProc(HWND _hWnd, UINT _uMsg, WPARAM _wParam, LPARAM _lParam)
 {
-	switch (uMsg)
+	/// <summary>
+	/// デバイスとパラメーターを受け取る
+	/// </summary>
+	LPDIRECT3DDEVICE9 device = GetDevice();
+	D3DPRESENT_PARAMETERS parameter = GetParameter();
+	if (ImGui_ImplWin32_WndProcHandler(_hWnd, _uMsg, _wParam, _lParam))
+		return true;
+	switch (_uMsg)
 	{
+	case WM_SIZE:
+		if (device != NULL && _wParam != SIZE_MINIMIZED)
+		{
+			ImGui_ImplDX9_InvalidateDeviceObjects();
+			parameter.BackBufferWidth = LOWORD(_lParam);
+			parameter.BackBufferHeight = HIWORD(_lParam);
+			HRESULT hr = device->Reset(&parameter);
+			if (hr == D3DERR_INVALIDCALL)
+				IM_ASSERT(0);
+			ImGui_ImplDX9_CreateDeviceObjects();
+		}
+		return 0;
 	case WM_DESTROY: // ウィンドウ破棄メッセージ
 		PostQuitMessage(0);
 		break;
 	case WM_KEYDOWN:
-		switch (wParam)
+		switch (_wParam)
 		{
 		case VK_ESCAPE:
 		{// 終了メッセージ
 
-			int nID = MessageBox(hWnd, "終了しますか？", "終了メッセージ", MB_YESNO | MB_DEFBUTTON2);
+			int nID = MessageBox(_hWnd, "終了しますか？", "終了メッセージ", MB_YESNO | MB_DEFBUTTON2);
 
 			if (nID == IDYES)
 			{
-				DestroyWindow(hWnd);
+				DestroyWindow(_hWnd);
 			}
 		}
 		break;
@@ -228,11 +260,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CLOSE:
 	{
-		int nID = MessageBox(hWnd, "終了しますか？", "終了メッセージ", MB_YESNO | MB_DEFBUTTON2);
+		int nID = MessageBox(_hWnd, "終了しますか？", "終了メッセージ", MB_YESNO | MB_DEFBUTTON2);
 
 		if (nID == IDYES)
 		{
-			DestroyWindow(hWnd);
+			DestroyWindow(_hWnd);
 		}
 		break;
 	}
@@ -241,5 +273,5 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return DefWindowProc(hWnd, uMsg, wParam, lParam);
+	return DefWindowProc(_hWnd, _uMsg, _wParam, _lParam);
 }

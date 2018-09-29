@@ -1,0 +1,12 @@
+﻿  main.cpp
+main.cpp(178): warning C4800: 'BOOL': ブール値を 'true' または 'false' に強制的に設定します (警告の処理)
+  imgui.cpp
+  imgui_draw.cpp
+  imgui_impl_dx9.cpp
+  Renderer.cpp
+  コード生成しています。
+c:\users\owner\desktop\-presentation-framework\strayforest\main.cpp(159): warning C4701: 初期化されていない可能性のあるローカル変数 'msg' が使用されます
+  All 742 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  コード生成が終了しました。
+  StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Release\StrayForest.exe
+  StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Release\StrayForest.pdb (Full PDB)
