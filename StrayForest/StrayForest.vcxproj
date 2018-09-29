@@ -29,7 +29,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -71,6 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -88,6 +90,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -145,7 +148,22 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entity\Entity.h" />
+    <ClInclude Include="Entity\InheritanceNode\Level.h" />
+    <ClInclude Include="Entity\InheritanceNode\Position.h" />
+    <ClInclude Include="Entity\InheritanceNode\Rotation.h" />
+    <ClInclude Include="Entity\InheritanceNode\Scale.h" />
+    <ClInclude Include="Entity\InheritanceNode\Status.h" />
+    <ClInclude Include="Entity\InheritanceNode\Texture.h" />
+    <ClInclude Include="Scene\InheritanceNode\SceneGame.h" />
+    <ClInclude Include="Scene\InheritanceNode\SceneResult.h" />
+    <ClInclude Include="Scene\InheritanceNode\SceneTitle.h" />
+    <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="System\InheritanceNode\Camera.h" />
+    <ClInclude Include="System\InheritanceNode\MeshFiled.h" />
+    <ClInclude Include="System\InheritanceNode\Model.h" />
+    <ClInclude Include="System\System.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
