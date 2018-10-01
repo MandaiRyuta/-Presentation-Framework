@@ -89,14 +89,16 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Effekseer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Effekseer\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -148,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Effect\Effect.cpp" />
     <ClCompile Include="GameObjectManager\GameObjectManager.cpp" />
     <ClCompile Include="LoadManager\ModelLoder.cpp" />
     <ClCompile Include="LoadManager\TextureLoder.cpp" />
@@ -163,6 +166,7 @@
     <ClCompile Include="System\InheritanceNode\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Effect\Effect.h" />
     <ClInclude Include="Entity\Entity.h" />
     <ClInclude Include="GameObjectManager\GameObjectManager.h" />
     <ClInclude Include="LoadManager\ModelLoder.h" />

@@ -185,6 +185,12 @@ public:
 	/**ボーンのマトリックス取得(ボーンの名前)**/
 	D3DXMATRIX GetBoneMatrix(LPSTR _BoneName);
 private:
+	// ボーンのマトリックス取得（ボーンの名前）
+	D3DXMATRIX GetBoneMatrix(LPSTR _BoneName);
+
+	LPD3DXFRAME GetRootFrame() { return m_RootFrame; }
+
+private:
 	// 階層データ
 	SkinMeshData *m_SkinMeshData;
 
@@ -212,18 +218,13 @@ private:
 	bool m_bPlayMontage;
 	float m_MontageTime;
 
-
-	/**全フレーム参照配列**/
+	// 全フレーム参照配列
 	std::vector<FrameData*> m_FrameArray;
-	/**メッシュコンテナありのフレーム参照配列**/
+	// メッシュコンテナありのフレーム参照記録
 	std::vector<FrameData*> m_IntoMeshFrameArray;
 
-	/**進行方向**/
-	D3DXMATRIX m_World;
-	/**マテリアル変更フラグ**/
-	BOOL m_MaterialFlg;
-	/**マテリアルデータ**/
-	D3DMATERIAL9 m_Material;
+	// 全てのフレームポインタ格納処理関数
+	void CreateFrameArray(LPD3DXFRAME _pFrame);
 
 	/**すべてのフレームポインタ格納処理関数**/
 	void CreateFrameArray(LPD3DXFRAME _pFrame);

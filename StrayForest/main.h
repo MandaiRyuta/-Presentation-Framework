@@ -22,8 +22,6 @@
 
 namespace windows_rect
 {
-	constexpr int D3D_SCREEN_WIDTH = 1800;
-	constexpr int D3D_SCREEN_HEIGHT = 1300;
 	constexpr int SCREEN_WIDTH = 800;
 	constexpr int SCREEN_HEIGHT = 600;
 }

@@ -70,8 +70,10 @@ private:
 	//CCamera* camera_;
 	//CLight* light_;
 };
+
 D3DPRESENT_PARAMETERS GetParameter();
 LPDIRECT3DDEVICE9 GetDevice();
+
 ////DirectX9‚ðŽg‚Á‚½ƒŒƒ“ƒ_ƒŠƒ“ƒO
 //class CDX9Renderer 
 //{

@@ -1,5 +1,5 @@
 #include "SkinMeshFile.h"
-#include "main.h"
+#include "../Renderer/Renderer.h"
 
 SkinMeshFile::~SkinMeshFile()
 {
@@ -80,8 +80,6 @@ bool SkinMeshFile::Load(std::string file_name)
 					{
 						if (strcmp(pMyMeshContainer->pSkinInfo->GetBoneName(iBone), m_FrameArray[Idx]->Name) == 0) 
 						{
-							pMyMeshContainer->BoneFrameArray.push_back(m_FrameArray[Idx]);
-
 							//Offsets—ñ
 							m_FrameArray[Idx]->OffsetMat = *(pMyMeshContainer->pSkinInfo->GetBoneOffsetMatrix(iBone));
 							m_FrameArray[Idx]->OffsetID = Idx;
