@@ -1,5 +1,7 @@
 #include "GameManager.h"
 #include "../System/InheritanceNode/Model.h"
+#include "../LoadManager/TextureLoder.h"
+
 GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _nWindowWidth, int _nWindowHeight)
 {
 	renderer_ = CDX9Renderer::getInstance();
@@ -10,13 +12,12 @@ GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _n
 		PostQuitMessage(0);
 	}
 
-	XModel3D* ss = new XModel3D;
 
-	ss->Init();
 }
 
 void GameManager::Init()
 {
+	TextureLoder::LoadData("images.jpg");
 }
 
 void GameManager::Update()
@@ -47,7 +48,11 @@ void GameManager::Draw()
 
 void GameManager::Uninit()
 {
-	renderer_->Uninit();
+	if (renderer_ != nullptr)
+	{
+		renderer_->Uninit();
+	}
+	TextureLoder::RelaseAll();
 }
 
 void GameManager::SetSceneMode(SceneManager * _Mode)

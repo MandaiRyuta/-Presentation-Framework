@@ -219,6 +219,7 @@ LRESULT CALLBACK WndProc(HWND _hWnd, UINT _uMsg, WPARAM _wParam, LPARAM _lParam)
 	/// <summary>
 	/// デバイスとパラメーターを受け取る
 	/// </summary>
+
 	LPDIRECT3DDEVICE9 device = GetDevice();
 	D3DPRESENT_PARAMETERS parameter = GetParameter();
 	if (ImGui_ImplWin32_WndProcHandler(_hWnd, _uMsg, _wParam, _lParam))

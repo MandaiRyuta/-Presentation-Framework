@@ -1,3 +1,4 @@
+#include "../Renderer/GameManager.h"
 #include "GameObjectManager.h"
 
 GameObjectManager* GameObjectManager::object_[SORT_MAX][OBJ_MAX];

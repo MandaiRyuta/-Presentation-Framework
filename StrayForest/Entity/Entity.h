@@ -21,20 +21,43 @@ enum ACTIONPATTERN
 
 namespace Entity
 {
-	struct Model
+	struct Dx9Buffer
 	{
-		LPD3DXMESH p_mesh_;
-		D3DMATERIAL9* p_meshmaterial_;
-		LPDIRECT3DTEXTURE9* p_meshtexture_;
-		DWORD dw_material_;
-		D3DXVECTOR3 position_;
-		D3DXVECTOR3 scall_;
-		D3DXCOLOR color_;
-		D3DXVECTOR3 rotation_;
-		D3DXMATRIX world_;
+		LPDIRECT3DINDEXBUFFER9 index_buffer;
+		LPDIRECT3DVERTEXBUFFER9 vertex_buffer;
 	};
 
-	struct FILEPATHDATA
+	struct EnemyStatePattern
+	{
+		ACTIONPATTERN action_;
+		D3DXVECTOR3 position;
+		D3DXVECTOR3 scale;
+		D3DXVECTOR3 rotation;
+	};
+
+	struct CameraInfo
+	{
+		D3DXVECTOR3 at;
+		D3DXVECTOR3 eye;
+		D3DXVECTOR3 up;
+		D3DXMATRIX view;
+		D3DXMATRIX proj;
+	};
+
+	struct Model
+	{
+		LPD3DXMESH p_mesh;
+		D3DMATERIAL9* p_meshmaterial;
+		LPDIRECT3DTEXTURE9* p_meshtexture;
+		DWORD dw_material;
+		D3DXVECTOR3 position;
+		D3DXVECTOR3 scall;
+		D3DXCOLOR color;
+		D3DXVECTOR3 rotation;
+		D3DXMATRIX world;
+	};
+
+	struct FilePathData
 	{
 		int texturecount_;
 		std::vector <std::string> texture_;
@@ -69,9 +92,31 @@ namespace Entity
 		D3DXVECTOR2 texcoord;
 	};
 
-	struct MESHINFOMATION
+	struct MeshFiledSize
 	{
-		LPDIRECT3DINDEXBUFFER9 index_buffer;
-		LPDIRECT3DVERTEXBUFFER9 vertex_buffer;
+		int filed_x;
+		int filed_z;
+		float size_x;
+		float size_z;
+	};
+
+	struct Dx9Shader
+	{
+		/// <summary>
+		/// 定数テーブル
+		/// </summary>
+		std::map<std::string, LPD3DXCONSTANTTABLE> VSConstantTable_;
+		/// <summary>
+		/// 定数テーブル
+		/// </summary>
+		std::map<std::string, LPD3DXCONSTANTTABLE> PSConstantTable_;
+		/// <summary>
+		/// 頂点シェーダー
+		/// </summary>
+		std::map<std::string, LPDIRECT3DVERTEXSHADER9> vertexshader_;
+		/// <summary>
+		/// ピクセルシェーダー
+		/// </summary>
+		std::map<std::string, LPDIRECT3DPIXELSHADER9> pixelshader_;
 	};
 }

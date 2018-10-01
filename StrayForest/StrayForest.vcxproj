@@ -149,6 +149,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameObjectManager\GameObjectManager.cpp" />
+    <ClCompile Include="LoadManager\ModelLoder.cpp" />
+    <ClCompile Include="LoadManager\TextureLoder.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="myimgui\imgui.cpp" />
     <ClCompile Include="myimgui\imgui_draw.cpp" />
@@ -156,6 +158,8 @@
     <ClCompile Include="Renderer\GameManager.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="ShaderManager\ShaderManager.cpp" />
+    <ClCompile Include="SkinMeshAnimation\SkinMeshData.cpp" />
+    <ClCompile Include="SkinMeshAnimation\SkinMeshFile.cpp" />
     <ClCompile Include="System\InheritanceNode\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +178,8 @@
     <ClInclude Include="myimgui\imgui_internal.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="ShaderManager\ShaderManager.h" />
+    <ClInclude Include="SkinMeshAnimation\SkinMeshData.h" />
+    <ClInclude Include="SkinMeshAnimation\SkinMeshFile.h" />
     <ClInclude Include="stb_rect_pack.h" />
     <ClInclude Include="stb_textedit.h" />
     <ClInclude Include="stb_truetype.h" />

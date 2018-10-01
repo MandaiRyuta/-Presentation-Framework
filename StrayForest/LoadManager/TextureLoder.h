@@ -1,9 +1,52 @@
 #pragma once
-#include "../System.h"
+#include "../Entity/Entity.h"
+//****************************************************
+// 列挙型
+//****************************************************
+enum LOADTEXTURE
+{
+	TEXTUREMAX,	//テクスチャの最大個数
+};
 
+//****************************************************
+// class TextureLoder
+//****************************************************
 class TextureLoder
 {
-public:
+private:
 	TextureLoder() {}
 	~TextureLoder() {}
+public:
+	/// <summary>
+	/// ロードデータ
+	/// </summary>
+	//****************************************************
+	// @ _filename : ファイルパス
+	// @ _LoadType : 取り込む形式　0番：テクスチャ　1番: モデル
+	//****************************************************
+	static void LoadData(std::string _filename);
+public:
+	//****************************************************
+	// ゲッター
+	//****************************************************
+	/// <summary>
+	/// テクスチャーデーターのゲッター
+	/// </summary>
+	//****************************************************
+	// @ number : テクスチャナンバー
+	//****************************************************
+	static LPDIRECT3DTEXTURE9 GetTextureData(LOADTEXTURE _targettexture);
+	static void RelaseAll();
+private:
+	//****************************************************
+	// メンバー変数
+	//****************************************************
+	/// <summary>
+	/// テクスチャー格納変数
+	/// </summary>
+	static std::vector<LPDIRECT3DTEXTURE9> texture_;
+	/// <summary>
+	/// テクスチャーのカウンター
+	/// </summary>
+	static int TextureCounter_;
 };

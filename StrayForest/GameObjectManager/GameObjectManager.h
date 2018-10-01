@@ -1,7 +1,8 @@
 #pragma once
-#include "../Renderer/GameManager.h"
+
 constexpr int OBJ_MAX = 200;
 constexpr int SORT_MAX = 3;
+
 class GameObjectManager
 {
 public:
