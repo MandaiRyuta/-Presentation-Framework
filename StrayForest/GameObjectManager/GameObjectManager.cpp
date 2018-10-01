@@ -5,12 +5,15 @@ GameObjectManager* GameObjectManager::object_[SORT_MAX][OBJ_MAX];
 
 GameObjectManager::GameObjectManager(int _Priority)
 {
-	for (int i = 0; i < OBJ_MAX; i++)
+	if (_Priority < SORT_MAX)
 	{
-		if (object_[_Priority][i] == NULL)
+		for (int i = 0; i < OBJ_MAX; i++)
 		{
-			object_[_Priority][i] = this;
-			break;
+			if (object_[_Priority][i] == NULL)
+			{
+				object_[_Priority][i] = this;
+				break;
+			}
 		}
 	}
 }

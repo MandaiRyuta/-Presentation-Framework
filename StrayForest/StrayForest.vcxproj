@@ -163,10 +163,18 @@
     <ClCompile Include="ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="SkinMeshAnimation\SkinMeshData.cpp" />
     <ClCompile Include="SkinMeshAnimation\SkinMeshFile.cpp" />
+    <ClCompile Include="System\InheritanceNode\EnemyBoss.cpp" />
     <ClCompile Include="System\InheritanceNode\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BehaviorTree\BehaviorTree.h" />
     <ClInclude Include="Effect\Effect.h" />
+    <ClInclude Include="Effekseer\include\Effekseer.h" />
+    <ClInclude Include="Effekseer\include\EffekseerRendererDX11.h" />
+    <ClInclude Include="Effekseer\include\EffekseerRendererDX9.h" />
+    <ClInclude Include="Effekseer\include\EffekseerRendererGL.h" />
+    <ClInclude Include="Effekseer\include\EffekseerSoundAL.h" />
+    <ClInclude Include="Effekseer\include\EffekseerSoundXAudio2.h" />
     <ClInclude Include="Entity\Entity.h" />
     <ClInclude Include="GameObjectManager\GameObjectManager.h" />
     <ClInclude Include="LoadManager\ModelLoder.h" />
@@ -188,10 +196,14 @@
     <ClInclude Include="stb_textedit.h" />
     <ClInclude Include="stb_truetype.h" />
     <ClInclude Include="System\InheritanceNode\Camera.h" />
+    <ClInclude Include="System\InheritanceNode\EnemyBoss.h" />
     <ClInclude Include="System\InheritanceNode\MeshFiled.h" />
     <ClInclude Include="System\InheritanceNode\Model.h" />
     <ClInclude Include="LoadManager\TextureLoder.h" />
     <ClInclude Include="System\System.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Effekseer\lib\EffekseerSoundAL.Debug.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

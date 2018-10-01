@@ -1,7 +1,7 @@
 #pragma once
 
 constexpr int OBJ_MAX = 200;
-constexpr int SORT_MAX = 3;
+constexpr int SORT_MAX = 4;
 
 class GameObjectManager
 {
