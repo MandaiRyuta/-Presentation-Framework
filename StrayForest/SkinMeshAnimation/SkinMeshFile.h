@@ -185,8 +185,8 @@ public:
 	/**ボーンのマトリックス取得(ボーンの名前)**/
 	D3DXMATRIX GetBoneMatrix(LPSTR _BoneName);
 private:
-	// ボーンのマトリックス取得（ボーンの名前）
-	D3DXMATRIX GetBoneMatrix(LPSTR _BoneName);
+	//// ボーンのマトリックス取得（ボーンの名前）
+	//D3DXMATRIX GetBoneMatrix(LPSTR _BoneName);
 
 	LPD3DXFRAME GetRootFrame() { return m_RootFrame; }
 
@@ -223,8 +223,8 @@ private:
 	// メッシュコンテナありのフレーム参照記録
 	std::vector<FrameData*> m_IntoMeshFrameArray;
 
-	// 全てのフレームポインタ格納処理関数
-	void CreateFrameArray(LPD3DXFRAME _pFrame);
+	//// 全てのフレームポインタ格納処理関数
+	//void CreateFrameArray(LPD3DXFRAME _pFrame);
 
 	/**すべてのフレームポインタ格納処理関数**/
 	void CreateFrameArray(LPD3DXFRAME _pFrame);

@@ -49,7 +49,7 @@ bool SkinMeshFile::Load(std::string file_name)
 
 	// 追加
 	//アニメーショントラックの取得
-	for (int i = 0; i < m_AnimController->GetNumAnimationSets(); i++)
+	for (unsigned int i = 0; i < m_AnimController->GetNumAnimationSets(); i++)
 	{
 		//アニメーション取得
 		m_AnimController->GetAnimationSet(i, &(m_AnimSet[i]));
@@ -252,7 +252,7 @@ void SkinMeshFile::DrawMeshContainer(LPD3DXFRAME frame, LPD3DXMESHCONTAINER cont
 		pDevice->SetTransform(D3DTS_WORLD, &frame_data->m_CombinedTransformationMatrix);
 
 		// メッシュの描画
-		for (int i = 0; i < original_container->NumMaterials; i++)
+		for (unsigned int i = 0; i < original_container->NumMaterials; i++)
 		{
 			pDevice->SetMaterial(&original_container->pMaterials[i].MatD3D);
 			pDevice->SetTexture(0, original_container->m_TextureList[i]);
@@ -371,7 +371,7 @@ bool SkinMeshFile::SetLoopTime(UINT animID, FLOAT time)
 		return false;
 
 	// トラックスピード調節値を算出
-	FLOAT DefTime = m_AnimSet[animID]->GetPeriod();
+	FLOAT DefTime = (float)m_AnimSet[animID]->GetPeriod();
 	m_AnimController->SetTrackSpeed(0, DefTime * time);
 
 	return true;

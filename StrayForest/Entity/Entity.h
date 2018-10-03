@@ -1,5 +1,4 @@
 #pragma once
-#include <map>
 #include <vector>
 #include <string>
 #include "../SceneManager/SceneManager.h"
@@ -105,18 +104,18 @@ namespace Entity
 		/// <summary>
 		/// 定数テーブル
 		/// </summary>
-		std::map<std::string, LPD3DXCONSTANTTABLE> VSConstantTable_;
+		std::unordered_map<std::string, LPD3DXCONSTANTTABLE> VSConstantTable_;
 		/// <summary>
 		/// 定数テーブル
 		/// </summary>
-		std::map<std::string, LPD3DXCONSTANTTABLE> PSConstantTable_;
+		std::unordered_map<std::string, LPD3DXCONSTANTTABLE> PSConstantTable_;
 		/// <summary>
 		/// 頂点シェーダー
 		/// </summary>
-		std::map<std::string, LPDIRECT3DVERTEXSHADER9> vertexshader_;
+		std::unordered_map<std::string, LPDIRECT3DVERTEXSHADER9> vertexshader_;
 		/// <summary>
 		/// ピクセルシェーダー
 		/// </summary>
-		std::map<std::string, LPDIRECT3DPIXELSHADER9> pixelshader_;
+		std::unordered_map<std::string, LPDIRECT3DPIXELSHADER9> pixelshader_;
 	};
 }

@@ -16,7 +16,7 @@ int ModelLoder::ModelCounter_ = 0;
 void ModelLoder::LoadData(std::string _filename)
 {
 	LPD3DXBUFFER pD3DXMtrlBuffer = NULL;
-	Entity::Model* model;
+	Entity::Model* model = nullptr;
 	/// <summary>
 	/// xファイルからメッシュをロードする
 	/// </summary>
@@ -71,19 +71,10 @@ void ModelLoder::ReleseAll()
 {
 	for (auto itr = model_.begin(); itr != model_.end(); itr++)
 	{
-		if ((*itr)->p_mesh != nullptr)
-		{
-			(*itr)->p_mesh->Release();
-			(*itr)->p_mesh = nullptr;
-			delete[] (*itr)->p_mesh;
-		}
-		if ((*itr)->p_meshtexture = nullptr)
-		{
-			delete[](*itr)->p_meshtexture;
-		}
-		if ((*itr)->p_meshmaterial)
-		{
-			delete[](*itr)->p_meshmaterial;
-		}
+		(*itr)->p_mesh->Release();
+		(*itr)->p_mesh = nullptr;
+		delete[](*itr)->p_mesh;
+		delete[](*itr)->p_meshtexture;
+		delete[](*itr)->p_meshmaterial;
 	}
 }
