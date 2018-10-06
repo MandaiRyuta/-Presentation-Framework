@@ -162,8 +162,8 @@
     <ClInclude Include="SceneManager\InheritanceNode\SceneTitle.h" />
     <ClInclude Include="SceneManager\SceneManager.h" />
     <ClInclude Include="ShaderManager\ShaderManager.h" />
-    <ClInclude Include="SkinMeshAnimation\SkinMeshData.h" />
-    <ClInclude Include="SkinMeshAnimation\SkinMeshFile.h" />
+    <ClInclude Include="SkinMeshAnimation\ModelAnim.h" />
+    <ClInclude Include="SkinMeshAnimation\ModelFrame.h" />
     <ClInclude Include="stb_rect_pack.h" />
     <ClInclude Include="stb_textedit.h" />
     <ClInclude Include="stb_truetype.h" />
@@ -184,8 +184,8 @@
     <ClCompile Include="Renderer\GameManager.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="ShaderManager\ShaderManager.cpp" />
-    <ClCompile Include="SkinMeshAnimation\SkinMeshData.cpp" />
-    <ClCompile Include="SkinMeshAnimation\SkinMeshFile.cpp" />
+    <ClCompile Include="SkinMeshAnimation\ModelAnim.cpp" />
+    <ClCompile Include="SkinMeshAnimation\ModelFrame.cpp" />
     <ClCompile Include="System\InheritanceNode\EnemyBoss.cpp" />
     <ClCompile Include="System\InheritanceNode\Model.cpp" />
   </ItemGroup>
