@@ -2,7 +2,11 @@
 #include "../main.h"
 #include "../Renderer/Renderer.h"
 #include "../GameObjectManager/GameObjectManager.h"
+
 class SceneManager;
+class CCamera;
+class Light;
+class CInputKeyboard;
 
 class GameManager
 {
@@ -17,8 +21,12 @@ public:
 	void Uninit();
 public:
 	void SetSceneMode(SceneManager* _Mode);
+public:
+	static CInputKeyboard* GetKeyboard();
 private:
+	static CInputKeyboard* keyboard_;
 	CDX9Renderer* renderer_;
-
-	SceneManager* mode_;
+	CCamera* camera_;
+	Light* light_;
+	static SceneManager* mode_;
 };

@@ -20,6 +20,11 @@ enum ACTIONPATTERN
 
 namespace Entity
 {
+	struct LightInfo
+	{
+		D3DLIGHT9 light;
+		D3DXCOLOR color;
+	};
 	struct Dx9Buffer
 	{
 		LPDIRECT3DINDEXBUFFER9 index_buffer;

@@ -36,7 +36,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -79,6 +79,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -119,6 +121,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -148,6 +151,8 @@
     <ClInclude Include="BehaviorTree\BehaviorTree.h" />
     <ClInclude Include="Entity\Entity.h" />
     <ClInclude Include="GameObjectManager\GameObjectManager.h" />
+    <ClInclude Include="InputManager\input.h" />
+    <ClInclude Include="LoadManager\CsvLoder.h" />
     <ClInclude Include="LoadManager\ModelLoder.h" />
     <ClInclude Include="LoadManager\TextureLoder.h" />
     <ClInclude Include="main.h" />
@@ -169,12 +174,15 @@
     <ClInclude Include="stb_truetype.h" />
     <ClInclude Include="System\InheritanceNode\Camera.h" />
     <ClInclude Include="System\InheritanceNode\EnemyBoss.h" />
+    <ClInclude Include="System\InheritanceNode\Light.h" />
     <ClInclude Include="System\InheritanceNode\MeshFiled.h" />
     <ClInclude Include="System\InheritanceNode\Model.h" />
     <ClInclude Include="System\System.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObjectManager\GameObjectManager.cpp" />
+    <ClCompile Include="InputManager\input.cpp" />
+    <ClCompile Include="LoadManager\CsvLoder.cpp" />
     <ClCompile Include="LoadManager\ModelLoder.cpp" />
     <ClCompile Include="LoadManager\TextureLoder.cpp" />
     <ClCompile Include="main.cpp" />
@@ -183,10 +191,16 @@
     <ClCompile Include="myimgui\imgui_impl_dx9.cpp" />
     <ClCompile Include="Renderer\GameManager.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
+    <ClCompile Include="SceneManager\InheritanceNode\SceneGame.cpp" />
+    <ClCompile Include="SceneManager\InheritanceNode\SceneResult.cpp" />
+    <ClCompile Include="SceneManager\InheritanceNode\SceneTitle.cpp" />
     <ClCompile Include="ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="SkinMeshAnimation\ModelAnim.cpp" />
     <ClCompile Include="SkinMeshAnimation\ModelFrame.cpp" />
+    <ClCompile Include="System\InheritanceNode\Camera.cpp" />
     <ClCompile Include="System\InheritanceNode\EnemyBoss.cpp" />
+    <ClCompile Include="System\InheritanceNode\Light.cpp" />
+    <ClCompile Include="System\InheritanceNode\MeshFiled.cpp" />
     <ClCompile Include="System\InheritanceNode\Model.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

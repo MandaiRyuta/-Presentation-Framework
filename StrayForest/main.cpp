@@ -7,6 +7,10 @@
 *******************************************************************************/
 #include "main.h"
 #include "Renderer\GameManager.h"
+#include "LoadManager\CsvLoder.h"
+#include "LoadManager\ModelLoder.h"
+#include "LoadManager\TextureLoder.h"
+
 #include <vector>
 
 const std::string CLASS_NAME = "StrayForest";
