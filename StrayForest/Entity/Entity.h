@@ -89,6 +89,13 @@ namespace Entity
 		D3DXVECTOR2 texcoord;
 	};
 
+	struct INSTANCINGVECTOR3D
+	{
+		D3DXVECTOR3 position;
+		D3DXVECTOR2 texcoord;
+		D3DCOLOR color;
+	};
+
 	struct MATRIX3D
 	{
 		D3DXMATRIX world;
@@ -138,6 +145,15 @@ namespace Entity
 		MODEL_WORLD2* pWorld2;
 		MODEL_WORLD3* pWorld3;
 		MODEL_WORLD4* pWorld4;
+	};
+
+	struct INSTANCINGBUFFER
+	{
+		IDirect3DVertexBuffer9* pWorld1Buffer;
+		IDirect3DVertexBuffer9* pWorld2Buffer;
+		IDirect3DVertexBuffer9* pWorld3Buffer;
+		IDirect3DVertexBuffer9* pWorld4Buffer;
+		IDirect3DVertexDeclaration9* pDecl;
 	};
 	struct Dx9Shader
 	{

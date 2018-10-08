@@ -24,10 +24,11 @@ void Skydome::Update()
 
 void Skydome::Draw()
 {
+	LPDIRECT3DDEVICE9 device = GetDevice();
 	D3DXMATRIX mWVP = matrix_.world * CCamera::GetView() * CCamera::GetProj();
 	// ƒŒƒ“ƒ_ƒŠƒ“ƒO
-	GetDevice()->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, true);
-	GetDevice()->SetRenderState(D3DRS_ZENABLE, true);
+	device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, true);
+	device->SetRenderState(D3DRS_ZENABLE, true);
 	EffectShaderManager::GetEffect(MODEL3D)->SetTechnique("tecMinimum");
 	EffectShaderManager::GetEffect(MODEL3D)->SetMatrix("mWVP", &mWVP);
 	EffectShaderManager::GetEffect(MODEL3D)->Begin(NULL, 0);
@@ -38,18 +39,31 @@ void Skydome::Draw()
 		EffectShaderManager::GetEffect(MODEL3D)->SetTexture("texDecal", ModelLoder::GetModelData(SKYDOME)->p_meshtexture[i]);
 		ModelLoder::GetModelData(SKYDOME)->p_mesh->DrawSubset(i);
 	}
+
 	EffectShaderManager::GetEffect(MODEL3D)->EndPass();
 	EffectShaderManager::GetEffect(MODEL3D)->End();
 }
 
 void Skydome::Uninit()
 {
-
+	if (ModelLoder::GetModelData(SKYDOME)->p_mesh != nullptr)
+	{
+		ModelLoder::GetModelData(SKYDOME)->p_mesh->Release();
+		ModelLoder::GetModelData(SKYDOME)->p_mesh = nullptr;
+	}
+	if (ModelLoder::GetModelData(SKYDOME)->p_meshtexture != nullptr)
+	{
+		delete[] ModelLoder::GetModelData(SKYDOME)->p_meshtexture;
+	}
+	if (ModelLoder::GetModelData(SKYDOME)->p_meshmaterial != nullptr)
+	{
+		delete[] ModelLoder::GetModelData(SKYDOME)->p_meshmaterial;
+	}
 }
 
 Skydome * Skydome::Create()
 {
-	Skydome* CreateSkydome = new Skydome(0);
+	Skydome* CreateSkydome = new Skydome();
 	CreateSkydome->Init();
 
 	return CreateSkydome;

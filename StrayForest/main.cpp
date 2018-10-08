@@ -237,8 +237,6 @@ LRESULT CALLBACK WndProc(HWND _hWnd, UINT _uMsg, WPARAM _wParam, LPARAM _lParam)
 			parameter.BackBufferWidth = LOWORD(_lParam);
 			parameter.BackBufferHeight = HIWORD(_lParam);
 			HRESULT hr = device->Reset(&parameter);
-			if (hr == D3DERR_INVALIDCALL)
-				IM_ASSERT(0);
 			ImGui_ImplDX9_CreateDeviceObjects();
 		}
 		return 0;

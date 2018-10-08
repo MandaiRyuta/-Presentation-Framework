@@ -146,7 +146,7 @@ void MeshFiled::Uninit()
 //****************************************************
 MeshFiled * MeshFiled::Create(Entity::MeshFiledSize _meshinfo)
 {
-	MeshFiled* pMeshfiled = new MeshFiled(OBJ_3D_MODEL, _meshinfo);
+	MeshFiled* pMeshfiled = new MeshFiled(_meshinfo);
 	pMeshfiled->Init();
 	return pMeshfiled;
 }

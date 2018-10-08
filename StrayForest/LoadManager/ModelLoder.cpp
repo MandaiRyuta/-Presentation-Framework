@@ -12,12 +12,12 @@ std::vector<Entity::Model*> ModelLoder::model_;
 /// モデルカウンターの宣言
 /// </summary>
 int ModelLoder::ModelCounter_ = 0;
-Entity::Model ModelLoder::InitModel;
+Entity::Model ModelLoder::InitModel[100];
 
 void ModelLoder::LoadData(std::string _filename)
 {
 	LPD3DXBUFFER pD3DXMtrlBuffer = NULL;
-	Entity::Model* OneModel_ = &InitModel;
+	Entity::Model* OneModel_ = &InitModel[ModelCounter_];
 	/// <summary>
 	/// xファイルからメッシュをロードする
 	/// </summary>
@@ -49,10 +49,9 @@ void ModelLoder::LoadData(std::string _filename)
 			}
 		}
 	}
+	ModelCounter_++;
 	model_.push_back(OneModel_);
 	pD3DXMtrlBuffer->Release();
-	
-	ModelCounter_++;
 }
 
 Entity::Model* ModelLoder::GetModelData(LOADMODEL _targetmodel)
@@ -71,21 +70,22 @@ Entity::Model* ModelLoder::GetModelData(LOADMODEL _targetmodel)
 
 void ModelLoder::ReleseAll()
 {
-	for (unsigned int i = 0; i < model_.size(); i++)
-	{
-		if (model_[i]->p_mesh != nullptr)
-		{
-			model_[i]->p_mesh->Release();
-			model_[i]->p_mesh = nullptr;
-		}
-		if (model_[i]->p_meshtexture != nullptr)
-		{
-			delete[] model_[i]->p_meshtexture;
-		}
-		if (model_[i]->p_meshmaterial != nullptr)
-		{
-			delete[] model_[i]->p_meshmaterial;
-		}
-	}
-	model_.clear();
+	model_.erase(model_.begin(), model_.end());
+	//for (unsigned int i = 0; i < model_.size(); i++)
+	//{
+	//	if (model_[i]->p_mesh != nullptr)
+	//	{
+	//		model_[i]->p_mesh->Release();
+	//		model_[i]->p_mesh = nullptr;
+	//	}
+	//	if (model_[i]->p_meshtexture != nullptr)
+	//	{
+	//		delete[] model_[i]->p_meshtexture;
+	//	}
+	//	if (model_[i]->p_meshmaterial != nullptr)
+	//	{			
+	//		delete[] model_[i]->p_meshmaterial;
+	//	}
+	//}
+
 }

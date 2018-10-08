@@ -4,13 +4,13 @@
 enum EFFECTINFO
 {
 	MODEL3D,
-	BUMPMAP,
+	INSTANCING3D,
 	EFFECT_MAX,
 };
 
 class EffectShaderManager
 {
-public:
+private:
 	EffectShaderManager() {}
 	~EffectShaderManager() {}
 public:

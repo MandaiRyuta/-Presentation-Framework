@@ -42,8 +42,8 @@ public:
 	//* @ _filename  : ファイルパス
 	//* @ _mesh_info : メッシュ情報
 	//****************************************************
-	MeshFiled(int _Priority, Entity::MeshFiledSize _mesh_info)
-		: meshinfo_(_mesh_info), GameObjectManager(_Priority)
+	MeshFiled(Entity::MeshFiledSize _mesh_info)
+		: meshinfo_(_mesh_info), GameObjectManager(OBJ_3D_MODEL)
 	{
 
 	}
@@ -114,11 +114,6 @@ public:
 	// セッター
 	//****************************************************
 private:
-	/// <summary>
-	/// ファイルパス
-	/// </summary>
-	std::string filename_;
-
 	/// <summary>
 	/// csvファイルから読み込みフィールドの高さ設定
 	/// </summary>

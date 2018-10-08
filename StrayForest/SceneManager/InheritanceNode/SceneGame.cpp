@@ -2,6 +2,8 @@
 #include "../../GameObjectManager/GameObjectManager.h"
 #include "../../System/InheritanceNode/MeshFiled.h"
 #include "../../System/InheritanceNode/Skydome.h"
+#include "../../System/InheritanceNode/Instancing3D.h"
+
 void SceneGame::Initialize()
 {
 	Entity::MeshFiledSize filedsize;
@@ -13,6 +15,8 @@ void SceneGame::Initialize()
 	MeshFiled::Create(filedsize);
 
 	Skydome::Create();
+
+	Instancing3D::Create();
 }
 
 void SceneGame::Update()

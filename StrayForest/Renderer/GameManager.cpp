@@ -3,7 +3,6 @@
 #include "../SceneManager/InheritanceNode/SceneTitle.h"
 #include "../SceneManager/InheritanceNode/SceneGame.h"
 #include "../SceneManager/InheritanceNode/SceneResult.h"
-#include "../System/InheritanceNode/Model.h"
 #include "../LoadManager/ModelLoder.h"
 #include "../LoadManager/TextureLoder.h"
 #include "../ShaderManager/EffectShaderManager.h"
@@ -41,7 +40,9 @@ void GameManager::Init()
 	//TextureLoder::LoadData("Resource/Texture/floor01normal.png");
 	//TextureLoder::LoadData("Resource/Texture/floor02normal.png");
 	ModelLoder::LoadData("Resource/Model/skydomemodel.x");
+	ModelLoder::LoadData("Resource/Model/treemodel.x");
 	EffectShaderManager::EffectLoad("Resource/Shader/ModelShader.fx");
+	EffectShaderManager::EffectLoad("Resource/Shader/Instance3D.fx");
 	//EffectShaderManager::EffectLoad("Resource/Shader/BumpMap.fx");
 	SetSceneMode(new SceneGame);
 }
