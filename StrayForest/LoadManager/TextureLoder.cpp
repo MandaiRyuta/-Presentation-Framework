@@ -27,12 +27,12 @@ void TextureLoder::LoadData(std::string _filename)
 	TextureCounter_++;
 }
 
-LPDIRECT3DTEXTURE9 TextureLoder::GetTextureData(LOADTEXTURE _targettexture)
+LPDIRECT3DTEXTURE9 TextureLoder::GetTextureData(int _targettexture)
 {
 	/// <summary>
 	/// 現在保持しているテクスチャの数情報より、指定された数値が越えていたらエラー処理に入る。
 	/// </summary>
-	if (_targettexture > TextureCounter_)
+	if (_targettexture > TEXTUREMAX)
 	{
 		MessageBox(NULL, "テクスチャの情報を呼び出せませんでした", "TextureLoderError", MB_OK);
 		PostQuitMessage(0);

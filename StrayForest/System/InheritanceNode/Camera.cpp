@@ -228,12 +228,22 @@ void CCamera::CameraUpdate()
 	this->m_GetProj_ = this->matrix_projection;
 }
 
-D3DXMATRIX CCamera::SetView()
+D3DXMATRIX CCamera::GetView()
 {
 	return m_GetView_;
 }
 
-D3DXMATRIX CCamera::SetProj()
+D3DXMATRIX CCamera::GetProj()
 {
 	return m_GetProj_;
+}
+
+void CCamera::SetView(D3DXMATRIX _view)
+{
+	m_GetView_ = _view;
+}
+
+void CCamera::SetProj(D3DXMATRIX _proj)
+{
+	m_GetProj_ = _proj;
 }

@@ -14,8 +14,12 @@ public:
 	void Draw() {}
 	void Uninit() {}
 
-	void CreateMaterialLight(D3DMATERIAL9 mat);
+	void CreateMaterialLight(D3DMATERIAL9 _mat);
 	void CreateLight(Entity::LightInfo _light);
+
+	static D3DXVECTOR3 GetLightPos();
+	static void SetLightPos(D3DXVECTOR3 _pos);
 private:
+	static D3DXVECTOR3 lightpos_;
 	Entity::LightInfo lightinfo_;
 };

@@ -11,7 +11,8 @@
 #include "../../Renderer/Renderer.h"
 #include "../../LoadManager/CsvLoder.h"
 #include "../../LoadManager/TextureLoder.h"
-
+#include "../../ShaderManager/EffectShaderManager.h"
+#include "Camera.h"
 //****************************************************
 // 初期化
 //****************************************************
@@ -25,12 +26,6 @@ void MeshFiled::Init()
 	VertexBufferCreate(device);
 	IndexBufferCreate(device);
 
-	/// <summary>
-	/// テクスチャを受け取る
-	/// </summary>
-	//@@@@ まだテクスチャーを初期化していないので後で行う
-	D3DXCreateTextureFromFile(device, "resource/texture/floor01.png", &texture_[0].texture);
-	D3DXCreateTextureFromFile(device, "resource/texture/floor02.png", &texture_[1].texture);
 	/// <summary>
 	/// マテリアルの初期化を行った後に設定を行う
 	/// </summary>
@@ -47,8 +42,13 @@ void MeshFiled::Init()
 	/// <summary>
 	/// ワールド行列を単位行列にする
 	/// </summary>
-	D3DXMatrixIdentity(&world_);
-
+	D3DXMatrixIdentity(&matrix_.world);
+	D3DXMatrixIdentity(&matrix_.position);
+	D3DXMatrixIdentity(&matrix_.rotation);
+	D3DXMatrixIdentity(&matrix_.scale);
+	D3DXMatrixTranslation(&matrix_.position, 0.0f, 0.0f, 0.0f);
+	D3DXMatrixScaling(&matrix_.scale, 1.1f, 1.0f, 1.1f);
+	D3DXMatrixRotationYawPitchRoll(&matrix_.rotation, 0.0f, 0.0f, 0.0f);
 }
 
 //****************************************************
@@ -56,6 +56,7 @@ void MeshFiled::Init()
 //****************************************************
 void MeshFiled::Update()
 {
+	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
 }
 
 //****************************************************
@@ -66,8 +67,8 @@ void MeshFiled::Draw()
 	LPDIRECT3DDEVICE9 device = GetDevice();
 
 	device->SetFVF(FVF_FILED);
-	device->SetStreamSource(0, vertexbuffer_, 0, sizeof(Entity::VECTOR3D));
-	device->SetIndices(indexbuffer_);
+	device->SetStreamSource(0, buffer_.vertex_buffer, 0, sizeof(Entity::VECTOR3D));
+	device->SetIndices(buffer_.index_buffer);
 	device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
 	device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 	device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
@@ -76,13 +77,45 @@ void MeshFiled::Draw()
 	device->SetRenderState(D3DRS_LIGHTING, true);
 	device->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 	
-	device->SetTransform(D3DTS_WORLD, &world_);
+	device->SetTransform(D3DTS_WORLD, &matrix_.world);
 
-	device->SetTexture(0, texture_[0].texture);
+	device->SetTexture(0, TextureLoder::GetTextureData(FLOOR01));
 	device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->number_of_vertices_, 0, this->number_of_primities_);
 
-	device->SetTexture(0, texture_[1].texture);
+	device->SetTexture(0, TextureLoder::GetTextureData(FLOOR02));
 	device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->number_of_vertices_, 0, this->number_of_primities_);
+
+	/*なぜかエラー吐かれる*/
+	//LPDIRECT3DDEVICE9 device = GetDevice();
+	//D3DXVECTOR4 v;
+	//D3DXMATRIX mWVP = matrix_.world * CCamera::GetView() * CCamera::GetProj();
+	//EffectShaderManager::GetEffect(BUMPMAP)->SetTechnique("TShader");
+	//EffectShaderManager::GetEffect(BUMPMAP)->Begin(NULL, 0);
+	//EffectShaderManager::GetEffect(BUMPMAP)->BeginPass(0);
+	//EffectShaderManager::GetEffect(BUMPMAP)->SetMatrix("mWVP", &mWVP);
+	//D3DXVECTOR4 LightPos = D3DXVECTOR4(Light::GetLightPos().x, Light::GetLightPos().y, Light::GetLightPos().z, 0);
+	//D3DXMatrixInverse(&mWVP, NULL, &matrix_.world);
+	//D3DXVec4Transform(&v, &LightPos, &mWVP);
+	//D3DXVec3Normalize((D3DXVECTOR3*)&v, (D3DXVECTOR3*)&v);
+	//v.w = -0.7f;
+	//EffectShaderManager::GetEffect(BUMPMAP)->SetVector("vLightDir", &v);
+	//D3DXMATRIX viewworld = matrix_.world * CCamera::GetView();
+	//D3DXMatrixInverse(&viewworld, NULL, &viewworld);
+	//v = D3DXVECTOR4(0, 0, 0, 1);
+	//D3DXVec4Transform(&v, &v, &viewworld);
+	//EffectShaderManager::GetEffect(BUMPMAP)->SetVector("vEyePos", &v);
+	//
+	//EffectShaderManager::GetEffect(BUMPMAP)->SetTexture("NormalMap", TextureLoder::GetTextureData(FLOOR01NORMAL));
+	//
+	//EffectShaderManager::GetEffect(BUMPMAP)->SetTexture("DecaleTex", TextureLoder::GetTextureData(FLOOR01));
+	//device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->number_of_vertices_, 0, this->number_of_primities_);
+	//
+	//EffectShaderManager::GetEffect(BUMPMAP)->SetTexture("NormalMap", TextureLoder::GetTextureData(FLOOR02NORMAL));
+	//EffectShaderManager::GetEffect(BUMPMAP)->SetTexture("DecaleTex", TextureLoder::GetTextureData(FLOOR02));
+	//
+	//device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->number_of_vertices_, 0, this->number_of_primities_);
+	//EffectShaderManager::GetEffect(BUMPMAP)->EndPass();
+	//EffectShaderManager::GetEffect(BUMPMAP)->End();
 }
 
 //****************************************************
@@ -93,26 +126,18 @@ void MeshFiled::Uninit()
 	/// <summary>
 	/// バーテックスバッファの解放処理
 	/// </summary>
-	if (vertexbuffer_ != nullptr)
+	if (buffer_.vertex_buffer != nullptr)
 	{
-		vertexbuffer_->Release();
-		vertexbuffer_ = nullptr;
+		buffer_.vertex_buffer->Release();
+		buffer_.vertex_buffer = nullptr;
 	}
 	/// <summary>
 	/// インデックスバッファの解放処理
 	/// </summary>
-	if (indexbuffer_ != nullptr)
+	if (buffer_.index_buffer != nullptr)
 	{
-		indexbuffer_->Release();
-		indexbuffer_ = nullptr;
-	}
-	/// <summary>
-	/// テクスチャの解放処理
-	/// </summary>
-	if (texture_ != nullptr)
-	{
-		texture_[0].texture->Release();
-		texture_[0].texture = nullptr;
+		buffer_.index_buffer->Release();
+		buffer_.index_buffer = nullptr;
 	}
 }
 
@@ -168,7 +193,7 @@ void MeshFiled::VertexBufferCreate(LPDIRECT3DDEVICE9 _device)
 		D3DUSAGE_WRITEONLY,
 		FVF_FILED,
 		D3DPOOL_MANAGED,
-		&vertexbuffer_,
+		&buffer_.vertex_buffer,
 		NULL)))
 	{
 		MessageBox(NULL, "VertexBufferの生成に失敗しました。", "MeshFiled", MB_OK);
@@ -178,7 +203,7 @@ void MeshFiled::VertexBufferCreate(LPDIRECT3DDEVICE9 _device)
 	/// <summary>
 	/// vertexbufferをロックして書き込み、そしてアンロックする
 	/// </summary>
-	vertexbuffer_->Lock(0, 0, (void**)&mpv_, D3DLOCK_DISCARD);
+	buffer_.vertex_buffer->Lock(0, 0, (void**)&mpv_, D3DLOCK_DISCARD);
 
 	/// <summary>
 	/// 外積計算するために必要な変数
@@ -263,7 +288,7 @@ void MeshFiled::VertexBufferCreate(LPDIRECT3DDEVICE9 _device)
 		}
 	}
 
-	vertexbuffer_->Unlock();
+	buffer_.vertex_buffer->Unlock();
 }
 
 //****************************************************
@@ -292,14 +317,14 @@ void MeshFiled::IndexBufferCreate(LPDIRECT3DDEVICE9 _device)
 		D3DUSAGE_WRITEONLY,
 		D3DFMT_INDEX16,
 		D3DPOOL_MANAGED,
-		&indexbuffer_,
+		&buffer_.index_buffer,
 		NULL)))
 	{
 		MessageBox(NULL, "インデックスバッファの生成に失敗しました", "MeshFiled", MB_OK);
 		PostQuitMessage(0);
 	}
 
-	indexbuffer_->Lock(0, 0, (void**)&ppIndex, D3DLOCK_DISCARD);
+	buffer_.index_buffer->Lock(0, 0, (void**)&ppIndex, D3DLOCK_DISCARD);
 
 	for (int nCount = 0; nCount < this->number_of_indices_; nCount++)
 	{
@@ -339,7 +364,7 @@ void MeshFiled::IndexBufferCreate(LPDIRECT3DDEVICE9 _device)
 		}
 	}
 
-	indexbuffer_->Unlock();
+	buffer_.index_buffer->Unlock();
 
 }
 

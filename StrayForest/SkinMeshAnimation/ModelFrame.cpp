@@ -7,7 +7,7 @@
 //ƒtƒŒ[ƒ€‚ðì¬‚·‚é
 HRESULT MY_HIERARCHY::CreateFrame(LPCTSTR Name, LPD3DXFRAME *ppNewFrame)
 {
-	HRESULT hr = S_OK;
+	//HRESULT hr = S_OK;
 	MYFRAME *pFrame;
 
 

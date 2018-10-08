@@ -50,5 +50,5 @@ public:
 	// @ _table		: Vectorの二次元配列	(メッシュフィールドの高さ格納引数)
 	// @ delimiter	: マスの区切り点
 	//****************************************************
-	static bool CsvWrite(const std::string& _filename, std::vector<std::vector<std::string>>& _table, const char delimiter = ',');
+	//static bool CsvWrite(const std::string& _filename, std::vector<std::vector<std::string>>& _table, const char delimiter = ',');
 };

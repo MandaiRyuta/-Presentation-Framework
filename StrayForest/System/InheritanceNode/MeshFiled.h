@@ -125,14 +125,9 @@ private:
 	float FiledHeight[MeshFiledX][MeshFiledZ];
 
 	/// <summary>
-	/// バーテックスバッファ
+	/// バッファ
 	/// </summary>
-	LPDIRECT3DVERTEXBUFFER9 vertexbuffer_;
-
-	/// <summary>
-	/// インデックスバッファ
-	/// </summary>
-	LPDIRECT3DINDEXBUFFER9 indexbuffer_;
+	Entity::Dx9Buffer buffer_;
 
 	/// <summary>
 	/// テクスチャー
@@ -145,24 +140,9 @@ private:
 	D3DMATERIAL9 meshmaterial_;
 
 	/// <summary>
-	/// ワールド行列
+	/// 行列の集まり
 	/// </summary>
-	D3DXMATRIX world_;
-
-	/// <summary>
-	/// 位置行列
-	/// </summary>
-	D3DXMATRIX mtx_translation_;
-
-	/// <summary>
-	/// 回転行列
-	/// </summary>
-	D3DXMATRIX mtx_rotation_;
-
-	/// <summary>
-	/// 拡大行列
-	/// </summary>
-	D3DXMATRIX mtx_scale_;
+	Entity::MATRIX3D matrix_;
 
 	/// <summary>
 	/// 位置ベクトル
@@ -178,7 +158,7 @@ private:
 	/// 回転ベクトル
 	/// </summary>
 	D3DXVECTOR3 rotation_;
-
+	
 	/// <summary>
 	/// メッシュフィールドの情報
 	/// </summary>

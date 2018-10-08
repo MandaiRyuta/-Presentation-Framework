@@ -89,6 +89,14 @@ namespace Entity
 		D3DXVECTOR2 texcoord;
 	};
 
+	struct MATRIX3D
+	{
+		D3DXMATRIX world;
+		D3DXMATRIX position;
+		D3DXMATRIX rotation;
+		D3DXMATRIX scale;
+	};
+
 	struct VECTOR2D
 	{
 		D3DXVECTOR4 position;
@@ -104,6 +112,33 @@ namespace Entity
 		float size_z;
 	};
 
+	struct MODEL_WORLD1
+	{
+		float m11, m12, m13, m14;
+	};
+
+	struct MODEL_WORLD2
+	{
+		float m21, m22, m23, m24;
+	};
+
+	struct MODEL_WORLD3
+	{
+		float m31, m32, m33, m34;
+	};
+
+	struct MODEL_WORLD4
+	{
+		float m41, m42, m43, m44;
+	};
+
+	struct INSTANCINGWORLD
+	{
+		MODEL_WORLD1* pWorld1;
+		MODEL_WORLD2* pWorld2;
+		MODEL_WORLD3* pWorld3;
+		MODEL_WORLD4* pWorld4;
+	};
 	struct Dx9Shader
 	{
 		/// <summary>

@@ -51,8 +51,10 @@ public:
 	void CameraDraw() {}
 	void CameraUninit() {};
 public:
-	static D3DXMATRIX SetView();
+	static D3DXMATRIX GetView();
+	static D3DXMATRIX GetProj();
 
-	static D3DXMATRIX SetProj();
+	static void SetView(D3DXMATRIX _view);
+	static void SetProj(D3DXMATRIX _proj);
 };
 

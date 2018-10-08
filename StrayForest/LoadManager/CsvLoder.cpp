@@ -74,10 +74,10 @@ bool CsvLoder::CsvRead(const std::string & _filename, std::vector<std::vector<st
 //****************************************************
 // Csv書き込み関数
 //****************************************************
-bool CsvLoder::CsvWrite(const std::string & _filename, std::vector<std::vector<std::string>>& _table, const char delimiter)
-{
-	/// <summary>
-	/// 今回使用しない為未実装
-	/// </summary>
-	return true;
-}
+//bool CsvLoder::CsvWrite(const std::string & _filename, std::vector<std::vector<std::string>>& _table, const char delimiter)
+//{
+//	/// <summary>
+//	/// 今回使用しない為未実装
+//	/// </summary>
+//	return true;
+//}

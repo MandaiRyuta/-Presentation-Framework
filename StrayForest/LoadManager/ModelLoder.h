@@ -6,6 +6,7 @@
 //****************************************************
 enum LOADMODEL
 {
+	SKYDOME,
 	MODEL_MAX,	//モデルの最大個数
 };
 
@@ -47,7 +48,8 @@ private:
 	/// モデル格納変数
 	/// </summary>
 	static std::vector<Entity::Model*> model_;
-
+	static Entity::Model InitModel;
+	Entity::Model* OneModel_;
 	/// <summary>
 	/// モデルのカウンター
 	/// </summary>

@@ -166,6 +166,7 @@
     <ClInclude Include="SceneManager\InheritanceNode\SceneResult.h" />
     <ClInclude Include="SceneManager\InheritanceNode\SceneTitle.h" />
     <ClInclude Include="SceneManager\SceneManager.h" />
+    <ClInclude Include="ShaderManager\EffectShaderManager.h" />
     <ClInclude Include="ShaderManager\ShaderManager.h" />
     <ClInclude Include="SkinMeshAnimation\ModelAnim.h" />
     <ClInclude Include="SkinMeshAnimation\ModelFrame.h" />
@@ -174,9 +175,13 @@
     <ClInclude Include="stb_truetype.h" />
     <ClInclude Include="System\InheritanceNode\Camera.h" />
     <ClInclude Include="System\InheritanceNode\EnemyBoss.h" />
+    <ClInclude Include="System\InheritanceNode\Instancing2D.h" />
+    <ClInclude Include="System\InheritanceNode\Instancing3D.h" />
     <ClInclude Include="System\InheritanceNode\Light.h" />
     <ClInclude Include="System\InheritanceNode\MeshFiled.h" />
-    <ClInclude Include="System\InheritanceNode\Model.h" />
+    <ClInclude Include="System\InheritanceNode\Player.h" />
+    <ClInclude Include="System\InheritanceNode\Sea.h" />
+    <ClInclude Include="System\InheritanceNode\Skydome.h" />
     <ClInclude Include="System\System.h" />
   </ItemGroup>
   <ItemGroup>
@@ -194,14 +199,19 @@
     <ClCompile Include="SceneManager\InheritanceNode\SceneGame.cpp" />
     <ClCompile Include="SceneManager\InheritanceNode\SceneResult.cpp" />
     <ClCompile Include="SceneManager\InheritanceNode\SceneTitle.cpp" />
+    <ClCompile Include="ShaderManager\EffectShaderManager.cpp" />
     <ClCompile Include="ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="SkinMeshAnimation\ModelAnim.cpp" />
     <ClCompile Include="SkinMeshAnimation\ModelFrame.cpp" />
     <ClCompile Include="System\InheritanceNode\Camera.cpp" />
     <ClCompile Include="System\InheritanceNode\EnemyBoss.cpp" />
+    <ClCompile Include="System\InheritanceNode\Instancing2D.cpp" />
+    <ClCompile Include="System\InheritanceNode\Instancing3D.cpp" />
     <ClCompile Include="System\InheritanceNode\Light.cpp" />
     <ClCompile Include="System\InheritanceNode\MeshFiled.cpp" />
-    <ClCompile Include="System\InheritanceNode\Model.cpp" />
+    <ClCompile Include="System\InheritanceNode\Player.cpp" />
+    <ClCompile Include="System\InheritanceNode\Sea.cpp" />
+    <ClCompile Include="System\InheritanceNode\Skydome.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -7,6 +7,8 @@ enum LOADTEXTURE
 {
 	FLOOR01,
 	FLOOR02,
+	FLOOR01NORMAL,
+	FLOOR02NORMAL,
 	TEXTUREMAX,	//テクスチャの最大個数
 };
 
@@ -37,7 +39,7 @@ public:
 	//****************************************************
 	// @ number : テクスチャナンバー
 	//****************************************************
-	static LPDIRECT3DTEXTURE9 GetTextureData(LOADTEXTURE _targettexture);
+	static LPDIRECT3DTEXTURE9 GetTextureData(int _targettexture);
 	static void RelaseAll();
 private:
 	//****************************************************

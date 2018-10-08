@@ -4,7 +4,9 @@
 #include "../SceneManager/InheritanceNode/SceneGame.h"
 #include "../SceneManager/InheritanceNode/SceneResult.h"
 #include "../System/InheritanceNode/Model.h"
+#include "../LoadManager/ModelLoder.h"
 #include "../LoadManager/TextureLoder.h"
+#include "../ShaderManager/EffectShaderManager.h"
 #include "../System/InheritanceNode/Camera.h"
 #include "../System/InheritanceNode/Light.h"
 #include "../InputManager/input.h"
@@ -34,8 +36,13 @@ GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _n
 void GameManager::Init()
 {
 	/*読み込むテクスチャは先に読み込ませておく*/
+	TextureLoder::LoadData("Resource/Texture/floor01.png");
 	TextureLoder::LoadData("Resource/Texture/floor02.png");
-	TextureLoder::LoadData("Resource/Texture/floor02.png");
+	//TextureLoder::LoadData("Resource/Texture/floor01normal.png");
+	//TextureLoder::LoadData("Resource/Texture/floor02normal.png");
+	ModelLoder::LoadData("Resource/Model/skydomemodel.x");
+	EffectShaderManager::EffectLoad("Resource/Shader/ModelShader.fx");
+	//EffectShaderManager::EffectLoad("Resource/Shader/BumpMap.fx");
 	SetSceneMode(new SceneGame);
 }
 
@@ -102,6 +109,8 @@ void GameManager::Uninit()
 		keyboard_ = nullptr;
 	}
 	TextureLoder::RelaseAll();
+	ModelLoder::ReleseAll();
+	EffectShaderManager::ReleaseAll();
 }
 
 void GameManager::SetSceneMode(SceneManager * _Mode)
