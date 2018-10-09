@@ -69,6 +69,7 @@ void MeshFiled::Draw()
 	device->SetFVF(FVF_FILED);
 	device->SetStreamSource(0, buffer_.vertex_buffer, 0, sizeof(Entity::VECTOR3D));
 	device->SetIndices(buffer_.index_buffer);
+
 	device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
 	device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 	device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
@@ -76,7 +77,10 @@ void MeshFiled::Draw()
 	device->SetMaterial(&meshmaterial_);
 	device->SetRenderState(D3DRS_LIGHTING, true);
 	device->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-	
+	device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+
 	device->SetTransform(D3DTS_WORLD, &matrix_.world);
 
 	device->SetTexture(0, TextureLoder::GetTextureData(FLOOR01));

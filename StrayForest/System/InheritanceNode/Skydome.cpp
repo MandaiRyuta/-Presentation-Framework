@@ -27,8 +27,12 @@ void Skydome::Draw()
 	LPDIRECT3DDEVICE9 device = GetDevice();
 	D3DXMATRIX mWVP = matrix_.world * CCamera::GetView() * CCamera::GetProj();
 	// ƒŒƒ“ƒ_ƒŠƒ“ƒO
+
 	device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, true);
 	device->SetRenderState(D3DRS_ZENABLE, true);
+	device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 	EffectShaderManager::GetEffect(MODEL3D)->SetTechnique("tecMinimum");
 	EffectShaderManager::GetEffect(MODEL3D)->SetMatrix("mWVP", &mWVP);
 	EffectShaderManager::GetEffect(MODEL3D)->Begin(NULL, 0);
@@ -42,6 +46,7 @@ void Skydome::Draw()
 
 	EffectShaderManager::GetEffect(MODEL3D)->EndPass();
 	EffectShaderManager::GetEffect(MODEL3D)->End();
+	device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, false);
 }
 
 void Skydome::Uninit()

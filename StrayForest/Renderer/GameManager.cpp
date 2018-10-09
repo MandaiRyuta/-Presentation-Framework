@@ -66,6 +66,9 @@ void GameManager::Draw()
 	SUCCEEDED(device_->BeginScene());
 	
 	ImGui::GetFPS();
+	device_->SetRenderState(D3DRS_DITHERENABLE,D3DFILL_FORCE_DWORD);
+	device_->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	device_->SetRenderState(D3DRS_CLIPPING, TRUE);
 
 	GameObjectManager::DrawAll();
 

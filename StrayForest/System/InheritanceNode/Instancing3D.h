@@ -2,7 +2,7 @@
 #include "../../GameObjectManager/GameObjectManager.h"
 #include "../../Entity/Entity.h"
 
-constexpr int INSTANCINGMODEL_MAX = 10;
+constexpr int INSTANCINGMODEL_MAX = 200;
 
 class Instancing3D : public GameObjectManager
 {

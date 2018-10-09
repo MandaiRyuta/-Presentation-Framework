@@ -92,7 +92,8 @@ void Instancing3D::Init()
 
 	device->CreateVertexDeclaration(declelement, &insbuffer_.pDecl);
 
-	position_ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	/*後でメッシュフィールドの高さを適応させる*/
+	position_ = D3DXVECTOR3(0.0f, 100.0f, 0.0f);
 	scale_ = D3DXVECTOR3(10.0f, 10.0f, 10.0f);
 	rotation_ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -124,7 +125,9 @@ void Instancing3D::Draw()
 	pDevice->SetStreamSource(3, insbuffer_.pWorld3Buffer, 0, sizeof(Entity::MODEL_WORLD3));
 	pDevice->SetStreamSource(4, insbuffer_.pWorld4Buffer, 0, sizeof(Entity::MODEL_WORLD4));
 	pDevice->SetIndices(buffer_.index_buffer);
+
 	pDevice->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, true);
+	pDevice->SetRenderState(D3DRS_CLIPPING, TRUE);
 	//ライトON
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
 
@@ -142,10 +145,9 @@ void Instancing3D::Draw()
 	D3DXMATRIX mtxall[INSTANCINGMODEL_MAX] = {};
 	//D3DXMATRIX mtxall = 　/*ワールド * ビュー * プロジェクション*/
 	EffectShaderManager::GetEffect(INSTANCING3D)->Begin(NULL, 0);
-
+	EffectShaderManager::GetEffect(INSTANCING3D)->BeginPass(0);
 	for (int a = 0; a < INSTANCINGMODEL_MAX; a++)
 	{	
-		EffectShaderManager::GetEffect(INSTANCING3D)->BeginPass(0);
 		mtxall[a] = matrix_.world * CCamera::GetView() * CCamera::GetProj();
 		D3DXVECTOR4 color = { ModelLoder::GetModelData(TREE)->color.r,ModelLoder::GetModelData(TREE)->color.g,ModelLoder::GetModelData(TREE)->color.b,ModelLoder::GetModelData(TREE)->color.a };
 		EffectShaderManager::GetEffect(INSTANCING3D)->SetMatrix("mWVP", (D3DXMATRIX*)&mtxall[a]);
@@ -157,14 +159,15 @@ void Instancing3D::Draw()
 			ModelLoder::GetModelData(TREE)->p_mesh->DrawSubset(i);
 			//pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0,mesh[a]->GetNumVertices(), 0, mesh[a]->GetNumFaces());
 		}
-		EffectShaderManager::GetEffect(INSTANCING3D)->EndPass();
 	}
+	EffectShaderManager::GetEffect(INSTANCING3D)->EndPass();
 	EffectShaderManager::GetEffect(INSTANCING3D)->End();
 	pDevice->SetStreamSourceFreq(0, 1);
 	pDevice->SetStreamSourceFreq(1, 1);
 	pDevice->SetStreamSourceFreq(2, 1);
 	pDevice->SetStreamSourceFreq(3, 1);
 	pDevice->SetStreamSourceFreq(4, 1);
+	pDevice->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, false);
 }
 
 void Instancing3D::Uninit()
