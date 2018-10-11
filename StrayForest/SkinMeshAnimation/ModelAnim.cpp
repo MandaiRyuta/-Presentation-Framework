@@ -1,5 +1,6 @@
 #include "ModelAnim.h"
 
+#include "../ShaderManager/EffectShaderManager.h"
 #define SAFE_RELEASE(p) { if(p){ (p)->Release(); (p) = NULL; } }
 #define SAFE_DELETE(p) { if(p) { delete(p); (p) = NULL; } }
 #define SAFE_DELETE_ARRAY(p) { if(p) { delete[] (p); (p) = NULL; } }
@@ -141,7 +142,8 @@ void CSkinMesh::RenderMeshContainer(LPDIRECT3DDEVICE9 pDevice, MYMESHCONTAINER* 
 	UINT iMatrixIndex;
 	D3DXMATRIX mStack;
 
-
+	UINT numpass;
+	EffectShaderManager::GetEffect(SKINMESH)->Begin(&numpass, D3DXFX_DONOTSAVESTATE);
 	//スキンメッシュの描画
 	if (pMeshContainer->pSkinInfo != NULL)
 	{
@@ -196,14 +198,23 @@ void CSkinMesh::RenderMeshContainer(LPDIRECT3DDEVICE9 pDevice, MYMESHCONTAINER* 
 
 			D3DMATERIAL9 TmpMat = pMeshContainer->pMaterials[pBoneCombination[i].AttribId].MatD3D;
 			TmpMat.Emissive.a = TmpMat.Diffuse.a = TmpMat.Ambient.a = 1.0f;
-			pDevice->SetMaterial(&TmpMat);
-			pDevice->SetTexture(0, pMeshContainer->ppTextures[pBoneCombination[i].AttribId]);
-
+			//pDevice->SetMaterial(&TmpMat);
 			//dwPrevBoneIDに属性テーブルの識別子を格納
 			dwPrevBoneID = pBoneCombination[i].AttribId;
-			//メッシュの描画
+			EffectShaderManager::GetEffect(SKINMESH)->SetMatrixArray("mWorldMatrixArray", pMeshContainer->pBoneOffsetMatrices, pMeshContainer->NumPaletteEntries);
+			EffectShaderManager::GetEffect(SKINMESH)->SetVector("MaterialDiffuse", (D3DXVECTOR4*)&(TmpMat.Diffuse));
+			EffectShaderManager::GetEffect(SKINMESH)->SetVector("MaterialAmbient", (D3DXVECTOR4*)&(TmpMat.Ambient));
+			EffectShaderManager::GetEffect(SKINMESH)->SetTexture(0, pMeshContainer->ppTextures[pBoneCombination[i].AttribId]);
+			pDevice->SetTexture(0, pMeshContainer->ppTextures[pBoneCombination[i].AttribId]);
+			EffectShaderManager::GetEffect(SKINMESH)->SetInt("CurNumBones", pMeshContainer->dwBoneNum - 1);
+
+			EffectShaderManager::GetEffect(SKINMESH)->BeginPass(k);
 			pMeshContainer->MeshData.pMesh->DrawSubset(i);
+			EffectShaderManager::GetEffect(SKINMESH)->EndPass();
+			//メッシュの描画
+			//pMeshContainer->MeshData.pMesh->DrawSubset(i);
 		}
+		EffectShaderManager::GetEffect(SKINMESH)->End();
 
 	}
 	//通常メッシュの場合
@@ -321,6 +332,7 @@ HRESULT CSkinMesh::Init(LPDIRECT3DDEVICE9 lpD3DDevice, LPSTR pMeshPass) {
 	m_IntoMeshFrameArray.clear();
 	CreateFrameArray(m_pFrameRoot);
 
+	EffectShaderManager::GetEffect(SKINMESH)->OnResetDevice();
 
 	//フレーム配列にオフセット情報作成
 	for (DWORD i = 0; i<m_IntoMeshFrameArray.size(); i++) {

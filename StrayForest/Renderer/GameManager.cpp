@@ -37,12 +37,13 @@ void GameManager::Init()
 	/*読み込むテクスチャは先に読み込ませておく*/
 	TextureLoder::LoadData("Resource/Texture/floor01.png");
 	TextureLoder::LoadData("Resource/Texture/floor02.png");
-	//TextureLoder::LoadData("Resource/Texture/floor01normal.png");
-	//TextureLoder::LoadData("Resource/Texture/floor02normal.png");
+	TextureLoder::LoadData("Resource/Texture/floor01normal.png");
+	TextureLoder::LoadData("Resource/Texture/floor02normal.png");
 	ModelLoder::LoadData("Resource/Model/skydomemodel.x");
 	ModelLoder::LoadData("Resource/Model/treemodel.x");
 	EffectShaderManager::EffectLoad("Resource/Shader/ModelShader.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/Instance3D.fx");
+	EffectShaderManager::EffectLoad("Resource/Shader/SkinMeshShader");
 	//EffectShaderManager::EffectLoad("Resource/Shader/BumpMap.fx");
 	SetSceneMode(new SceneGame);
 }

@@ -12,7 +12,9 @@
 #include "../../LoadManager/CsvLoder.h"
 #include "../../LoadManager/TextureLoder.h"
 #include "../../ShaderManager/EffectShaderManager.h"
+#include "Light.h"
 #include "Camera.h"
+
 //****************************************************
 // 初期化
 //****************************************************
@@ -38,7 +40,9 @@ void MeshFiled::Init()
 	//****************************************************
 	meshmaterial_.Diffuse = { 0.8f, 0.7f, 0.8f, 1.0f };
 	meshmaterial_.Ambient = { 0.7f, 0.7f, 0.7f, 1.0f };
-
+	
+	D3DXComputeNormalMap(TextureLoder::GetTextureData(FLOOR01NORMAL),TextureLoder::GetTextureData(FLOOR01), NULL, 0, D3DX_CHANNEL_ALPHA, 1.0f);
+	D3DXComputeNormalMap(TextureLoder::GetTextureData(FLOOR02NORMAL), TextureLoder::GetTextureData(FLOOR02), NULL, 0, D3DX_CHANNEL_ALPHA, 1.0f);
 	/// <summary>
 	/// ワールド行列を単位行列にする
 	/// </summary>
@@ -69,57 +73,25 @@ void MeshFiled::Draw()
 	device->SetFVF(FVF_FILED);
 	device->SetStreamSource(0, buffer_.vertex_buffer, 0, sizeof(Entity::VECTOR3D));
 	device->SetIndices(buffer_.index_buffer);
-
+	
 	device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
 	device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 	device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
-
+	
 	device->SetMaterial(&meshmaterial_);
 	device->SetRenderState(D3DRS_LIGHTING, true);
 	device->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 	device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 	device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
-
+	
 	device->SetTransform(D3DTS_WORLD, &matrix_.world);
-
+	
 	device->SetTexture(0, TextureLoder::GetTextureData(FLOOR01));
 	device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->number_of_vertices_, 0, this->number_of_primities_);
-
+	
 	device->SetTexture(0, TextureLoder::GetTextureData(FLOOR02));
 	device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->number_of_vertices_, 0, this->number_of_primities_);
-
-	/*なぜかエラー吐かれる*/
-	//LPDIRECT3DDEVICE9 device = GetDevice();
-	//D3DXVECTOR4 v;
-	//D3DXMATRIX mWVP = matrix_.world * CCamera::GetView() * CCamera::GetProj();
-	//EffectShaderManager::GetEffect(BUMPMAP)->SetTechnique("TShader");
-	//EffectShaderManager::GetEffect(BUMPMAP)->Begin(NULL, 0);
-	//EffectShaderManager::GetEffect(BUMPMAP)->BeginPass(0);
-	//EffectShaderManager::GetEffect(BUMPMAP)->SetMatrix("mWVP", &mWVP);
-	//D3DXVECTOR4 LightPos = D3DXVECTOR4(Light::GetLightPos().x, Light::GetLightPos().y, Light::GetLightPos().z, 0);
-	//D3DXMatrixInverse(&mWVP, NULL, &matrix_.world);
-	//D3DXVec4Transform(&v, &LightPos, &mWVP);
-	//D3DXVec3Normalize((D3DXVECTOR3*)&v, (D3DXVECTOR3*)&v);
-	//v.w = -0.7f;
-	//EffectShaderManager::GetEffect(BUMPMAP)->SetVector("vLightDir", &v);
-	//D3DXMATRIX viewworld = matrix_.world * CCamera::GetView();
-	//D3DXMatrixInverse(&viewworld, NULL, &viewworld);
-	//v = D3DXVECTOR4(0, 0, 0, 1);
-	//D3DXVec4Transform(&v, &v, &viewworld);
-	//EffectShaderManager::GetEffect(BUMPMAP)->SetVector("vEyePos", &v);
-	//
-	//EffectShaderManager::GetEffect(BUMPMAP)->SetTexture("NormalMap", TextureLoder::GetTextureData(FLOOR01NORMAL));
-	//
-	//EffectShaderManager::GetEffect(BUMPMAP)->SetTexture("DecaleTex", TextureLoder::GetTextureData(FLOOR01));
-	//device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->number_of_vertices_, 0, this->number_of_primities_);
-	//
-	//EffectShaderManager::GetEffect(BUMPMAP)->SetTexture("NormalMap", TextureLoder::GetTextureData(FLOOR02NORMAL));
-	//EffectShaderManager::GetEffect(BUMPMAP)->SetTexture("DecaleTex", TextureLoder::GetTextureData(FLOOR02));
-	//
-	//device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->number_of_vertices_, 0, this->number_of_primities_);
-	//EffectShaderManager::GetEffect(BUMPMAP)->EndPass();
-	//EffectShaderManager::GetEffect(BUMPMAP)->End();
 }
 
 //****************************************************

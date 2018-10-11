@@ -1,112 +1,92 @@
-// -------------------------------------------------------------
-// グローバル変数
-// -------------------------------------------------------------
+//簡単のため環境光および、メッシュのマテリアルは考慮していません。
 
-float4x4 mWVP;		// 座標変換の行列
-
-float4 vLightDir;	// ライトの方向
-float4 vColor;		// ライト＊メッシュの色
-float3 vEyePos;		// カメラの位置（ローカル座標系）
-
-// -------------------------------------------------------------
-// テクスチャ
-// -------------------------------------------------------------
-// 模様のテクスチャ
-texture DecaleTex;
-sampler DecaleSamp = sampler_state
+///////////////////////////////////////////////////////////////////////////////////
+//型定義
+///////////////////////////////////////////////////////////////////////////////////
+struct VS_OUT
 {
-    Texture = <DecaleTex>;
-    MinFilter = LINEAR;
-    MagFilter = LINEAR;
-    MipFilter = NONE;
-
-    AddressU = Clamp;
-    AddressV = Clamp;
+	float4 Pos	: POSITION;
+	float2 Tex	: TEXCOORD0;
+	float3 Light	: TEXCOORD1;
+	float3 Eye	: TEXCOORD2;
 };
-// -------------------------------------------------------------
-// 法線マップ
+///////////////////////////////////////////////////////////////////////////////////
+//グローバル
+///////////////////////////////////////////////////////////////////////////////////
+float4x4 mWVP;
+float4 vLightDir;
+float4 vColor;
+float3 vEyePos;
+texture Decal;
 texture NormalMap;
-sampler NormalSamp = sampler_state
-{
-    Texture = <NormalMap>;
-    MinFilter = LINEAR;
-    MagFilter = LINEAR;
-    MipFilter = NONE;
 
-    AddressU = Wrap;
-    AddressV = Wrap;
-};
-
-// -------------------------------------------------------------
-// 頂点シェーダからピクセルシェーダに渡すデータ
-// -------------------------------------------------------------
-struct VS_OUTPUT
+sampler DecalSampler = sampler_state
 {
-    float4 Pos			: POSITION;
-    float4 Color		: COLOR0;		// 頂点色
-    float2 Tex			: TEXCOORD0;	// デカールテクスチャ座標
-    float3 L			: TEXCOORD1;	// ライトベクトル
-    float3 E			: TEXCOORD2;	// 視線ベクトル
+	Texture = <Decal>;
+	MinFilter = LINEAR;
+	MagFilter = LINEAR;
+	MipFilter = NONE;
+	AddressU = Clamp;
+	AddressV = Clamp;
 };
-// -------------------------------------------------------------
-// シーンの描画
-// -------------------------------------------------------------
-VS_OUTPUT VS(
-      float4 Pos      : POSITION,          // ローカル位置座標
-      float3 Normal   : NORMAL,            // 法線ベクトル
-      float3 Tangent  : TANGENT0,          // 接ベクトル
-      float2 Texcoord : TEXCOORD0          // 法線ベクトル
-){
-	VS_OUTPUT Out = (VS_OUTPUT)0;        // 出力データ
-	
-	// 座標変換
+sampler NormalSampler = sampler_state
+{
+	Texture = <NormalMap>;
+	MinFilter = LINEAR;
+	MagFilter = LINEAR;
+	MipFilter = NONE;
+	AddressU = Clamp;
+	AddressV = Clamp;
+};
+///////////////////////////////////////////////////////////////////////////////////
+//バーテックス・シェーダー
+///////////////////////////////////////////////////////////////////////////////////
+VS_OUT VS(float4 Pos : POSITION, float3 Normal : NORMAL, float3 Tangent :
+	TANGENT0, float2 Texcoord : TEXCOORD0)
+{
+	VS_OUT Out = (VS_OUT)0;
+
 	Out.Pos = mul(Pos, mWVP);
-	
-	// メッシュの色
-	Out.Color = vColor;
-	
-	// デカール用のテクスチャ座標
 	Out.Tex = Texcoord;
+	float3 Binormal = cross(Normal, Tangent);
 
-	// 座標系の変換基底
-	float3 N = Normal;
-	float3 T = Tangent;
-	float3 B = cross(N,T);
+	float3 Eye = vEyePos - Pos.xyz;
+	Out.Eye.x = dot(Eye, Tangent);
+	Out.Eye.y = dot(Eye, Binormal);
+	Out.Eye.z = dot(Eye, Normal);
+	normalize(Out.Eye);
 
-	// 鏡面反射用のベクトル
-	float3 E = vEyePos - Pos.xyz;	// 視線ベクトル
-	Out.E.x = dot(E,T);
-	Out.E.y = dot(E,B);
-	Out.E.z = dot(E,N);
+	float3 Light = vLightDir.xyz;
+	Out.Light.x = dot(Light, Tangent);
+	Out.Light.y = dot(Light, Binormal);
+	Out.Light.z = dot(Light, Normal);
+	normalize(Out.Light);
 
-	float3 L = -vLightDir.xyz;		// ライトベクトル
-	Out.L.x = dot(L,T);
-	Out.L.y = dot(L,B);
-	Out.L.z = dot(L,N);
-	
 	return Out;
 }
-// -------------------------------------------------------------
-float4 PS(VS_OUTPUT In) : COLOR
-{   
-	float3 N = 2.0f*tex2D( NormalSamp, In.Tex ).xyz-1.0;// 法線マップからの法線
-	float3 L = normalize(In.L);						// ライトベクトル
-	float3 R = reflect(-normalize(In.E), N);		// 反射ベクトル
-	float amb = -vLightDir.w;						// 環境光の強さ
-	
-    return In.Color * tex2D( DecaleSamp, In.Tex )	// 拡散光と環境光には、
-			   * (max(0, dot(N, L))+amb)			// 頂点色とテクスチャの色を合成する
-			 + 0.3f * pow(max(0,dot(R, L)), 8);		// Phong 鏡面反射光
-}
-
-// -------------------------------------------------------------
-// テクニック
-// -------------------------------------------------------------
-technique TShader
+///////////////////////////////////////////////////////////////////////////////////
+//ピクセル・シェーダー
+///////////////////////////////////////////////////////////////////////////////////
+float4 PS(VS_OUT In) : COLOR
 {
-    pass P0
-    {
-        VertexShader = compile vs_1_1 VS();
-        PixelShader  = compile ps_2_0 PS();
-    }
+	float3 Normal = 2.0*tex2D(NormalSampler, In.Tex).xyz - 1.0;
+	float3 Reflect = reflect(-normalize(In.Eye), Normal);
+
+	float4 	DiffuseTerm = tex2D(DecalSampler, In.Tex)* max(0, dot(Normal, In.Light));
+	float4 SpecularTerm = 0.7 * pow(max(0,dot(Reflect, In.Light)), 2);
+
+	float4 FinalColor = DiffuseTerm + SpecularTerm;
+
+	return FinalColor;
+}
+///////////////////////////////////////////////////////////////////////////////////
+// テクニック
+///////////////////////////////////////////////////////////////////////////////////
+technique tecBumpMap
+{
+	pass P0
+	{
+		VertexShader = compile vs_2_0 VS();
+		PixelShader = compile ps_2_0 PS();
+	}
 }

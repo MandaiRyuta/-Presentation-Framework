@@ -163,6 +163,7 @@ private:
 	/// メッシュフィールド情報を格納する構造体
 	/// </summary>
 	Entity::MeshFiledSize meshinfo_;
+
 	/// <summary>
 	/// バーテックス数
 	/// </summary>
