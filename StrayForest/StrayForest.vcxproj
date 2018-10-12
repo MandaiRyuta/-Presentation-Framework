@@ -179,6 +179,7 @@
     <ClInclude Include="System\InheritanceNode\Instancing3D.h" />
     <ClInclude Include="System\InheritanceNode\Light.h" />
     <ClInclude Include="System\InheritanceNode\MeshFiled.h" />
+    <ClInclude Include="System\InheritanceNode\Player\ItemManager.h" />
     <ClInclude Include="System\InheritanceNode\Player\Player.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerAction.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerActionManager.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="System\InheritanceNode\Instancing3D.cpp" />
     <ClCompile Include="System\InheritanceNode\Light.cpp" />
     <ClCompile Include="System\InheritanceNode\MeshFiled.cpp" />
+    <ClCompile Include="System\InheritanceNode\Player\ItemManager.cpp" />
     <ClCompile Include="System\InheritanceNode\Player\Player.cpp" />
     <ClCompile Include="System\InheritanceNode\Player\PlayerAction.cpp" />
     <ClCompile Include="System\InheritanceNode\Player\PlayerActionManager.cpp" />

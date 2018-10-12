@@ -88,12 +88,11 @@ void MeshFiled::Draw()
 	device->SetTransform(D3DTS_WORLD, &matrix_.world);
 	
 	device->SetTexture(0, TextureLoder::GetTextureData(FLOOR01));
-	device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->number_of_vertices_, 0, this->number_of_primities_);
+	device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->number_of_vertices_- 2, 0, this->number_of_primities_-4);
 	
 	device->SetTexture(0, TextureLoder::GetTextureData(FLOOR02));
-	device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->number_of_vertices_, 0, this->number_of_primities_);
+	device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->number_of_vertices_- 2, 0, this->number_of_primities_-4);
 }
-
 //****************************************************
 // 開放
 //****************************************************
@@ -157,7 +156,7 @@ void MeshFiled::VertexBufferCreate(LPDIRECT3DDEVICE9 _device)
 	/// <summary>
 	/// バーテックス＆インデックス＆プリミティブ数の計算
 	/// </summary>
-	number_of_vertices_ = nCx * nCz;
+	number_of_vertices_ = nCx * (nCz + 1);
 	number_of_indices_ = (nCx * 2 + 1) * (nCz - 2) + (nCx - 2);
 	number_of_primities_ = this->number_of_indices_ - 2;
 

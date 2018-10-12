@@ -3,6 +3,7 @@
 #include "../../System/InheritanceNode/MeshFiled.h"
 #include "../../System/InheritanceNode/Skydome.h"
 #include "../../System/InheritanceNode/Instancing3D.h"
+#include "../../System/InheritanceNode/Player/Player.h"
 
 void SceneGame::Initialize()
 {
@@ -13,7 +14,7 @@ void SceneGame::Initialize()
 	filedsize.size_x = MeshFiledXSize;
 	filedsize.size_z = MeshFiledZSize;
 	MeshFiled::Create(filedsize);
-
+	Player::Create();
 	Skydome::Create();
 
 	Instancing3D::Create();

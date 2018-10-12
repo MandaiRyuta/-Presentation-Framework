@@ -16,6 +16,7 @@ public:
 	void Draw() override;
 	void Uninit() override;
 
+	static Player* Create();
 private:
 	CSkinMesh* skinmesh_;
 	D3DXVECTOR3 position_;

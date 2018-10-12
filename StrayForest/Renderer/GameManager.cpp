@@ -43,7 +43,7 @@ void GameManager::Init()
 	ModelLoder::LoadData("Resource/Model/treemodel.x");
 	EffectShaderManager::EffectLoad("Resource/Shader/ModelShader.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/Instance3D.fx");
-	EffectShaderManager::EffectLoad("Resource/Shader/SkinMeshShader");
+	EffectShaderManager::EffectLoad("Resource/Shader/SkinMeshShader.fx");
 	//EffectShaderManager::EffectLoad("Resource/Shader/BumpMap.fx");
 	SetSceneMode(new SceneGame);
 }
