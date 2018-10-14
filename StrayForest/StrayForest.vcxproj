@@ -173,6 +173,10 @@
     <ClInclude Include="stb_rect_pack.h" />
     <ClInclude Include="stb_textedit.h" />
     <ClInclude Include="stb_truetype.h" />
+    <ClInclude Include="System\InheritanceNode\Boss\BossEnemy.h" />
+    <ClInclude Include="System\InheritanceNode\Boss\BossEnemyActionManager.h" />
+    <ClInclude Include="System\InheritanceNode\Boss\BossEnemyMoveManager.h" />
+    <ClInclude Include="System\InheritanceNode\Boss\BossEnemyStatusManager.h" />
     <ClInclude Include="System\InheritanceNode\Camera.h" />
     <ClInclude Include="System\InheritanceNode\EnemyBoss.h" />
     <ClInclude Include="System\InheritanceNode\Instancing2D.h" />
@@ -221,6 +225,10 @@
     <ClCompile Include="ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="SkinMeshAnimation\ModelAnim.cpp" />
     <ClCompile Include="SkinMeshAnimation\ModelFrame.cpp" />
+    <ClCompile Include="System\InheritanceNode\Boss\BossEnemy.cpp" />
+    <ClCompile Include="System\InheritanceNode\Boss\BossEnemyActionManager.cpp" />
+    <ClCompile Include="System\InheritanceNode\Boss\BossEnemyMoveManager.cpp" />
+    <ClCompile Include="System\InheritanceNode\Boss\BossEnemyStatusManager.cpp" />
     <ClCompile Include="System\InheritanceNode\Camera.cpp" />
     <ClCompile Include="System\InheritanceNode\EnemyBoss.cpp" />
     <ClCompile Include="System\InheritanceNode\Instancing2D.cpp" />

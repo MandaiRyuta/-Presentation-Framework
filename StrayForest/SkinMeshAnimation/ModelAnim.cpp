@@ -457,6 +457,11 @@ void CSkinMesh::Draw(LPDIRECT3DDEVICE9 lpD3DDevice) {
 
 }
 
+//アニメーションを時間帯で管理している場合はこのメンバ関数を使って操作する。
+void CSkinMesh::SetAnimTrack(DOUBLE _AnimTrack)
+{
+	m_CurrentTrackDesc.Position = _AnimTrack;
+}
 
 //オブジェクトのアニメーション変更( 変更するアニメーション番号 )
 void CSkinMesh::ChangeAnim(DWORD _NewAnimNum) {

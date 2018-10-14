@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../SceneManager.h"
-
+class MeshFiled;
 class SceneGame : public SceneManager
 {
 public:
@@ -12,4 +12,8 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Release() override;
+public:
+	static MeshFiled* GetMeshFiled();
+private:
+	static MeshFiled* meshfiled_;
 };

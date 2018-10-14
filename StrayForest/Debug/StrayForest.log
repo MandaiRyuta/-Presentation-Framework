@@ -1,4 +1,3 @@
-﻿  ModelAnim.cpp
-c:\users\owner\desktop\-presentation-framework\strayforest\skinmeshanimation\modelanim.cpp(135): warning C4100: 'pFrame': 引数は関数の本体部で 1 度も参照されません。
+﻿  PlayerMove.cpp
   StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.exe
   StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.pdb (Full PDB)

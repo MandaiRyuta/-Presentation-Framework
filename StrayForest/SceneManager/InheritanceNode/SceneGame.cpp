@@ -5,6 +5,8 @@
 #include "../../System/InheritanceNode/Instancing3D.h"
 #include "../../System/InheritanceNode/Player/Player.h"
 
+MeshFiled* SceneGame::meshfiled_;
+
 void SceneGame::Initialize()
 {
 	Entity::MeshFiledSize filedsize;
@@ -13,11 +15,10 @@ void SceneGame::Initialize()
 	filedsize.filed_z = MeshFiledZ;
 	filedsize.size_x = MeshFiledXSize;
 	filedsize.size_z = MeshFiledZSize;
-	MeshFiled::Create(filedsize);
-	Player::Create();
+	meshfiled_ = MeshFiled::Create(filedsize);
 	Skydome::Create();
-
 	Instancing3D::Create();
+	Player::Create();
 }
 
 void SceneGame::Update()
@@ -31,4 +32,9 @@ void SceneGame::Draw()
 void SceneGame::Release()
 {
 	GameObjectManager::ReleaseAll();
+}
+
+MeshFiled * SceneGame::GetMeshFiled()
+{
+	return meshfiled_;
 }

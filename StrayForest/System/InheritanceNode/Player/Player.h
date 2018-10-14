@@ -5,6 +5,7 @@
 #include "PlayerActionManager.h"
 #include "PlayerMoveManager.h"
 #include "PlayerStateManager.h"
+
 class Player : public GameObjectManager
 {
 public:
@@ -19,13 +20,12 @@ public:
 	static Player* Create();
 private:
 	CSkinMesh* skinmesh_;
-	D3DXVECTOR3 position_;
+
 	D3DXVECTOR3 scale_;
-	D3DXVECTOR3 rotation_;
 
 	D3DXQUATERNION Quaternion_;
 
-	PlayerActionManager* action_;
+	//PlayerActionManager* action_;
 	PlayerMoveManager* move_;
 	
 	Entity::MATRIX3D matrix_;

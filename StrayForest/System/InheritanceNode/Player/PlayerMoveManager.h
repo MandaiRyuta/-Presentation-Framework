@@ -1,15 +1,15 @@
 #pragma once
-
-class PlayerMove;
-
+#include "PlayerMove.h"
+#include "../../../SkinMeshAnimation/ModelAnim.h"
 class PlayerMoveManager
 {
 public:
 	PlayerMoveManager() {}
-	virtual ~PlayerMoveManager() {}
+	~PlayerMoveManager() {}
 public:
-	void Update();
-	void Draw();
+	void Init();
+	void Update(CSkinMesh* _skinmesh,D3DXMATRIX& _mtx_position, D3DXMATRIX& _mtx_rotation);
+	void Uninit();
 private:
 	PlayerMove* playermove_;
 };
