@@ -38,7 +38,12 @@ namespace Entity
 		D3DXVECTOR3 scale;
 		D3DXVECTOR3 rotation;
 	};
-
+	struct YawPitchRoll
+	{
+		float yaw;	 //YŽ²
+		float pitch; //XŽ²
+		float roll;  //ZŽ²
+	};
 	struct CameraInfo
 	{
 		D3DXVECTOR3 at;

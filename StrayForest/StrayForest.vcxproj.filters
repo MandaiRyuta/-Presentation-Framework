@@ -156,9 +156,6 @@
     <ClInclude Include="System\InheritanceNode\Player\PlayerWalk.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerJump.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="System\InheritanceNode\Player\PlayerPowerUp.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

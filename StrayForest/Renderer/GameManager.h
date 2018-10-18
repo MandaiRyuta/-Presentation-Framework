@@ -7,7 +7,7 @@ class SceneManager;
 class CCamera;
 class Light;
 class CInputKeyboard;
-
+class CInputMouse;
 class GameManager
 {
 public:
@@ -23,7 +23,9 @@ public:
 	void SetSceneMode(SceneManager* _Mode);
 public:
 	static CInputKeyboard* GetKeyboard();
+	static CInputMouse* GetMouse();
 private:
+	static CInputMouse* mouse_;
 	static CInputKeyboard* keyboard_;
 	CDX9Renderer* renderer_;
 	CCamera* camera_;

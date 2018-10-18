@@ -5,44 +5,33 @@ class CCamera
 {
 private:
 	// ビュー変換行列( 4×4のfloat行列 )
-	D3DXMATRIX matrix_view;
-
-
+	static D3DXMATRIX matrix_view;
 	// プロジェクション変換行列( 4×4のfloat行列 )
-	D3DXMATRIX matrix_projection;
+	static D3DXMATRIX matrix_projection;
 
+	D3DXVECTOR3 offset;
+	
+	D3DXVECTOR3 front_;
+	D3DXVECTOR3 right_;
+	D3DXVECTOR3 up_;
 
-	// カメラの前に物を動かすのに便利
-	D3DXVECTOR3 axis_vector[3] = {
-		D3DXVECTOR3(0.0f, 1.0f, 0.0f),	// 上ベクトル
-		D3DXVECTOR3(0.0f, 0.0f, 1.0f),	// 前ベクトル
-		D3DXVECTOR3(1.0f, 0.0f, 0.0f),	// 右ベクトル
-	};
+	float m_Dot_;
 
-	// カメラ座標
-	D3DXVECTOR3 eye_;
-
-	// 視点座標
-	D3DXVECTOR3 at_;
-
-
-	// 前ベクトル
-	D3DXVECTOR3 previous_vector;
-
-	float translation_speed = 0.0f;
-	float radian_speed = 0.0f;
-
-	// 回転行列
-	D3DXMATRIX rotation_Y;
-	D3DXMATRIX rotation_Right;
-
-	static D3DXMATRIX m_GetProj_;
-	static D3DXMATRIX m_GetView_;
+	static Entity::CameraInfo camerainfo_;
+	static Entity::YawPitchRoll yawpitchroll_;
+	D3DXMATRIX mtx_right_;
+	D3DXMATRIX mtx_up_;
 public:
-	CCamera(D3DXVECTOR3 at, D3DXVECTOR3 eye)
-		: at_(at), eye_(eye)
+	CCamera(D3DXVECTOR3 _at, D3DXVECTOR3 _eye)
 	{
-		this->previous_vector = this->at_ - this->eye_;
+		front_ = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+		right_ = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+		up_ = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		m_Dot_ = 0.0f;
+		camerainfo_.at = _at;
+		camerainfo_.eye = _eye;
+		camerainfo_.up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		offset = D3DXVECTOR3(0.0f,20.0f,-200.0f);
 	}
 	~CCamera();
 public:
@@ -50,10 +39,15 @@ public:
 	void CameraUpdate();
 	void CameraDraw() {}
 	void CameraUninit() {};
+
 public:
 	static D3DXMATRIX GetView();
 	static D3DXMATRIX GetProj();
-
+	static D3DXVECTOR3 GetAt();
+	static D3DXVECTOR3 GetEye();
+	static Entity::YawPitchRoll GetYawPitchRoll();
+	static void SetEye(D3DXVECTOR3 _eye);
+	static void SetAt(D3DXVECTOR3 _at);
 	static void SetView(D3DXMATRIX _view);
 	static void SetProj(D3DXMATRIX _proj);
 };

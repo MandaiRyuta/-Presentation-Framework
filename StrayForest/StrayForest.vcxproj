@@ -192,7 +192,6 @@
     <ClInclude Include="System\InheritanceNode\Player\PlayerAttackPattern03.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerDeffencePattern01.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerHelth.h" />
-    <ClInclude Include="System\InheritanceNode\Player\PlayerJump.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerMana.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerMove.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerMoveManager.h" />

@@ -1,220 +1,51 @@
 #include "camera.h"
+
 #include "../../InputManager/input.h"
 #include "../../Renderer/GameManager.h"
+#include "Player\Player.h"
 
-D3DXMATRIX CCamera::m_GetView_;
-D3DXMATRIX CCamera::m_GetProj_;
-
+D3DXMATRIX CCamera::matrix_view;
+D3DXMATRIX CCamera::matrix_projection;
+Entity::CameraInfo CCamera::camerainfo_;
+Entity::YawPitchRoll CCamera::yawpitchroll_;
 CCamera::~CCamera()
 {
 }
 
 void CCamera::CameraUpdate()
 {
-	constexpr float SPEED = 1.5f;
+	constexpr float SPEED = 0.1f;
 	LPDIRECT3DDEVICE9 device = GetDevice();
 	CInputKeyboard* pInputKeyboard;
 	pInputKeyboard = GameManager::GetKeyboard();
-	if (pInputKeyboard->GetKeyPress(DIK_D))
+
+	D3DXMATRIX CameraRotation;
+	D3DXMatrixIdentity(&CameraRotation);
+
+	if (pInputKeyboard->GetKeyPress(DIK_RIGHT))
 	{
-		// 前ベクトルを保存
-		D3DXVECTOR3 temp_vector = axis_vector[2];
-
-		// 地をはう準備
-		temp_vector.y = 0.0f;
-
-		D3DXVec3Normalize(&temp_vector, &temp_vector);
-
-		this->eye_ += temp_vector * SPEED;
-		this->at_ += temp_vector * SPEED;
+		yawpitchroll_.yaw = D3DXToRadian(3.0f);
+		D3DXMatrixRotationY(&CameraRotation, yawpitchroll_.yaw);
 	}
-	if (pInputKeyboard->GetKeyPress(DIK_A))
+	if (pInputKeyboard->GetKeyPress(DIK_LEFT))
 	{
-		// 前ベクトルを保存
-		D3DXVECTOR3 temp_vector = axis_vector[2];
-
-		// 地をはう準備
-		temp_vector.y = 0.0f;
-
-		D3DXVec3Normalize(&temp_vector, &temp_vector);
-
-		this->eye_ -= temp_vector * SPEED;
-		this->at_ -= temp_vector * SPEED;
-	}
-	if (pInputKeyboard->GetKeyPress(DIK_S))
-	{
-		// 前ベクトルを保存
-		D3DXVECTOR3 temp_vector = axis_vector[1];
-
-		// 地をはう準備
-		temp_vector.y = 0.0f;
-
-		D3DXVec3Normalize(&temp_vector, &temp_vector);
-
-		this->eye_ -= temp_vector * SPEED;
-		this->at_ -= temp_vector * SPEED;
-	}
-	if (pInputKeyboard->GetKeyPress(DIK_W))
-	{
-		// 前ベクトルを保存
-		D3DXVECTOR3 temp_vector = axis_vector[1];
-
-		// 地をはう準備
-		temp_vector.y = 0.0f;
-
-		D3DXVec3Normalize(&temp_vector, &temp_vector);
-
-		this->eye_ += temp_vector * SPEED;
-		this->at_ += temp_vector * SPEED;
+		yawpitchroll_.yaw = D3DXToRadian(-3.0f);
+		D3DXMatrixRotationY(&CameraRotation, yawpitchroll_.yaw);
 	}
 
-	// 右周り
-	if (pInputKeyboard->GetKeyPress(DIK_E))
-	{
-		// 回転行列
-		constexpr float rotation_speed_Y = 0.01f;
-		D3DXMatrixRotationY(&rotation_Y, rotation_speed_Y);
+	D3DXVec3TransformCoord(&offset, &offset, &CameraRotation);
+	D3DXVec3TransformCoord(&camerainfo_.eye, &camerainfo_.eye, &CameraRotation);
+	D3DXVec3TransformCoord(&camerainfo_.at, &camerainfo_.at, &CameraRotation);
+	camerainfo_.eye = offset + D3DXVECTOR3(Player::GetPlayerMatrix()._41,Player::GetPlayerMatrix()._42,Player::GetPlayerMatrix()._43);
 
-		// 向きベクトル
-		D3DXVECTOR3 orientation_vector = this->at_ - this->eye_;
+	camerainfo_.at = D3DXVECTOR3(Player::GetPlayerMatrix()._41,Player::GetPlayerMatrix()._42,Player::GetPlayerMatrix()._43);
 
-		// 向きベクトル及び右ベクトル(上ベクトル):ベクトルを回転させる
-		D3DXVec3TransformNormal(&orientation_vector, &orientation_vector, &rotation_Y);
-
-		// 右ベクトルの回転
-		D3DXVec3TransformNormal(&axis_vector[2], &axis_vector[2], &rotation_Y);
-
-		this->at_ = this->eye_ + orientation_vector;
-
-		// 前ベクトルを作成( 前ベクトル = 視点座標 - カメラ座標 )
-		axis_vector[1] = this->at_ - this->eye_;
-
-		// 前ベクトルを単位ベクトルに正規化
-		D3DXVec3Normalize(&axis_vector[1], &axis_vector[1]);
-	}
-
-
-	// 左周り
-	if (pInputKeyboard->GetKeyPress(DIK_Q))
-	{
-		// 回転行列
-		constexpr float rotation_speed_Y = -0.01f;
-		D3DXMatrixRotationY(&rotation_Y, rotation_speed_Y);
-
-		// 向きベクトル
-		D3DXVECTOR3 orientation_vector = this->at_ - this->eye_;
-
-		// 向きベクトル及び右ベクトル(上ベクトル):ベクトルを回転させる
-		D3DXVec3TransformNormal(&orientation_vector, &orientation_vector, &rotation_Y);
-
-		// 右ベクトルの回転
-		D3DXVec3TransformNormal(&axis_vector[2], &axis_vector[2], &rotation_Y);
-
-		this->at_ = this->eye_ + orientation_vector;
-
-		// 前ベクトルを作成( 前ベクトル = 視点座標 - カメラ座標 )
-		axis_vector[1] = this->at_ - this->eye_;
-
-		// 前ベクトルを単位ベクトルに正規化
-		D3DXVec3Normalize(&axis_vector[1], &axis_vector[1]);
-	}
-
-	// 上周り
-	if (pInputKeyboard->GetKeyPress(DIK_T))
-	{
-		// 回転行列
-		constexpr float rotation_speed_Right = -0.01f;
-		D3DXMatrixRotationAxis(&rotation_Right, &axis_vector[2], rotation_speed_Right);
-
-		// 向きベクトル
-		D3DXVECTOR3 orientation_vector = this->at_ - this->eye_;
-
-		// 向きベクトル及び右ベクトル(上ベクトル):ベクトルを回転させる
-		D3DXVec3TransformNormal(&orientation_vector, &orientation_vector, &rotation_Right);
-
-		// 右ベクトルの回転
-		D3DXVec3TransformNormal(&axis_vector[2], &axis_vector[2], &rotation_Right);
-
-		this->at_ = this->eye_ + orientation_vector;
-	}
-
-	// 下周り
-	if (pInputKeyboard->GetKeyPress(DIK_G))
-	{
-		// 回転行列
-		constexpr float rotation_speed_Right = 0.01f;
-		D3DXMatrixRotationAxis(&rotation_Right, &axis_vector[2], rotation_speed_Right);
-
-		// 向きベクトル
-		D3DXVECTOR3 orientation_vector = this->at_ - this->eye_;
-
-		// 向きベクトル及び右ベクトル(上ベクトル):ベクトルを回転させる
-		D3DXVec3TransformNormal(&orientation_vector, &orientation_vector, &rotation_Right);
-
-		// 右ベクトルの回転
-		D3DXVec3TransformNormal(&axis_vector[2], &axis_vector[2], &rotation_Right);
-
-		this->at_ = this->eye_ + orientation_vector;
-	}
-
-
-	// 右周り( 視点中心 )
-	if (pInputKeyboard->GetKeyPress(DIK_Y))
-	{
-		// 回転行列
-		constexpr float rotation_speed_Y = 0.01f;
-		D3DXMatrixRotationY(&rotation_Y, rotation_speed_Y);
-
-		// 向きベクトル
-		D3DXVECTOR3 orientation_vector = this->eye_ - this->at_;
-
-		// 向きベクトル及び右ベクトル(上ベクトル):ベクトルを回転させる
-		D3DXVec3TransformNormal(&orientation_vector, &orientation_vector, &rotation_Y);
-
-		// 右ベクトルの回転
-		D3DXVec3TransformNormal(&axis_vector[2], &axis_vector[2], &rotation_Y);
-
-		this->eye_ = this->at_ + orientation_vector;
-
-		// 前ベクトルを作成( 前ベクトル = 視点座標 - カメラ座標 )
-		axis_vector[1] = this->at_ - this->eye_;
-
-		// 前ベクトルを単位ベクトルに正規化
-		D3DXVec3Normalize(&axis_vector[1], &axis_vector[1]);
-	}
-
-	// 左周り
-	if (pInputKeyboard->GetKeyPress(DIK_H))
-	{
-		// 回転行列
-		constexpr float rotation_speed_Y = -0.01f;
-		D3DXMatrixRotationY(&rotation_Y, rotation_speed_Y);
-
-		// 向きベクトル
-		D3DXVECTOR3 orientation_vector = this->eye_ - this->at_;
-
-		// 向きベクトル及び右ベクトル(上ベクトル):ベクトルを回転させる
-		D3DXVec3TransformNormal(&orientation_vector, &orientation_vector, &rotation_Y);
-
-		// 右ベクトルの回転
-		D3DXVec3TransformNormal(&axis_vector[2], &axis_vector[2], &rotation_Y);
-
-		this->eye_ = this->at_ + orientation_vector;
-
-		// 前ベクトルを作成( 前ベクトル = 視点座標 - カメラ座標 )
-		axis_vector[1] = this->at_ - this->eye_;
-
-		// 前ベクトルを単位ベクトルに正規化
-		D3DXVec3Normalize(&axis_vector[1], &axis_vector[1]);
-	}
-	// カメラの上方向
-	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 	//ビュー行列の作成
 	D3DXMatrixLookAtLH(
 		&this->matrix_view,
-		&this->eye_,
-		&this->at_,
-		&up
+		&camerainfo_.eye,
+		&camerainfo_.at,
+		&camerainfo_.up
 	);
 
 	//プロジェクション行列の作成
@@ -223,27 +54,49 @@ void CCamera::CameraUpdate()
 	//各種類行列の設定
 	device->SetTransform(D3DTS_VIEW, &this->matrix_view);
 	device->SetTransform(D3DTS_PROJECTION, &this->matrix_projection);
+}
 
-	this->m_GetView_ = this->matrix_view;
-	this->m_GetProj_ = this->matrix_projection;
+void CCamera::SetEye(D3DXVECTOR3 _eye)
+{
+	camerainfo_.eye += _eye;
+}
+
+void CCamera::SetAt(D3DXVECTOR3 _at)
+{
+	camerainfo_.at = _at;
 }
 
 D3DXMATRIX CCamera::GetView()
 {
-	return m_GetView_;
+	return matrix_view;
 }
 
 D3DXMATRIX CCamera::GetProj()
 {
-	return m_GetProj_;
+	return matrix_projection;
+}
+
+D3DXVECTOR3 CCamera::GetAt()
+{
+	return camerainfo_.at;
+}
+
+D3DXVECTOR3 CCamera::GetEye()
+{
+	return camerainfo_.eye;
+}
+
+Entity::YawPitchRoll CCamera::GetYawPitchRoll()
+{
+	return yawpitchroll_;
 }
 
 void CCamera::SetView(D3DXMATRIX _view)
 {
-	m_GetView_ = _view;
+	matrix_view = _view;
 }
 
 void CCamera::SetProj(D3DXMATRIX _proj)
 {
-	m_GetProj_ = _proj;
+	matrix_projection = _proj;
 }

@@ -12,6 +12,7 @@
 
 SceneManager* GameManager::mode_;
 CInputKeyboard* GameManager::keyboard_;
+CInputMouse* GameManager::mouse_;
 
 GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _nWindowWidth, int _nWindowHeight)
 {
@@ -26,6 +27,9 @@ GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _n
 	}
 	keyboard_ = new CInputKeyboard();
 	keyboard_->Init(_hInstance, _hWnd);
+
+	mouse_ = new CInputMouse();
+	mouse_->Init(_hInstance, _hWnd);
 
 	camera_ = new CCamera(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 200.0f, -100.0f));
 	light_ = new Light();
@@ -52,6 +56,7 @@ void GameManager::Update()
 {
 	camera_->CameraUpdate();
 	keyboard_->Update();
+	mouse_->Update();
 	GameObjectManager::UpdateAll();
 }
 
@@ -113,6 +118,12 @@ void GameManager::Uninit()
 		delete keyboard_;
 		keyboard_ = nullptr;
 	}
+	if (mouse_ != nullptr)
+	{
+		mouse_->Uninit();
+		delete mouse_;
+		mouse_ = nullptr;
+	}
 	TextureLoder::RelaseAll();
 	ModelLoder::ReleseAll();
 	EffectShaderManager::ReleaseAll();
@@ -137,4 +148,9 @@ void GameManager::SetSceneMode(SceneManager * _Mode)
 CInputKeyboard * GameManager::GetKeyboard()
 {
 	return keyboard_;
+}
+
+CInputMouse * GameManager::GetMouse()
+{
+	return mouse_;
 }

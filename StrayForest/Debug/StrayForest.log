@@ -1,3 +1,4 @@
-﻿  PlayerMove.cpp
+﻿  Camera.cpp
+c:\users\owner\desktop\-presentation-framework\strayforest\system\inheritancenode\camera.cpp(18): warning C4189: 'pInputKeyboard': ローカル変数が初期化されましたが、参照されていません
   StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.exe
   StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.pdb (Full PDB)

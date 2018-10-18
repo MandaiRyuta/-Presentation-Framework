@@ -18,15 +18,16 @@ public:
 	void Uninit() override;
 
 	static Player* Create();
+
+	static D3DXMATRIX GetPlayerMatrix();
 private:
 	CSkinMesh* skinmesh_;
 
 	D3DXVECTOR3 scale_;
 
-	D3DXQUATERNION Quaternion_;
-
 	//PlayerActionManager* action_;
 	PlayerMoveManager* move_;
 	
 	Entity::MATRIX3D matrix_;
+	static D3DXMATRIX world_;
 };

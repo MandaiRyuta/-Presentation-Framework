@@ -4,6 +4,8 @@
 #include "../../../SceneManager/InheritanceNode/SceneGame.h"
 #include "../MeshFiled.h"
 
+D3DXMATRIX Player::world_;
+
 void Player::Init()
 {
 	LPDIRECT3DDEVICE9 device = GetDevice();
@@ -19,28 +21,26 @@ void Player::Init()
 	D3DXMatrixIdentity(&this->matrix_.scale);
 	D3DXMatrixIdentity(&this->matrix_.world);
 
-	//D3DXQuaternionIdentity(&Quaternion_);
+
 }
 
 void Player::Update()
 {
-	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
 	ImGui::GetMatrixInfomation("Player", matrix_.world);
 	skinmesh_->Update(matrix_.world);
 	move_->Update(skinmesh_,matrix_.position,matrix_.rotation);
 	D3DXMatrixScaling(&matrix_.scale, scale_.x, scale_.y, scale_.z);
-	//D3DXMatrixRotationYawPitchRoll(&matrix_.rotation, 0.0f,0.0f,0.0f);
-	//D3DXQUATERNION quaternion;
-	//D3DXQuaternionRotationAxis();
-	//D3DXQuaternionMultiply();
+
+	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
+	
+	world_ = matrix_.world;
 }
 
 void Player::Draw()
 {
 	LPDIRECT3DDEVICE9 device = GetDevice();
-	//D3DXMatrixRotationAxis();
 
-		//裏面カリング(ポリゴンの裏面を描画しない)
+	//裏面カリング(ポリゴンの裏面を描画しない)
 	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	// フィルタ設定
@@ -69,4 +69,9 @@ Player * Player::Create()
 	Player* CreatePlayer = new Player;
 	CreatePlayer->Init();
 	return CreatePlayer;
+}
+
+D3DXMATRIX Player::GetPlayerMatrix()
+{
+	return world_;
 }
