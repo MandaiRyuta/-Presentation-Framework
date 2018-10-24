@@ -1,7 +1,7 @@
 #pragma once
 #include "../../../InputManager/input.h"
 #include "../../../SkinMeshAnimation/ModelAnim.h"
-
+#include "../Camera.h"
 class PlayerMove
 {
 public:
@@ -9,26 +9,28 @@ public:
 	{
 		position_ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		rotation_ = 0.0f;
-		frontvec_ = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+		//frontvec_ = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
 		upvec_ = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 		rightvec_ = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 		move_ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		OldAxisX_ = false;
-		OldAxisZ_ = false;
+		frontvec_ = CCamera::GetAt() - CCamera::GetEye();
+		frontvec_.y = 0.0f;
+		D3DXVec3Normalize(&frontvec_, &frontvec_);
+		rotation_ = D3DXToRadian(D3DXToDegree(atan2(frontvec_.x, frontvec_.z))) + D3DXToRadian(-180.0f);
 	}
 	virtual ~PlayerMove() {}
 public:
 	void Update(CSkinMesh* _skinmesh,D3DXMATRIX& _mtx_position, D3DXMATRIX& _mtx_rotation);
 	bool Uninit() { return true; }
 private:
+	D3DXQUATERNION rot;
 	D3DXVECTOR3 rightvec_;
 	D3DXVECTOR3 upvec_;
 	D3DXVECTOR3 frontvec_;
 	D3DXVECTOR3 move_;
-	float Speed_;
-	bool OldAxisX_;
-	bool OldAxisZ_;
+
 	CInputKeyboard* keyboard_;
 	D3DXVECTOR3 position_;
 	float rotation_;
+
 };

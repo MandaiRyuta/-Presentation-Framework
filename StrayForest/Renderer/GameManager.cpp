@@ -43,6 +43,7 @@ void GameManager::Init()
 	TextureLoder::LoadData("Resource/Texture/floor02.png");
 	TextureLoder::LoadData("Resource/Texture/floor01normal.png");
 	TextureLoder::LoadData("Resource/Texture/floor02normal.png");
+	TextureLoder::LoadData("Resource/Texture/sea.png");
 	ModelLoder::LoadData("Resource/Model/skydomemodel.x");
 	ModelLoder::LoadData("Resource/Model/treemodel.x");
 	EffectShaderManager::EffectLoad("Resource/Shader/ModelShader.fx");

@@ -51,7 +51,7 @@ void MeshFiled::Init()
 	D3DXMatrixIdentity(&matrix_.rotation);
 	D3DXMatrixIdentity(&matrix_.scale);
 	D3DXMatrixTranslation(&matrix_.position, 0.0f, 0.0f, 0.0f);
-	D3DXMatrixScaling(&matrix_.scale, 1.1f, 1.0f, 1.1f);
+	D3DXMatrixScaling(&matrix_.scale, 1.0f, 1.0f, 1.0f);
 	D3DXMatrixRotationYawPitchRoll(&matrix_.rotation, 0.0f, 0.0f, 0.0f);
 }
 

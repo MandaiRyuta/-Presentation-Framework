@@ -4,6 +4,7 @@
 #include "../../System/InheritanceNode/Skydome.h"
 #include "../../System/InheritanceNode/Instancing3D.h"
 #include "../../System/InheritanceNode/Player/Player.h"
+#include "../../System/InheritanceNode/Sea.h"
 
 MeshFiled* SceneGame::meshfiled_;
 
@@ -19,6 +20,7 @@ void SceneGame::Initialize()
 	Skydome::Create();
 	Instancing3D::Create();
 	Player::Create();
+	Sea::Create();
 }
 
 void SceneGame::Update()
