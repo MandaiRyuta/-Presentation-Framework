@@ -16,7 +16,7 @@ private:
 	D3DXVECTOR3 up_;
 
 	float m_Dot_;
-
+	D3DXMATRIX atrotation_;
 	static Entity::CameraInfo camerainfo_;
 	static Entity::YawPitchRoll yawpitchroll_;
 	D3DXMATRIX mtx_right_;
