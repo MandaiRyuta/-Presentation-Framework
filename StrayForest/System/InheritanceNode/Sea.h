@@ -2,14 +2,6 @@
 #include "../../Entity/Entity.h"
 #include "../../GameObjectManager/GameObjectManager.h"
 
-constexpr int FRAME_TIME = 20;
-constexpr int WAVE_PITCH = 10;
-constexpr int WAVE_QTY = (40 + 1);
-constexpr float WAVE_AMPLITUDE = 20.0f;
-constexpr float WAVE_LENGTH = 100.0f;
-constexpr float WAVE_CYCLE = 1.0f;
-
-
 //****************************************************
 // constexpr
 //****************************************************
@@ -35,7 +27,6 @@ public:
 
 	static Sea* Create();
 private:
-	Entity::WAVE wave_[WAVE_QTY][WAVE_QTY];
 	Entity::MeshFiledSize meshinfo_;
 	Entity::Dx9Buffer buffer_;
 	Entity::VECTOR3D* mpv;
@@ -51,4 +42,14 @@ private:
 
 	int SetnX;
 	int SetnZ;
+
+	DWORD					m_gtime;
+
+	float Kx[2];
+	float Kz[2];
+	float wlen[2];
+	float k[2];
+	float amp[2];
+	float w[2];
+	float freq;
 };

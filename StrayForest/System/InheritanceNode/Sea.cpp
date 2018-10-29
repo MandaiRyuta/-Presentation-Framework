@@ -151,12 +151,34 @@ void Sea::Init()
 	//pHeightTexture = NULL;
 	//if (errBuf)
 	//	errBuf->Release();
+	//--------------------------------------
+	// 波の初期値設定
+	//--------------------------------------
+	m_gtime = timeGetTime();
+	// 波の周期
+	freq = 6.0f;
+
+	// 波1
+	Kx[0] = 1.0f;					// 波の方向(X成分)
+	Kz[0] = 1.0f;					// 波の方向(Z成分)
+	wlen[0] = 4.0f;					// 波の長さ
+	k[0] = 2.0f*3.141592f / wlen[0];	// 波の長さを計数計算
+	amp[0] = 2.0f;					// 波の大きさ・高さ
+	w[0] = 2.0f*3.141592f / freq;		// 波のうねりの速さ
+
+										// 波2
+	Kx[1] = 1.0f;					// 波の方向(X成分)
+	Kz[1] = 0.0f;					// 波の方向(Z成分)
+	wlen[1] = 4.0f;					// 波の長さ
+	k[1] = 2.0f*3.141592f / wlen[1];	//波の長さを計数計算
+	amp[1] = 2.0f;					// 波の大きさ・高さ
+	w[1] = 2.0f*3.141592f / freq*2.0f;// 波のうねりの速さ→1つ目の波の2倍
 
 	D3DXMatrixIdentity(&matrix_.world);
 	D3DXMatrixIdentity(&matrix_.position);
 	D3DXMatrixIdentity(&matrix_.scale);
 	D3DXMatrixIdentity(&matrix_.rotation);
-	D3DXVECTOR3 position = D3DXVECTOR3(0.0f, 2.0f, 0.0f);
+	D3DXVECTOR3 position = D3DXVECTOR3(0.0f, 50.0f, 0.0f);
 	D3DXVECTOR3 scale = D3DXVECTOR3(2.0f, 1.0f, 2.0f);
 	D3DXVECTOR3 rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -167,7 +189,70 @@ void Sea::Init()
 
 void Sea::Update()
 {
+	LPDIRECT3DDEVICE9 device = GetDevice();
+
+	int nCount = 0;
+	float fStartX = -WAVE_XSize * (WAVE_X / 2), fStartY = 0.0f, fStartZ = WAVE_ZSize * (WAVE_Z / 2);
+
+	int nCx = WAVE_X + 1, nCy = WAVE_Z + 1;
+
+	this->number_of_vertices_ = nCx * nCy;														//頂点数
+	this->number_of_indices_ = (nCx * 2 + 1) * (nCy - 1) + ((nCy - 2) * 1);				//インデックス数
+	this->number_of_primities_ = this->number_of_indices_ - 2;								//Primitive数
+
+
 	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
+	float t = (float(timeGetTime() - m_gtime)) / 1000.0f;
+
+	if (FAILED(device->CreateVertexBuffer(
+		sizeof(Entity::VECTOR3D) * this->number_of_vertices_,
+		D3DUSAGE_WRITEONLY,
+		FVF_WAVE,
+		D3DPOOL_MANAGED,
+		&buffer_.vertex_buffer,
+		NULL))) {
+		PostQuitMessage(0);
+	}
+
+	buffer_.vertex_buffer->Lock(0, 0, (void**)&mpv, D3DLOCK_DISCARD);
+
+	/*
+	VX = (P+1) - (P-1);
+	*/
+	/*
+	NX.x = -VX.y;
+	NX.y = VX.x;
+	NX.z = 0.0;
+	*/
+	D3DXVECTOR3 vx;
+	D3DXVECTOR3 vz;
+	D3DXVECTOR3 n;
+	/*
+	フィールドの端は見せない、もし見る場合があるなら、最後の法線を１にセットしておく
+	*/
+	for (int nZ = 0; nZ < nCy; nZ++) {
+		for (int nX = 0; nX < nCx; nX++) {
+
+			mpv[nCount].position = D3DXVECTOR3(fStartX + (WAVE_XSize * nX), 0, fStartZ - (WAVE_ZSize * nZ));
+			mpv[nCount].position.y += amp[0] * cos((Kx[0] * mpv[nCount].position.x + Kz[0] * mpv[nCount].position.z) - w[0] * t) +
+				amp[1] * cos((Kx[1] * mpv[nCount].position.x + Kz[1] * mpv[nCount].position.z) - w[1] * t);
+
+			vx = mpv[(nZ * nCy) + (nX + 2)].position - mpv[nZ * nCy + nX].position;
+			vz = mpv[(nZ * nCy) + (nX + 1)].position - mpv[nZ * nCx + (nX)].position;
+
+			D3DXVec3Cross(&n, &vx, &vz);
+			D3DXVec3Normalize(&n, &n);
+			mpv[nZ * nCx + nX].normal = n;
+
+			mpv[nCount].color = D3DCOLOR_RGBA(255, 255, 255, 255);
+			mpv[nCount].texcoord = D3DXVECTOR2((WAVE_XSize * nX) / (WAVE_ZSize * nCx), (WAVE_ZSize * nZ) / (WAVE_ZSize * nCy));
+
+			nCount++;
+		}
+	}
+
+	buffer_.vertex_buffer->Unlock();
+
 }
 
 void Sea::Draw()

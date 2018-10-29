@@ -5,7 +5,6 @@
 #include "../../System/InheritanceNode/Instancing3D.h"
 #include "../../System/InheritanceNode/Player/Player.h"
 #include "../../System/InheritanceNode/Sea.h"
-
 MeshFiled* SceneGame::meshfiled_;
 
 void SceneGame::Initialize()

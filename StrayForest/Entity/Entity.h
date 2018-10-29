@@ -157,6 +157,14 @@ namespace Entity
 		float ampliture;		//êUïù
 		float time;				//éûä‘
 	};
+
+	struct WAVE_VERTEX
+	{
+		D3DXVECTOR3 position;
+		DWORD color;
+		D3DXVECTOR2 texcoord_;
+	};
+
 	struct VECTOR3D
 	{
 		D3DXVECTOR3 position;
