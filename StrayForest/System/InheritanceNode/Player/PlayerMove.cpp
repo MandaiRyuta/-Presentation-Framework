@@ -25,11 +25,74 @@ void PlayerMove::Update(CSkinMesh* _skinmesh, D3DXMATRIX& _mtx_position, D3DXMAT
 	float moverotation = atan2(frontvec_.x, frontvec_.z) + D3DXToRadian(180.0f);
 	D3DXMatrixRotationAxis(&setrot, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), moverotation);
 	D3DXVec3TransformNormal(&move_, &move_, &setrot);
+	static int counttime = 0;
 
-	position_ -= move_ * 1.2f;
+	if (x == 0 && z == 0)
+	{
+		if (!movemode_)
+		{
+			_skinmesh->SetAnimTrack(0.15);
+			movemode_ = true;
+		}
+		if (counttime <= 90)
+		{
+			counttime++;
+		}
+		else
+		{
+			movemode_ = false;
+			_skinmesh->SetAnimSpeed(0.01f);
+			counttime = 0;
+		}
+	}
+	else
+	{
+		movemode_ = false;
+		if (!keyboard_->GetKeyPress(DIK_LSHIFT))
+		{
+			if (counttime <= 50)
+			{
+				counttime++;
+			}
+			else
+			{
+				_skinmesh->SetAnimTrack(0);
+				counttime = 0;
+			}
+		}
+		if (keyboard_->GetKeyRelease(DIK_LSHIFT))
+		{
+			movespeed_ = 1.2f;
+			_skinmesh->SetAnimTrack(0);
+			counttime = 0;
+		}
+		if (keyboard_->GetKeyPress(DIK_LSHIFT))
+		{
+			movespeed_ = 2.0f;
+			if (counttime <= 34)
+			{
+				counttime++;
+			}
+			else
+			{
+				_skinmesh->SetAnimTrack(0.008);
+				counttime = 0;
+			}
+		}
+	}
 
-	float modelrotation_ = atan2(frontvec_.x, frontvec_.z) + D3DXToRadian(180.0f) + atan2(rotationalposition.x, rotationalposition.z);
-	D3DXMatrixRotationY(&_mtx_rotation, modelrotation_);
+
+	position_ -= move_ * movespeed_;
+	static float oldmodelrotation = 0.0f;
+	float modelrotation = 0.0f;
+	modelrotation = oldmodelrotation;
+	if (x != 0 || z != 0)
+	{
+		modelrotation = atan2(frontvec_.x, frontvec_.z) + D3DXToRadian(180.0f) + atan2(rotationalposition.x, rotationalposition.z);
+		oldmodelrotation = modelrotation;
+	}
+
+	D3DXMatrixRotationY(&_mtx_rotation, modelrotation);
 
 	D3DXMatrixTranslation(&_mtx_position, position_.x, position_.y, position_.z);
 }

@@ -204,6 +204,8 @@ void Sea::Update()
 	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
 	float t = (float(timeGetTime() - m_gtime)) / 1000.0f;
 
+	buffer_.vertex_buffer->Release();
+
 	if (FAILED(device->CreateVertexBuffer(
 		sizeof(Entity::VECTOR3D) * this->number_of_vertices_,
 		D3DUSAGE_WRITEONLY,
