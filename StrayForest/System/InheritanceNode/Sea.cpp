@@ -10,13 +10,13 @@ void Sea::Init()
 
 	int nCx = WAVE_X + 1, nCy = WAVE_Z + 1;
 
-	this->number_of_vertices_ = nCx * nCy;														//頂点数
-	this->number_of_indices_ = (nCx * 2 + 1) * (nCy - 1) + ((nCy - 2) * 1);				//インデックス数
-	this->number_of_primities_ = this->number_of_indices_ - 2;								//Primitive数
+	number_of_vertices_ = nCx * nCy;														//頂点数
+	number_of_indices_ = (nCx * 2 + 1) * (nCy - 1) + ((nCy - 2) * 1);				//インデックス数
+	number_of_primities_ = number_of_indices_ - 2;								//Primitive数
 
 
 	if (FAILED(device->CreateVertexBuffer(
-		sizeof(Entity::VECTOR3D) * this->number_of_vertices_,
+		sizeof(Entity::VECTOR3D) * number_of_vertices_,
 		D3DUSAGE_WRITEONLY,
 		FVF_WAVE,
 		D3DPOOL_MANAGED,
@@ -25,7 +25,7 @@ void Sea::Init()
 		PostQuitMessage(0);
 	}
 
-	buffer_.vertex_buffer->Lock(0, 0, (void**)&mpv, D3DLOCK_DISCARD);
+	buffer_.vertex_buffer->Lock(0, 0, (void**)&mpv_, D3DLOCK_DISCARD);
 
 	/*
 	VX = (P+1) - (P-1);
@@ -45,17 +45,17 @@ void Sea::Init()
 	for (int nZ = 0; nZ < nCy; nZ++) {
 		for (int nX = 0; nX < nCx; nX++) {
 
-			mpv[nCount].position = D3DXVECTOR3(fStartX + (WAVE_XSize * nX), 0.0f, fStartZ - (WAVE_ZSize * nZ));
+			mpv_[nCount].position = D3DXVECTOR3(fStartX + (WAVE_XSize * nX), 0.0f, fStartZ - (WAVE_ZSize * nZ));
 
-			vx = mpv[(nZ * nCy) + (nX + 2)].position - mpv[nZ * nCy + nX].position;
-			vz = mpv[(nZ * nCy) + (nX + 1)].position - mpv[nZ * nCx + (nX)].position;
+			vx = mpv_[(nZ * nCy) + (nX + 2)].position - mpv_[nZ * nCy + nX].position;
+			vz = mpv_[(nZ * nCy) + (nX + 1)].position - mpv_[nZ * nCx + (nX)].position;
 
 			D3DXVec3Cross(&n, &vx, &vz);
 			D3DXVec3Normalize(&n, &n);
-			mpv[nZ * nCx + nX].normal = n;
+			mpv_[nZ * nCx + nX].normal = n;
 
-			mpv[nCount].color = D3DCOLOR_RGBA(255, 255, 255, 255);
-			mpv[nCount].texcoord = D3DXVECTOR2((WAVE_XSize * nX) / (WAVE_ZSize * nCx), (WAVE_ZSize * nZ) / (WAVE_ZSize * nCy));
+			mpv_[nCount].color = D3DCOLOR_RGBA(255, 255, 255, 255);
+			mpv_[nCount].texcoord = D3DXVECTOR2((WAVE_XSize * nX) / (WAVE_ZSize * nCx), (WAVE_ZSize * nZ) / (WAVE_ZSize * nCy));
 
 			nCount++;
 		}
@@ -178,7 +178,7 @@ void Sea::Init()
 	D3DXMatrixIdentity(&matrix_.position);
 	D3DXMatrixIdentity(&matrix_.scale);
 	D3DXMatrixIdentity(&matrix_.rotation);
-	D3DXVECTOR3 position = D3DXVECTOR3(0.0f, 50.0f, 0.0f);
+	D3DXVECTOR3 position = D3DXVECTOR3(0.0f, 35.0f, 0.0f);
 	D3DXVECTOR3 scale = D3DXVECTOR3(2.0f, 1.0f, 2.0f);
 	D3DXVECTOR3 rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -196,9 +196,9 @@ void Sea::Update()
 
 	int nCx = WAVE_X + 1, nCy = WAVE_Z + 1;
 
-	this->number_of_vertices_ = nCx * nCy;														//頂点数
-	this->number_of_indices_ = (nCx * 2 + 1) * (nCy - 1) + ((nCy - 2) * 1);				//インデックス数
-	this->number_of_primities_ = this->number_of_indices_ - 2;								//Primitive数
+	number_of_vertices_ = nCx * nCy;														//頂点数
+	number_of_indices_ = (nCx * 2 + 1) * (nCy - 1) + ((nCy - 2) * 1);				//インデックス数
+	number_of_primities_ = number_of_indices_ - 2;								//Primitive数
 
 
 	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
@@ -207,7 +207,7 @@ void Sea::Update()
 	buffer_.vertex_buffer->Release();
 
 	if (FAILED(device->CreateVertexBuffer(
-		sizeof(Entity::VECTOR3D) * this->number_of_vertices_,
+		sizeof(Entity::VECTOR3D) * number_of_vertices_,
 		D3DUSAGE_WRITEONLY,
 		FVF_WAVE,
 		D3DPOOL_MANAGED,
@@ -216,7 +216,7 @@ void Sea::Update()
 		PostQuitMessage(0);
 	}
 
-	buffer_.vertex_buffer->Lock(0, 0, (void**)&mpv, D3DLOCK_DISCARD);
+	buffer_.vertex_buffer->Lock(0, 0, (void**)&mpv_, D3DLOCK_DISCARD);
 
 	/*
 	VX = (P+1) - (P-1);
@@ -235,19 +235,19 @@ void Sea::Update()
 	for (int nZ = 0; nZ < nCy; nZ++) {
 		for (int nX = 0; nX < nCx; nX++) {
 
-			mpv[nCount].position = D3DXVECTOR3(fStartX + (WAVE_XSize * nX), 0, fStartZ - (WAVE_ZSize * nZ));
-			mpv[nCount].position.y += amp[0] * cos((Kx[0] * mpv[nCount].position.x + Kz[0] * mpv[nCount].position.z) - w[0] * t) +
-				amp[1] * cos((Kx[1] * mpv[nCount].position.x + Kz[1] * mpv[nCount].position.z) - w[1] * t);
+			mpv_[nCount].position = D3DXVECTOR3(fStartX + (WAVE_XSize * nX), 0, fStartZ - (WAVE_ZSize * nZ));
+			mpv_[nCount].position.y += amp[0] * cos((Kx[0] * mpv_[nCount].position.x + Kz[0] * mpv_[nCount].position.z) - w[0] * t) +
+				amp[1] * cos((Kx[1] * mpv_[nCount].position.x + Kz[1] * mpv_[nCount].position.z) - w[1] * t);
 
-			vx = mpv[(nZ * nCy) + (nX + 2)].position - mpv[nZ * nCy + nX].position;
-			vz = mpv[(nZ * nCy) + (nX + 1)].position - mpv[nZ * nCx + (nX)].position;
+			vx = mpv_[(nZ * nCy) + (nX + 2)].position - mpv_[nZ * nCy + nX].position;
+			vz = mpv_[(nZ * nCy) + (nX + 1)].position - mpv_[nZ * nCx + (nX)].position;
 
 			D3DXVec3Cross(&n, &vx, &vz);
 			D3DXVec3Normalize(&n, &n);
-			mpv[nZ * nCx + nX].normal = n;
+			mpv_[nZ * nCx + nX].normal = n;
 
-			mpv[nCount].color = D3DCOLOR_RGBA(255, 255, 255, 255);
-			mpv[nCount].texcoord = D3DXVECTOR2((WAVE_XSize * nX) / (WAVE_ZSize * nCx), (WAVE_ZSize * nZ) / (WAVE_ZSize * nCy));
+			mpv_[nCount].color = D3DCOLOR_RGBA(255, 255, 255, 255);
+			mpv_[nCount].texcoord = D3DXVECTOR2((WAVE_XSize * nX) / (WAVE_ZSize * nCx), (WAVE_ZSize * nZ) / (WAVE_ZSize * nCy));
 
 			nCount++;
 		}
@@ -269,7 +269,7 @@ void Sea::Draw()
 	device->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 	device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	device->SetTransform(D3DTS_WORLD, &matrix_.world);
-	device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, this->number_of_vertices_, 0, this->number_of_primities_);
+	device->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, number_of_vertices_, 0, this->number_of_primities_);
 }
 
 void Sea::Uninit()

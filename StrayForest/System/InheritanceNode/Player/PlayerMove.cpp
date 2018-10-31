@@ -26,61 +26,94 @@ void PlayerMove::Update(CSkinMesh* _skinmesh, D3DXMATRIX& _mtx_position, D3DXMAT
 	D3DXMatrixRotationAxis(&setrot, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), moverotation);
 	D3DXVec3TransformNormal(&move_, &move_, &setrot);
 	static int counttime = 0;
-
+	static int sleeptime = 0;
 	if (x == 0 && z == 0)
 	{
-		if (!movemode_)
+		sleeptime++;
+		if (sleeptime >= 15)
 		{
+			_skinmesh->SetAnimSpeed(0.02f);
 			_skinmesh->SetAnimTrack(0.15);
-			movemode_ = true;
+			AnimPattern_ = STATE;
 		}
-		if (counttime <= 90)
+	}
+	else
+	{
+		sleeptime = 0;
+	}
+
+	if (keyboard_->GetKeyTrigger(DIK_A))
+	{
+		AnimPattern_ = WALK;
+		_skinmesh->SetAnimSpeed(0.015f);
+	}
+	else if (keyboard_->GetKeyTrigger(DIK_D))
+	{
+		AnimPattern_ = WALK;
+		_skinmesh->SetAnimSpeed(0.015f);
+	}
+	else if (keyboard_->GetKeyTrigger(DIK_W))
+	{
+		AnimPattern_ = WALK;
+		_skinmesh->SetAnimSpeed(0.015f);
+	}
+	else if (keyboard_->GetKeyTrigger(DIK_S))
+	{
+		AnimPattern_ = WALK;
+		_skinmesh->SetAnimSpeed(0.015f);
+	}
+
+	if (keyboard_->GetKeyPress(DIK_LSHIFT))
+	{
+		_skinmesh->SetAnimSpeed(0.02f);
+		AnimPattern_ = RUN;
+	}
+	if (keyboard_->GetKeyRelease(DIK_LSHIFT))
+	{
+		_skinmesh->SetAnimSpeed(0.015f);
+		AnimPattern_ = WALK;
+	}
+
+	switch (AnimPattern_)
+	{
+	case STATE:
+		if (counttime <= 30)
 		{
 			counttime++;
 		}
 		else
 		{
-			movemode_ = false;
-			_skinmesh->SetAnimSpeed(0.01f);
+			_skinmesh->SetAnimTrack(0.15);
 			counttime = 0;
 		}
-	}
-	else
-	{
-		movemode_ = false;
-		if (!keyboard_->GetKeyPress(DIK_LSHIFT))
+		break;
+	case WALK:
+		movespeed_ = 1.2f;
+		if (counttime <= 40)
 		{
-			if (counttime <= 50)
-			{
-				counttime++;
-			}
-			else
-			{
-				_skinmesh->SetAnimTrack(0);
-				counttime = 0;
-			}
+			counttime++;
 		}
-		if (keyboard_->GetKeyRelease(DIK_LSHIFT))
+		else
 		{
-			movespeed_ = 1.2f;
 			_skinmesh->SetAnimTrack(0);
 			counttime = 0;
 		}
-		if (keyboard_->GetKeyPress(DIK_LSHIFT))
+		break;
+	case RUN:
+		movespeed_ = 2.0f;
+		if (counttime <= 20)
 		{
-			movespeed_ = 2.0f;
-			if (counttime <= 34)
-			{
-				counttime++;
-			}
-			else
-			{
-				_skinmesh->SetAnimTrack(0.008);
-				counttime = 0;
-			}
+			counttime++;
 		}
+		else
+		{
+			_skinmesh->SetAnimTrack(0.008);
+			counttime = 0;
+		}
+		break;
+	default:
+		break;
 	}
-
 
 	position_ -= move_ * movespeed_;
 	static float oldmodelrotation = 0.0f;

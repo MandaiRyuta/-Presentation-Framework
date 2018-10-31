@@ -18,27 +18,58 @@ void CCamera::CameraUpdate()
 	LPDIRECT3DDEVICE9 device = GetDevice();
 	CInputKeyboard* pInputKeyboard;
 	pInputKeyboard = GameManager::GetKeyboard();
-
+	
 	D3DXMATRIX CameraRotation;
 	D3DXMatrixIdentity(&CameraRotation);
 
+	if (pInputKeyboard->GetKeyPress(DIK_UP))
+	{
+		yawpitchroll_.pitch += D3DXToRadian(3.0f);
+	}
+	if (pInputKeyboard->GetKeyPress(DIK_DOWN))
+	{
+		yawpitchroll_.pitch += D3DXToRadian(-3.0f);
+	}
 	if (pInputKeyboard->GetKeyPress(DIK_RIGHT))
 	{
-		yawpitchroll_.yaw = D3DXToRadian(3.0f);
-		D3DXMatrixRotationY(&CameraRotation, yawpitchroll_.yaw);
+		yawpitchroll_.yaw += D3DXToRadian(-3.0f);
 	}
 	if (pInputKeyboard->GetKeyPress(DIK_LEFT))
 	{
-		yawpitchroll_.yaw = D3DXToRadian(-3.0f);
-		D3DXMatrixRotationY(&CameraRotation, yawpitchroll_.yaw);
+		yawpitchroll_.yaw += D3DXToRadian(3.0f);
 	}
+	if (yawpitchroll_.pitch >= D3DXToRadian(75.0f))
+	{
+		yawpitchroll_.pitch = D3DXToRadian(75.0f);
+	}
+	else if (yawpitchroll_.pitch <= D3DXToRadian(0.0f))
+	{
+		yawpitchroll_.pitch = D3DXToRadian(0.0f);
+		if (pInputKeyboard->GetKeyPress(DIK_DOWN))
+		{
+			zoom_ += -0.002f;
+		}
+	}
+	if (!pInputKeyboard->GetKeyPress(DIK_DOWN))
+	{
+		if (zoom_ <= D3DX_PI / 3)
+		{
+			zoom_ += 0.002f;
+		}
+	}
+	if (zoom_ <= D3DX_PI / 5)
+	{
+		zoom_ = D3DX_PI / 5;
+	}
+	//
+	D3DXMatrixRotationYawPitchRoll(&CameraRotation, yawpitchroll_.yaw, yawpitchroll_.pitch, yawpitchroll_.roll);
 
-	D3DXVec3TransformCoord(&offset, &offset, &CameraRotation);
-	D3DXVec3TransformCoord(&camerainfo_.eye, &camerainfo_.eye, &CameraRotation);
-	D3DXVec3TransformCoord(&camerainfo_.at, &camerainfo_.at, &CameraRotation);
-	camerainfo_.eye = offset + D3DXVECTOR3(Player::GetPlayerMatrix()._41,Player::GetPlayerMatrix()._42,Player::GetPlayerMatrix()._43);
+	offset_ = D3DXVECTOR3(0.0f, 20.f, -200.0f);
+	D3DXVec3TransformCoord(&offset_, &offset_, &CameraRotation);
 
-	camerainfo_.at = D3DXVECTOR3(Player::GetPlayerMatrix()._41,Player::GetPlayerMatrix()._42,Player::GetPlayerMatrix()._43);
+	camerainfo_.eye = offset_ + D3DXVECTOR3(Player::GetPlayerMatrix()._41, Player::GetPlayerMatrix()._42, Player::GetPlayerMatrix()._43);
+
+	camerainfo_.at = D3DXVECTOR3(Player::GetPlayerMatrix()._41, Player::GetPlayerMatrix()._42, Player::GetPlayerMatrix()._43);
 
 	//ビュー行列の作成
 	D3DXMatrixLookAtLH(
@@ -49,7 +80,7 @@ void CCamera::CameraUpdate()
 	);
 
 	//プロジェクション行列の作成
-	D3DXMatrixPerspectiveFovLH(&this->matrix_projection, D3DX_PI / 3 /*D3DXToRadian(60),*/, (float)windows_rect::SCREEN_WIDTH / windows_rect::SCREEN_HEIGHT, 0.1f, 10000.0f);
+	D3DXMatrixPerspectiveFovLH(&this->matrix_projection, zoom_ /*D3DX_PI / 3 /*D3DXToRadian(60),*/, (float)windows_rect::SCREEN_WIDTH / windows_rect::SCREEN_HEIGHT, 1.f, 10000.0f);
 
 	//各種類行列の設定
 	device->SetTransform(D3DTS_VIEW, &this->matrix_view);

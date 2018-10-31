@@ -17,13 +17,20 @@ public:
 		frontvec_.y = 0.0f;
 		movespeed_ = 1.2f;
 		D3DXVec3Normalize(&frontvec_, &frontvec_);
+		AnimPattern_ = WALK;
 	}
 	virtual ~PlayerMove() {}
 public:
 	void Update(CSkinMesh* _skinmesh,D3DXMATRIX& _mtx_position, D3DXMATRIX& _mtx_rotation);
 	bool Uninit() { return true; }
 private:
-	D3DXQUATERNION rot;
+	enum MOVE_PATTERN
+	{
+		STATE,
+		WALK,
+		RUN
+	};
+	MOVE_PATTERN AnimPattern_;
 	D3DXVECTOR3 rightvec_;
 	D3DXVECTOR3 upvec_;
 	D3DXVECTOR3 frontvec_;

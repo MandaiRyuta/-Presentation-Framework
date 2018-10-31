@@ -1,4 +1,8 @@
-﻿  Camera.cpp
-c:\users\owner\desktop\-presentation-framework\strayforest\system\inheritancenode\camera.cpp(18): warning C4189: 'pInputKeyboard': ローカル変数が初期化されましたが、参照されていません
-  StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.exe
-  StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.pdb (Full PDB)
+﻿  MotionEffect.cpp
+c:\users\samiy\desktop\-presentation-framework\strayforest\system\motioneffect.cpp(81): warning C4456: 'nCount' を宣言すると、以前のローカル宣言が隠蔽されます
+  c:\users\samiy\desktop\-presentation-framework\strayforest\system\motioneffect.cpp(8): note: 'nCount' の宣言を確認してください
+c:\users\samiy\desktop\-presentation-framework\strayforest\system\motioneffect.cpp(83): warning C4244: '=': 'int' から 'WORD' への変換です。データが失われる可能性があります。
+c:\users\samiy\desktop\-presentation-framework\strayforest\system\motioneffect.cpp(131): warning C4100: '_device': 引数は関数の本体部で 1 度も参照されません。
+c:\users\samiy\desktop\-presentation-framework\strayforest\system\motioneffect.cpp(137): warning C4100: '_device': 引数は関数の本体部で 1 度も参照されません。
+  StrayForest.vcxproj -> C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.exe
+  StrayForest.vcxproj -> C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.pdb (Full PDB)

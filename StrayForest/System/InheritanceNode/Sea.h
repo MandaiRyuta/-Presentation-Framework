@@ -29,7 +29,7 @@ public:
 private:
 	Entity::MeshFiledSize meshinfo_;
 	Entity::Dx9Buffer buffer_;
-	Entity::VECTOR3D* mpv;
+	Entity::VECTOR3D* mpv_;
 	Entity::MATRIX3D matrix_;
 
 	LPDIRECT3DTEXTURE9 texture;

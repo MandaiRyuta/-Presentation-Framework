@@ -5,6 +5,8 @@
 #include "../../System/InheritanceNode/Instancing3D.h"
 #include "../../System/InheritanceNode/Player/Player.h"
 #include "../../System/InheritanceNode/Sea.h"
+#include "../../System/MotionEffect.h"
+
 MeshFiled* SceneGame::meshfiled_;
 
 void SceneGame::Initialize()
@@ -20,6 +22,7 @@ void SceneGame::Initialize()
 	Instancing3D::Create();
 	Player::Create();
 	Sea::Create();
+	MeshEffect::Create();
 }
 
 void SceneGame::Update()
