@@ -20,8 +20,6 @@ void Player::Init()
 	D3DXMatrixIdentity(&this->matrix_.rotation);
 	D3DXMatrixIdentity(&this->matrix_.scale);
 	D3DXMatrixIdentity(&this->matrix_.world);
-
-
 }
 
 void Player::Update()

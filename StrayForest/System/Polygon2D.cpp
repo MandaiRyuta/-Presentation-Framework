@@ -1,4 +1,4 @@
-//#include "scene2d.h"
+//#include "Polygon2D.h"
 //
 //CScene2D::~CScene2D()
 //{
@@ -7,12 +7,12 @@
 //
 //void CScene2D::CreateVertex(D3DCOLOR color, float dx, float dy, float dw, float dh, int tcx, int tcy, int tcw, int tch)
 //{
-//	VERTEX_2D* pV;
-//	this->vertexbuf_->Lock(0, 0, (void**)&pV, D3DLOCK_DISCARD);
-//	pV[0].pos = D3DXVECTOR4(dx, dy - dh / 2, 0.5f, 1.0f);
-//	pV[1].pos = D3DXVECTOR4(dx + dw / 2, dy - dh / 2, 0.5f, 1.0f);
-//	pV[2].pos = D3DXVECTOR4(dx + dw / 2, dy + dh / 2, 0.5f, 1.0f);
-//	pV[3].pos = D3DXVECTOR4(dx, dy + dh / 2, 0.5f, 1.0f);
+//	Entity::VECTOR2D* pV;
+//	buffer_.vertex_buffer->Lock(0, 0, (void**)&pV, D3DLOCK_DISCARD);
+//	pV[0].position = D3DXVECTOR4(dx, dy - dh / 2, 0.5f, 1.0f);
+//	pV[1].position = D3DXVECTOR4(dx + dw / 2, dy - dh / 2, 0.5f, 1.0f);
+//	pV[2].position = D3DXVECTOR4(dx + dw / 2, dy + dh / 2, 0.5f, 1.0f);
+//	pV[3].position = D3DXVECTOR4(dx, dy + dh / 2, 0.5f, 1.0f);
 //
 //	pV[0].color =
 //		pV[1].color =
@@ -34,8 +34,8 @@
 //
 //void CScene2D::CreateVertexAffine(D3DCOLOR color, float dx, float dy, float dw, float dh, int tcx, int tcy, int tcw, int tch)
 //{
-//	VERTEX_2D* pV;
-//	this->vertexbuf_->Lock(0, 0, (void**)&pV, D3DLOCK_DISCARD);
+//	Entity::VECTOR2D* pV;
+//	buffer_.vertex_buffer->Lock(0, 0, (void**)&pV, D3DLOCK_DISCARD);
 //
 //	//////////////////////////Šg‘å////////////////////////////////
 //	float x0 = (0.0f - this->scale_offsetx_) * this->scalex_ + +this->scalex_;
@@ -64,15 +64,15 @@
 //	float y_y3 = dy + x0 *sinf(this->polygon_angle_/* * D3DX_PI / 180*/) + y1 * cosf(this->polygon_angle_/* * D3DX_PI / 180*/);
 //
 //
-//	pV[0].pos = D3DXVECTOR4(dx + x_x0, dy + y_y0, 0.5f, 1.0f);//xL=xcos(ƒ¿)-ysin(ƒ¿);yL=xsin(ƒ¿)+ycos(ƒ¿);
-//	pV[1].pos = D3DXVECTOR4(dx + x_x1, dy + y_y1, 0.5f, 1.0f);
-//	pV[2].pos = D3DXVECTOR4(dx + x_x2, dy + y_y2, 0.5f, 1.0f);
-//	pV[3].pos = D3DXVECTOR4(dx + x_x3, dy + y_y3, 0.5f, 1.0f);
+//	pV[0].position = D3DXVECTOR4(dx + x_x0, dy + y_y0, 0.5f, 1.0f);//xL=xcos(ƒ¿)-ysin(ƒ¿);yL=xsin(ƒ¿)+ycos(ƒ¿);
+//	pV[1].position = D3DXVECTOR4(dx + x_x1, dy + y_y1, 0.5f, 1.0f);
+//	pV[2].position = D3DXVECTOR4(dx + x_x2, dy + y_y2, 0.5f, 1.0f);
+//	pV[3].position = D3DXVECTOR4(dx + x_x3, dy + y_y3, 0.5f, 1.0f);
 //
 //	pV[0].color =
-//		pV[1].color =
-//		pV[2].color =
-//		pV[3].color = color;
+//	pV[1].color =
+//	pV[2].color =
+//	pV[3].color = color;
 //
 //	float u0 = (float)tcx / this->texturewidth_;
 //	float v0 = (float)tcy / this->textureheight_;
@@ -84,7 +84,7 @@
 //	pV[2].texcoord = D3DXVECTOR2(u1, v1);
 //	pV[3].texcoord = D3DXVECTOR2(u0, v1);
 //
-//	this->vertexbuf_->Unlock();
+//	buffer_.vertex_buffer->Unlock();
 //}
 //
 //void CScene2D::SetPolygonScale(float scaleX, float scaleY)
@@ -106,7 +106,24 @@
 //	}
 //}
 //
-//CScene2D * CScene2D::Create(bool set, POLYGONSIZE polygonsize, std::string filename, int texturewidth, int textureheight, bool backgroundset)
+//Entity::POLYGONSIZE CScene2D::SetPolygonsize()
+//{
+//	Entity::POLYGONSIZE polysize;
+//
+//	polysize.dx_ = 0.f;
+//	polysize.dy_ = 0.f;
+//	polysize.dw_ = windows_rect::SCREEN_WIDTH;
+//	polysize.dh_ = windows_rect::SCREEN_HEIGHT;
+//	polysize.tcx_ = 0;
+//	polysize.tcy_ = 2;
+//	polysize.tcw_ = 184;
+//	polysize.tch_ = 500;
+//	polysize.color_ = D3DCOLOR_RGBA(255, 255, 255, 255);
+//	polysize.affine_ = false;
+//	return polysize;
+//}
+//
+//CScene2D * CScene2D::Create(bool set, Entity::POLYGONSIZE polygonsize, std::string filename, int texturewidth, int textureheight, bool backgroundset)
 //{
 //	CScene2D* scene2D = new CScene2D(2, set, polygonsize, filename, texturewidth, textureheight, backgroundset);
 //	scene2D->Init();
@@ -129,7 +146,7 @@
 //	hr = D3DXCreateTextureFromFile(device, this->filename_.c_str(), &this->texture_);
 //	//}
 //
-//	hr = device->CreateVertexBuffer(sizeof(VERTEX_2D) * 4, D3DUSAGE_WRITEONLY, FVF_VERTEX_2D, D3DPOOL_MANAGED, &this->vertexbuf_, NULL);
+//	hr = device->CreateVertexBuffer(sizeof(Entity::VECTOR2D) * 4, D3DUSAGE_WRITEONLY, FVF_VERTEX_2D, D3DPOOL_MANAGED, &buffer_.vertex_buffer, NULL);
 //
 //	if (FAILED(hr))
 //	{
@@ -138,17 +155,11 @@
 //}
 //void CScene2D::Uninit()
 //{
-//	if (this->texture_ != nullptr)
+//	if (buffer_.vertex_buffer != nullptr)
 //	{
-//		this->texture_->Release();
-//		this->texture_ = nullptr;
-//		delete this->texture_;
-//	}
-//	if (this->vertexbuf_ != nullptr)
-//	{
-//		this->vertexbuf_->Release();
-//		this->vertexbuf_ = nullptr;
-//		delete this->vertexbuf_;
+//		buffer_.vertex_buffer->Release();
+//		buffer_.vertex_buffer = nullptr;
+//		delete buffer_.vertex_buffer;
 //	}
 //}
 //
@@ -170,7 +181,7 @@
 //
 //		///////////////////////////////////////////}‚P//////////////////////////////////////////////////
 //		//ƒ|ƒŠƒSƒ“‚Ì•`‰æˆ—
-//		VERTEX_2D vtx[] = {
+//		Entity::VECTOR2D vtx[] = {
 //			{ D3DXVECTOR4(this->polygonsize_.dx_, this->polygonsize_.dy_ - this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u0,v0) },	//16i 0xffffffff
 //			{ D3DXVECTOR4(this->polygonsize_.dx_ + this->polygonsize_.dw_  , this->polygonsize_.dy_ - this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u1,v0) },  //RGBA
 //			{ D3DXVECTOR4(this->polygonsize_.dx_ + this->polygonsize_.dw_  , this->polygonsize_.dy_ + this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u1,v1) },
@@ -186,7 +197,7 @@
 //			CreateVertex(this->polygonsize_.color_, this->polygonsize_.dx_, this->polygonsize_.dy_, this->polygonsize_.dw_, this->polygonsize_.dh_, this->polygonsize_.tcx_, this->polygonsize_.tcy_, this->polygonsize_.tcw_, this->polygonsize_.tch_);
 //		}
 //
-//		device->SetStreamSource(0, this->vertexbuf_, 0, sizeof(VERTEX_2D));
+//		device->SetStreamSource(0, buffer_.vertex_buffer, 0, sizeof(Entity::VECTOR2D));
 //
 //		//	FVF	(¡‚©‚çŽg—p‚·‚é’¸“_î•ñ)
 //		device->SetFVF(FVF_VERTEX_2D);

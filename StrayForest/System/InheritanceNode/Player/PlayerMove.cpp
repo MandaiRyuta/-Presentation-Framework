@@ -119,6 +119,7 @@ void PlayerMove::Update(CSkinMesh* _skinmesh, D3DXMATRIX& _mtx_position, D3DXMAT
 	static float oldmodelrotation = 0.0f;
 	float modelrotation = 0.0f;
 	modelrotation = oldmodelrotation;
+
 	if (x != 0 || z != 0)
 	{
 		modelrotation = atan2(frontvec_.x, frontvec_.z) + D3DXToRadian(180.0f) + atan2(rotationalposition.x, rotationalposition.z);

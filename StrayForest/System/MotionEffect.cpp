@@ -102,6 +102,14 @@ void MeshEffect::Init()
 
 void MeshEffect::Update()
 {
+	//for (int i = 0; i < 8; i++)
+	//{
+	//	MeshPosition_[i * 2] = MeshPosition_[i * 2 + 2];
+	//	MeshPosition_[i * 2 + 1] = MeshPosition_[i * 2 + 3];
+	//}
+	//D3DXVec3TransformCoord();
+	//MeshPosition_[6] = ;
+	//MeshPosition_[7] = ;
 	D3DXMatrixTranslation(&matrix_.position, 100.0f, 80.0f, 0.0f);
 	D3DXMatrixScaling(&matrix_.scale, 1.0f, 1.0f, 1.0f);
 	D3DXMatrixRotationYawPitchRoll(&matrix_.rotation, 0.0f, 0.0f, 0.0f);
@@ -139,8 +147,7 @@ void MeshEffect::Uninit()
 
 void MeshEffect::VertexBufferCreate(LPDIRECT3DDEVICE9 _device)
 {
-
-
+	
 }
 
 void MeshEffect::IndexBufferCreate(LPDIRECT3DDEVICE9 _device)

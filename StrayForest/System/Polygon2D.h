@@ -10,7 +10,7 @@ private:
 	bool backgroundset_;
 
 	Entity::POLYGONSIZE polygonsize_;
-
+	Entity::Dx9Buffer buffer_;
 	std::string filename_;
 
 	int texturewidth_;
@@ -53,6 +53,8 @@ public:
 	void SetPolygonScale(float scaleX, float scaleY);
 	void PolygonDrawIn(bool Set);
 	void PolygonWidthSet(float width);
+	/*2Dポリゴンサイズ設定*/
+	Entity::POLYGONSIZE SetPolygonsize();
 public:
 	static CScene2D* Create(bool set, Entity::POLYGONSIZE polygonsize, std::string filename, int texturewidth, int textureheight, bool backgroundset);
 };

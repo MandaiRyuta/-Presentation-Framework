@@ -1,6 +1,7 @@
 #pragma once
 #include "PlayerMove.h"
 #include "../../../SkinMeshAnimation/ModelAnim.h"
+
 class PlayerMoveManager
 {
 public:
