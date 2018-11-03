@@ -2,18 +2,11 @@
 
 #include "../../../../SkinMeshAnimation/ModelAnim.h"
 
-class BossEnemyDeffencePattern01;
-class BossEnemyDeffencePattern02;
-
 class BossEnemyDeffenceManager
 {
 public:
 	BossEnemyDeffenceManager() {}
 	~BossEnemyDeffenceManager() {}
 public:
-	void Init();
-	void Update();
-private:
-	BossEnemyDeffencePattern01* deffence01_;
-	BossEnemyDeffencePattern02* deffence02_;
+	virtual void Update(CSkinMesh * _skinmesh, D3DXMATRIX & _mtx_position, D3DXMATRIX & _mtx_rotation) = 0;
 };

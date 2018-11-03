@@ -1,13 +1,12 @@
 #pragma once
 
-#include "../../../../SkinMeshAnimation/ModelAnim.h"
+#include "BossEnemyDeffenceManager.h"
 
-class BossEnemyDeffencePattern02
+class BossEnemyDeffencePattern02 : public BossEnemyDeffenceManager
 {
-private:
+public:
 	BossEnemyDeffencePattern02() {}
 	~BossEnemyDeffencePattern02() {}
 public:
-	void Init();
-	void Update(CSkinMesh* _skinmesh);
+	void Update(CSkinMesh * _skinmesh, D3DXMATRIX & _mtx_position, D3DXMATRIX & _mtx_rotation) override;
 };

@@ -2,12 +2,13 @@
 #include "../../../Entity/Entity.h"
 #include "../../../GameObjectManager/GameObjectManager.h"
 #include "../../../SkinMeshAnimation/ModelAnim.h"
-#include "BossAttack\BossAttackDamageManager.h"
-#include "BossSkill\BossEnemySkillManager.h"
-#include "BossMagic\BossEnemyMagicManager.h"
-#include "BossEnemyMoveManager.h"
-#include "BossEnemyStateManager.h"
 
+class BossEnemyDeffenceManager;
+class BossAttackDamageManager;
+class BossEnemySkillManager;
+class BossEnemyMagicManager;
+class BossEnemyStatusManager;
+class BossEnemyMoveManager;
 class BossEnemy : public GameObjectManager
 {
 public:
@@ -25,10 +26,28 @@ private:
 	CSkinMesh* skinmesh_;
 	D3DXVECTOR3 scale_;
 	BossEnemyMoveManager* move_;
-	BossAttackDamageManager* attack_;
-	BossEnemySkillManager* skill_;
-	BossEnemyMagicManager* magic_;
-	BossEnemyStatusManager* state_;
+	BossEnemyMoveManager* rotate_;
+
+	BossEnemyDeffenceManager* deffence01_;
+	BossEnemyDeffenceManager* deffence02_;
+	
+	BossAttackDamageManager* attack01_;
+	BossAttackDamageManager* attack02_;
+	BossAttackDamageManager* attack03_;
+	
+	BossEnemySkillManager* skill01_;
+	BossEnemySkillManager* skill02_;
+	BossEnemySkillManager* skill03_;
+	
+	BossEnemyMagicManager* magic01_;
+	BossEnemyMagicManager* magic02_;
+	BossEnemyMagicManager* magic03_;
+	
+	BossEnemyStatusManager* healthstate_;
+	BossEnemyStatusManager* manastate_;
+	BossEnemyStatusManager* powerstate_;
+	Entity::BOSSSTATUS status_;
+	Entity::BOSSMOVESTATE movestate_;
 	Entity::MATRIX3D matrix_;
 	static D3DXMATRIX world_;
 };

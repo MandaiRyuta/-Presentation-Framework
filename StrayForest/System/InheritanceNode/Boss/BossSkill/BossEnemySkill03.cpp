@@ -1,5 +1,5 @@
 #include "BossEnemySkill03.h"
 
-void BossEnemySkill03::Update(CSkinMesh * _skinmesh)
+void BossEnemySkill03::Update(CSkinMesh * _skinmesh, D3DXMATRIX & _mtx_position, D3DXMATRIX & _mtx_rotation)
 {
 }

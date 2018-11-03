@@ -26,6 +26,37 @@ namespace Entity
 		D3DXCOLOR color;
 	};
 
+	struct BOSSSTATUS
+	{
+		bool hit;
+		bool skill;
+		bool magic;
+		bool buff;
+		bool debuff;
+		bool heal;
+
+		int attack_number;
+		int skill_number;
+		int magic_number;
+		int buff_number;
+		int debuff_number;
+		int hit_number;
+		int heal_number;
+
+		double heal_amount;
+		double health_amount;
+		double mana_amount;
+		double power_amount;
+	};
+
+	struct BOSSMOVESTATE
+	{
+		float basic_highspeed_;
+		float basic_lowspeed_;
+		float variable_speed_;
+		int movestate_;
+	};
+
 	struct POLYGONSIZE
 	{
 		float        dx_;
