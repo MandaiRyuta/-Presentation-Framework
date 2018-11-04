@@ -1,2 +1,47 @@
-﻿  StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Release\StrayForest.exe
+﻿  GameObjectManager.cpp
+  ModelLoder.cpp
+  TextureLoder.cpp
+  main.cpp
+  GameManager.cpp
+  Renderer.cpp
+  SceneGame.cpp
+  SceneResult.cpp
+  SceneTitle.cpp
+  EffectShaderManager.cpp
+  ShaderManager.cpp
+  ModelAnim.cpp
+  BossEnemy.cpp
+  BossEnemyHealth.cpp
+  BossEnemyRotation.cpp
+  BossEnemyMana.cpp
+  BossEnemyMove.cpp
+  BossEnemyPower.cpp
+  Camera.cpp
+  Instancing3D.cpp
+  コンパイル中...
+  Light.cpp
+  MeshFiled.cpp
+  Player2ItemManager.cpp
+  Player2Move.cpp
+  Player.cpp
+  PlayerMove.cpp
+  PlayerPowerDown.cpp
+  PlayerPowerUp.cpp
+  PlayerStamina.cpp
+  Sea.cpp
+  Skydome.cpp
+  MotionEffect.cpp
+System\MotionEffect.cpp(38): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+System\MotionEffect.cpp(39): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+System\MotionEffect.cpp(40): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+System\MotionEffect.cpp(41): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+System\MotionEffect.cpp(42): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+  Polygon3D.cpp
+  Sound.cpp
+  コード生成しています。
+  0 of 2277 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  コード生成が終了しました。
+  StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Release\StrayForest.exe
   StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Release\StrayForest.pdb (Full PDB)

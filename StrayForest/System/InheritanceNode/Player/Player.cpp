@@ -3,6 +3,7 @@
 #include "../../../main.h"
 #include "../../../SceneManager/InheritanceNode/SceneGame.h"
 #include "../MeshFiled.h"
+#include "PlayerMove/PlayerMove.h"
 
 D3DXMATRIX Player::world_;
 
@@ -14,8 +15,8 @@ void Player::Init()
 	
 	scale_ = D3DXVECTOR3(30.0f, 30.0f, 30.0f);
 
-	move_ = new PlayerMoveManager;
-	move_->Init();
+	move_ = new PlayerMove;
+
 	D3DXMatrixIdentity(&this->matrix_.position);
 	D3DXMatrixIdentity(&this->matrix_.rotation);
 	D3DXMatrixIdentity(&this->matrix_.scale);

@@ -1,16 +1,11 @@
 #pragma once
-
-class PlayerState;
+#include "../../../../Entity/Entity.h"
 
 class PlayerStateManager
 {
 public:
 	PlayerStateManager() {}
 	virtual ~PlayerStateManager() {}
-
 public:
-	void Update();
-	void Draw();
-private:
-	PlayerState* playerstate_;
+	virtual void Update(Entity::PLAYERSTATUS& _playerstate) = 0;
 };

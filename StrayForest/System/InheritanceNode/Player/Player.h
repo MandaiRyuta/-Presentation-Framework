@@ -2,9 +2,9 @@
 #include "../../../Entity/Entity.h"
 #include "../../../GameObjectManager/GameObjectManager.h"
 #include "../../../SkinMeshAnimation/ModelAnim.h"
-#include "PlayerActionManager.h"
-#include "PlayerMoveManager.h"
-#include "PlayerStateManager.h"
+#include "PlayerAttack/PlayerAttackManager.h"
+#include "PlayerMove/PlayerMoveManager.h"
+#include "PlayerState/PlayerStateManager.h"
 
 class Player : public GameObjectManager
 {

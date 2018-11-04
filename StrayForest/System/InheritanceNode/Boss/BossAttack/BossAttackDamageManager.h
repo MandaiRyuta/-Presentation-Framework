@@ -6,7 +6,7 @@ class BossAttackDamageManager
 {
 public:
 	BossAttackDamageManager() {}
-	~BossAttackDamageManager() {}
+	virtual ~BossAttackDamageManager() {}
 public:
 	virtual void Update(CSkinMesh* _skinmesh, D3DXMATRIX& _mtx_position, D3DXMATRIX& _mtx_rotation) = 0;
 };

@@ -11,7 +11,7 @@ class BossEnemyStatusManager
 {
 public:
 	BossEnemyStatusManager() {}
-	~BossEnemyStatusManager() {}
+	virtual ~BossEnemyStatusManager() {}
 public:
 	virtual void Update(Entity::BOSSSTATUS& _bossstatus) = 0;
 };

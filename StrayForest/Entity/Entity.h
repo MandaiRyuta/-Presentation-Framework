@@ -25,6 +25,29 @@ namespace Entity
 		D3DLIGHT9 light;
 		D3DXCOLOR color;
 	};
+	struct GUARDIANSTATE
+	{
+		int guardiantype;
+	};
+	struct PLAYERSTATUS
+	{
+		bool hit;
+		bool skill; 
+		bool power;
+		bool stamina;
+
+		int attack_number;
+		int skill_number;
+		int buff_number;
+		int debuff_number;
+		int hit_number;
+		int heal_number;
+
+		double heal_amount;
+		double helth_amount;
+		double mana_amount;
+		double power_amount;
+	};
 
 	struct BOSSSTATUS
 	{

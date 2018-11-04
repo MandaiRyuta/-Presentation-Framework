@@ -6,7 +6,7 @@ class BossEnemyMagicManager
 {
 public:
 	BossEnemyMagicManager() {}
-	~BossEnemyMagicManager() {}
+	virtual ~BossEnemyMagicManager() {}
 public:
 	virtual void Update(CSkinMesh * _skinmesh, D3DXMATRIX & _mtx_position, D3DXMATRIX & _mtx_rotation) = 0;
 };

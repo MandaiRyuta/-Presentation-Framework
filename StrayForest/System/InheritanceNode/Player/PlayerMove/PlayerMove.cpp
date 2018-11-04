@@ -1,8 +1,8 @@
 #include "PlayerMove.h"
-#include "../../../Renderer/GameManager.h"
-#include "../../../SceneManager/InheritanceNode/SceneGame.h"
-#include "../MeshFiled.h"
-#include "../Camera.h"
+#include "../../../../InputManager/input.h"
+#include "../../../../Renderer/GameManager.h"
+#include "../../../../SceneManager/InheritanceNode/SceneGame.h"
+#include "../../MeshFiled.h"
 
 void PlayerMove::Update(CSkinMesh* _skinmesh, D3DXMATRIX& _mtx_position, D3DXMATRIX& _mtx_rotation)
 {
@@ -25,12 +25,11 @@ void PlayerMove::Update(CSkinMesh* _skinmesh, D3DXMATRIX& _mtx_position, D3DXMAT
 	float moverotation = atan2(frontvec_.x, frontvec_.z) + D3DXToRadian(180.0f);
 	D3DXMatrixRotationAxis(&setrot, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), moverotation);
 	D3DXVec3TransformNormal(&move_, &move_, &setrot);
-	static int counttime = 0;
-	static int sleeptime = 0;
+
 	if (x == 0 && z == 0)
 	{
-		sleeptime++;
-		if (sleeptime >= 15)
+		sleeptime_++;
+		if (sleeptime_ >= 15)
 		{
 			_skinmesh->SetAnimSpeed(0.02f);
 			_skinmesh->SetAnimTrack(0.15);
@@ -39,7 +38,7 @@ void PlayerMove::Update(CSkinMesh* _skinmesh, D3DXMATRIX& _mtx_position, D3DXMAT
 	}
 	else
 	{
-		sleeptime = 0;
+		sleeptime_ = 0;
 	}
 
 	if (keyboard_->GetKeyTrigger(DIK_A))
@@ -77,38 +76,38 @@ void PlayerMove::Update(CSkinMesh* _skinmesh, D3DXMATRIX& _mtx_position, D3DXMAT
 	switch (AnimPattern_)
 	{
 	case STATE:
-		if (counttime <= 30)
+		if (counttime_ <= 30)
 		{
-			counttime++;
+			counttime_++;
 		}
 		else
 		{
 			_skinmesh->SetAnimTrack(0.15);
-			counttime = 0;
+			counttime_ = 0;
 		}
 		break;
 	case WALK:
 		movespeed_ = 1.2f;
-		if (counttime <= 40)
+		if (counttime_ <= 40)
 		{
-			counttime++;
+			counttime_++;
 		}
 		else
 		{
 			_skinmesh->SetAnimTrack(0);
-			counttime = 0;
+			counttime_ = 0;
 		}
 		break;
 	case RUN:
 		movespeed_ = 2.0f;
-		if (counttime <= 20)
+		if (counttime_ <= 20)
 		{
-			counttime++;
+			counttime_++;
 		}
 		else
 		{
 			_skinmesh->SetAnimTrack(0.008);
-			counttime = 0;
+			counttime_ = 0;
 		}
 		break;
 	default:
