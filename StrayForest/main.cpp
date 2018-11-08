@@ -36,8 +36,6 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND _hWnd, UINT _msg, WPARAM _wPa
 //グローバル変数
 //
 //********************************************************************************
-int nWindowWidth;
-int nWindowHeight;
 GameManager* gamemanager;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevinstance, LPSTR lpCmdLine, int nCmdShow)
@@ -51,7 +49,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevinstance, LPSTR lpCmdLi
 	// ウィンドウクラスの登録
 	WNDCLASSEX wcex;
 	wcex.cbSize = sizeof(WNDCLASSEX);
-	wcex.style = CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS;
+	wcex.style = CS_VREDRAW | CS_HREDRAW;
 	wcex.lpfnWndProc = WndProc;
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
@@ -65,33 +63,40 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevinstance, LPSTR lpCmdLi
 
 	RegisterClassEx(&wcex);		// WNDCLASSEX型のwcexの中身を登録
 
-								// クライアントサイズの設定
-	DWORD WStyle = WS_OVERLAPPEDWINDOW & ~(WS_THICKFRAME | WS_MAXIMIZEBOX);
-	RECT wr = { 0, 0, windows_rect::SCREEN_WIDTH, windows_rect::SCREEN_HEIGHT };	// 矩形データ
+	RECT dw;
 
-	AdjustWindowRect(&wr, WStyle, FALSE);
+	int nWindowWidth = windows_rect::SCREEN_WIDTH;
+	int nWindowHeight = windows_rect::SCREEN_HEIGHT;
+	int nWindowTop, nWindowLeft;
+	DWORD WStyle;
+	GetWindowRect(GetDesktopWindow(), &dw);
 
-	nWindowWidth = wr.right - wr.left;
-	nWindowHeight = wr.bottom - wr.top;
-
-	// ウィンドウの場所を中央に変更
-	// デスクトップサイズの取得
-	RECT DesktopRect;
-
-	GetWindowRect(GetDesktopWindow(), &DesktopRect);
-	int nWindowPosX = (DesktopRect.right - nWindowWidth) / 2;
-	int nWindowPosY = (DesktopRect.bottom - nWindowHeight) / 2;
-
-	(DesktopRect.right - DesktopRect.left) < nWindowPosX ? nWindowPosX = 0 : nWindowPosX;
-	(DesktopRect.bottom - DesktopRect.top) < nWindowPosY ? nWindowPosY = 0 : nWindowPosY;
+	if (((dw.bottom - nWindowHeight) > 0) && ((dw.right - nWindowWidth) > 0))
+	{
+		WStyle = WS_OVERLAPPEDWINDOW;
+		RECT wr = { 0, 0, nWindowWidth, nWindowHeight };
+		AdjustWindowRect(&wr, WStyle, false);
+		nWindowWidth -= wr.left;
+		nWindowHeight -= wr.top;
+		nWindowTop = (dw.bottom - nWindowHeight) / 2;
+		nWindowLeft = (dw.right - nWindowWidth) / 2;
+	}
+	else
+	{
+		WStyle = WS_POPUPWINDOW;
+		nWindowTop = dw.top;
+		nWindowLeft = dw.left;
+		nWindowHeight = dw.bottom;
+		nWindowWidth = dw.right;
+	}
 
 	// ウィンドウの作成
 	HWND hWnd = CreateWindowEx(0,
 		CLASS_NAME.c_str(),
 		WINDOW_NAME.c_str(),
 		WStyle,
-		nWindowPosX + GetSystemMetrics(SM_CXDLGFRAME) * 2,
-		nWindowPosY + GetSystemMetrics(SM_CXDLGFRAME) * 2 + GetSystemMetrics(SM_CYCAPTION),
+		nWindowLeft,
+		nWindowTop,
 		nWindowWidth,
 		nWindowHeight,
 		NULL,
@@ -281,14 +286,4 @@ LRESULT CALLBACK WndProc(HWND _hWnd, UINT _uMsg, WPARAM _wParam, LPARAM _lParam)
 	}
 
 	return DefWindowProc(_hWnd, _uMsg, _wParam, _lParam);
-}
-
-int getwindow_width()
-{
-	return nWindowWidth;
-}
-
-int getwindow_height()
-{
-	return nWindowHeight;
 }
