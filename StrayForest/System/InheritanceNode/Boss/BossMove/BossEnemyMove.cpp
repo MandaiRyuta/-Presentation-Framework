@@ -8,7 +8,7 @@ void BossEnemyMove::Update(CSkinMesh * _skinmesh, D3DXMATRIX & _mtx_position, D3
 	bossstatus_ = _bossstatus;
 
 	D3DXVECTOR3 PlayerPosition = D3DXVECTOR3(Player::GetPlayerMatrix()._41, 0.0f, Player::GetPlayerMatrix()._43);
-	D3DXVECTOR3 AxisMove = D3DXVECTOR3(_mtx_position._41, 0.0f, _mtx_position._43) - PlayerPosition;
+	D3DXVECTOR3 AxisMove = PlayerPosition - D3DXVECTOR3(_mtx_position._41, 0.0f, _mtx_position._43);
 	D3DXVec3Normalize(&AxisMove, &AxisMove);
 	
 	position_.y = SceneGame::GetMeshFiled()->GetHeight(position_);
@@ -33,4 +33,6 @@ void BossEnemyMove::Update(CSkinMesh * _skinmesh, D3DXMATRIX & _mtx_position, D3
 
 	//ˆÚ“®
 	position_ += movespeed_;
+
+	D3DXMatrixTranslation(&_mtx_position, position_.x, position_.y, position_.z);
 }

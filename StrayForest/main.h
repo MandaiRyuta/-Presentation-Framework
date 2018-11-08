@@ -22,6 +22,9 @@
 
 namespace windows_rect
 {
-	constexpr int SCREEN_WIDTH = 1024;
-	constexpr int SCREEN_HEIGHT = 800;
+	constexpr int SCREEN_WIDTH = 1280;
+	constexpr int SCREEN_HEIGHT = 720;
 }
+
+int getwindow_width();
+int getwindow_height();

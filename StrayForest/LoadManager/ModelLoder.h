@@ -8,6 +8,8 @@ enum LOADMODEL
 {
 	SKYDOME,
 	TREE,
+	TESTMODEL,
+	SHADOW,
 	MODEL_MAX,	//ƒ‚ƒfƒ‹‚ÌÅ‘åŒÂ”
 };
 

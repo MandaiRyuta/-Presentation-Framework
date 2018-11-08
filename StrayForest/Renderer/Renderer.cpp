@@ -53,7 +53,7 @@ bool CDX9Renderer::DX9Init(HWND hWnd, bool bWindow, int nWindowWidth, int nWindo
 	d3dpp_.BackBufferCount = 1;							//	バックバッファの数
 	d3dpp_.SwapEffect = D3DSWAPEFFECT_DISCARD;		//	映像信号の同期(DISCARDは垂直同期を気にする)
 	d3dpp_.EnableAutoDepthStencil = TRUE;						//	TRUEで良い
-	d3dpp_.AutoDepthStencilFormat = D3DFMT_D16;					//	今はこれで良い上のフォーマット
+	d3dpp_.AutoDepthStencilFormat = D3DFMT_D24S8;					//	今はこれで良い上のフォーマット ※ステンシルシャドウの実装のために設定
 	d3dpp_.Windowed = bWindow;						//	TRUEでウィンドウモード,FALSEでフルスクリーンモード
 	d3dpp_.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;		//	フルスクリーンモードの時のリフレッシュレートのHz数を変更
 	d3dpp_.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;	//	モニターのHz数に合わせて描画される(IMMEDIATEだと垂直同期を待たずに描画する)
@@ -70,6 +70,7 @@ bool CDX9Renderer::DX9Init(HWND hWnd, bool bWindow, int nWindowWidth, int nWindo
 		MessageBox(hWnd, "Direct3DDeviceの作成に失敗しました", "エラー", MB_OK);
 		return false;
 	}
+
 	device_->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 	device_->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	device_->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -82,7 +83,7 @@ bool CDX9Renderer::DX9Init(HWND hWnd, bool bWindow, int nWindowWidth, int nWindo
 	device_->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 	device_->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
-		// Setup ImGui binding
+	// Setup ImGui binding
 	ImGui_ImplDX9_Init(hWnd, device_);
 	return true;
 }

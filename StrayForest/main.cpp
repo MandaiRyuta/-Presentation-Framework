@@ -36,7 +36,10 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND _hWnd, UINT _msg, WPARAM _wPa
 //グローバル変数
 //
 //********************************************************************************
+int nWindowWidth;
+int nWindowHeight;
 GameManager* gamemanager;
+
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevinstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	// 使っていない引数の処理
@@ -68,8 +71,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevinstance, LPSTR lpCmdLi
 
 	AdjustWindowRect(&wr, WStyle, FALSE);
 
-	int nWindowWidth = wr.right - wr.left;
-	int nWindowHeight = wr.bottom - wr.top;
+	nWindowWidth = wr.right - wr.left;
+	nWindowHeight = wr.bottom - wr.top;
 
 	// ウィンドウの場所を中央に変更
 	// デスクトップサイズの取得
@@ -226,6 +229,7 @@ LRESULT CALLBACK WndProc(HWND _hWnd, UINT _uMsg, WPARAM _wParam, LPARAM _lParam)
 
 	LPDIRECT3DDEVICE9 device = GetDevice();
 	D3DPRESENT_PARAMETERS parameter = GetParameter();
+	HRESULT hr;
 	if (ImGui_ImplWin32_WndProcHandler(_hWnd, _uMsg, _wParam, _lParam))
 		return true;
 	switch (_uMsg)
@@ -236,7 +240,7 @@ LRESULT CALLBACK WndProc(HWND _hWnd, UINT _uMsg, WPARAM _wParam, LPARAM _lParam)
 			ImGui_ImplDX9_InvalidateDeviceObjects();
 			parameter.BackBufferWidth = LOWORD(_lParam);
 			parameter.BackBufferHeight = HIWORD(_lParam);
-			HRESULT hr = device->Reset(&parameter);
+			hr = device->Reset(&parameter);
 			ImGui_ImplDX9_CreateDeviceObjects();
 		}
 		return 0;
@@ -277,4 +281,14 @@ LRESULT CALLBACK WndProc(HWND _hWnd, UINT _uMsg, WPARAM _wParam, LPARAM _lParam)
 	}
 
 	return DefWindowProc(_hWnd, _uMsg, _wParam, _lParam);
+}
+
+int getwindow_width()
+{
+	return nWindowWidth;
+}
+
+int getwindow_height()
+{
+	return nWindowHeight;
 }

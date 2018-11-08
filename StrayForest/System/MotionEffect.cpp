@@ -35,11 +35,11 @@ void MeshEffect::Init()
 	*/
 	for (int i = 0; i < 8; i += 2)
 	{
-		nX = 5.0f * i;
-		nY = 40.0f;
-		nY2 = 0.0f;
-		mpv_[i].position = D3DXVECTOR3(nX, nY, 0.0f);
-		mpv_[i + 1].position = D3DXVECTOR3(nX, nY2, 0.0f);
+		nX = 5 * i;
+		nY = 40;
+		nY2 = 0;
+		mpv_[i].position = D3DXVECTOR3((float)nX, (float)nY, 0.0f);
+		mpv_[i + 1].position = D3DXVECTOR3((float)nX, (float)nY2, 0.0f);
 	}
 
 	buffer_.vertex_buffer->Unlock();

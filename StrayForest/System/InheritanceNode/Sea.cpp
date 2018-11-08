@@ -6,7 +6,7 @@ void Sea::Init()
 	LPDIRECT3DDEVICE9 device = GetDevice();
 
 	int nCount = 0;
-	float fStartX = -WAVE_XSize * (WAVE_X / 2), fStartY = 0.0f, fStartZ = WAVE_ZSize * (WAVE_Z / 2);
+	float fStartX = -WAVE_XSize * (WAVE_X / 2), fStartZ = WAVE_ZSize * (WAVE_Z / 2);
 
 	int nCx = WAVE_X + 1, nCy = WAVE_Z + 1;
 
@@ -78,7 +78,7 @@ void Sea::Init()
 
 	buffer_.index_buffer->Lock(0, 0, (void**)&ppIndex, D3DLOCK_DISCARD);
 
-	for (int nCount = 0; nCount < this->number_of_indices_; nCount++)
+	for (nCount = 0; nCount < this->number_of_indices_; nCount++)
 	{
 		//インデックス偶数番の縮退
 		if (nCount == nC)
@@ -90,23 +90,23 @@ void Sea::Init()
 		//インデックス偶数番
 		if (nCount % 2 == 0)
 		{
-			ppIndex[nCount] = nCx + nS;
+			ppIndex[nCount] = (WORD)nCx + (WORD)nS;
 			nS++;
 		}
 		//インデックス奇数番の縮退
 		if (nCount == nD)
 		{
-			ppIndex[nCount] = nCx + nS;
+			ppIndex[nCount] = (WORD)nCx + (WORD)nS;
 			nD += (2 * (nCx + 1));
 			continue;
 		}
 		//インデックス奇数番
 		if (nCount % 2 == 1)
 		{
-			ppIndex[nCount] = nF;
+			ppIndex[nCount] = (WORD)nF;
 			if (nCount == ((nC * nCx) - 1))
 			{
-				ppIndex[nCount] = nF;
+				ppIndex[nCount] = (WORD)nF;
 				continue;
 			}
 			else
@@ -192,7 +192,7 @@ void Sea::Update()
 	LPDIRECT3DDEVICE9 device = GetDevice();
 
 	int nCount = 0;
-	float fStartX = -WAVE_XSize * (WAVE_X / 2), fStartY = 0.0f, fStartZ = WAVE_ZSize * (WAVE_Z / 2);
+	float fStartX = -WAVE_XSize * (WAVE_X / 2), fStartZ = WAVE_ZSize * (WAVE_Z / 2);
 
 	int nCx = WAVE_X + 1, nCy = WAVE_Z + 1;
 

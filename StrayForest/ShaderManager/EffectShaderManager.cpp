@@ -2,6 +2,7 @@
 
 std::vector<LPD3DXEFFECT> EffectShaderManager::effects_;
 int	EffectShaderManager::effectcount_ = 0;
+
 void EffectShaderManager::EffectLoad(std::string _filepath)
 {
 	LPD3DXEFFECT effect;

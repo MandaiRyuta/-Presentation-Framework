@@ -46,9 +46,12 @@ void GameManager::Init()
 	TextureLoder::LoadData("Resource/Texture/sea.png");
 	ModelLoder::LoadData("Resource/Model/skydomemodel.x");
 	ModelLoder::LoadData("Resource/Model/treemodel.x");
+	ModelLoder::LoadData("Resource/Model/TestGurdian.x");
+	ModelLoder::LoadData("Resource/Model/Shadow.x");
 	EffectShaderManager::EffectLoad("Resource/Shader/ModelShader.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/Instance3D.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/SkinMeshShader.fx");
+	EffectShaderManager::EffectLoad("Resource/Shader/Guardian.fx");
 	//EffectShaderManager::EffectLoad("Resource/Shader/BumpMap.fx");
 	SetSceneMode(new SceneGame);
 }
@@ -66,7 +69,7 @@ void GameManager::Draw()
 	LPDIRECT3DDEVICE9 device_ = GetDevice();
 	device_->Clear(0,										// RECT構造体配列の矩形の数
 		NULL,									// RECT構造体の先頭アドレス(画面全体はNULL)
-		(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),	// TARGETは色のクリア、ZBUFFERはZバッファのクリア
+		(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL),	// TARGETは色のクリア、ZBUFFERはZバッファのクリア STENCIL ステンシルシャドウの実装のために設定
 		D3DCOLOR_RGBA(30, 64, 192, 255),		// クリアカラ―(TARGETがあるとき)
 		1.0f,									// Zバッファのクリア値
 		0);									// ステンシル値のクリア値
@@ -125,6 +128,7 @@ void GameManager::Uninit()
 		delete mouse_;
 		mouse_ = nullptr;
 	}
+
 	TextureLoder::RelaseAll();
 	ModelLoder::ReleseAll();
 	EffectShaderManager::ReleaseAll();

@@ -25,10 +25,7 @@ namespace Entity
 		D3DLIGHT9 light;
 		D3DXCOLOR color;
 	};
-	struct GUARDIANSTATE
-	{
-		int guardiantype;
-	};
+
 	struct PLAYERSTATUS
 	{
 		bool hit;
@@ -158,31 +155,31 @@ namespace Entity
 	struct EffectSoundParameter
 	{
 		//ReflectionDelay:ダイレクトパスに対する初期反射の遅延時間　指定範囲可能範囲　0 ~ 300ミリ秒
-		int ReflectionsDelay;
+		BYTE ReflectionsDelay;
 		//ReverbDelay:初期反射に対するリバーブの遅延、指定範囲は0～85ミリ秒
-		int ReverbDelay;
+		BYTE ReverbDelay;
 		//RearDelay:左後方出力及び右後方出力の遅延　指定可能範囲 0～85ミリ秒
-		int RearDelay;
+		BYTE RearDelay;
 		//PositionLeft:シミュレーション空間における視聴者に対する左入力の位置。　指定可能範囲は 0 ~ 30　（単位なし）
-		int PositionLeft;
+		BYTE PositionLeft;
 		//PositionRight: PositionLeftと同様右入力にのみ影響します。　指定可能範囲は 0 ~ 30(単位なし）
-		int PositionRight;
+		BYTE PositionRight;
 		//PositionMatrixRight&Left:音源から視聴者まで距離によるインプレッションを増減させる。　指定可能範囲は 0 ~ 30（単位なし）
-		int PositionMatrixLeft;
-		int PositionMatrixRight;
+		BYTE PositionMatrixLeft;
+		BYTE PositionMatrixRight;
 		//EarlyDiffusion:個々の壁の反射特性を制御します。堅く平らな表面シミュレートするには小さな値を設定し、
 		//散乱性の表面をシミュレートするには大きな値を設定。　指定可能範囲 0 ~15(単位なし）
-		int EarlyDiffusion;
+		BYTE EarlyDiffusion;
 		//LateDiffusion:個々の壁のリバーブ特性を制御。指定可能範囲 0 ~ 15(単位なし）
-		int LateDiffusion;
+		BYTE LateDiffusion;
 		//LowEQGain: 1kHzにおける減衰時間を基準にして低周波数の減衰時間を調整. 指定可能範囲 0 ~ 12(単位なし)
-		int LowEQGain;
+		BYTE LowEQGain;
 		//LowEQCutoff:パラメーターにより制御されるローパスフィルターの折点周波数を設定。指定漢方範囲 0 ~ 9 (単位なし)
-		int LowEQCutoff;
+		BYTE LowEQCutoff;
 		//HighEQGain:減衰時間を基準にして高周波数の減衰時間を調整。 0 の場合　高周波数の音が1khzの場合と同じ割合で減衰します。　指定可能範囲 0 ~ 8(単位なし)
-		int HighEQGain;
+		BYTE HighEQGain;
 		//HighEQCutoff: HighEQGainパラメーターにより制御されるハイパスフィルターの接点周波数を設定。　指定可能範囲 0 ~ 14(単位なし）
-		int HighEQCutoff;
+		BYTE HighEQCutoff;
 		//RoomFilterFreq:室内エフェクトのローパスフィルターの接点周波数を設定。　指定可能範囲は 20 ~ 20,000Hz
 		float RoomFilterFreq;
 		//RoomFilterMain:初期反射と後期フィールド残響の両方に適用されるローパスフィルターのパス バンド強度レベルを設定。　指定可能範囲 -100 ~ 0dB

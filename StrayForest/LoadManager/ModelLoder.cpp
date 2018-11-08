@@ -87,5 +87,4 @@ void ModelLoder::ReleseAll()
 	//		delete[] model_[i]->p_meshmaterial;
 	//	}
 	//}
-
 }

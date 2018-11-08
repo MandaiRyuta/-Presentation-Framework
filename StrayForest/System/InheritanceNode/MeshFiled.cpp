@@ -79,8 +79,18 @@ void MeshFiled::Draw()
 	device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
 	
 	device->SetMaterial(&meshmaterial_);
-	device->SetRenderState(D3DRS_LIGHTING, true);
-	device->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+	device->SetRenderState(D3DRS_LIGHTING, TRUE);
+	device->SetRenderState(D3DRS_NORMALIZENORMALS, TRUE);
+	/*ステンシルシャドウ実装の為追加*/
+	//device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//device->SetRenderState(D3DRS_STENCILENABLE, TRUE);					//ステンシル有効
+	//device->SetRenderState(D3DRS_COLORWRITEENABLE, 0);					//カラー無効
+	//device->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
+	//device->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR);		//+1の計算をする
+	//device->SetRenderState(D3DRS_STENCILREF, 1);
+	//device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);				//カリングの設定　モデルの表面だけ描画
+	//
+
 	device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 	device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);

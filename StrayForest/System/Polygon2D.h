@@ -7,6 +7,7 @@
 class CScene2D : public GameObjectManager
 {
 private:
+#define FVF_VERTEX_2D (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 	bool backgroundset_;
 
 	Entity::POLYGONSIZE polygonsize_;

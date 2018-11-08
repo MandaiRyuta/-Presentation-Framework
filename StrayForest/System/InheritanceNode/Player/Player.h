@@ -20,6 +20,8 @@ public:
 	static Player* Create();
 
 	static D3DXMATRIX GetPlayerMatrix();
+	static D3DXMATRIX GetPlayerPosMatrix();
+	static D3DXMATRIX GetPlayerRotMatrix();
 private:
 	CSkinMesh* skinmesh_;
 
@@ -30,4 +32,6 @@ private:
 	
 	Entity::MATRIX3D matrix_;
 	static D3DXMATRIX world_;
+	static D3DXMATRIX pos_;
+	static D3DXMATRIX rot_;
 };

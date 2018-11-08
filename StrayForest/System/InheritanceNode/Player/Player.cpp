@@ -6,7 +6,8 @@
 #include "PlayerMove/PlayerMove.h"
 
 D3DXMATRIX Player::world_;
-
+D3DXMATRIX Player::rot_;
+D3DXMATRIX Player::pos_;
 void Player::Init()
 {
 	LPDIRECT3DDEVICE9 device = GetDevice();
@@ -32,6 +33,8 @@ void Player::Update()
 
 	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
 	
+	pos_ = matrix_.position;
+	rot_ = matrix_.rotation;
 	world_ = matrix_.world;
 }
 
@@ -61,6 +64,8 @@ void Player::Uninit()
 {
 	skinmesh_->Release();
 	delete skinmesh_;
+
+	delete move_;
 }
 
 Player * Player::Create()
@@ -73,4 +78,14 @@ Player * Player::Create()
 D3DXMATRIX Player::GetPlayerMatrix()
 {
 	return world_;
+}
+
+D3DXMATRIX Player::GetPlayerPosMatrix()
+{
+	return pos_;
+}
+
+D3DXMATRIX Player::GetPlayerRotMatrix()
+{
+	return rot_;
 }
