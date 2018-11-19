@@ -1,18 +1,29 @@
 #include "BossMonster.h"
 #include "BossMonsterAttack\BossMonsterAttackPattern.h"
 #include "BossMonsterMagic\BossMonsterMagicPattern.h"
-#include "BossMonsterPatterns\BossMonsterPattern.h"
 #include "BossMonsterSkill\BossMonsterSkillPattern.h"
+#include "BossMonsterPatterns\BossMonsterPattern.h"
+
+D3DXVECTOR3 BossMonster::GetPos_;
+Entity::MATRIX3D BossMonster::GetMatrix_;
+BossMonster::BossMonster(int _Max_Life, int _Max_Mana) 
+	: GameObjectManager(0)
+	, max_life_(_Max_Life)
+	, life_(_Max_Life)
+	, max_mana_(_Max_Mana)
+	, mana_(_Max_Mana)
+{
+}
 
 void BossMonster::Init()
 {
 	LPDIRECT3DDEVICE9 device = GetDevice();
 	skinmesh_ = new CSkinMesh;
-	skinmesh_->Init(device, "Resource/Model/RPGPlayer.x");
-
+	skinmesh_->Init(device, "Resource/Model/Boss.x");
 	scale_ = D3DXVECTOR3(60.0f, 60.0f, 60.0f);
-
+	skinmesh_->SetAnimSpeed(0.0f);
 	D3DXMatrixIdentity(&matrix_.position);
+	D3DXMatrixTranslation(&matrix_.position, 100.0f, 60.0f, 0.0f);
 	D3DXMatrixIdentity(&matrix_.rotation);
 	D3DXMatrixIdentity(&matrix_.scale);
 	D3DXMatrixIdentity(&matrix_.world);
@@ -20,11 +31,11 @@ void BossMonster::Init()
 
 void BossMonster::Update()
 {
+	skinmesh_->SetAnimSpeed(2.0f);
 	skinmesh_->Update(matrix_.world);
-
 	D3DXMatrixScaling(&matrix_.scale, scale_.x, scale_.y, scale_.z);
-
 	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
+	GetPos_ = D3DXVECTOR3(matrix_.position._41, matrix_.position._42, matrix_.position._43);
 }
 
 void BossMonster::Draw()
@@ -50,12 +61,14 @@ void BossMonster::Uninit()
 	delete skinmesh_;
 }
 
-void BossMonster::Damage(double _damage)
+void BossMonster::Damage(int _damage)
 {
+	life_ -= _damage;
 }
 
 void BossMonster::SetAttack(double _animtrack, float _speed)
 {
+
 }
 
 void BossMonster::SetMagic(double _animtrack, float _speed)
@@ -68,23 +81,27 @@ void BossMonster::SetSkill(double _animtrack, float _speed)
 
 void BossMonster::ChangeBossMonsterMovePattern(BossMonsterPattern * _bossmonsterpattern)
 {
+	bosspattern_ = _bossmonsterpattern;
 }
 
 void BossMonster::ChangeBossMonsterSkillPattern(BossMonsterSkillPattern * _bossmonsterskillpattern)
 {
+	skill_ = _bossmonsterskillpattern;
 }
 
 void BossMonster::ChangeBossMonsterMagicPattern(BossMonsterMagicPattern * _bossmonstermagicpattern)
 {
+	magic_ = _bossmonstermagicpattern;
 }
 
 void BossMonster::ChangeBossMonsterAttackPattern(BossMonsterAttackPattern * _bossmonsterattackpattern)
 {
+	attack_ = _bossmonsterattackpattern;
 }
 
-BossMonster * BossMonster::Create()
+BossMonster * BossMonster::Create(int _Max_Mana, int _Max_Life)
 {
-	BossMonster* createboss = new BossMonster;
+	BossMonster* createboss = new BossMonster(_Max_Mana, _Max_Life);
 	createboss->Init();
 	return createboss;
 }

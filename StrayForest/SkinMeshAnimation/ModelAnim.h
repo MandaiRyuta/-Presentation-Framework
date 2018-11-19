@@ -46,6 +46,7 @@ public:
 	//オブジェクトのアニメーション変更( メッシュオブジェクトの操作用番号, 変更するアニメーション番号 )
 	void ChangeAnim(DWORD NewAnimNum);
 	void SetAnimTrack(DOUBLE _AnimTrack);
+	void MyChangeAnim(double _frame);
 	//現在のアニメーション番号取得
 	DWORD GetAnimTrack() { return m_CurrentTrack; }
 	//現在のアニメーションタイム(アニメーション開始からの時間)を取得

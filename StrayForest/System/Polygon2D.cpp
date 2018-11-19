@@ -123,9 +123,9 @@ Entity::POLYGONSIZE CScene2D::SetPolygonsize()
 	return polysize;
 }
 
-CScene2D * CScene2D::Create(bool set, Entity::POLYGONSIZE polygonsize, std::string filename, int texturewidth, int textureheight, bool backgroundset)
+CScene2D * CScene2D::Create(bool set, int priority ,Entity::POLYGONSIZE polygonsize, std::string filename, int texturewidth, int textureheight, bool backgroundset)
 {
-	CScene2D* scene2D = new CScene2D(2, set, polygonsize, filename, texturewidth, textureheight, backgroundset);
+	CScene2D* scene2D = new CScene2D(priority, set, polygonsize, filename, texturewidth, textureheight, backgroundset);
 	scene2D->Init();
 	return scene2D;
 }
@@ -169,9 +169,9 @@ void CScene2D::Update()
 
 void CScene2D::Draw()
 {
+	LPDIRECT3DDEVICE9 device = GetDevice();
 	if (this->set_)
 	{
-		LPDIRECT3DDEVICE9 device = GetDevice();
 		int tw = this->texturewidth_;
 		int th = this->textureheight_;
 		float u0 = (float)this->polygonsize_.tcx_ / tw;
@@ -205,11 +205,9 @@ void CScene2D::Draw()
 		device->SetRenderState(D3DRS_LIGHTING, false);
 		//ノーマライズ設定
 		device->SetRenderState(D3DRS_NORMALIZENORMALS, false);
-		
-		//device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-		//device->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+
 		//テクスチャ貼り込む
-		//device->SetTexture(0, this->texture_);
+		device->SetTexture(0, NULL);
 
 		//ポリゴンを描いて
 		//DrawPrimitiveUP 遅い、簡単
@@ -217,10 +215,55 @@ void CScene2D::Draw()
 			D3DPT_TRIANGLEFAN, 0,
 			2
 		);	//ポリゴンの数
+
+		device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+		device->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 	}
 	else
 	{
+		int tw = this->texturewidth_;
+		int th = this->textureheight_;
+		float u0 = (float)this->polygonsize_.tcx_ / tw;
+		float v0 = (float)this->polygonsize_.tcy_ / th;
+		float u1 = (float)(this->polygonsize_.tcx_ + this->polygonsize_.tcw_) / tw;
+		float v1 = (float)(this->polygonsize_.tcy_ + this->polygonsize_.tch_) / th;
 
+		///////////////////////////////////////////図１//////////////////////////////////////////////////
+		//ポリゴンの描画処理
+		Entity::VECTOR2D vtx[] = {
+			{ D3DXVECTOR4(this->polygonsize_.dx_, this->polygonsize_.dy_ - this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u0,v0) },	//16進 0xffffffff
+			{ D3DXVECTOR4(this->polygonsize_.dx_ + this->polygonsize_.dw_  , this->polygonsize_.dy_ - this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u1,v0) },  //RGBA
+			{ D3DXVECTOR4(this->polygonsize_.dx_ + this->polygonsize_.dw_  , this->polygonsize_.dy_ + this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u1,v1) },
+			{ D3DXVECTOR4(this->polygonsize_.dx_, this->polygonsize_.dy_ + this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u0,v1) },
+		};
+
+		if (this->polygonsize_.affine_)
+		{
+			CreateVertexAffine(this->polygonsize_.color_, this->polygonsize_.dx_, this->polygonsize_.dy_, this->polygonsize_.dw_, this->polygonsize_.dh_, this->polygonsize_.tcx_, this->polygonsize_.tcy_, this->polygonsize_.tcw_, this->polygonsize_.tch_);
+		}
+		else
+		{
+			CreateVertex(this->polygonsize_.color_, this->polygonsize_.dx_, this->polygonsize_.dy_, this->polygonsize_.dw_, this->polygonsize_.dh_, this->polygonsize_.tcx_, this->polygonsize_.tcy_, this->polygonsize_.tcw_, this->polygonsize_.tch_);
+		}
+
+		device->SetStreamSource(0, buffer_.vertex_buffer, 0, sizeof(Entity::VECTOR2D));
+
+		//	FVF	(今から使用する頂点情報)
+		device->SetFVF(FVF_VERTEX_2D);
+		//ライトON
+		device->SetRenderState(D3DRS_LIGHTING, false);
+		//ノーマライズ設定
+		device->SetRenderState(D3DRS_NORMALIZENORMALS, false);
+
+		//テクスチャ貼り込む
+		device->SetTexture(0, NULL);
+
+		//ポリゴンを描いて
+		//DrawPrimitiveUP 遅い、簡単
+		device->DrawPrimitive(
+			D3DPT_TRIANGLEFAN, 0,
+			2
+		);	//ポリゴンの数
 	}
 }
 

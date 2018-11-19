@@ -463,6 +463,11 @@ void CSkinMesh::SetAnimTrack(DOUBLE _AnimTrack)
 	m_CurrentTrackDesc.Position = _AnimTrack;
 }
 
+void CSkinMesh::MyChangeAnim(double _frame)
+{
+	m_CurrentTrackDesc.Position = _frame;
+}
+
 //オブジェクトのアニメーション変更( 変更するアニメーション番号 )
 void CSkinMesh::ChangeAnim(DWORD _NewAnimNum) {
 

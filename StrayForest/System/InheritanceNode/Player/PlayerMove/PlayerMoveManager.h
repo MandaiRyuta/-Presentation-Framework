@@ -1,11 +1,19 @@
 #pragma once
-#include "../../../../SkinMeshAnimation/ModelAnim.h"
+
+class Player;
 
 class PlayerMoveManager
 {
 public:
 	PlayerMoveManager() {}
 	virtual ~PlayerMoveManager() {}
+	virtual void Update(Player* _player) = 0;
+};
+
+class PlayerMoveNull : public PlayerMoveManager
+{
 public:
-	virtual void Update(CSkinMesh* _skinmesh,D3DXMATRIX& _mtx_position, D3DXMATRIX& _mtx_rotation) = 0;
+	PlayerMoveNull() {}
+	virtual ~PlayerMoveNull() {}
+	virtual void Update(Player* _player) override {}
 };

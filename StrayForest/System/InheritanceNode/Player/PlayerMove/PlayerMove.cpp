@@ -1,17 +1,38 @@
 #include "PlayerMove.h"
-#include "../../../../InputManager/input.h"
-#include "../../../../Renderer/GameManager.h"
+#include "../Player.h"
 #include "../../../../SceneManager/InheritanceNode/SceneGame.h"
 #include "../../MeshFiled.h"
+#include "../../../../InputManager/input.h"
+#include "../../../../Renderer/GameManager.h"
 
-void PlayerMove::Update(CSkinMesh* _skinmesh, D3DXMATRIX& _mtx_position, D3DXMATRIX& _mtx_rotation)
+constexpr float WALKSPEED = 0.5f;
+constexpr float RUNSPEED = 2.5f;
+PlayerMove::PlayerMove()
 {
-	keyboard_ = GameManager::GetKeyboard();
+	position_ = D3DXVECTOR3(-30.0f, 0.0f, 0.0f);
+	upvec_ = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	rightvec_ = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	move_ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	frontvec_ = CCamera::GetAt() - CCamera::GetEye();
+	frontvec_.y = 0.0f;
+	movespeed_ = 1.2f;
+	D3DXVec3Normalize(&frontvec_, &frontvec_);
+	AnimPattern_ = WALK;
+	counttime_ = 0;
+	sleeptime_ = 0;
+}
+
+PlayerMove::~PlayerMove()
+{
+}
+
+void PlayerMove::Update(Player * _player)
+{
 	position_ = CCamera::GetAt();
 	position_.y = SceneGame::GetMeshFiled()->GetHeight(position_);
 
-	int x = -keyboard_->GetKeyPress(DIK_A) + keyboard_->GetKeyPress(DIK_D);
-	int z = -keyboard_->GetKeyPress(DIK_S) + keyboard_->GetKeyPress(DIK_W);
+	int x = -_player->GetKeyboard()->GetKeyPress(DIK_A) + _player->GetKeyboard()->GetKeyPress(DIK_D);
+	int z = -_player->GetKeyboard()->GetKeyPress(DIK_S) + _player->GetKeyboard()->GetKeyPress(DIK_W);
 
 	move_ = D3DXVECTOR3((float)x, 0.0f, (float)z);
 	D3DXVECTOR3 rotationalposition = D3DXVECTOR3((float)x, 0.0f, (float)z);
@@ -28,89 +49,220 @@ void PlayerMove::Update(CSkinMesh* _skinmesh, D3DXMATRIX& _mtx_position, D3DXMAT
 
 	if (x == 0 && z == 0)
 	{
-		sleeptime_++;
-		if (sleeptime_ >= 15)
+		if (AnimPattern_ != STATE)
 		{
-			_skinmesh->SetAnimSpeed(0.02f);
-			_skinmesh->SetAnimTrack(0.15);
+			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
+			_player->GetSkinMesh()->MyChangeAnim(0.0);
+			sleeptime_ = 0;
 			AnimPattern_ = STATE;
 		}
 	}
-	else
+	if (_player->GetKeyboard()->GetKeyTrigger(DIK_A))
 	{
-		sleeptime_ = 0;
+		if (AnimPattern_ == WALK)
+		{
+			movespeed_ = WALKSPEED;
+			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
+			_player->GetSkinMesh()->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			AnimPattern_ = WALK;
+		}
+		if (AnimPattern_ != RUN)
+		{
+			movespeed_ = WALKSPEED;
+			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
+			_player->GetSkinMesh()->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			AnimPattern_ = WALK;
+		}
+		else if (AnimPattern_ == RUN)
+		{
+			movespeed_ = RUNSPEED;
+			_player->GetSkinMesh()->SetAnimSpeed(2.0f);
+			_player->GetSkinMesh()->MyChangeAnim(9.63);
+			sleeptime_ = 0;
+			AnimPattern_ = RUN;
+		}
 	}
+	else if (_player->GetKeyboard()->GetKeyTrigger(DIK_D))
+	{
+		if (AnimPattern_ == WALK)
+		{
+			movespeed_ = WALKSPEED;
+			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
+			_player->GetSkinMesh()->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			AnimPattern_ = WALK;
+		}
+		if (AnimPattern_ != RUN)
+		{
+			movespeed_ = WALKSPEED;
+			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
+			_player->GetSkinMesh()->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			AnimPattern_ = WALK;
+		}
+		else if (AnimPattern_ == RUN)
+		{
+			movespeed_ = RUNSPEED;
+			_player->GetSkinMesh()->SetAnimSpeed(2.0f);
+			_player->GetSkinMesh()->MyChangeAnim(9.63);
+			sleeptime_ = 0;
+			AnimPattern_ = RUN;
+		}
+	}
+	else if (_player->GetKeyboard()->GetKeyTrigger(DIK_W))
+	{	
+		if (AnimPattern_ == WALK)
+		{
+			movespeed_ = WALKSPEED;
+			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
+			_player->GetSkinMesh()->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			AnimPattern_ = WALK;
+		}
+		if (AnimPattern_ != RUN)
+		{
+			movespeed_ = WALKSPEED;
+			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
+			_player->GetSkinMesh()->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			AnimPattern_ = WALK;
+		}
+		else if (AnimPattern_ == RUN)
+		{
+			movespeed_ = RUNSPEED;
+			_player->GetSkinMesh()->SetAnimSpeed(2.0f);
+			_player->GetSkinMesh()->MyChangeAnim(9.63);
+			sleeptime_ = 0;
+			AnimPattern_ = RUN;
+		}
+	}
+	else if (_player->GetKeyboard()->GetKeyTrigger(DIK_S))
+	{
+		if (AnimPattern_ == WALK)
+		{
+			movespeed_ = WALKSPEED;
+			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
+			_player->GetSkinMesh()->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			AnimPattern_ = WALK;
+		}
+		if (AnimPattern_ != RUN)
+		{
+			movespeed_ = WALKSPEED;
+			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
+			_player->GetSkinMesh()->MyChangeAnim(6.6);
 
-	if (keyboard_->GetKeyTrigger(DIK_A))
-	{
-		AnimPattern_ = WALK;
-		_skinmesh->SetAnimSpeed(0.015f);
+			sleeptime_ = 0;
+			AnimPattern_ = WALK;
+		}
+		else if (AnimPattern_ == RUN)
+		{
+			movespeed_ = RUNSPEED;
+			_player->GetSkinMesh()->SetAnimSpeed(2.0f);
+			_player->GetSkinMesh()->MyChangeAnim(9.63);
+			sleeptime_ = 0;
+			AnimPattern_ = RUN;
+		}
 	}
-	else if (keyboard_->GetKeyTrigger(DIK_D))
-	{
-		AnimPattern_ = WALK;
-		_skinmesh->SetAnimSpeed(0.015f);
+	else if (_player->GetKeyboard()->GetKeyTrigger(DIK_LSHIFT))
+	{	
+		if (AnimPattern_ != RUN)
+		{
+			movespeed_ = RUNSPEED;
+			_player->GetSkinMesh()->SetAnimSpeed(2.0f);
+			_player->GetSkinMesh()->MyChangeAnim(9.63);
+			sleeptime_ = 0;
+			AnimPattern_ = RUN;
+		}
 	}
-	else if (keyboard_->GetKeyTrigger(DIK_W))
+	else if (_player->GetKeyboard()->GetKeyPress(DIK_LSHIFT))
 	{
-		AnimPattern_ = WALK;
-		_skinmesh->SetAnimSpeed(0.015f);
-	}
-	else if (keyboard_->GetKeyTrigger(DIK_S))
-	{
-		AnimPattern_ = WALK;
-		_skinmesh->SetAnimSpeed(0.015f);
-	}
-
-	if (keyboard_->GetKeyPress(DIK_LSHIFT))
-	{
-		_skinmesh->SetAnimSpeed(0.02f);
+		movespeed_ = RUNSPEED;
 		AnimPattern_ = RUN;
 	}
-	if (keyboard_->GetKeyRelease(DIK_LSHIFT))
+	else if (_player->GetKeyboard()->GetKeyRelease(DIK_LSHIFT))
 	{
-		_skinmesh->SetAnimSpeed(0.015f);
-		AnimPattern_ = WALK;
+		if (AnimPattern_ != WALK)
+		{
+			movespeed_ = WALKSPEED;
+			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
+			_player->GetSkinMesh()->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			AnimPattern_ = WALK;
+		}
 	}
+	
+	if (_player->GetKeyboard()->GetKeyTrigger(DIK_SPACE))
+	{
+		if (AnimPattern_ == RUN)
+		{
+			_player->GetSkinMesh()->SetAnimSpeed(2.0f);
+			_player->GetSkinMesh()->MyChangeAnim(8.0);
+			sleeptime_ = 0;
+			AnimPattern_ = ROLL;
+		}
+	}
+
+	//if (_player->GetKeyboard()->GetKeyPress(DIK_LSHIFT))
+	//{
+	//	_player->GetSkinMesh()->MyChangeAnim(0.02f);
+	//	AnimPattern_ = RUN;
+	//}
+	//if (_player->GetKeyboard()->GetKeyRelease(DIK_LSHIFT))
+	//{
+	//	_player->GetSkinMesh()->SetAnimSpeed(0.015f);
+	//	AnimPattern_ = WALK;
+	//}
 
 	switch (AnimPattern_)
 	{
 	case STATE:
-		if (counttime_ <= 30)
+		if (sleeptime_ < 180)
 		{
-			counttime_++;
+			sleeptime_++;
 		}
 		else
 		{
-			_skinmesh->SetAnimTrack(0.15);
-			counttime_ = 0;
+			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
+			_player->GetSkinMesh()->MyChangeAnim(0.0);
+			sleeptime_ = 0;
 		}
 		break;
 	case WALK:
-		movespeed_ = 1.2f;
-		if (counttime_ <= 40)
+		if (sleeptime_ < 110)
 		{
-			counttime_++;
+			sleeptime_++;
 		}
-		else
-		{
-			_skinmesh->SetAnimTrack(0);
-			counttime_ = 0;
+		else {
+			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
+			_player->GetSkinMesh()->MyChangeAnim(6.6);
+			sleeptime_ = 0;
 		}
 		break;
 	case RUN:
-		movespeed_ = 2.0f;
-		if (counttime_ <= 20)
+		if (sleeptime_ < 34)
 		{
-			counttime_++;
+			sleeptime_++;
 		}
-		else
-		{
-			_skinmesh->SetAnimTrack(0.008);
-			counttime_ = 0;
+		else {
+			_player->GetSkinMesh()->SetAnimSpeed(2.0f);
+			_player->GetSkinMesh()->MyChangeAnim(9.63);
+			sleeptime_ = 0;
 		}
 		break;
-	default:
+	case ROLL:
+		if (sleeptime_ < 58)
+		{
+			sleeptime_++;
+		}
+		else {
+			_player->GetSkinMesh()->SetAnimSpeed(2.0f);
+			_player->GetSkinMesh()->MyChangeAnim(9.63);
+			sleeptime_ = 0;
+			AnimPattern_ = RUN;
+		}
 		break;
 	}
 
@@ -124,8 +276,10 @@ void PlayerMove::Update(CSkinMesh* _skinmesh, D3DXMATRIX& _mtx_position, D3DXMAT
 		modelrotation = atan2(frontvec_.x, frontvec_.z) + D3DXToRadian(180.0f) + atan2(rotationalposition.x, rotationalposition.z);
 		oldmodelrotation = modelrotation;
 	}
-
-	D3DXMatrixRotationY(&_mtx_rotation, modelrotation);
-
-	D3DXMatrixTranslation(&_mtx_position, position_.x, position_.y, position_.z);
+	D3DXMATRIX mtx_rot;
+	D3DXMATRIX mtx_pos;
+	D3DXMatrixRotationY(&mtx_rot, modelrotation);
+	D3DXMatrixTranslation(&mtx_pos, position_.x, position_.y, position_.z);
+	_player->SetPlayerPosMatrix(mtx_pos);
+	_player->SetPlayerRotMatrix(mtx_rot);
 }

@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../../../../SkinMeshAnimation/ModelAnim.h"
-#include "../../../../Entity/Entity.h"
+class Player;
 
 class PlayerAttackManager
 {
@@ -9,5 +8,10 @@ public:
 	PlayerAttackManager() {}
 	virtual ~PlayerAttackManager() {}
 public:
-	virtual void Update(Entity::PLAYERSTATUS& _playerstatus, CSkinMesh * _skinmesh, D3DXMATRIX & _mtx_position, D3DXMATRIX & _mtx_rotation) = 0;
+	virtual void Update(Player* _player) = 0;
+};
+
+class PlayerAttackNull : public PlayerAttackManager
+{
+	void Update(Player* _player) override {};
 };

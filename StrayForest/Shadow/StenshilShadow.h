@@ -5,8 +5,9 @@
 class StenshilShadow : public GameObjectManager
 {
 public:
-	StenshilShadow() 
+	StenshilShadow(int _type) 
 		: GameObjectManager(0)
+		, type_(_type)
 	{}
 	~StenshilShadow() {}
 public:
@@ -15,8 +16,9 @@ public:
 	void Draw() override;
 	void Uninit() override;
 
-	static StenshilShadow* Create();
+	static StenshilShadow* Create(int _type);
 private:
+	int type_;
 	Entity::MATRIX3D matrix_;
 	Entity::Dx9Buffer buffer_;
 };

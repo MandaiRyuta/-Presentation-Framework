@@ -57,5 +57,5 @@ public:
 	/*2Dポリゴンサイズ設定*/
 	Entity::POLYGONSIZE SetPolygonsize();
 public:
-	static CScene2D* Create(bool set, Entity::POLYGONSIZE polygonsize, std::string filename, int texturewidth, int textureheight, bool backgroundset);
+	static CScene2D* Create(bool set, int priority, Entity::POLYGONSIZE polygonsize, std::string filename, int texturewidth, int textureheight, bool backgroundset);
 };

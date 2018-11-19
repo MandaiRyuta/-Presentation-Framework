@@ -11,9 +11,7 @@ class BossMonsterPattern;
 class BossMonster : public GameObjectManager
 {
 public:
-	BossMonster() 
-		: GameObjectManager(0) 
-	{}
+	BossMonster(int _Max_Life, int _Max_Mana);
 	~BossMonster() {}
 public:
 	void Init() override;
@@ -21,7 +19,7 @@ public:
 	void Draw() override;
 	void Uninit() override;
 public:
-	void Damage(double _damage);
+	void Damage(int _damage);
 	void SetAttack(double _animtrack, float _speed);
 	void SetMagic(double _animtrack, float _speed);
 	void SetSkill(double _animtrack, float _speed);
@@ -31,16 +29,20 @@ private:
 	void ChangeBossMonsterMagicPattern(BossMonsterMagicPattern* _bossmonstermagicpattern);
 	void ChangeBossMonsterAttackPattern(BossMonsterAttackPattern* _bossmonsterattackpattern);
 public:
-	const double GetLife() const { return status_.health_amount; }
-	const double GetMana() const { return status_.mana_amount; }
-	const double GetMaxLife() const { return 1000.0; }
-	const double GetMaxMana() const { return 800.0; }
+	const int GetLife() const { return life_; }
+	const int GetMana() const { return mana_; }
+	const int GetMaxLife() const { return max_life_; }
+	const int GetMaxMana() const { return max_mana_; }
+	static D3DXVECTOR3 GetPosition() { return GetPos_; }
+	static D3DXMATRIX GetMatrix() { return; }
 public:
 	D3DXVECTOR3& Position() { return position_; }
-	const double& Life() const { return 500.0; }
-	const double& MaxLife() const { return 200.0; }
+	const int& Life() const { return life_; }
+	const int& Mana() const { return mana_; }
+	const int& MaxLife() const { return max_life_; }
+	const int& MaxMana() const { return max_mana_; }
 public:
-	static BossMonster* Create();
+	static BossMonster* Create(int _Max_Mana, int _Max_Life);
 private:
 	BossMonsterAttackPattern* attack_;
 	BossMonsterSkillPattern* skill_;
@@ -50,9 +52,16 @@ private:
 	Entity::BOSSSTATUS status_;
 	Entity::BOSSMOVESTATE movestate_;
 	Entity::MATRIX3D matrix_;
-	
+	static Entity::MATRIX3D GetMatrix_;
+	static D3DXVECTOR3 GetPos_;
 	D3DXVECTOR3 scale_;
 	D3DXVECTOR3 position_;
 	D3DXVECTOR3 rotation_;
 	CSkinMesh* skinmesh_;
+
+	int mana_;
+	int max_mana_;
+	int life_;
+	int max_life_;
+
 };

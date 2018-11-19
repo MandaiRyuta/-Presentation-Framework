@@ -9,6 +9,7 @@ bool CDX9Renderer::Init(HWND hWnd, bool bWindow, int nWindowWidth, int nWindowHe
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);
 
 	DX9Init(hWnd, bWindow, nWindowWidth, nWindowHeight);
+
 	//camera_ = new CCamera({ 0.0f,0.0f,0.0f }, { 0.0f, 5.0f,-20.0f }, { 0.0f,1.0f,0.0f });
 	//light_ = new CLight()
 	return true;

@@ -38,6 +38,11 @@ GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _n
 
 void GameManager::Init()
 {
+	D3DXCreateTexture(GetDevice(), windows_rect::SCREEN_WIDTH, windows_rect::SCREEN_HEIGHT, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_BlurTexture1);
+	m_BlurTexture1->GetSurfaceLevel(0, &m_BlurSurface1);
+	D3DXCreateTexture(GetDevice(), windows_rect::SCREEN_WIDTH, windows_rect::SCREEN_HEIGHT, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_BlurTexture2);
+	m_BlurTexture1->GetSurfaceLevel(0, &m_BlurSurface2);
+	GetDevice()->GetRenderTarget(0, &m_BackBufferSurface);
 	/*読み込むテクスチャは先に読み込ませておく*/
 	TextureLoder::LoadData("Resource/Texture/floor01.png");
 	TextureLoder::LoadData("Resource/Texture/floor02.png");
@@ -48,10 +53,15 @@ void GameManager::Init()
 	ModelLoder::LoadData("Resource/Model/treemodel.x");
 	ModelLoder::LoadData("Resource/Model/TestGurdian.x");
 	ModelLoder::LoadData("Resource/Model/Shadow.x");
+	ModelLoder::LoadData("Resource/Model/Shiled.x");
+	ModelLoder::LoadData("Resource/Model/Sword.x");
 	EffectShaderManager::EffectLoad("Resource/Shader/ModelShader.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/Instance3D.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/SkinMeshShader.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/Guardian.fx");
+	EffectShaderManager::EffectLoad("Resource/Shader/StenshillShadow.fx");
+	EffectShaderManager::EffectLoad("Resource/Shader/Shiled.fx");
+	EffectShaderManager::EffectLoad("Resource/Shader/Sword.fx");
 	//EffectShaderManager::EffectLoad("Resource/Shader/BumpMap.fx");
 	SetSceneMode(new SceneGame);
 }

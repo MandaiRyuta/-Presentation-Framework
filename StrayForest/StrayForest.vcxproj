@@ -93,10 +93,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\lua-5.3.4_Win32_dllw4_lib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>liblua53.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\lua-5.3.4_Win32_dllw4_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -175,6 +178,7 @@
     <ClInclude Include="stb_rect_pack.h" />
     <ClInclude Include="stb_textedit.h" />
     <ClInclude Include="stb_truetype.h" />
+    <ClInclude Include="System\colision\SphereColision.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonster.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternA.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPattern.h" />
@@ -192,37 +196,30 @@
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternB.h" />
     <ClInclude Include="System\InheritanceNode\Camera.h" />
     <ClInclude Include="System\InheritanceNode\Guardian\Guardian.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian01.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian02.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian03.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian04.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian05.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian06.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian07.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian08.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian09.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian10.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\GuardianManager.h" />
+    <ClInclude Include="System\InheritanceNode\Guardian\GuardianManager.h" />
+    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianAttack.h" />
+    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianDiffence.h" />
+    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianNomal.h" />
+    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardiansPattern.h" />
     <ClInclude Include="System\InheritanceNode\Instancing2D.h" />
     <ClInclude Include="System\InheritanceNode\Instancing3D.h" />
     <ClInclude Include="System\InheritanceNode\Light.h" />
     <ClInclude Include="System\InheritanceNode\MeshFiled.h" />
-    <ClInclude Include="System\InheritanceNode\Player\PlayerDeffence\PlayerDeffenceManager.h" />
-    <ClInclude Include="System\InheritanceNode\Player\PlayerItem\ItemManager.h" />
     <ClInclude Include="System\InheritanceNode\Player\Player.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackManager.h" />
-    <ClInclude Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackPattern01.h" />
-    <ClInclude Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackPattern02.h" />
-    <ClInclude Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackPattern03.h" />
-    <ClInclude Include="System\InheritanceNode\Player\PlayerDeffence\PlayerDeffencePattern01.h" />
-    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerHelth.h" />
-    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerMana.h" />
+    <ClInclude Include="System\InheritanceNode\Player\PlayerAttack\PlayerNomalAttack.h" />
+    <ClInclude Include="System\InheritanceNode\Player\PlayerBuffState\PlayerBuff.h" />
+    <ClInclude Include="System\InheritanceNode\Player\PlayerBuffState\PlayerBuffStateManager.h" />
+    <ClInclude Include="System\InheritanceNode\Player\PlayerBuffState\PlayerDebuf.h" />
+    <ClInclude Include="System\InheritanceNode\Player\PlayerDiffence\PlayerDiffence.h" />
+    <ClInclude Include="System\InheritanceNode\Player\PlayerDiffence\PlayerDiffenceManager.h" />
+    <ClInclude Include="System\InheritanceNode\Player\PlayerItem\ItemList.h" />
+    <ClInclude Include="System\InheritanceNode\Player\PlayerItem\PlayerShiled.h" />
+    <ClInclude Include="System\InheritanceNode\Player\PlayerItem\PlayerWeapon.h" />
+    <ClInclude Include="System\InheritanceNode\Player\PlayerMagic\PlayerMagic.h" />
+    <ClInclude Include="System\InheritanceNode\Player\PlayerMagic\PlayerMagicManager.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerMove\PlayerMove.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerMove\PlayerMoveManager.h" />
-    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerPowerDown.h" />
-    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerPowerUp.h" />
-    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerStamina.h" />
-    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerStateManager.h" />
     <ClInclude Include="System\InheritanceNode\Sea.h" />
     <ClInclude Include="System\InheritanceNode\Skydome.h" />
     <ClInclude Include="System\MotionEffect.h" />
@@ -266,30 +263,24 @@
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternB.cpp" />
     <ClCompile Include="System\InheritanceNode\Camera.cpp" />
     <ClCompile Include="System\InheritanceNode\Guardian\Guardian.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian01.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian02.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian03.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian04.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian05.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian06.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian07.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian08.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian09.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian10.cpp" />
+    <ClCompile Include="System\InheritanceNode\Guardian\GuardianManager.cpp" />
+    <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianAttack.cpp" />
+    <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianDiffence.cpp" />
+    <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianNomal.cpp" />
     <ClCompile Include="System\InheritanceNode\Instancing2D.cpp" />
     <ClCompile Include="System\InheritanceNode\Instancing3D.cpp" />
     <ClCompile Include="System\InheritanceNode\Light.cpp" />
     <ClCompile Include="System\InheritanceNode\MeshFiled.cpp" />
-    <ClCompile Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackPattern01.cpp" />
-    <ClCompile Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackPattern02.cpp" />
-    <ClCompile Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackPattern03.cpp" />
-    <ClCompile Include="System\InheritanceNode\Player\PlayerItem\ItemManager.cpp" />
     <ClCompile Include="System\InheritanceNode\Player\Player.cpp" />
+    <ClCompile Include="System\InheritanceNode\Player\PlayerAttack\PlayerNomalAttack.cpp" />
+    <ClCompile Include="System\InheritanceNode\Player\PlayerBuffState\PlayerBuff.cpp" />
+    <ClCompile Include="System\InheritanceNode\Player\PlayerBuffState\PlayerDebuf.cpp" />
+    <ClCompile Include="System\InheritanceNode\Player\PlayerDiffence\PlayerDiffence.cpp" />
+    <ClCompile Include="System\InheritanceNode\Player\PlayerItem\ItemList.cpp" />
+    <ClCompile Include="System\InheritanceNode\Player\PlayerItem\PlayerShiled.cpp" />
+    <ClCompile Include="System\InheritanceNode\Player\PlayerItem\PlayerWeapon.cpp" />
+    <ClCompile Include="System\InheritanceNode\Player\PlayerMagic\PlayerMagic.cpp" />
     <ClCompile Include="System\InheritanceNode\Player\PlayerMove\PlayerMove.cpp" />
-    <ClCompile Include="System\InheritanceNode\Player\PlayerState\PlayerMana.cpp" />
-    <ClCompile Include="System\InheritanceNode\Player\PlayerState\PlayerPowerDown.cpp" />
-    <ClCompile Include="System\InheritanceNode\Player\PlayerState\PlayerPowerUp.cpp" />
-    <ClCompile Include="System\InheritanceNode\Player\PlayerState\PlayerStamina.cpp" />
     <ClCompile Include="System\InheritanceNode\Sea.cpp" />
     <ClCompile Include="System\InheritanceNode\Skydome.cpp" />
     <ClCompile Include="System\MotionEffect.cpp" />

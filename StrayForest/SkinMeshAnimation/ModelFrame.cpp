@@ -7,7 +7,7 @@
 //フレームを作成する
 HRESULT MY_HIERARCHY::CreateFrame(LPCTSTR Name, LPD3DXFRAME *ppNewFrame)
 {
-	//HRESULT hr = S_OK;
+	HRESULT hr = S_OK;
 	MYFRAME *pFrame;
 
 
@@ -225,7 +225,7 @@ HRESULT MY_HIERARCHY::CreateMeshContainer(LPCSTR Name, CONST D3DXMESHDATA* pMesh
 
 	//- 固定パイプライン描画用に変換 -//
 	//シェーダで描画する場合は別途変換が必要
-
+	
 	//頂点単位でのブレンドの重みとボーンの組み合わせテーブルを適応した新しいメッシュを返す。
 	if (FAILED(pMeshContainer->pSkinInfo->ConvertToBlendedMesh(
 		pMeshContainer->pOriMesh, //元のメッシュデータアドレス
@@ -256,16 +256,15 @@ HRESULT MY_HIERARCHY::DestroyFrame(LPD3DXFRAME pFrameToFree)
 {
 	//2銃解放防止
 	// if (pFrameToFree == NULL)return S_FALSE;
+
 	SAFE_DELETE_ARRAY(pFrameToFree->Name);
 
 	if (pFrameToFree->pFrameFirstChild)
 	{
-		SAFE_DELETE_ARRAY(pFrameToFree->pMeshContainer);
 		DestroyFrame(pFrameToFree->pFrameFirstChild);
 	}
 	if (pFrameToFree->pFrameSibling)
 	{
-		SAFE_DELETE_ARRAY(pFrameToFree->pMeshContainer);
 		DestroyFrame(pFrameToFree->pFrameSibling);
 	}
 

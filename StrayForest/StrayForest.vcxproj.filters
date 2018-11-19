@@ -132,100 +132,10 @@
     <ClInclude Include="SceneManager\InheritanceNode\SceneChutorial.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerMove\PlayerMoveManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerMove\PlayerMove.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerItem\ItemManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackPattern03.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackPattern01.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackPattern02.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerHelth.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerMana.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerPowerDown.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerPowerUp.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerStamina.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerStateManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerDeffence\PlayerDeffencePattern01.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Player\PlayerDeffence\PlayerDeffenceManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian01.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian02.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian03.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian04.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian05.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian06.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian07.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian08.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\GuardianManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="System\InheritanceNode\Guardian\Guardian.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian09.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianMove\Guardian10.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonster.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPattern.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternA.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternB.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternC.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPattern.h">
@@ -259,6 +169,78 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Shadow\StenshilShadow.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPattern.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternA.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternB.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternC.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerBuffState\PlayerBuffStateManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerDiffence\PlayerDiffenceManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerMove\PlayerMoveManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerAttack\PlayerNomalAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerBuffState\PlayerBuff.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerBuffState\PlayerDebuf.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerDiffence\PlayerDiffence.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerMagic\PlayerMagic.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerMove\PlayerMove.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerMagic\PlayerMagicManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Guardian\GuardianManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardiansPattern.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianNomal.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianDiffence.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerItem\PlayerWeapon.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerItem\PlayerShiled.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerItem\ItemList.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\colision\SphereColision.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -356,79 +338,10 @@
     <ClCompile Include="SceneManager\InheritanceNode\Chutorial.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Player\PlayerMove\PlayerMove.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Player\PlayerItem\ItemManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackPattern01.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackPattern02.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackPattern03.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Player\PlayerState\PlayerStamina.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Player\PlayerState\PlayerPowerUp.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Player\PlayerState\PlayerPowerDown.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Player\PlayerState\PlayerMana.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="System\InheritanceNode\Guardian\Guardian.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian07.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian08.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian06.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian05.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian04.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian03.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian02.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian01.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian09.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianMove\Guardian10.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPattern.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonster.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternA.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternB.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternC.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternA.cpp">
@@ -453,6 +366,57 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Shadow\StenshilShadow.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPattern.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternA.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternB.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternC.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Player\PlayerAttack\PlayerNomalAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Player\PlayerBuffState\PlayerBuff.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Player\PlayerBuffState\PlayerDebuf.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Player\PlayerDiffence\PlayerDiffence.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Player\PlayerMagic\PlayerMagic.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Player\PlayerMove\PlayerMove.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Guardian\GuardianManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianDiffence.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianNomal.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Player\PlayerItem\PlayerWeapon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Player\PlayerItem\PlayerShiled.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Player\PlayerItem\ItemList.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

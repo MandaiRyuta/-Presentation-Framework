@@ -20,6 +20,11 @@ enum ACTIONPATTERN
 
 namespace Entity
 {
+	struct SphereColision
+	{
+		D3DXVECTOR3 modelpos;
+		float r;
+	};
 	struct LightInfo
 	{
 		D3DLIGHT9 light;
@@ -63,10 +68,10 @@ namespace Entity
 		int hit_number;
 		int heal_number;
 
-		double heal_amount;
-		double health_amount;
-		double mana_amount;
-		double power_amount;
+		float heal_amount;
+		float health_amount;
+		float mana_amount;
+		float power_amount;
 	};
 
 	struct BOSSMOVESTATE

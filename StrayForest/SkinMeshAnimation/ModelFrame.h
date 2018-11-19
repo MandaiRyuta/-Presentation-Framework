@@ -31,6 +31,12 @@ struct MYMESHCONTAINER : public D3DXMESHCONTAINER
 
 	LPD3DXMESH pOriMesh; //オリジナルメッシュ用
 	DWORD NumPaletteEntries; //パレットサイズ
+	//エフェクトファイル
+	LPD3DXEFFECT effect_;
+							 // Work用
+	std::vector<D3DXMATRIX> m_WorkBoneMatArray;
+	// 影響するフレームへの参照配列。描画時にこのフレームの行列を使う。
+	std::vector<MYFRAME*> BoneFrameArray;
 
 	MYMESHCONTAINER() {
 		ppBoneMatrix = NULL;
@@ -50,4 +56,7 @@ public:
 		CONST D3DXEFFECTINSTANCE*, DWORD, CONST DWORD *, LPD3DXSKININFO, LPD3DXMESHCONTAINER *);
 	STDMETHOD(DestroyFrame)(THIS_ LPD3DXFRAME);
 	STDMETHOD(DestroyMeshContainer)(THIS_ LPD3DXMESHCONTAINER);
+
+private:
+
 };
