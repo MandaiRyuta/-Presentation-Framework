@@ -35,6 +35,7 @@ public:
 	const int GetMaxMana() const { return max_mana_; }
 	static D3DXVECTOR3 GetPosition() { return GetPos_; }
 	static D3DXMATRIX GetMatrix() { return; }
+	static Entity::Sphere& GetBossSphereColision();
 public:
 	D3DXVECTOR3& Position() { return position_; }
 	const int& Life() const { return life_; }
@@ -52,6 +53,7 @@ private:
 	Entity::BOSSSTATUS status_;
 	Entity::BOSSMOVESTATE movestate_;
 	Entity::MATRIX3D matrix_;
+	static Entity::Sphere BossSphereColision_;
 	static Entity::MATRIX3D GetMatrix_;
 	static D3DXVECTOR3 GetPos_;
 	D3DXVECTOR3 scale_;

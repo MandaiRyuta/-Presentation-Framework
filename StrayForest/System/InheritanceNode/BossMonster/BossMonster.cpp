@@ -6,6 +6,8 @@
 
 D3DXVECTOR3 BossMonster::GetPos_;
 Entity::MATRIX3D BossMonster::GetMatrix_;
+Entity::Sphere BossMonster::BossSphereColision_;
+
 BossMonster::BossMonster(int _Max_Life, int _Max_Mana) 
 	: GameObjectManager(0)
 	, max_life_(_Max_Life)
@@ -31,6 +33,8 @@ void BossMonster::Init()
 
 void BossMonster::Update()
 {
+	BossSphereColision_.modelpos;
+	BossSphereColision_.r;
 	skinmesh_->SetAnimSpeed(2.0f);
 	skinmesh_->Update(matrix_.world);
 	D3DXMatrixScaling(&matrix_.scale, scale_.x, scale_.y, scale_.z);
@@ -97,6 +101,11 @@ void BossMonster::ChangeBossMonsterMagicPattern(BossMonsterMagicPattern * _bossm
 void BossMonster::ChangeBossMonsterAttackPattern(BossMonsterAttackPattern * _bossmonsterattackpattern)
 {
 	attack_ = _bossmonsterattackpattern;
+}
+
+Entity::Sphere BossMonster::GetBossSphereColision()
+{
+	return BossSphereColision_;
 }
 
 BossMonster * BossMonster::Create(int _Max_Mana, int _Max_Life)

@@ -55,6 +55,7 @@ public:
 	static D3DXMATRIX& GetPlayerMatrix();
 	static D3DXMATRIX& GetPlayerPosMatrix();
 	static D3DXMATRIX& GetPlayerRotMatrix();
+	static Entity::Sphere& GetPlayerSphereColision();
 private:
 	int Max_Life_;
 	int Max_Mana_;
@@ -69,6 +70,7 @@ private:
 	CInputKeyboard* keyboard_;
 	D3DXVECTOR3 scale_;
 	Entity::MATRIX3D matrix_;
+	static Entity::Sphere PlayerSphereColision_;
 	static D3DXMATRIX world_;
 	static D3DXMATRIX pos_;
 	static D3DXMATRIX rot_;

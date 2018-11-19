@@ -22,7 +22,7 @@
 D3DXMATRIX Player::world_;
 D3DXMATRIX Player::rot_;
 D3DXMATRIX Player::pos_;
-
+Entity::Sphere Player::PlayerSphereColision_;
 Player::Player() 
 	: GameObjectManager(OBJ_3D_MODEL)
 	, movemanager_(new PlayerMove)
@@ -52,6 +52,8 @@ void Player::Init()
 void Player::Update()
 {
 	keyboard_ = GameManager::GetKeyboard();
+	PlayerSphereColision_.modelpos;
+	PlayerSphereColision_.r;
 	item_->Update();
 	ImGui::GetMatrixInfomation("Player", matrix_.world);
 	attackmanager_->Update(this);
@@ -216,4 +218,9 @@ D3DXMATRIX & Player::GetPlayerPosMatrix()
 D3DXMATRIX & Player::GetPlayerRotMatrix()
 {
 	return rot_;
+}
+
+Entity::Sphere & Player::GetPlayerSphereColision()
+{
+	return PlayerSphereColision_;
 }
