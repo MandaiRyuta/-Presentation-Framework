@@ -249,6 +249,7 @@
     <ClCompile Include="Shadow\StenshilShadow.cpp" />
     <ClCompile Include="SkinMeshAnimation\ModelAnim.cpp" />
     <ClCompile Include="SkinMeshAnimation\ModelFrame.cpp" />
+    <ClCompile Include="System\colision\SphereColision.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonster.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternA.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternB.cpp" />

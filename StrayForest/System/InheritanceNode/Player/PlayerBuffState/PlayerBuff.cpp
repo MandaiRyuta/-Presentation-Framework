@@ -17,10 +17,11 @@ void PlayerBuff::Update(Player * _player)
 	{
 		FrameCounter_ = 0;
 		_player->GetSkinMesh()->MyChangeAnim(27.5);
-		buffpattern_ = BUFFSTATE;
+		_player->GetSkinMesh()->SetAnimSpeed(2.0);
+		_player->SetActionPattern(ACTIONPATTERN::BUFFSTATE);
 	}
 
-	if (buffpattern_ == BUFFSTATE)
+	if (_player->GetActionPattern() == ACTIONPATTERN::BUFFSTATE)
 	{
 		if (FrameCounter_ < 350)
 		{
@@ -28,8 +29,9 @@ void PlayerBuff::Update(Player * _player)
 		}
 		else
 		{
-			FrameCounter_ = 0;
-			buffpattern_ = NONE;
+			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
+			_player->GetSkinMesh()->MyChangeAnim(0.0);
+			_player->SetActionPattern(ACTIONPATTERN::STATE);
 		}
 	}
 }

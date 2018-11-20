@@ -11,12 +11,5 @@ public:
 private:
 	PlayerMagic() {}
 private:
-	enum MAGIC
-	{
-		MAGIC01,
-		MAGIC02,
-		NONE
-	};
-	MAGIC magicnum_;
 	int FrameCounter_;
 };

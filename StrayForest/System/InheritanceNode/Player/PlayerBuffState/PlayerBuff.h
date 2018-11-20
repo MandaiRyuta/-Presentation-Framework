@@ -11,11 +11,5 @@ public:
 private:
 	PlayerBuff() {}
 private:
-	enum BUFF
-	{
-		BUFFSTATE,
-		NONE
-	};
-	BUFF buffpattern_;
 	int FrameCounter_;
 };

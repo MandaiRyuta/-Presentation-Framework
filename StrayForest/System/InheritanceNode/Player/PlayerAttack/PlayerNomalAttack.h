@@ -12,10 +12,11 @@ private:
 private:
 	enum ATTACKPATTERN
 	{
+		STATE,
 		ATTACK01,
 		ATTACK02,
 		ATTACK03,
-		MAX_ATTACK
+		NONE
 	};
 	ATTACKPATTERN attackpattern_;
 	int FrameCounter_;

@@ -13,12 +13,5 @@ public:
 private:
 	PlayerDiffence() {}
 private:
-	enum DIFFENCE
-	{
-		START,
-		END,
-		NONE
-	};
-	DIFFENCE diffencepattern_;
 	int FrameCounter_;
 };

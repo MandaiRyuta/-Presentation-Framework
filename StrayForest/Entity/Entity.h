@@ -10,21 +10,35 @@ enum TEXTURENUMBER
 
 enum ACTIONPATTERN
 {
-	WALK,
-	RUN,
-	ATTACK,
-	DEFFENCE,
-	SKILL,
-	MAGIC,
+	STATE,
+	ATTACK1,
+	ATTACK2,
+	ATTACK3,
+	MAGIC01,
+	MAGIC02,
+	DSTART,
+	DEND,
+	BUFFSTATE,
+	NONEACTION
 };
 
 namespace Entity
 {
-	struct SphereColision
+	struct Sphere
 	{
 		D3DXVECTOR3 modelpos;
 		float r;
 	};
+	struct SphereColision
+	{
+		Sphere colision01;
+		Sphere colision02;
+		D3DXVECTOR3 hit_position;
+		float two_radius;
+		D3DXVECTOR3 center_to_center;
+		D3DXVECTOR3 hit_vector;
+	};
+
 	struct LightInfo
 	{
 		D3DLIGHT9 light;

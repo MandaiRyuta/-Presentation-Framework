@@ -30,6 +30,8 @@ Player::Player()
 	, attackmanager_(new PlayerNomalAttack(this))
 	, diffencemanager_(new PlayerDiffence(this))
 	, buffmanager_(new PlayerBuff(this))
+	, playeraction_(STATE)
+	, StateMode_(false)
 {
 }
 void Player::Init()
@@ -201,6 +203,25 @@ void Player::SetPlayerPosMatrix(D3DXMATRIX _pos)
 void Player::SetPlayerRotMatrix(D3DXMATRIX _rot)
 {
 	matrix_.rotation = _rot;
+}
+
+void Player::SetActionPattern(ACTIONPATTERN _action)
+{
+	playeraction_ = _action;
+}
+
+void Player::SetStateMode(bool _StateMode)
+{
+}
+
+bool Player::GetStateMode()
+{
+	return StateMode_;
+}
+
+ACTIONPATTERN& Player::GetActionPattern()
+{
+	return playeraction_;
 }
 
 D3DXMATRIX & Player::GetPlayerMatrix()

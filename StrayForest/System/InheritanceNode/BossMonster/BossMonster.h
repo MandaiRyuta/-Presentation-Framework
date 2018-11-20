@@ -23,6 +23,7 @@ public:
 	void SetAttack(double _animtrack, float _speed);
 	void SetMagic(double _animtrack, float _speed);
 	void SetSkill(double _animtrack, float _speed);
+	void SetPosition(D3DXVECTOR3 _pos);
 private:
 	void ChangeBossMonsterMovePattern(BossMonsterPattern* _bossmonsterpattern);
 	void ChangeBossMonsterSkillPattern(BossMonsterSkillPattern* _bossmonsterskillpattern);
@@ -34,7 +35,10 @@ public:
 	const int GetMaxLife() const { return max_life_; }
 	const int GetMaxMana() const { return max_mana_; }
 	static D3DXVECTOR3 GetPosition() { return GetPos_; }
-	static D3DXMATRIX GetMatrix() { return; }
+	D3DXMATRIX& GetPositionMatrix();
+	float& GetMoveLowSpeed();
+	float& GetMoveHighSpeed();
+	float& GetMoveVariableSpeed();
 public:
 	D3DXVECTOR3& Position() { return position_; }
 	const int& Life() const { return life_; }
@@ -48,6 +52,10 @@ private:
 	BossMonsterSkillPattern* skill_;
 	BossMonsterMagicPattern* magic_;
 	BossMonsterPattern* bosspattern_;
+
+	float basic_lowspeed_;
+	float variable_movespeed_;
+	float basic_highspeed_;
 
 	Entity::BOSSSTATUS status_;
 	Entity::BOSSMOVESTATE movestate_;

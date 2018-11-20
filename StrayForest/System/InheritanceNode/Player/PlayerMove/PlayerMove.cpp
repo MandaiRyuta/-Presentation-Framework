@@ -231,7 +231,7 @@ void PlayerMove::Update(Player * _player)
 		}
 		break;
 	case WALK:
-		if (sleeptime_ < 110)
+		if (sleeptime_ < 40)
 		{
 			sleeptime_++;
 		}

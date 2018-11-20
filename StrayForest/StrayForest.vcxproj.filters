@@ -419,5 +419,8 @@
     <ClCompile Include="System\InheritanceNode\Player\PlayerItem\ItemList.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="System\colision\SphereColision.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

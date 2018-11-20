@@ -237,7 +237,7 @@ void Sea::Update()
 
 			mpv_[nCount].position = D3DXVECTOR3(fStartX + (WAVE_XSize * nX), 0, fStartZ - (WAVE_ZSize * nZ));
 			mpv_[nCount].position.y += amp[0] * cos((Kx[0] * mpv_[nCount].position.x + Kz[0] * mpv_[nCount].position.z) - w[0] * t) +
-				amp[1] * cos((Kx[1] * mpv_[nCount].position.x + Kz[1] * mpv_[nCount].position.z) - w[1] * t);
+			amp[1] * cos((Kx[1] * mpv_[nCount].position.x + Kz[1] * mpv_[nCount].position.z) - w[1] * t);
 
 			vx = mpv_[(nZ * nCy) + (nX + 2)].position - mpv_[nZ * nCy + nX].position;
 			vz = mpv_[(nZ * nCy) + (nX + 1)].position - mpv_[nZ * nCx + (nX)].position;

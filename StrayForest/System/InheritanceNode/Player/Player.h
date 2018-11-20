@@ -10,6 +10,7 @@ class PlayerAttackManager;
 class PlayerBuffStateManager;
 class PlayerDiffenceManager;
 class ItemList;
+
 class Player : public GameObjectManager
 {
 public:
@@ -52,10 +53,16 @@ public:
 	void SetPlayerMatrix(D3DXMATRIX _world);
 	void SetPlayerPosMatrix(D3DXMATRIX _pos);
 	void SetPlayerRotMatrix(D3DXMATRIX _rot);
+	void SetActionPattern(ACTIONPATTERN _action);
+	void SetStateMode(bool _StateMode);
+	bool GetStateMode();
+	ACTIONPATTERN& GetActionPattern();
 	static D3DXMATRIX& GetPlayerMatrix();
 	static D3DXMATRIX& GetPlayerPosMatrix();
 	static D3DXMATRIX& GetPlayerRotMatrix();
 private:
+	ACTIONPATTERN playeraction_;
+	bool StateMode_;
 	int Max_Life_;
 	int Max_Mana_;
 	int Life_;
