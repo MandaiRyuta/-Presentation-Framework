@@ -195,13 +195,13 @@
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternA.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternB.h" />
     <ClInclude Include="System\InheritanceNode\Camera.h" />
+    <ClInclude Include="System\InheritanceNode\EffectParticle\Particle.h" />
     <ClInclude Include="System\InheritanceNode\Guardian\Guardian.h" />
     <ClInclude Include="System\InheritanceNode\Guardian\GuardianManager.h" />
     <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianAttack.h" />
     <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianDiffence.h" />
     <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianNomal.h" />
     <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardiansPattern.h" />
-    <ClInclude Include="System\InheritanceNode\Instancing2D.h" />
     <ClInclude Include="System\InheritanceNode\Instancing3D.h" />
     <ClInclude Include="System\InheritanceNode\Light.h" />
     <ClInclude Include="System\InheritanceNode\MeshFiled.h" />
@@ -227,6 +227,7 @@
     <ClInclude Include="System\Polygon3D.h" />
     <ClInclude Include="System\Sound.h" />
     <ClInclude Include="System\System.h" />
+    <ClInclude Include="System\TPolygon2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObjectManager\GameObjectManager.cpp" />
@@ -263,12 +264,12 @@
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternA.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternB.cpp" />
     <ClCompile Include="System\InheritanceNode\Camera.cpp" />
+    <ClCompile Include="System\InheritanceNode\EffectParticle\Particle.cpp" />
     <ClCompile Include="System\InheritanceNode\Guardian\Guardian.cpp" />
     <ClCompile Include="System\InheritanceNode\Guardian\GuardianManager.cpp" />
     <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianAttack.cpp" />
     <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianDiffence.cpp" />
     <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianNomal.cpp" />
-    <ClCompile Include="System\InheritanceNode\Instancing2D.cpp" />
     <ClCompile Include="System\InheritanceNode\Instancing3D.cpp" />
     <ClCompile Include="System\InheritanceNode\Light.cpp" />
     <ClCompile Include="System\InheritanceNode\MeshFiled.cpp" />
@@ -288,6 +289,7 @@
     <ClCompile Include="System\Polygon2D.cpp" />
     <ClCompile Include="System\Polygon3D.cpp" />
     <ClCompile Include="System\Sound.cpp" />
+    <ClCompile Include="System\TPolygon2D.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

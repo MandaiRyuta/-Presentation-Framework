@@ -4,12 +4,14 @@
 #include "BossMonsterSkill\BossMonsterSkillPattern.h"
 #include "BossMonsterPatterns\BossMonsterPattern.h"
 #include "BossMonsterPatterns\BossMonsterPatternA.h"
+#include "../MeshFiled.h"
+#include "../../../SceneManager/InheritanceNode/SceneGame.h"
 D3DXVECTOR3 BossMonster::GetPos_;
 Entity::MATRIX3D BossMonster::GetMatrix_;
 
 BossMonster::BossMonster(int _Max_Life, int _Max_Mana)
 	: GameObjectManager(0)
-	, bosspattern_(new BossMonsterPatternA)
+	, bosspattern_(new BossMonsterPatternNone)
 	, max_life_(_Max_Life)
 	, life_(_Max_Life)
 	, max_mana_(_Max_Mana)
@@ -29,9 +31,11 @@ void BossMonster::Init()
 	D3DXMatrixIdentity(&matrix_.rotation);
 	D3DXMatrixIdentity(&matrix_.scale);
 	D3DXMatrixIdentity(&matrix_.world);
-	basic_lowspeed_ = 1.0f;
-	basic_highspeed_ = 2.0f;
-	variable_movespeed_ = 1.0f;
+	position_ = D3DXVECTOR3(0.0f, 0.0f, 300.0f);
+	position_.y = SceneGame::GetMeshFiled()->GetHeight(position_);
+	basic_lowspeed_ = 0.5f;
+	basic_highspeed_ = 1.0f;
+	variable_movespeed_ = 0.5f;
 }
 
 void BossMonster::Update()
@@ -39,7 +43,7 @@ void BossMonster::Update()
 	skinmesh_->SetAnimSpeed(2.0f);
 	skinmesh_->Update(matrix_.world);
 	bosspattern_->Update(this);
-	//D3DXMatrixTranslation(&matrix_.position, position_.x, position_.y, position_.z);
+	D3DXMatrixTranslation(&matrix_.position, position_.x, position_.y, position_.z);
 	D3DXMatrixScaling(&matrix_.scale, scale_.x, scale_.y, scale_.z);
 	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
 	GetPos_ = D3DXVECTOR3(matrix_.position._41, matrix_.position._42, matrix_.position._43);
@@ -89,6 +93,11 @@ void BossMonster::SetSkill(double _animtrack, float _speed)
 void BossMonster::SetPosition(D3DXVECTOR3 _pos)
 {
 	position_ += _pos;
+}
+
+void BossMonster::SetRotation(float _rotation)
+{
+	D3DXMatrixRotationY(&matrix_.rotation, _rotation);
 }
 
 void BossMonster::ChangeBossMonsterMovePattern(BossMonsterPattern * _bossmonsterpattern)

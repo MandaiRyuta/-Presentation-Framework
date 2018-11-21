@@ -62,41 +62,27 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevinstance, LPSTR lpCmdLi
 	wcex.hIconSm = NULL;
 
 	RegisterClassEx(&wcex);		// WNDCLASSEX型のwcexの中身を登録
+	DWORD WStyle = WS_OVERLAPPEDWINDOW & ~(WS_THICKFRAME | WS_MAXIMIZEBOX);
+	RECT wr = { 0, 0, windows_rect::SCREEN_WIDTH, windows_rect::SCREEN_HEIGHT };
+	AdjustWindowRect(&wr, WStyle, FALSE);
 
-	RECT dw;
+	int nWindowWidth = (wr.right - wr.left);
+	int nWindowHeight = (wr.bottom - wr.top);
 
-	int nWindowWidth = windows_rect::SCREEN_WIDTH;
-	int nWindowHeight = windows_rect::SCREEN_HEIGHT;
-	int nWindowTop, nWindowLeft;
-	DWORD WStyle;
-	GetWindowRect(GetDesktopWindow(), &dw);
+	RECT dr;
 
-	if (((dw.bottom - nWindowHeight) > 0) && ((dw.right - nWindowWidth) > 0))
-	{
-		WStyle = WS_OVERLAPPEDWINDOW;
-		RECT wr = { 0, 0, nWindowWidth, nWindowHeight };
-		AdjustWindowRect(&wr, WStyle, false);
-		nWindowWidth -= wr.left;
-		nWindowHeight -= wr.top;
-		nWindowTop = (dw.bottom - nWindowHeight) / 2;
-		nWindowLeft = (dw.right - nWindowWidth) / 2;
-	}
-	else
-	{
-		WStyle = WS_POPUPWINDOW;
-		nWindowTop = dw.top;
-		nWindowLeft = dw.left;
-		nWindowHeight = dw.bottom;
-		nWindowWidth = dw.right;
-	}
+	GetWindowRect(GetDesktopWindow(), &dr);
+
+	int nWindowPosX = ((dr.right - dr.left) - (wr.right - wr.left)) / 2;
+	int nWindowPosY = ((dr.bottom - dr.top) - (wr.bottom - wr.top)) / 2;
 
 	// ウィンドウの作成
 	HWND hWnd = CreateWindowEx(0,
 		CLASS_NAME.c_str(),
 		WINDOW_NAME.c_str(),
 		WStyle,
-		nWindowLeft,
-		nWindowTop,
+		nWindowPosX,
+		nWindowPosY,
 		nWindowWidth,
 		nWindowHeight,
 		NULL,
@@ -119,7 +105,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevinstance, LPSTR lpCmdLi
 	// タイマーの性能を上げる
 	timeBeginPeriod(1);
 	// 初期化(チェックあり)
-	if (!Init(hInstance, hWnd, true, nWindowWidth, nWindowHeight))
+	if (!Init(hInstance, hWnd, true, windows_rect::SCREEN_WIDTH, windows_rect::SCREEN_HEIGHT))
 	{
 		MessageBox(hWnd, "初期化に失敗しました!!", "警告", MB_OK);
 

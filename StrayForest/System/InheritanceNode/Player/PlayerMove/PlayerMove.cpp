@@ -9,7 +9,7 @@ constexpr float WALKSPEED = 0.5f;
 constexpr float RUNSPEED = 2.5f;
 PlayerMove::PlayerMove()
 {
-	position_ = D3DXVECTOR3(-30.0f, 0.0f, 0.0f);
+	position_ = D3DXVECTOR3(0.0f, 0.0f, -500.0f);
 	upvec_ = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	rightvec_ = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 	move_ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -267,7 +267,8 @@ void PlayerMove::Update(Player * _player)
 	}
 
 	position_ -= move_ * movespeed_;
-	static float oldmodelrotation = 0.0f;
+	//èâä˙à íuïœÇ¶ÇÁÇÍÇÈ
+	static float oldmodelrotation = D3DXToRadian(180.0f);
 	float modelrotation = 0.0f;
 	modelrotation = oldmodelrotation;
 
@@ -276,6 +277,7 @@ void PlayerMove::Update(Player * _player)
 		modelrotation = atan2(frontvec_.x, frontvec_.z) + D3DXToRadian(180.0f) + atan2(rotationalposition.x, rotationalposition.z);
 		oldmodelrotation = modelrotation;
 	}
+
 	D3DXMATRIX mtx_rot;
 	D3DXMATRIX mtx_pos;
 	D3DXMatrixRotationY(&mtx_rot, modelrotation);

@@ -37,22 +37,10 @@ void CScene2D::CreateVertexAffine(D3DCOLOR color, float dx, float dy, float dw, 
 	Entity::VECTOR2D* pV;
 	buffer_.vertex_buffer->Lock(0, 0, (void**)&pV, D3DLOCK_DISCARD);
 
-	//////////////////////////Šg‘å////////////////////////////////
 	float x0 = (0.0f - this->scale_offsetx_) * this->scalex_ + +this->scalex_;
 	float x1 = (dw - this->scale_offsetx_) * this->scalex_ + +this->scalex_;
 	float y0 = (0.0f - this->scale_offsety_) * this->scaley_ + this->scaley_;
 	float y1 = (dh - this->scale_offsety_) * this->scaley_ + this->scaley_;
-
-	float fRotationOffsetX = this->rotation_offsetx_ * this->scalex_;
-	float fRotationOffsetY = this->rotation_offsety_ * this->scaley_;
-
-	x0 -= fRotationOffsetX;
-	x1 -= fRotationOffsetX;
-	y0 -= fRotationOffsetY;
-	y1 -= fRotationOffsetY;
-
-	dx += fRotationOffsetX;
-	dy += fRotationOffsetX;
 
 	float x_x0 = dx + x0 *cosf(this->polygon_angle_/* * D3DX_PI / 180*/) - y0 * sinf(this->polygon_angle_/* * D3DX_PI / 180*/);
 	float y_y0 = dy + x0 *sinf(this->polygon_angle_/* * D3DX_PI / 180*/) + y0 * cosf(this->polygon_angle_/* * D3DX_PI / 180*/);
@@ -63,15 +51,14 @@ void CScene2D::CreateVertexAffine(D3DCOLOR color, float dx, float dy, float dw, 
 	float x_x3 = dx + x0 *cosf(this->polygon_angle_/* * D3DX_PI / 180*/) - y1 * sinf(this->polygon_angle_/* * D3DX_PI / 180*/);
 	float y_y3 = dy + x0 *sinf(this->polygon_angle_/* * D3DX_PI / 180*/) + y1 * cosf(this->polygon_angle_/* * D3DX_PI / 180*/);
 
-
 	pV[0].position = D3DXVECTOR4(dx + x_x0, dy + y_y0, 0.5f, 1.0f);//xL=xcos(ƒ¿)-ysin(ƒ¿);yL=xsin(ƒ¿)+ycos(ƒ¿);
 	pV[1].position = D3DXVECTOR4(dx + x_x1, dy + y_y1, 0.5f, 1.0f);
 	pV[2].position = D3DXVECTOR4(dx + x_x2, dy + y_y2, 0.5f, 1.0f);
 	pV[3].position = D3DXVECTOR4(dx + x_x3, dy + y_y3, 0.5f, 1.0f);
 
-	pV[0].color =
-	pV[1].color =
-	pV[2].color =
+	pV[0].color = color;
+	pV[1].color = color;
+	pV[2].color = color;
 	pV[3].color = color;
 
 	float u0 = (float)tcx / this->texturewidth_;
@@ -170,101 +157,37 @@ void CScene2D::Update()
 void CScene2D::Draw()
 {
 	LPDIRECT3DDEVICE9 device = GetDevice();
-	if (this->set_)
+
+	if (this->polygonsize_.affine_)
 	{
-		int tw = this->texturewidth_;
-		int th = this->textureheight_;
-		float u0 = (float)this->polygonsize_.tcx_ / tw;
-		float v0 = (float)this->polygonsize_.tcy_ / th;
-		float u1 = (float)(this->polygonsize_.tcx_ + this->polygonsize_.tcw_) / tw;
-		float v1 = (float)(this->polygonsize_.tcy_ + this->polygonsize_.tch_) / th;
-
-		///////////////////////////////////////////}‚P//////////////////////////////////////////////////
-		//ƒ|ƒŠƒSƒ“‚Ì•`‰æˆ—
-		Entity::VECTOR2D vtx[] = {
-			{ D3DXVECTOR4(this->polygonsize_.dx_, this->polygonsize_.dy_ - this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u0,v0) },	//16i 0xffffffff
-			{ D3DXVECTOR4(this->polygonsize_.dx_ + this->polygonsize_.dw_  , this->polygonsize_.dy_ - this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u1,v0) },  //RGBA
-			{ D3DXVECTOR4(this->polygonsize_.dx_ + this->polygonsize_.dw_  , this->polygonsize_.dy_ + this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u1,v1) },
-			{ D3DXVECTOR4(this->polygonsize_.dx_, this->polygonsize_.dy_ + this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u0,v1) },
-		};
-
-		if (this->polygonsize_.affine_)
-		{
-			CreateVertexAffine(this->polygonsize_.color_, this->polygonsize_.dx_, this->polygonsize_.dy_, this->polygonsize_.dw_, this->polygonsize_.dh_, this->polygonsize_.tcx_, this->polygonsize_.tcy_, this->polygonsize_.tcw_, this->polygonsize_.tch_);
-		}
-		else
-		{
-			CreateVertex(this->polygonsize_.color_, this->polygonsize_.dx_, this->polygonsize_.dy_, this->polygonsize_.dw_, this->polygonsize_.dh_, this->polygonsize_.tcx_, this->polygonsize_.tcy_, this->polygonsize_.tcw_, this->polygonsize_.tch_);
-		}
-
-		device->SetStreamSource(0, buffer_.vertex_buffer, 0, sizeof(Entity::VECTOR2D));
-
-		//	FVF	(¡‚©‚çŽg—p‚·‚é’¸“_î•ñ)
-		device->SetFVF(FVF_VERTEX_2D);
-		//ƒ‰ƒCƒgON
-		device->SetRenderState(D3DRS_LIGHTING, false);
-		//ƒm[ƒ}ƒ‰ƒCƒYÝ’è
-		device->SetRenderState(D3DRS_NORMALIZENORMALS, false);
-
-		//ƒeƒNƒXƒ`ƒƒ“\‚èž‚Þ
-		device->SetTexture(0, NULL);
-
-		//ƒ|ƒŠƒSƒ“‚ð•`‚¢‚Ä
-		//DrawPrimitiveUP ’x‚¢AŠÈ’P
-		device->DrawPrimitive(
-			D3DPT_TRIANGLEFAN, 0,
-			2
-		);	//ƒ|ƒŠƒSƒ“‚Ì”
-
-		device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-		device->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+		CreateVertexAffine(this->polygonsize_.color_, this->polygonsize_.dx_, this->polygonsize_.dy_, this->polygonsize_.dw_, this->polygonsize_.dh_, this->polygonsize_.tcx_, this->polygonsize_.tcy_, this->polygonsize_.tcw_, this->polygonsize_.tch_);
 	}
 	else
 	{
-		int tw = this->texturewidth_;
-		int th = this->textureheight_;
-		float u0 = (float)this->polygonsize_.tcx_ / tw;
-		float v0 = (float)this->polygonsize_.tcy_ / th;
-		float u1 = (float)(this->polygonsize_.tcx_ + this->polygonsize_.tcw_) / tw;
-		float v1 = (float)(this->polygonsize_.tcy_ + this->polygonsize_.tch_) / th;
-
-		///////////////////////////////////////////}‚P//////////////////////////////////////////////////
-		//ƒ|ƒŠƒSƒ“‚Ì•`‰æˆ—
-		Entity::VECTOR2D vtx[] = {
-			{ D3DXVECTOR4(this->polygonsize_.dx_, this->polygonsize_.dy_ - this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u0,v0) },	//16i 0xffffffff
-			{ D3DXVECTOR4(this->polygonsize_.dx_ + this->polygonsize_.dw_  , this->polygonsize_.dy_ - this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u1,v0) },  //RGBA
-			{ D3DXVECTOR4(this->polygonsize_.dx_ + this->polygonsize_.dw_  , this->polygonsize_.dy_ + this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u1,v1) },
-			{ D3DXVECTOR4(this->polygonsize_.dx_, this->polygonsize_.dy_ + this->polygonsize_.dh_ / 2, 1.0f, 1.0f), this->polygonsize_.color_,D3DXVECTOR2(u0,v1) },
-		};
-
-		if (this->polygonsize_.affine_)
-		{
-			CreateVertexAffine(this->polygonsize_.color_, this->polygonsize_.dx_, this->polygonsize_.dy_, this->polygonsize_.dw_, this->polygonsize_.dh_, this->polygonsize_.tcx_, this->polygonsize_.tcy_, this->polygonsize_.tcw_, this->polygonsize_.tch_);
-		}
-		else
-		{
-			CreateVertex(this->polygonsize_.color_, this->polygonsize_.dx_, this->polygonsize_.dy_, this->polygonsize_.dw_, this->polygonsize_.dh_, this->polygonsize_.tcx_, this->polygonsize_.tcy_, this->polygonsize_.tcw_, this->polygonsize_.tch_);
-		}
-
-		device->SetStreamSource(0, buffer_.vertex_buffer, 0, sizeof(Entity::VECTOR2D));
-
-		//	FVF	(¡‚©‚çŽg—p‚·‚é’¸“_î•ñ)
-		device->SetFVF(FVF_VERTEX_2D);
-		//ƒ‰ƒCƒgON
-		device->SetRenderState(D3DRS_LIGHTING, false);
-		//ƒm[ƒ}ƒ‰ƒCƒYÝ’è
-		device->SetRenderState(D3DRS_NORMALIZENORMALS, false);
-
-		//ƒeƒNƒXƒ`ƒƒ“\‚èž‚Þ
-		device->SetTexture(0, NULL);
-
-		//ƒ|ƒŠƒSƒ“‚ð•`‚¢‚Ä
-		//DrawPrimitiveUP ’x‚¢AŠÈ’P
-		device->DrawPrimitive(
-			D3DPT_TRIANGLEFAN, 0,
-			2
-		);	//ƒ|ƒŠƒSƒ“‚Ì”
+		CreateVertex(this->polygonsize_.color_, this->polygonsize_.dx_, this->polygonsize_.dy_, this->polygonsize_.dw_, this->polygonsize_.dh_, this->polygonsize_.tcx_, this->polygonsize_.tcy_, this->polygonsize_.tcw_, this->polygonsize_.tch_);
 	}
+
+	device->SetStreamSource(0, buffer_.vertex_buffer, 0, sizeof(Entity::VECTOR2D));
+
+	//	FVF	(¡‚©‚çŽg—p‚·‚é’¸“_î•ñ)
+	device->SetFVF(FVF_VERTEX_2D);
+	//ƒ‰ƒCƒgON
+	device->SetRenderState(D3DRS_LIGHTING, false);
+	//ƒm[ƒ}ƒ‰ƒCƒYÝ’è
+	device->SetRenderState(D3DRS_NORMALIZENORMALS, false);
+
+	//ƒeƒNƒXƒ`ƒƒ“\‚èž‚Þ
+	device->SetTexture(0, NULL);
+
+	//ƒ|ƒŠƒSƒ“‚ð•`‚¢‚Ä
+	//DrawPrimitiveUP ’x‚¢AŠÈ’P
+	device->DrawPrimitive(
+		D3DPT_TRIANGLEFAN, 0,
+		2
+	);	//ƒ|ƒŠƒSƒ“‚Ì”
+
+	device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	device->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 }
 
 void CScene2D::ColorSet(D3DCOLOR setcolor)

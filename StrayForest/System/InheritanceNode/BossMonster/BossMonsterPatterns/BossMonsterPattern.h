@@ -12,6 +12,9 @@ public:
 class BossMonsterPatternNone : public BossMonsterPattern
 {
 public:
+	BossMonsterPatternNone();
 	virtual ~BossMonsterPatternNone() {}
 	virtual void Update(BossMonster* _bossmonster) override;
+private:
+	int FrameCount_;
 };

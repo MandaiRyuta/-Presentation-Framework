@@ -12,6 +12,8 @@ void BossMonsterPatternA::Update(BossMonster * _bossmonster)
 	D3DXVECTOR3 PlayerPosition = D3DXVECTOR3(Player::GetPlayerMatrix()._41, 0.0f, Player::GetPlayerMatrix()._43);
 	D3DXVECTOR3 AxisMove = PlayerPosition - D3DXVECTOR3(_bossmonster->GetPositionMatrix()._41, 0.0f, _bossmonster->GetPositionMatrix()._43);
 	D3DXVec3Normalize(&AxisMove, &AxisMove);
+	float rotation = atan2f(AxisMove.x, AxisMove.z);
+	rotation = rotation + D3DX_PI;
 	_bossmonster->Position().y = SceneGame::GetMeshFiled()->GetHeight(_bossmonster->Position());
 	
 	switch (movestate_)
@@ -33,5 +35,6 @@ void BossMonsterPatternA::Update(BossMonster * _bossmonster)
 	}
 	move.y = 0.0f;
 	////ˆÚ“®
+	_bossmonster->SetRotation(rotation);
 	_bossmonster->SetPosition(move);
 }

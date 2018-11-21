@@ -24,7 +24,8 @@ public:
 	void SetMagic(double _animtrack, float _speed);
 	void SetSkill(double _animtrack, float _speed);
 	void SetPosition(D3DXVECTOR3 _pos);
-private:
+	void SetRotation(float _rotation);
+public:
 	void ChangeBossMonsterMovePattern(BossMonsterPattern* _bossmonsterpattern);
 	void ChangeBossMonsterSkillPattern(BossMonsterSkillPattern* _bossmonsterskillpattern);
 	void ChangeBossMonsterMagicPattern(BossMonsterMagicPattern* _bossmonstermagicpattern);

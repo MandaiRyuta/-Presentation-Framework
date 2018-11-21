@@ -111,9 +111,6 @@
     <ClInclude Include="System\InheritanceNode\Instancing3D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Instancing2D.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="System\InheritanceNode\Player\Player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -243,6 +240,12 @@
     <ClInclude Include="System\colision\SphereColision.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="System\InheritanceNode\EffectParticle\Particle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\TPolygon2D.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObjectManager\GameObjectManager.cpp">
@@ -315,9 +318,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="System\InheritanceNode\Instancing3D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Instancing2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="System\InheritanceNode\Player\Player.cpp">
@@ -420,6 +420,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="System\colision\SphereColision.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\EffectParticle\Particle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\TPolygon2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

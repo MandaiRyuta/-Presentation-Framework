@@ -42,10 +42,10 @@ void Player::Init()
 	
 	scale_ = D3DXVECTOR3(30.0f, 30.0f, 30.0f);
 	skinmesh_->SetAnimSpeed(1.0f);
-	D3DXMatrixIdentity(&this->matrix_.position);
-	D3DXMatrixIdentity(&this->matrix_.rotation);
-	D3DXMatrixIdentity(&this->matrix_.scale);
-	D3DXMatrixIdentity(&this->matrix_.world);
+	D3DXMatrixIdentity(&matrix_.position);
+	D3DXMatrixIdentity(&matrix_.rotation);
+	D3DXMatrixIdentity(&matrix_.scale);
+	D3DXMatrixIdentity(&matrix_.world);
 	item_ = new ItemList;
 	item_->add(new Sword, new Shiled);
 	item_->Init(device);
