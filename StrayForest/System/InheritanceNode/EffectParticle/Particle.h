@@ -1,13 +1,14 @@
 #pragma once
 #include "../../../Entity/Entity.h"
-
+constexpr int MAX_PARTICLE = 200;
 class Particle
 {
-	enum EMMITTERTYPE
+	struct ParticleInfo
 	{
-		EMT_BILLBOARDPARTICLE,
-		EMT_POINTPARTICLE,
-		EMT_NONE,
+		D3DXVECTOR3 Position;
+		D3DXVECTOR3 Speed;
+		bool bParticle;
+		int ParticleLife;
 	};
 public:
 	Particle();
@@ -20,25 +21,22 @@ public:
 private:
 	void InitBillBoardParticle();
 	void DrawBillBoardParticle();
-	void InitPointParticle();
-	void DrawPointParticle();
+public:
+	void CreateParticle(D3DXVECTOR3 _position, D3DXVECTOR3 _speed, int _life);
+	void DestroyParticle(int _num, D3DXVECTOR3 _position, D3DXVECTOR3 _speed, int _life);
 public:
 	/*InitÇÃëOÇ≈ê›íËÇ∑ÇÈÇ±Ç∆*/
-	void SetEmmitterType(EMMITTERTYPE _emmittertype);
+	void SetLife(int _life);
 	void SetTexture(LPDIRECT3DTEXTURE9 _texture);
-	void SetNumParticle(int _num);
 	void SetPosition(D3DXVECTOR3 _pos);
 	void SetScale(D3DXVECTOR3 _scale);
-	void SetRotation(D3DXVECTOR3 _rotation);
 public:
-	void AddMove(D3DXVECTOR3 _move);
 	void AddScale(D3DXVECTOR3 _scale);
-	void AddRotation(D3DXVECTOR3 _rotation);
 private:
-	int particlenum_;
-	EMMITTERTYPE emmittertype_;
+	int life_expectancy_;
+	ParticleInfo particles_[MAX_PARTICLE];
 	LPDIRECT3DTEXTURE9 texture_;
-	D3DXVECTOR3 position_;
+	D3DXVECTOR3 ReferencePoint_;
 	D3DXVECTOR3 scale_;
 	D3DXVECTOR3 rotation_;
 

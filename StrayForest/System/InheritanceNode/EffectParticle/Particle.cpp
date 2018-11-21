@@ -1,15 +1,16 @@
 #include "Particle.h"
-
+#include "../../../ShaderManager/EffectShaderManager.h"
+#include "../../../LoadManager/TextureLoder.h"
+#include "../Camera.h"
 Particle::Particle()
 	: pWorld1(new Entity::MODEL_WORLD1)
 	, pWorld2(new Entity::MODEL_WORLD2)
 	, pWorld3(new Entity::MODEL_WORLD3)
 	, pWorld4(new Entity::MODEL_WORLD4)
-	, position_(0.0f,0.0f,0.0f)
+	, ReferencePoint_(0.0f,0.0f,0.0f)
 	, scale_(1.0f,1.0f,1.0f)
 	, rotation_(0.0f,0.0f,0.0f)
-	, particlenum_(0)
-	, emmittertype_(EMT_NONE)
+	, life_expectancy_(0)
 	, texture_(nullptr)
 {
 }
@@ -20,37 +21,51 @@ Particle::~Particle()
 
 void Particle::Init()
 {
-	switch (emmittertype_)
-	{
-	case EMT_BILLBOARDPARTICLE:
-		InitBillBoardParticle();
-		break;
-	case EMT_POINTPARTICLE:
-		InitPointParticle();
-		break;
-	default:
-		break;
-	}
+	InitBillBoardParticle();
 }
 
 void Particle::Update()
 {
+	D3DXVECTOR3 nextpos;
+	for (int i = 0; i < MAX_PARTICLE; i++)
+	{
+		nextpos = particles_[i].Position;
+		if (particles_[i].bParticle)
+		{
+			particles_[i].Position -= particles_[i].Speed;
+			particles_[i].ParticleLife++;
 
+			if (particles_[i].ParticleLife <= life_expectancy_)
+			{
+				if (particles_[i].Position.x < ReferencePoint_.x)
+				{
+					particles_[i].Position.x += sinf(1.2f);
+				}
+				else if (particles_[i].Position.x > ReferencePoint_.x)
+				{
+					particles_[i].Position.x -= cosf(1.2f);
+				}
+				if (particles_[i].Position.z < ReferencePoint_.z)
+				{
+					particles_[i].Position.z += cosf(1.2f);
+				}
+				else if (particles_[i].Position.z > ReferencePoint_.z)
+				{
+					particles_[i].Position.z -= sinf(1.2f);
+				}
+
+			}
+			else
+			{
+				DestroyParticle(i, ReferencePoint_, particles_[i].Speed, 0);
+			}
+		}
+	}
 }
 
 void Particle::Draw()
 {
-	switch (emmittertype_)
-	{
-	case EMT_BILLBOARDPARTICLE:
-		DrawBillBoardParticle();
-		break;
-	case EMT_POINTPARTICLE:
-		DrawPointParticle();
-		break;
-	default:
-		break;
-	}
+	DrawBillBoardParticle();
 }
 
 void Particle::Uninit()
@@ -149,7 +164,7 @@ void Particle::InitBillBoardParticle()
 		&buffer_.vertex_buffer,
 		0
 	);
-	for (DWORD dw = 0; dw < particlenum_; dw++)
+	for (DWORD dw = 0; dw < MAX_PARTICLE; dw++)
 	{
 		D3DXMATRIX world;
 		D3DXMatrixIdentity(&world);
@@ -195,19 +210,19 @@ void Particle::InitBillBoardParticle()
 	void* p = 0;
 
 	worldbuffer_.pWorld1Buffer->Lock(0, 0, &p, 0);
-	memcpy(p, pWorld1, sizeof(Entity::MODEL_WORLD1) * particlenum_);
+	memcpy(p, pWorld1, sizeof(Entity::MODEL_WORLD1) * MAX_PARTICLE);
 	p = 0;
 
 	worldbuffer_.pWorld2Buffer->Lock(0, 0, &p, 0);
-	memcpy(p, pWorld2, sizeof(Entity::MODEL_WORLD2) * particlenum_);
+	memcpy(p, pWorld2, sizeof(Entity::MODEL_WORLD2) * MAX_PARTICLE);
 	p = 0;
 
 	worldbuffer_.pWorld3Buffer->Lock(0, 0, &p, 0);
-	memcpy(p, pWorld3, sizeof(Entity::MODEL_WORLD3) * particlenum_);
+	memcpy(p, pWorld3, sizeof(Entity::MODEL_WORLD3) * MAX_PARTICLE);
 	p = 0;
 
 	worldbuffer_.pWorld4Buffer->Lock(0, 0, &p, 0);
-	memcpy(p, pWorld4, sizeof(Entity::MODEL_WORLD4) * particlenum_);
+	memcpy(p, pWorld4, sizeof(Entity::MODEL_WORLD4) * MAX_PARTICLE);
 	p = 0;
 
 	device->CreateIndexBuffer(
@@ -256,7 +271,7 @@ void Particle::DrawBillBoardParticle()
 {
 	LPDIRECT3DDEVICE9 device = GetDevice();
 
-	device->SetStreamSourceFreq(0, D3DSTREAMSOURCE_INDEXEDDATA | (UINT)particlenum_);
+	device->SetStreamSourceFreq(0, D3DSTREAMSOURCE_INDEXEDDATA | (UINT)MAX_PARTICLE);
 	device->SetStreamSourceFreq(1, D3DSTREAMSOURCE_INSTANCEDATA | (UINT)1);
 	device->SetStreamSourceFreq(2, D3DSTREAMSOURCE_INSTANCEDATA | (UINT)2);
 	device->SetStreamSourceFreq(3, D3DSTREAMSOURCE_INSTANCEDATA | (UINT)3);
@@ -274,26 +289,59 @@ void Particle::DrawBillBoardParticle()
 	device->SetRenderState(D3DRS_NORMALIZENORMALS, false);
 	device->SetRenderState(D3DRS_ZWRITEENABLE, false);
 	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-	for (int i = 0; i < particlenum_; i++)
+	D3DXMatrixScaling(&matrix_.scale, scale_.x, scale_.y, scale_.z);
+	matrix_.rotation = CCamera::GetView();
+	matrix_.rotation._41 = 0.0f;
+	matrix_.rotation._42 = 0.0f;
+	matrix_.rotation._43 = 0.0f;
+	D3DXMatrixTranspose(&matrix_.rotation, &matrix_.rotation);
+	for (int i = 0; i < MAX_PARTICLE; i++)
 	{
-
+		D3DXMatrixTranslation(&matrix_.position, particles_[i].Position.x, particles_[i].Position.y, particles_[i].Position.z);
+		EffectShaderManager::GetEffect(PARTICLE)->SetTechnique("tech");
+		EffectShaderManager::GetEffect(PARTICLE)->Begin(NULL, 0);
+		EffectShaderManager::GetEffect(PARTICLE)->BeginPass(0);
+		EffectShaderManager::GetEffect(PARTICLE)->SetMatrix("mPosition", &matrix_.position);
+		EffectShaderManager::GetEffect(PARTICLE)->SetMatrix("mScale", &matrix_.scale);
+		EffectShaderManager::GetEffect(PARTICLE)->SetMatrix("mRotation", &matrix_.rotation);
+		EffectShaderManager::GetEffect(PARTICLE)->SetMatrix("mView", &CCamera::GetView());
+		EffectShaderManager::GetEffect(PARTICLE)->SetMatrix("mProj", &CCamera::GetProj());
+		EffectShaderManager::GetEffect(PARTICLE)->SetTexture("texDecal",texture_);
+		device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 4, 0, 2);
+		EffectShaderManager::GetEffect(PARTICLE)->EndPass();
+		EffectShaderManager::GetEffect(PARTICLE)->End();
+		device->SetStreamSourceFreq(0, 1);
+		device->SetStreamSourceFreq(1, 1);
+		device->SetStreamSourceFreq(2, 1);
+		device->SetStreamSourceFreq(3, 1);
+		device->SetStreamSourceFreq(4, 1);
 	}
-
 	device->SetRenderState(D3DRS_ZWRITEENABLE, true);
 }
 
-void Particle::InitPointParticle()
+void Particle::CreateParticle(D3DXVECTOR3 _position, D3DXVECTOR3 _speed, int _life)
 {
+	ReferencePoint_ = _position;
+	for (int i = 0; i < MAX_PARTICLE; i++)
+	{
+		particles_[i].Position = _position;
+		particles_[i].Speed = _speed;
+		particles_[i].ParticleLife = _life;
+		particles_[i].bParticle = true;
+	}
 }
 
-void Particle::DrawPointParticle()
+void Particle::DestroyParticle(int _num, D3DXVECTOR3 _position, D3DXVECTOR3 _speed, int _life)
 {
+	particles_[_num].Position = _position;
+	particles_[_num].Speed = _speed;
+	particles_[_num].ParticleLife = _life;
+	particles_[_num].bParticle = false;
 }
 
-void Particle::SetEmmitterType(EMMITTERTYPE _emmittertype)
+void Particle::SetLife(int _life)
 {
-	emmittertype_ = _emmittertype;
+	life_expectancy_ = _life;
 }
 
 void Particle::SetTexture(LPDIRECT3DTEXTURE9 _texture)
@@ -301,14 +349,9 @@ void Particle::SetTexture(LPDIRECT3DTEXTURE9 _texture)
 	texture_ = _texture;
 }
 
-void Particle::SetNumParticle(int _num)
-{
-	particlenum_ = _num;
-}
-
 void Particle::SetPosition(D3DXVECTOR3 _pos)
 {
-	position_ = _pos;
+	ReferencePoint_ = _pos;
 }
 
 void Particle::SetScale(D3DXVECTOR3 _scale)
@@ -316,22 +359,7 @@ void Particle::SetScale(D3DXVECTOR3 _scale)
 	scale_ = _scale;
 }
 
-void Particle::SetRotation(D3DXVECTOR3 _rotation)
-{
-	rotation_ = _rotation;
-}
-
-void Particle::AddMove(D3DXVECTOR3 _move)
-{
-	position_ += _move;
-}
-
 void Particle::AddScale(D3DXVECTOR3 _scale)
 {
 	scale_ += _scale;
-}
-
-void Particle::AddRotation(D3DXVECTOR3 _rotation)
-{
-	rotation_ += _rotation;
 }

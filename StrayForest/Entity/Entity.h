@@ -24,18 +24,6 @@ enum ACTIONPATTERN
 
 namespace Entity
 {
-	//struct VTX4POLYGON
-	//{
-
-	//};
-	struct INSTANCINGBUFFER
-	{
-		IDirect3DVertexBuffer9* pWorld1Buffer;
-		IDirect3DVertexBuffer9* pWorld2Buffer;
-		IDirect3DVertexBuffer9* pWorld3Buffer;
-		IDirect3DVertexBuffer9* pWorld4Buffer;
-		IDirect3DVertexDeclaration9* pDecl;
-	};
 	struct Sphere
 	{
 		D3DXVECTOR3 modelpos;

@@ -114,9 +114,6 @@
     <ClInclude Include="System\InheritanceNode\Player\Player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="System\Polygon2D.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="System\Sound.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -243,7 +240,7 @@
     <ClInclude Include="System\InheritanceNode\EffectParticle\Particle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="System\TPolygon2D.h">
+    <ClInclude Include="System\Polygon2D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -321,9 +318,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="System\InheritanceNode\Player\Player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\Polygon2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="System\Sound.cpp">
@@ -425,7 +419,7 @@
     <ClCompile Include="System\InheritanceNode\EffectParticle\Particle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="System\TPolygon2D.cpp">
+    <ClCompile Include="System\Polygon2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

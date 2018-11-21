@@ -22,6 +22,7 @@
 D3DXMATRIX Player::world_;
 D3DXMATRIX Player::rot_;
 D3DXMATRIX Player::pos_;
+D3DXMATRIX Player::body_;
 
 Player::Player() 
 	: GameObjectManager(OBJ_3D_MODEL)
@@ -88,6 +89,7 @@ void Player::Draw()
 	D3DXMATRIX mtxSword, mtxShiled;
 	mtxSword = skinmesh_->GetBoneMatrix("Bip001_001_Bip001_R_Hand");
 	mtxShiled = skinmesh_->GetBoneMatrix("Bip001_001_Bip001_L_Hand");
+	body_ = skinmesh_->GetBoneMatrix("Bip001_001_Bip001_Head");
 	item_->ShiledDraw(device,mtxShiled);
 	item_->SwordDraw(device,mtxSword);
 	skinmesh_->Draw(device);
@@ -237,4 +239,9 @@ D3DXMATRIX & Player::GetPlayerPosMatrix()
 D3DXMATRIX & Player::GetPlayerRotMatrix()
 {
 	return rot_;
+}
+
+D3DXMATRIX & Player::GetPlayerBodyMatrix()
+{
+	return body_;
 }

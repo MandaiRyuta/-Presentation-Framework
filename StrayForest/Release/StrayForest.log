@@ -1,8 +1,16 @@
-﻿  Polygon2D.cpp
+﻿  GameObjectManager.cpp
+  GameManager.cpp
+  SceneGame.cpp
+  Camera.cpp
+  Guardian.cpp
+  GuardianManager.cpp
+  Player.cpp
+  PlayerMove.cpp
+  main.cpp
   コード生成しています。
-  2 of 2541 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  55 of 2541 functions ( 2.2%) were compiled, the rest were copied from previous compilation.
+    6 functions were new in current compilation
+    56 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
-  StrayForest.vcxproj -> C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Release\StrayForest.exe
-  StrayForest.vcxproj -> C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Release\StrayForest.pdb (Full PDB)
+  StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Release\StrayForest.exe
+  StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Release\StrayForest.pdb (Full PDB)

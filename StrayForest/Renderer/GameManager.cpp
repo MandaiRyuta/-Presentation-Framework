@@ -38,17 +38,15 @@ GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _n
 
 void GameManager::Init()
 {
-	D3DXCreateTexture(GetDevice(), windows_rect::SCREEN_WIDTH, windows_rect::SCREEN_HEIGHT, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_BlurTexture1);
-	m_BlurTexture1->GetSurfaceLevel(0, &m_BlurSurface1);
-	D3DXCreateTexture(GetDevice(), windows_rect::SCREEN_WIDTH, windows_rect::SCREEN_HEIGHT, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_BlurTexture2);
-	m_BlurTexture1->GetSurfaceLevel(0, &m_BlurSurface2);
-	GetDevice()->GetRenderTarget(0, &m_BackBufferSurface);
+	LPDIRECT3DDEVICE9 device = GetDevice();
+
 	/*読み込むテクスチャは先に読み込ませておく*/
 	TextureLoder::LoadData("Resource/Texture/floor01.png");
 	TextureLoder::LoadData("Resource/Texture/floor02.png");
 	TextureLoder::LoadData("Resource/Texture/floor01normal.png");
 	TextureLoder::LoadData("Resource/Texture/floor02normal.png");
 	TextureLoder::LoadData("Resource/Texture/sea.png");
+	TextureLoder::LoadData("Resource/Texture/Particle.png");
 	ModelLoder::LoadData("Resource/Model/skydomemodel.x");
 	ModelLoder::LoadData("Resource/Model/treemodel.x");
 	ModelLoder::LoadData("Resource/Model/TestGurdian.x");
@@ -62,6 +60,7 @@ void GameManager::Init()
 	EffectShaderManager::EffectLoad("Resource/Shader/StenshillShadow.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/Shiled.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/Sword.fx");
+	EffectShaderManager::EffectLoad("Resource/Shader/Particle.fx");
 	//EffectShaderManager::EffectLoad("Resource/Shader/BumpMap.fx");
 	SetSceneMode(new SceneGame);
 }
@@ -76,26 +75,27 @@ void GameManager::Update()
 
 void GameManager::Draw()
 {
-	LPDIRECT3DDEVICE9 device_ = GetDevice();
-	device_->Clear(0,										// RECT構造体配列の矩形の数
+	LPDIRECT3DDEVICE9 device = GetDevice();
+
+	device->Clear(0,										// RECT構造体配列の矩形の数
 		NULL,									// RECT構造体の先頭アドレス(画面全体はNULL)
 		(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL),	// TARGETは色のクリア、ZBUFFERはZバッファのクリア STENCIL ステンシルシャドウの実装のために設定
 		D3DCOLOR_RGBA(30, 64, 192, 255),		// クリアカラ―(TARGETがあるとき)
 		1.0f,									// Zバッファのクリア値
 		0);									// ステンシル値のクリア値
-	SUCCEEDED(device_->BeginScene());
-	
+	SUCCEEDED(device->BeginScene());
+
 	ImGui::GetFPS();
-	device_->SetRenderState(D3DRS_DITHERENABLE,D3DFILL_FORCE_DWORD);
-	device_->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	device_->SetRenderState(D3DRS_CLIPPING, TRUE);
+	device->SetRenderState(D3DRS_DITHERENABLE,D3DFILL_FORCE_DWORD);
+	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	device->SetRenderState(D3DRS_CLIPPING, TRUE);
 
 	GameObjectManager::DrawAll();
 
 	ImGui::Render();
 
-	device_->EndScene();
-	device_->Present(NULL, NULL, NULL, NULL);
+	device->EndScene();
+	device->Present(NULL, NULL, NULL, NULL);
 }
 
 void GameManager::Uninit()

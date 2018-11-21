@@ -60,6 +60,7 @@ public:
 	static D3DXMATRIX& GetPlayerMatrix();
 	static D3DXMATRIX& GetPlayerPosMatrix();
 	static D3DXMATRIX& GetPlayerRotMatrix();
+	static D3DXMATRIX& GetPlayerBodyMatrix();
 private:
 	ACTIONPATTERN playeraction_;
 	bool StateMode_;
@@ -76,6 +77,7 @@ private:
 	CInputKeyboard* keyboard_;
 	D3DXVECTOR3 scale_;
 	Entity::MATRIX3D matrix_;
+	static D3DXMATRIX body_;
 	static D3DXMATRIX world_;
 	static D3DXMATRIX pos_;
 	static D3DXMATRIX rot_;

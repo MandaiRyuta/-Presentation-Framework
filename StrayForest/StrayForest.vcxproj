@@ -223,11 +223,10 @@
     <ClInclude Include="System\InheritanceNode\Sea.h" />
     <ClInclude Include="System\InheritanceNode\Skydome.h" />
     <ClInclude Include="System\MotionEffect.h" />
-    <ClInclude Include="System\Polygon2D.h" />
     <ClInclude Include="System\Polygon3D.h" />
     <ClInclude Include="System\Sound.h" />
     <ClInclude Include="System\System.h" />
-    <ClInclude Include="System\TPolygon2D.h" />
+    <ClInclude Include="System\Polygon2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObjectManager\GameObjectManager.cpp" />
@@ -286,10 +285,9 @@
     <ClCompile Include="System\InheritanceNode\Sea.cpp" />
     <ClCompile Include="System\InheritanceNode\Skydome.cpp" />
     <ClCompile Include="System\MotionEffect.cpp" />
-    <ClCompile Include="System\Polygon2D.cpp" />
     <ClCompile Include="System\Polygon3D.cpp" />
     <ClCompile Include="System\Sound.cpp" />
-    <ClCompile Include="System\TPolygon2D.cpp" />
+    <ClCompile Include="System\Polygon2D.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

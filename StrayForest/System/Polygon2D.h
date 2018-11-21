@@ -1,61 +1,92 @@
 #pragma once
+
 #include "../GameObjectManager/GameObjectManager.h"
 #include "../Entity/Entity.h"
 #include <string>
 
-
-class CScene2D : public GameObjectManager
+class Polygon2D : public GameObjectManager
 {
 private:
-#define FVF_VERTEX_2D (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
-	bool backgroundset_;
+#define FVF_POLYGON2D ( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 )
 
-	Entity::POLYGONSIZE polygonsize_;
-	Entity::Dx9Buffer buffer_;
-	std::string filename_;
-
-	int texturewidth_;
-	int textureheight_;
-
-	float scalex_, scaley_;
-	float polygon_angle_;
-	float rotation_offsetx_;
-	float rotation_offsety_;
-	float scale_offsetx_;
-	float scale_offsety_;
-
-	bool set_;
 public:
-	CScene2D(int Priority, bool set, Entity::POLYGONSIZE polygonsize, std::string filename, int texturewidth, int textureheight, bool backgroundset)
-		: set_(set), polygonsize_(polygonsize), filename_(filename), backgroundset_(backgroundset), GameObjectManager(Priority)
-	{
-		this->polygon_angle_ = 0.0f;
-		this->rotation_offsetx_ = 0.0f;
-		this->rotation_offsety_ = 0.0f;
-		this->scalex_ = 1.0f;
-		this->scaley_ = 1.0f;
-		this->scale_offsetx_ = 0.0f;
-		this->scale_offsety_ = 0.0f;
-		this->texturewidth_ = texturewidth;
-		this->textureheight_ = textureheight;
-	}
-	~CScene2D();
-
+	Polygon2D(
+		int _priority,
+		float _dx,
+		float _dy,
+		float _dw,
+		float _dh,
+		unsigned int _tcx,
+		unsigned int _tcy,
+		unsigned int _tcw,
+		unsigned int _tch,
+		D3DCOLOR _color,
+		bool _affine,
+		float _angle,
+		float _rot_offsetx,
+		float _rot_offsety,
+		float _scale_offsetX,
+		float _scale_offsetY,
+		float _scaleX,
+		float _scaleY,
+		LPDIRECT3DTEXTURE9 _texture
+		);
+	~Polygon2D();
 private:
-	void CreateVertex(D3DCOLOR color, float dx, float dy, float dw, float dh, int tcx, int tcy, int tcw, int tch);
-	void CreateVertexAffine(D3DCOLOR color, float dx, float dy, float dw, float dh, int tcx, int tcy, int tcw, int tch);
-
+	void CreateVertex(
+		D3DCOLOR _color,
+		float _dx,
+		float _dy,
+		float _dw,
+		float _dh,
+		int _tcx,
+		int _tcy,
+		int _tcw,
+		int _tch
+	);
+	void CreateVertexAffine(
+		D3DCOLOR _color,
+		float _dx,
+		float _dy,
+		float _dw,
+		float _dh,
+		int _tcx,
+		int _tcy,
+		int _tcw,
+		int _tch
+	);
 public:
 	void Init() override;
-	void Uninit() override;
 	void Update() override;
 	void Draw() override;
-	void ColorSet(D3DCOLOR setcolor);
-	void SetPolygonScale(float scaleX, float scaleY);
-	void PolygonDrawIn(bool Set);
-	void PolygonWidthSet(float width);
-	/*2Dポリゴンサイズ設定*/
-	Entity::POLYGONSIZE SetPolygonsize();
+	void Uninit() override;
+	
+	void SetColor(D3DCOLOR _color);
+	void SetPolygonScale(float _x, float _y);
 public:
-	static CScene2D* Create(bool set, int priority, Entity::POLYGONSIZE polygonsize, std::string filename, int texturewidth, int textureheight, bool backgroundset);
+	static Polygon2D* Create(
+		int _priority,
+		float _dx,
+		float _dy,
+		float _dw,
+		float _dh,
+		unsigned int _tcx,
+		unsigned int _tcy,
+		unsigned int _tcw,
+		unsigned int _tch,
+		D3DCOLOR _color,
+		bool _affine,
+		float _angle,
+		float _rot_offsetx,
+		float _rot_offsety,
+		LPDIRECT3DTEXTURE9 _texture
+	);
+private:
+	LPDIRECT3DTEXTURE9 texture_;
+	Entity::POLYGONSIZE infomation_;
+	Entity::Dx9Buffer buffer_;
+	float scaleX_, scaleY_;
+	float angle_;
+	float rot_offsetX_, rot_offsetY_;
+	float scale_offsetX_, scale_offsetY_;
 };

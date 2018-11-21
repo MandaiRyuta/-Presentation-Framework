@@ -9,6 +9,7 @@ class Light;
 class CInputKeyboard;
 class CInputMouse;
 
+constexpr int DOWN_SAMPLE = 4;
 class GameManager
 {
 public:
@@ -26,13 +27,6 @@ public:
 	static CInputKeyboard* GetKeyboard();
 	static CInputMouse* GetMouse();
 private:
-	//ÉuÉâÅ[óp
-	LPDIRECT3DTEXTURE9 m_BlurTexture1;
-	LPDIRECT3DSURFACE9 m_BlurSurface1;
-	LPDIRECT3DTEXTURE9 m_BlurTexture2;
-	LPDIRECT3DSURFACE9 m_BlurSurface2;
-
-	LPDIRECT3DSURFACE9 m_BackBufferSurface;
 	static CInputMouse* mouse_;
 	static CInputKeyboard* keyboard_;
 	CDX9Renderer* renderer_;

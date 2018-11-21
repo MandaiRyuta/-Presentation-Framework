@@ -26,7 +26,7 @@ void StenshilShadow::Update()
 	if (type_ == 0)
 	{
 		D3DXMatrixScaling(&matrix_.scale, 10.0f, 60.0f, 10.0f);
-		D3DXMatrixTranslation(&matrix_.position, Player::GetPlayerPosMatrix()._41, 5.0f, Player::GetPlayerPosMatrix()._43);
+		D3DXMatrixTranslation(&matrix_.position, Player::GetPlayerBodyMatrix()._41, 5.0f, Player::GetPlayerBodyMatrix()._43);
 	}
 	else if (type_ == 1)
 	{
