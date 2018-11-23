@@ -24,6 +24,12 @@ enum ACTIONPATTERN
 
 namespace Entity
 {
+	struct EffectInfomation
+	{
+		D3DXVECTOR3 position;
+		D3DXVECTOR3 scale;
+		D3DXVECTOR3 rotation;
+	};
 	struct Sphere
 	{
 		D3DXVECTOR3 modelpos;

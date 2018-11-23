@@ -1,0 +1,91 @@
+﻿  Culling3D.Grid.cpp
+  Culling3D.Layer.cpp
+  Culling3D.Matrix44.cpp
+  Culling3D.ObjectInternal.cpp
+  Culling3D.ReferenceObject.cpp
+  Culling3D.Vector3DF.cpp
+  Culling3D.WorldInternal.cpp
+  Effekseer.Client.cpp
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\culling\Culling3D.h(152): warning C4244: 'return': 'double' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Culling\Culling3D.Matrix44.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\culling\Culling3D.h(152): warning C4244: 'return': 'double' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Culling\Culling3D.ReferenceObject.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\culling\Culling3D.h(152): warning C4244: 'return': 'double' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Culling\Culling3D.Vector3DF.cpp)
+Effekseer\Culling\Culling3D.Vector3DF.cpp(120): warning C4244: 'return': 'double' から 'float' への変換です。データが失われる可能性があります。
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\culling\Culling3D.h(152): warning C4244: 'return': 'double' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Culling\Culling3D.Grid.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\culling\Culling3D.h(152): warning C4244: 'return': 'double' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Culling\Culling3D.ObjectInternal.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\culling\Culling3D.ObjectInternal.h(41): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Culling\Culling3D.ObjectInternal.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\culling\Culling3D.h(152): warning C4244: 'return': 'double' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Culling\Culling3D.WorldInternal.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\culling\Culling3D.h(152): warning C4244: 'return': 'double' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Culling\Culling3D.Layer.cpp)
+  Effekseer.Color.cpp
+  Effekseer.DefaultEffectLoader.cpp
+  Effekseer.DefaultFile.cpp
+  Effekseer.Effect.cpp
+  Effekseer.EffectNode.cpp
+  Effekseer.EffectNodeModel.cpp
+  Effekseer.EffectNodeRibbon.cpp
+  Effekseer.EffectNodeRing.cpp
+  Effekseer.EffectNodeRoot.cpp
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.Effect.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '=': 'int32_t' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.Effect.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.EffectNodeModel.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '=': 'int32_t' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.EffectNodeModel.cpp)
+  Effekseer.EffectNodeSprite.cpp
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.EffectNode.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '=': 'int32_t' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.EffectNode.cpp)
+Effekseer\Effekseer.EffectNodeModel.cpp(147): warning C4244: '=': 'const float' から 'int32_t' への変換です。データが失われる可能性があります。
+  Effekseer.EffectNodeTrack.cpp
+  Effekseer.FCurves.cpp
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.EffectNodeRing.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '=': 'int32_t' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.EffectNodeRing.cpp)
+  Effekseer.Instance.cpp
+  Effekseer.InstanceContainer.cpp
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.EffectNodeRoot.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '=': 'int32_t' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.EffectNodeRoot.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.EffectNodeRibbon.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '=': 'int32_t' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.EffectNodeRibbon.cpp)
+  Effekseer.InstanceGlobal.cpp
+  Effekseer.InstanceGroup.cpp
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.EffectNodeTrack.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '=': 'int32_t' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.EffectNodeTrack.cpp)
+Effekseer\Effekseer.EffectNodeTrack.cpp(160): warning C4244: '初期化中': 'const float' から 'int32_t' への変換です。データが失われる可能性があります。
+Effekseer\Effekseer.EffectNodeTrack.cpp(161): warning C4244: '初期化中': 'const float' から 'int32_t' への変換です。データが失われる可能性があります。
+Effekseer\Effekseer.EffectNodeTrack.cpp(224): warning C4244: '初期化中': 'float' から 'int32_t' への変換です。データが失われる可能性があります。
+Effekseer\Effekseer.EffectNodeTrack.cpp(225): warning C4244: '初期化中': 'float' から 'int32_t' への変換です。データが失われる可能性があります。
+Effekseer\Effekseer.EffectNodeTrack.cpp(247): warning C4244: '初期化中': 'float' から 'int32_t' への変換です。データが失われる可能性があります。
+Effekseer\Effekseer.EffectNodeTrack.cpp(248): warning C4244: '初期化中': 'float' から 'int32_t' への変換です。データが失われる可能性があります。
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.EffectNodeSprite.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '=': 'int32_t' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.EffectNodeSprite.cpp)
+  Effekseer.IntrusiveList.cpp
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.FCurves.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '=': 'int32_t' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.FCurves.cpp)
+  Effekseer.Setting.cpp
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.Instance.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '=': 'int32_t' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.Instance.cpp)
+  Effekseer.Manager.cpp
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.InstanceContainer.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '=': 'int32_t' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.InstanceContainer.cpp)
+Effekseer\Effekseer.Instance.cpp(111): warning C4244: '引数': 'const float' から 'int32_t' への変換です。データが失われる可能性があります。
+Effekseer\Effekseer.Instance.cpp(624): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+Effekseer\Effekseer.Instance.cpp(630): warning C4244: '=': 'float' から 'int32_t' への変換です。データが失われる可能性があります。
+Effekseer\Effekseer.Instance.cpp(1361): warning C4244: '引数': 'float' から 'int32_t' への変換です。データが失われる可能性があります。
+Effekseer\Effekseer.Instance.cpp(1362): warning C4244: '引数': 'float' から 'int32_t' への変換です。データが失われる可能性があります。
+Effekseer\Effekseer.Instance.cpp(1363): warning C4244: '引数': 'float' から 'int32_t' への変換です。データが失われる可能性があります。
+Effekseer\Effekseer.Instance.cpp(1364): warning C4244: '引数': 'float' から 'int32_t' への変換です。データが失われる可能性があります。
+  Effekseer.Matrix43.cpp
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.InstanceGroup.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '=': 'int32_t' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.InstanceGroup.cpp)
+  Effekseer.Matrix44.cpp
+  Effekseer.RectF.cpp
+  Effekseer.Server.cpp
+  Effekseer.Socket.cpp
+  Effekseer.Vector2D.cpp
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '引数': 'const int' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.Manager.cpp)
+d:\users\owner\desktop\effekseerruntime140\src\effekseer\effekseer\Effekseer.InternalStruct.h(73): warning C4244: '=': 'int32_t' から 'float' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています Effekseer\Effekseer.Manager.cpp)
+  Effekseer.Vector3D.cpp
+Effekseer\Effekseer.Manager.cpp(1491): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+Effekseer\Effekseer.Manager.cpp(1514): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+Effekseer\Effekseer.Manager.cpp(1553): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+Effekseer\Effekseer.Manager.cpp(1682): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+Effekseer\Effekseer.Manager.cpp(1701): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+Effekseer.IntrusiveList.obj : warning LNK4221: このオブジェクト ファイルは、以前に未定義であったパブリック シンボルを定義していないため、このライブラリを使用するリンク操作では使用されません
+Effekseer.EffectNodeRoot.obj : warning LNK4221: このオブジェクト ファイルは、以前に未定義であったパブリック シンボルを定義していないため、このライブラリを使用するリンク操作では使用されません
+  Effekseer.vcxproj -> D:\Users\Owner\Desktop\EffekseerRuntime140\src\Effekseer\..\lib\x86\Effekseer.Debug.lib

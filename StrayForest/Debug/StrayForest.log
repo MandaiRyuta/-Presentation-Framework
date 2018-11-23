@@ -1,3 +1,63 @@
-﻿  SceneGame.cpp
-  StrayForest.vcxproj -> C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.exe
-  StrayForest.vcxproj -> C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.pdb (Full PDB)
+﻿  MyEffekseer.cpp
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2167): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2167): warning C4100: 'count': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2167): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2169): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2169): warning C4100: 'instanceParameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2169): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2171): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2171): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2240): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2240): warning C4100: 'count': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2240): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2242): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2242): warning C4100: 'instanceParameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2242): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2244): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2244): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2246): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2246): warning C4100: 'count': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2246): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2248): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2248): warning C4100: 'count': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2248): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2319): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2319): warning C4100: 'count': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2319): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2321): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2321): warning C4100: 'instanceParameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2321): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2323): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2323): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2394): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2394): warning C4100: 'count': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2394): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2396): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2396): warning C4100: 'instanceParameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2396): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2398): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2398): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2477): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2477): warning C4100: 'count': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2477): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2479): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2479): warning C4100: 'instanceParameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2479): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2481): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2481): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2483): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2483): warning C4100: 'count': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2483): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2485): warning C4100: 'userData': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2485): warning C4100: 'count': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2485): warning C4100: 'parameter': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2597): warning C4100: 'textureType': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2597): warning C4100: 'path': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2606): warning C4100: 'data': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2656): warning C4100: 'path': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(2665): warning C4100: 'data': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(3124): warning C4100: 'path': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\effekseer\src\include\effekseer.h(3133): warning C4100: 'source': 引数は関数の本体部で 1 度も参照されません。
+c:\users\owner\desktop\-presentation-framework\strayforest\system\inheritancenode\myeffekseer\myeffekseer.cpp(107): warning C4189: 'CreateMyEffect': ローカル変数が初期化されましたが、参照されていません
+  StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.exe
+  StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.pdb (Full PDB)

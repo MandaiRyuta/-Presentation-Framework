@@ -11,17 +11,18 @@
 #include "../../System/InheritanceNode/BossMonster/BossMonster.h"
 #include "../../Shadow/StenshilShadow.h"
 #include "../../System/Polygon2D.h"
-
+#include "../../System/InheritanceNode/MyEffekseer/MyEffekseer.h"
 MeshFiled* SceneGame::meshfiled_;
 
 void SceneGame::Initialize()
 {
 	Entity::MeshFiledSize filedsize;
-
+	
 	filedsize.filed_x = MeshFiledX;
 	filedsize.filed_z = MeshFiledZ;
 	filedsize.size_x = MeshFiledXSize;
 	filedsize.size_z = MeshFiledZSize;
+	MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/MagicArea.efk");
 	meshfiled_ = MeshFiled::Create(filedsize);
 	Skydome::Create();
 	StenshilShadow::Create(0);

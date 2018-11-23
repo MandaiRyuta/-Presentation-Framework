@@ -10,6 +10,7 @@
 #include "../System/InheritanceNode/Light.h"
 #include "../InputManager/input.h"
 
+
 SceneManager* GameManager::mode_;
 CInputKeyboard* GameManager::keyboard_;
 CInputMouse* GameManager::mouse_;

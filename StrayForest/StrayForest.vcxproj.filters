@@ -243,6 +243,9 @@
     <ClInclude Include="System\Polygon2D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="System\InheritanceNode\MyEffekseer\MyEffekseer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObjectManager\GameObjectManager.cpp">
@@ -420,6 +423,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="System\Polygon2D.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\MyEffekseer\MyEffekseer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
