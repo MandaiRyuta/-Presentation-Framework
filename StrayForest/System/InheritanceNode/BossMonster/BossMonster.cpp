@@ -6,6 +6,8 @@
 #include "BossMonsterPatterns\BossMonsterPatternA.h"
 #include "../MeshFiled.h"
 #include "../../../SceneManager/InheritanceNode/SceneGame.h"
+#include "../Player/Player.h"
+
 D3DXVECTOR3 BossMonster::GetPos_;
 Entity::MATRIX3D BossMonster::GetMatrix_;
 
@@ -16,6 +18,7 @@ BossMonster::BossMonster(int _Max_Life, int _Max_Mana)
 	, life_(_Max_Life)
 	, max_mana_(_Max_Mana)
 	, mana_(_Max_Mana)
+	, movecolision_(new SphereColision)
 {
 }
 
@@ -33,6 +36,10 @@ void BossMonster::Init()
 	D3DXMatrixIdentity(&matrix_.world);
 	position_ = D3DXVECTOR3(0.0f, 0.0f, 300.0f);
 	position_.y = SceneGame::GetMeshFiled()->GetHeight(position_);
+	movecolisioninfo_.colision01.modelpos = position_;
+	movecolisioninfo_.colision01.r = 35.0f;
+	movecolisioninfo_.colision02.r = 25.0f;
+	movecolisioninfo_.colision02.modelpos = D3DXVECTOR3(Player::GetPlayerPosMatrix()._41, Player::GetPlayerPosMatrix()._42, Player::GetPlayerPosMatrix()._43);
 	basic_lowspeed_ = 0.5f;
 	basic_highspeed_ = 1.0f;
 	variable_movespeed_ = 0.5f;
@@ -40,10 +47,25 @@ void BossMonster::Init()
 
 void BossMonster::Update()
 {
-	skinmesh_->SetAnimSpeed(2.0f);
+	movecolisioninfo_.colision01.modelpos = position_;
+	movecolisioninfo_.colision02.modelpos = D3DXVECTOR3(Player::GetPlayerPosMatrix()._41, Player::GetPlayerPosMatrix()._42, Player::GetPlayerPosMatrix()._43);
+	bool colisioncheck = movecolision_->Collision_detection_of_Sphere_and_Sphere(movecolisioninfo_);
+
+	skinmesh_->SetAnimSpeed(1.0f);
 	skinmesh_->Update(matrix_.world);
-	bosspattern_->Update(this);
+	
+	if (colisioncheck)
+	{
+		movecolisioninfo_.hit_vector.y = 0.0f;
+		position_ += movecolisioninfo_.hit_vector;
+	}
+	else
+	{
+		bosspattern_->Update(this);
+	}
+
 	D3DXMatrixTranslation(&matrix_.position, position_.x, position_.y, position_.z);
+
 	D3DXMatrixScaling(&matrix_.scale, scale_.x, scale_.y, scale_.z);
 	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
 	GetPos_ = D3DXVECTOR3(matrix_.position._41, matrix_.position._42, matrix_.position._43);
@@ -123,6 +145,21 @@ void BossMonster::ChangeBossMonsterAttackPattern(BossMonsterAttackPattern * _bos
 D3DXMATRIX & BossMonster::GetPositionMatrix()
 {
 	return matrix_.position;
+}
+
+CSkinMesh * BossMonster::GetSkinMesh()
+{
+	return skinmesh_;
+}
+
+SphereColision * BossMonster::GetMoveColision()
+{
+	return movecolision_;
+}
+
+Entity::SphereColision& BossMonster::GetMoveColisionInfo()
+{
+	return movecolisioninfo_;
 }
 
 float& BossMonster::GetMoveLowSpeed()

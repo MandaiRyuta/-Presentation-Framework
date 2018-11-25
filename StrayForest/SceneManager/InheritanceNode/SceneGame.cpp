@@ -12,6 +12,8 @@
 #include "../../Shadow/StenshilShadow.h"
 #include "../../System/Polygon2D.h"
 #include "../../System/InheritanceNode/MyEffekseer/MyEffekseer.h"
+#include "../../System/colision/SphereColision.h"
+
 MeshFiled* SceneGame::meshfiled_;
 
 void SceneGame::Initialize()

@@ -1,0 +1,519 @@
+#include "main.h"
+
+#pragma comment(lib, "d3d9.lib")
+#pragma comment(lib, "d3dx9.lib")
+#pragma comment(lib, "dxguid.lib")
+#pragma comment(lib, "winmm.lib")
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <sstream>
+
+#include "ModelAnim.h"
+#include "PlayerItem.h"
+#define SAFE_RELEASE(p) { if(p){ (p)->Release(); (p) = NULL; } }
+#define SAFE_DELETE(p) { if(p) { delete(p); (p) = NULL; } }
+#define SAFE_DELETE_ARRAY(p) { if(p) { delete[] (p); (p) = NULL; } }
+
+constexpr int SCREEN_WIDTH = 640;
+constexpr int SCREEN_HHEIGHT = 480;
+
+Model* model[10] = {};
+//--- コールバック関数 ---//
+LRESULT APIENTRY WndFunc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+//メイン関数
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev,
+	LPSTR lpszCmdParam, int nCmdshow)
+{
+
+	// CLS_MAIN GameMain;
+	//-----------------------------------------------
+	//宣言
+	//-----------------------------------------------
+	//ウィンドウズ関係
+	MSG msg;
+	HWND hWnd;
+	WNDCLASS wc;
+
+
+	//ゲームループフラグ
+	BOOL g_LoopFlg;
+
+	LPDIRECT3D9 lpD3D = NULL; //Direct3Dインターフェイス
+	LPDIRECT3DDEVICE9 lpD3DDevice = NULL; //Direct3DDeviceインターフェイス
+	LPDIRECT3DSURFACE9 lpBackbuffer = NULL; //バックバッファ用
+
+											//フルスクリーンフラグ
+	BOOL FullScreenFlg = false;
+
+
+	D3DPRESENT_PARAMETERS d3dpp; //プレゼントパラメータ(ウィンドウモード)
+	int adapter;
+
+
+	//スキンメッシュ用クラス
+	CSkinMesh m_CSkinMesh;
+
+	//itemの初期化
+	ItemList item_;
+	model[0] = new Model;
+	model[0]->color_ = D3DCOLOR_RGBA(255, 255, 255, 255);
+	model[0]->index_ = 0;
+	model[0]->position_ = { 0.0f,0.0f,0.0f };
+	model[0]->isscall_ = true;
+	model[0]->scall_ = { 100.f,100.f,100.f };
+	//コンストラクタでnewしている。
+	item_.add(new Sword,new Shild);
+	
+
+	int nTimeCount = 0;
+	//-----------------------------------------------
+	//初期化
+	//-----------------------------------------------
+
+
+	//ウィンドウズ作成
+	char szAppName[] = "SkinMeshApp";
+
+	//タイトル
+	LPSTR sGameTitle = "アニメーション確認用";
+
+
+	wc.style = CS_DBLCLKS;
+	wc.lpfnWndProc = WndFunc;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hInstance = hInst;
+	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	wc.lpszMenuName = NULL;
+	wc.lpszClassName = szAppName;
+
+	//-- 2重起動チェック --//
+	if (FindWindow(szAppName, sGameTitle) != NULL) {
+		MessageBox(NULL, "すでに起動しています！", "2重起動確認", MB_OK);
+		exit(EOF);
+	}
+
+
+	RegisterClass(&wc);
+	hWnd = CreateWindowEx(
+		0,
+		szAppName,
+		sGameTitle,
+		WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		SCREEN_WIDTH, SCREEN_HHEIGHT,
+		NULL, NULL, hInst,
+		NULL);
+
+	if (!hWnd) exit(-1);
+	ShowWindow(hWnd, nCmdshow);
+	UpdateWindow(hWnd);
+	SetFocus(hWnd);
+
+	if (FullScreenFlg) {
+		ShowCursor(false);
+	}
+	else {
+		RECT rc = { 0, 0, SCREEN_WIDTH, SCREEN_HHEIGHT };
+		AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
+		SetWindowPos(hWnd, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOZORDER);
+	}
+
+	g_LoopFlg = TRUE;
+
+	//---------------------DirectX Graphics関連-----------------------
+
+	// Direct3D オブジェクトを作成
+	SAFE_RELEASE(lpD3D);
+	lpD3D = Direct3DCreate9(D3D_SDK_VERSION);
+	// オブジェクトの作成失敗
+	if (!lpD3D)
+	{
+		// オブジェクト作成失敗メッセージを表示
+		MessageBox(hWnd, "Direct3D の作成に失敗しました。", "ERROR", MB_OK | MB_ICONSTOP);
+		// 終了する
+		exit(-1);
+	}
+	// 使用するアダプタ番号
+	adapter = 0;
+
+	// ウインドウの作成が完了したので、Direct3D を初期化する
+	ZeroMemory(&d3dpp, sizeof(D3DPRESENT_PARAMETERS));
+
+	// Direct3D 初期化パラメータの設定
+	if (FullScreenFlg)
+	{
+		// フルスクリーン
+		d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
+	}
+	else
+	{
+		// ウインドウタイプ
+		D3DDISPLAYMODE Disp;
+		// 現在の画面モードを取得
+		lpD3D->GetAdapterDisplayMode(adapter, &Disp);
+		// 現在の画面モードを使用
+		d3dpp.BackBufferFormat = Disp.Format;
+	}
+	// 表示領域サイズの設定
+	d3dpp.BackBufferWidth = SCREEN_WIDTH;
+	d3dpp.BackBufferHeight = SCREEN_HHEIGHT;
+	d3dpp.SwapEffect = D3DSWAPEFFECT_FLIP;
+
+	if (!FullScreenFlg)
+	{
+		// ウインドウモード
+		d3dpp.Windowed = 1;
+	}
+
+	// Z バッファの自動作成
+	d3dpp.EnableAutoDepthStencil = 1;
+	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
+
+	//ﾊﾞｯｸﾊﾞｯﾌｧをﾛｯｸ可能にする(GetDCも可能になる)
+	d3dpp.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
+
+	SAFE_RELEASE(lpD3DDevice);
+	// デバイスの作成 - T&L HAL
+	if (FAILED(lpD3D->CreateDevice(adapter, D3DDEVTYPE_HAL, hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, &d3dpp, &lpD3DDevice)))
+	{
+		// 失敗したので HAL で試行
+		if (FAILED(lpD3D->CreateDevice(adapter, D3DDEVTYPE_HAL, hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, &d3dpp, &lpD3DDevice)))
+		{
+			// 失敗したので REF で試行
+			if (FAILED(lpD3D->CreateDevice(adapter, D3DDEVTYPE_REF, hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, &d3dpp, &lpD3DDevice)))
+			{
+				// 結局失敗した
+				MessageBox(hWnd, "DirectX9が初期化できません。", "ERROR", MB_OK | MB_ICONSTOP);
+				lpD3D->Release();
+				// 終了する
+				exit(-1);
+			}
+		}
+	}
+
+	// レンダリング・ステートを設定
+	// Z バッファ有効化->前後関係の計算を正確にしてくれる
+	lpD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	lpD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
+	// アルファブレンディング有効化
+	lpD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+
+	// アルファブレンディング方法を設定
+	lpD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	lpD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	// レンダリング時のアルファ値の計算方法の設定
+	lpD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	// テクスチャの色を使用
+	lpD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	// 頂点の色を使用
+	lpD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+	// レンダリング時の色の計算方法の設定
+	lpD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+
+	//裏面カリング(ポリゴンの裏面を描画しない)
+	lpD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	// フィルタ設定
+	lpD3DDevice->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+	lpD3DDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	lpD3DDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+
+	//ライトを無効にする
+	lpD3DDevice->LightEnable(0, FALSE);
+	// ライトの計算処理をしない
+	lpD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//マテリアルの設定
+	lpD3DDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_MATERIAL);
+
+	//単位行列
+	D3DXMATRIX mIden;
+	D3DXMatrixIdentity(&mIden);
+
+	//データをロードさせる
+	//スキンメッシュの初期化
+	m_CSkinMesh.Init(lpD3DDevice, "Boss.x");
+	m_CSkinMesh.SetAnimSpeed(1.0f);
+	m_CSkinMesh.MyChangeAnim(65.3);
+	//武器や防具の初期化
+	item_.Init(lpD3DDevice);
+	//ゲームループ
+	while (g_LoopFlg) {
+		if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE))
+		{
+			if (!GetMessage(&msg, NULL, 0, 0))break;
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		else {
+
+			//-----------------------------------------------
+			//更新処理
+			//-----------------------------------------------
+			//アニメーションのトラックやスピードや映したいアニメーションのタイミングを指定する
+			//※今回はアニメーショントラック１つに全てのモーションをまとめているので、トラック以外を設定している。
+			///Idle
+			//if (nTimeCount < 520)
+			//{
+			//	nTimeCount++;
+			//}
+			//else{
+			//	m_CSkinMesh.MyChangeAnim(0.0);
+			//	nTimeCount = 0;
+			//}
+			///Attack
+			//if (nTimeCount < 200)
+			//{
+			//	nTimeCount++;
+			//}
+			//else
+			//{
+			//	m_CSkinMesh.MyChangeAnim(5.2);
+			//	nTimeCount = 0;
+			//}
+			///Attack2
+			//if (nTimeCount < 100)
+			//{
+			//	nTimeCount++;
+			//}
+			//else
+			//{
+			//	m_CSkinMesh.MyChangeAnim(7.2);
+			//	nTimeCount = 0;
+			//}
+			///Buff
+			//if (nTimeCount < 300)
+			//{
+			//	nTimeCount++;
+			//}
+			//else
+			//{
+			//	m_CSkinMesh.MyChangeAnim(9.0);
+			//	nTimeCount = 0;
+			//}
+			///Damage
+			//if (nTimeCount < 100)
+			//{
+			//	nTimeCount++;
+			//}
+			//else
+			//{
+			//	m_CSkinMesh.MyChangeAnim(12.0);
+			//	nTimeCount = 0;
+			//}
+			///Idle2
+			//if (nTimeCount < 450)
+			//{
+			//	nTimeCount++;
+			//}
+			//else
+			//{
+			//	m_CSkinMesh.MyChangeAnim(14.0);
+			//	nTimeCount = 0;
+			//}
+			///Idle3
+			//if (nTimeCount < 380)
+			//{
+			//	nTimeCount++;
+			//}
+			//else
+			//{
+			//	m_CSkinMesh.MyChangeAnim(18.5);
+			//	nTimeCount = 0;
+			//}
+			///Attack3
+			//if (nTimeCount < 150)
+			//{
+			//	nTimeCount++;
+			//}
+			//else
+			//{
+			//	m_CSkinMesh.MyChangeAnim(23.5);
+			//	nTimeCount = 0;
+			//}
+			///Magic01
+			//if (nTimeCount < 345)
+			//{
+			//	nTimeCount++;
+			//}
+			//else
+			//{
+			//	m_CSkinMesh.MyChangeAnim(26.7);
+			//	nTimeCount = 0;
+			//}
+			///Magic02
+			//if (nTimeCount < 400)
+			//{
+			//	nTimeCount++;
+			//}
+			//else
+			//{
+			//	m_CSkinMesh.MyChangeAnim(31.0);
+			//	nTimeCount = 0;
+			//}
+			///Magic03
+			//if (nTimeCount < 280)
+			//{
+			//	nTimeCount++;
+			//}
+			//else
+			//{
+			//	m_CSkinMesh.MyChangeAnim(37.0);
+			//	nTimeCount = 0;
+			//}
+			///Attack4
+			//if (nTimeCount < 380)
+			//{
+			//	nTimeCount++;
+			//}
+			//else
+			//{
+			//	m_CSkinMesh.MyChangeAnim(48.5);
+			//	nTimeCount = 0;
+			//}
+			///walk
+			//if (nTimeCount < 140)
+			//{
+			//	nTimeCount++;
+			//}
+			//else
+			//{
+			//	m_CSkinMesh.MyChangeAnim(63.3);
+			//	nTimeCount = 0;
+			//}
+			if (nTimeCount < 85)
+			{
+				nTimeCount++;
+			}
+			else
+			{
+				m_CSkinMesh.MyChangeAnim(65.3);
+				nTimeCount = 0;
+			}
+			m_CSkinMesh.Update(mIden);
+			item_.Update();
+
+
+			//-----------------------------------------------
+			//カメラ更新
+			//-----------------------------------------------
+
+			D3DXMATRIX m_View, m_Proj;
+
+			// 視点行列の設定
+			D3DXMatrixLookAtLH(&m_View,
+				&D3DXVECTOR3(0, 1, -5), //カメラの位置
+				&D3DXVECTOR3(0, 0, 0), //カメラが見る方向
+				&D3DXVECTOR3(0, 1, 0) //カメラの傾き(カメラから見た上方向ベクトル)
+			);
+
+			// 投影行列の設定
+			D3DXMatrixPerspectiveFovLH(&m_Proj, D3DXToRadian(60), (float)SCREEN_WIDTH / (float)SCREEN_HHEIGHT, 0.1f, 1200.f);
+
+			//行列設定
+			lpD3DDevice->SetTransform(D3DTS_VIEW, &m_View);
+			lpD3DDevice->SetTransform(D3DTS_PROJECTION, &m_Proj);
+
+			//バックバッファ&Zバッファのクリア
+			lpD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
+
+
+			//-----------------------------------------------
+			//描画開始
+			//-----------------------------------------------
+			if (lpD3DDevice->BeginScene() == S_OK) {
+
+
+				//-----------------------------------------------
+				//ここから下に描画処理を書く
+				//-----------------------------------------------
+
+
+
+				//ゲームモード毎の描画処理
+				//スキンメッシュの描画
+				m_CSkinMesh.Draw(lpD3DDevice);
+			
+				//D3DXMATRIX Target;
+				////スキンメッシュの右手の行列を受け取る
+				//Target = m_CSkinMesh.GetBoneMatrix("Bip001_001_Bip001_R_Hand");
+				//
+				////武器や防具を持たせる
+				////ここは自分でクラスの作り方を考える
+				//item_.WeaponDraw(lpD3DDevice,Target);
+				//Target = m_CSkinMesh.GetBoneMatrix("Bip001_001_Bip001_L_Hand");
+				//item_.ArmorDraw(lpD3DDevice, Target);
+				
+				//描画終了
+				lpD3DDevice->EndScene();
+			}
+
+			//バックバッファ反映(フロントバッファとバックバッファを入れ替える)とデバイスロストチェック
+			if (lpD3DDevice->Present(NULL, NULL, NULL, NULL) == D3DERR_DEVICELOST)
+			{
+				//再構築不可能であれば終了
+				if (lpD3DDevice->TestCooperativeLevel() == D3DERR_DEVICELOST) {
+					exit(EOF);
+				}
+				else {
+
+					//再構成失敗時には終了
+					if (lpD3DDevice->Reset(&d3dpp) != D3D_OK) {
+						exit(EOF);
+					}
+				}
+
+			}
+		}
+	}
+
+
+	//解放
+	//メッシュオブジェクト管理クラス初期化管理
+	m_CSkinMesh.Release();
+	item_.Uninit();
+	//バックバッファ解放
+	SAFE_RELEASE(lpBackbuffer);
+	// Direct3D オブジェクトを解放
+	SAFE_RELEASE(lpD3DDevice);
+
+	//ラストメモリリークチェック(あと解放するのはlpD3D1つだけなので、Release()後に1になっていればOK)
+	int a = lpD3D->AddRef();
+	a = lpD3D->Release();
+	// Direct3D オブジェクトを解放
+	SAFE_RELEASE(lpD3D);
+
+	timeEndPeriod(1);
+
+	return msg.wParam;
+
+}
+
+//--- コールバック関数 ---//
+LRESULT APIENTRY WndFunc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+
+	switch (msg) {
+	case WM_DESTROY:
+		//アプリケーション終了
+		PostQuitMessage(0);
+		return 0;
+
+	case WM_KEYDOWN:
+		switch (wParam) {
+		case VK_ESCAPE:
+			break;
+		}
+	}
+	return DefWindowProc(hwnd, msg, wParam, lParam);
+
+
+}

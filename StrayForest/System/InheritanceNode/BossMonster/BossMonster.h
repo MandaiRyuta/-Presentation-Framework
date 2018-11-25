@@ -2,12 +2,13 @@
 #include "../../../GameObjectManager/GameObjectManager.h"
 #include "../../../SkinMeshAnimation/ModelAnim.h"
 #include "../../../Entity/Entity.h"
+#include "../../colision/SphereColision.h"
 
 class BossMonsterAttackPattern;
 class BossMonsterSkillPattern;
 class BossMonsterMagicPattern;
 class BossMonsterPattern;
-
+class SphereColision;
 class BossMonster : public GameObjectManager
 {
 public:
@@ -37,6 +38,9 @@ public:
 	const int GetMaxMana() const { return max_mana_; }
 	static D3DXVECTOR3 GetPosition() { return GetPos_; }
 	D3DXMATRIX& GetPositionMatrix();
+	CSkinMesh* GetSkinMesh();
+	SphereColision* GetMoveColision();
+	Entity::SphereColision& GetMoveColisionInfo();
 	float& GetMoveLowSpeed();
 	float& GetMoveHighSpeed();
 	float& GetMoveVariableSpeed();
@@ -53,7 +57,8 @@ private:
 	BossMonsterSkillPattern* skill_;
 	BossMonsterMagicPattern* magic_;
 	BossMonsterPattern* bosspattern_;
-
+	SphereColision* movecolision_;
+	Entity::SphereColision movecolisioninfo_;
 	float basic_lowspeed_;
 	float variable_movespeed_;
 	float basic_highspeed_;

@@ -2,6 +2,7 @@
 
 #include "../SceneManager.h"
 class MeshFiled;
+
 class SceneGame : public SceneManager
 {
 public:

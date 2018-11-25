@@ -31,7 +31,7 @@ void SphereColision::AmountOfSqueezingVectorCalculation_Sphere_Sphere(Entity::Sp
 		D3DXVECTOR3 centerlength;
 		centerlength = colision.center_to_center;
 		D3DXVec3Normalize(&colision.center_to_center, &colision.center_to_center);
-		float length = D3DXVec3Length(&centerlength);
+		float length = D3DXVec3Length(&centerlength) - colision.two_radius;
 		colision.hit_vector = colision.center_to_center * length;
 	}
 }

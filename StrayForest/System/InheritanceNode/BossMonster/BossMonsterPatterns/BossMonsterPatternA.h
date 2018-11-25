@@ -4,15 +4,9 @@
 class BossMonsterPatternA : public BossMonsterPattern
 {
 public:
+	BossMonsterPatternA();
 	~BossMonsterPatternA() {}
 	void Update(BossMonster* _bossmonster) override;
 private:
-	enum BOSSMOVESTATE
-	{
-		STOP,
-		WALK,
-		RUN,
-		NONE
-	};
-	BOSSMOVESTATE movestate_;
+	int FrameCount_;
 };

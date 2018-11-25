@@ -1,5 +1,6 @@
 #include "BossMonsterPattern.h"
 #include "BossMonsterPatternA.h"
+#include "BossMonsterPatternB.h"
 #include "../BossMonster.h"
 
 BossMonsterPatternNone::BossMonsterPatternNone()
@@ -11,7 +12,8 @@ void BossMonsterPatternNone::Update(BossMonster * _bossmonster)
 {
 	if (FrameCount_ > 250)
 	{
-		_bossmonster->ChangeBossMonsterMovePattern(new BossMonsterPatternA);
+		_bossmonster->GetSkinMesh()->MyChangeAnim(63.3);
+		_bossmonster->ChangeBossMonsterMovePattern(new BossMonsterPatternB);
 	}
 	FrameCount_++;
 }

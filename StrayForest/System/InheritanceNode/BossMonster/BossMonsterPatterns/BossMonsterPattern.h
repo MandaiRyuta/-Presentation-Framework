@@ -1,6 +1,7 @@
 #pragma once
 
 class BossMonster;
+class SphereColision;
 
 class BossMonsterPattern
 {
