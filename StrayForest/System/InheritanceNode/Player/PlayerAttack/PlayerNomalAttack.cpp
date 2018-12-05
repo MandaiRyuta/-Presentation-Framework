@@ -5,7 +5,7 @@
 PlayerNomalAttack::PlayerNomalAttack(Player * _player)
 	: FrameCounter_(0)
 {
-
+	_player = _player;
 }
 
 void PlayerNomalAttack::Update(Player * _player)

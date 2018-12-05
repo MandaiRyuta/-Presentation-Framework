@@ -1,8 +1,8 @@
 #include "PlayerShiled.h"
 #include "../../../../LoadManager/ModelLoder.h"
 #include "../../../../ShaderManager/EffectShaderManager.h"
-
-void Shiled::Init(LPDIRECT3DDEVICE9 _device)
+#include "../../../Renderer/GameManager.h"
+void Shiled::Init()
 {
 }
 
@@ -33,10 +33,10 @@ void Shiled::Draw(LPDIRECT3DDEVICE9 _device, D3DXMATRIX TargetBone)
 	EffectShaderManager::GetEffect(SHILED)->SetMatrix("mWVP", (D3DXMATRIX*)&Matrix_.world);
 	EffectShaderManager::GetEffect(SHILED)->Begin(NULL, 0);
 
-	for (DWORD i = 0; i < ModelLoder::GetModelData(SHILEDMODEL)->dw_material; i++)
+	for (DWORD i = 0; i < GameManager::GetModel(LOADMODEL::MODEL_SHILED)->GetModelData()->dw_material; i++)
 	{
-		_device->SetTexture(0, ModelLoder::GetModelData(SHILEDMODEL)->p_meshtexture[i]);
-		ModelLoder::GetModelData(SHILEDMODEL)->p_mesh->DrawSubset(i);
+		_device->SetTexture(0, GameManager::GetModel(LOADMODEL::MODEL_SHILED)->GetModelData()->p_meshtexture[i]);
+		GameManager::GetModel(LOADMODEL::MODEL_SHILED)->GetModelData()->p_mesh->DrawSubset(i);
 	}
 	EffectShaderManager::GetEffect(SHILED)->End();
 }
@@ -47,6 +47,7 @@ void Shiled::Uninit()
 	{
 		EffectShaderManager::GetEffect(SHILED)->Release();
 	}
-	delete[] ModelLoder::GetModelData(SHILEDMODEL)->p_meshtexture;
-	delete[] ModelLoder::GetModelData(SHILEDMODEL)->p_meshmaterial;
+
+	//delete[] ModelLoder::GetModelData(SHILEDMODEL)->p_meshtexture;
+	//delete[] ModelLoder::GetModelData(SHILEDMODEL)->p_meshmaterial;
 }

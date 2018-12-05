@@ -3,6 +3,7 @@
 #include "../../Player/Player.h"
 #include "../../MeshFiled.h"
 #include "../../../SceneManager/InheritanceNode/SceneGame.h"
+#include "BossMonsterPatternC.h"
 
 BossMonsterPatternB::BossMonsterPatternB()
 	:	FrameCount_(0)
@@ -31,22 +32,12 @@ void BossMonsterPatternB::Update(BossMonster * _bossmonster)
 	}
 
 	move = AxisMove * (_bossmonster->GetMoveLowSpeed() + _bossmonster->GetMoveHighSpeed());
-	//switch (movestate_)
-	//{
-	//case BOSSMOVESTATE::STOP:
-	//	//_skinmesh Ž~‚Ü‚Á‚½ó‘Ô
-	//	move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	//	break;
-	//case BOSSMOVESTATE::WALK:
 
-	//	break;
-	//case BOSSMOVESTATE::RUN:
-	//	//_skinmesh@‘–‚èÝ’è
-	//	move = AxisMove * (_bossmonster->GetMoveHighSpeed() + _bossmonster->GetMoveVariableSpeed());
-	//	break;
-	//default:
-	//	break;
-	//}
+	if (_bossmonster->GetLife() < _bossmonster->GetMaxLife() / 2.0f)
+	{
+		_bossmonster->ChangeBossMonsterMovePattern(new BossMonsterPatternC);
+	}
+
 	move.y = 0.0f;
 	////ˆÚ“®
 	_bossmonster->SetRotation(rotation);

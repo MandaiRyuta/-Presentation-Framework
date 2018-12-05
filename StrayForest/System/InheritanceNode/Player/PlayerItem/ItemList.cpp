@@ -1,45 +1,41 @@
 #include "ItemList.h"
-#include "PlayerWeapon.h"
-#include "PlayerShiled.h"
 
-void ItemList::Init(LPDIRECT3DDEVICE9 _device)
+void ItemList::add(PlayerSword* _sword, PlayerShiled* _shiled)
 {
-	for (auto itr = sword_.begin(); itr != sword_.end(); ++itr)
-	{
-		(*itr)->Init(_device);
-	}
-	for (auto itr = shiled_.begin(); itr != shiled_.end(); ++itr)
-	{
-		(*itr)->Init(_device);
-	}
+	sword_ = _sword;
+	shiled_ = _shiled;
+}
+
+void ItemList::SwordClear()
+{
+	delete sword_;
+}
+
+void ItemList::ShiledClear()
+{
+	delete shiled_;
+}
+
+void ItemList::Init()
+{
+	shiled_->Init();
+	sword_->Init();
 }
 
 void ItemList::Update()
 {
-	for (auto itr = sword_.begin(); itr != sword_.end(); ++itr)
-	{
-		(*itr)->Update();
-	}
-	for (auto itr = shiled_.begin(); itr != shiled_.end(); ++itr)
-	{
-		(*itr)->Update();
-	}
+	shiled_->Update();
+	sword_->Update();
 }
 
 void ItemList::SwordDraw(LPDIRECT3DDEVICE9 _device, D3DXMATRIX targetbone)
 {
-	for (auto itr = sword_.begin(); itr != sword_.end(); ++itr)
-	{
-		(*itr)->Draw(_device, targetbone);
-	}
+	sword_->Draw(_device, targetbone);
 }
 
 void ItemList::ShiledDraw(LPDIRECT3DDEVICE9 _device, D3DXMATRIX targetbone)
 {
-	for (auto itr = shiled_.begin(); itr != shiled_.end(); ++itr)
-	{
-		(*itr)->Draw(_device, targetbone);
-	}
+	shiled_->Draw(_device, targetbone);
 }
 
 void ItemList::Uninit()

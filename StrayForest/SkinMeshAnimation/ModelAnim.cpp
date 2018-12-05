@@ -15,7 +15,7 @@ CSkinMesh::CSkinMesh() {
 	//マテリアルデータ
 	ZeroMemory(&m_Material, sizeof(D3DMATERIAL9));
 	//単位行列化
-	D3DXMatrixIdentity(&(this->m_World));
+	D3DXMatrixIdentity(&(m_World));
 
 	//アニメーション時間初期化
 	m_AnimeTime = 0;
@@ -45,13 +45,16 @@ void CSkinMesh::Release() {
 		FreeAnim(m_pFrameRoot);
 		//その他情報(テクスチャの参照データなど)の解放
 		m_cHierarchy.DestroyFrame(m_pFrameRoot);
+
 		m_pFrameRoot = NULL;
 	}
 
 	//アニメーションコントローラー解放
 	SAFE_RELEASE(m_pAnimController);
+	SAFE_DELETE(m_pAnimController);
 	//すべてのフレーム参照変数の要素を削除
 	m_FrameArray.clear();
+
 	//メッシュコンテナありのフレーム参照変数の要素を削除
 	m_IntoMeshFrameArray.clear();
 }
@@ -134,7 +137,7 @@ HRESULT CSkinMesh::AllocateAllBoneMatrices(LPD3DXFRAME pFrameRoot, LPD3DXFRAME p
 //フレーム内のそれぞれのメッシュをレンダリングする
 void CSkinMesh::RenderMeshContainer(LPDIRECT3DDEVICE9 pDevice, MYMESHCONTAINER* pMeshContainer, MYFRAME* pFrame)
 {
-
+	pFrame = pFrame;
 	DWORD i, k;
 	DWORD dwBlendMatrixNum;
 	DWORD dwPrevBoneID;
@@ -455,12 +458,6 @@ void CSkinMesh::Draw(LPDIRECT3DDEVICE9 lpD3DDevice) {
 	//0(再生中の)トラックから更新したトラックデスクを取得する
 	m_pAnimController->GetTrackDesc(0, &m_CurrentTrackDesc);
 
-}
-
-//アニメーションを時間帯で管理している場合はこのメンバ関数を使って操作する。
-void CSkinMesh::SetAnimTrack(DOUBLE _AnimTrack)
-{
-	m_CurrentTrackDesc.Position = _AnimTrack;
 }
 
 void CSkinMesh::MyChangeAnim(double _frame)

@@ -5,6 +5,7 @@
 PlayerBuff::PlayerBuff(Player * _player)
 	: FrameCounter_(0)
 {
+	_player = _player;
 }
 
 PlayerBuff::~PlayerBuff()

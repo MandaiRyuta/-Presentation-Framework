@@ -8,7 +8,9 @@ public:
 	virtual void Update(BossMonster* _bossmonster) = 0;
 };
 
-class BossMonsterMagicNull : public BossMonsterMagicPattern
+class BossMonsterMagicNone : public BossMonsterMagicPattern
 {
+public:
+	~BossMonsterMagicNone() {}
 	void Update(BossMonster* _bossmonster) override {}
 };

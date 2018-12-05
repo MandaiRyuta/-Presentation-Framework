@@ -93,13 +93,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\lua-5.3.4_Win32_dllw4_lib\include;C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\lua-5.3.4_Win32_dllw4_lib\include;C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>liblua53.a;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\lua-5.3.4_Win32_dllw4_lib;C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\lib\VS2015\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\lua-5.3.4_Win32_dllw4_lib;C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\lib\VS2015\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -125,14 +125,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\lib\lib\VS2015\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\lib\VS2015\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -182,6 +182,7 @@
     <ClInclude Include="stb_truetype.h" />
     <ClInclude Include="System\colision\SphereColision.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonster.h" />
+    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternC.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternA.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPattern.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternB.h" />
@@ -195,15 +196,8 @@
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternC.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPattern.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternA.h" />
-    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternB.h" />
     <ClInclude Include="System\InheritanceNode\Camera.h" />
     <ClInclude Include="System\InheritanceNode\EffectParticle\Particle.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\Guardian.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianManager.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianAttack.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianDiffence.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianNomal.h" />
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardiansPattern.h" />
     <ClInclude Include="System\InheritanceNode\Instancing3D.h" />
     <ClInclude Include="System\InheritanceNode\Light.h" />
     <ClInclude Include="System\InheritanceNode\MeshFiled.h" />
@@ -254,6 +248,7 @@
     <ClCompile Include="SkinMeshAnimation\ModelFrame.cpp" />
     <ClCompile Include="System\colision\SphereColision.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonster.cpp" />
+    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternC.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternA.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternB.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterMagic\BossMonsterMagicPatternA.cpp" />
@@ -264,14 +259,8 @@
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternB.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternC.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternA.cpp" />
-    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternB.cpp" />
     <ClCompile Include="System\InheritanceNode\Camera.cpp" />
     <ClCompile Include="System\InheritanceNode\EffectParticle\Particle.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\Guardian.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianManager.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianAttack.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianDiffence.cpp" />
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianNomal.cpp" />
     <ClCompile Include="System\InheritanceNode\Instancing3D.cpp" />
     <ClCompile Include="System\InheritanceNode\Light.cpp" />
     <ClCompile Include="System\InheritanceNode\MeshFiled.cpp" />

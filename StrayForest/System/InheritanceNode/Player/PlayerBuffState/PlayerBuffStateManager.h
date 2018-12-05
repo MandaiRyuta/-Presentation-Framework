@@ -12,5 +12,5 @@ public:
 
 class PlayerbuffNull : public PlayerBuffStateManager
 {
-	void Update(Player* _player) override {}
+	void Update(Player* _player) override { _player = _player; }
 };

@@ -8,5 +8,5 @@ public:
 	~BossMonsterMagicPatternC();
 	void Update(BossMonster* _bossmonster) override;
 private:
-	int framecount_;
+	int FrameCount_;
 };

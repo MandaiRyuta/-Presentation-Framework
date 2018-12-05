@@ -1,14 +1,15 @@
 #pragma once
 #include "../../../Entity/Entity.h"
+#include "../../../InputManager/input.h"
 #include "../../../GameObjectManager/GameObjectManager.h"
 #include "../../../SkinMeshAnimation/ModelAnim.h"
 #include "../Camera.h"
-class CInputKeyboard;
+
 class PlayerMoveManager;
 class PlayerMagicManager;
 class PlayerAttackManager;
-class PlayerBuffStateManager;
 class PlayerDiffenceManager;
+class PlayerBuffStateManager;
 class ItemList;
 
 class Player : public GameObjectManager
@@ -38,8 +39,8 @@ public:
 	const int GetMaxMana() const { return Max_Mana_; }
 public:
 	void ChangeMovePattern(PlayerMoveManager* _move);
-	void ChangeAttackPattern(PlayerMagicManager* _magic);
-	void ChangeMagicPattern(PlayerAttackManager* _attack);
+	void ChangeAttackPattern(PlayerAttackManager* _attack);
+	void ChangeMagicPattern(PlayerMagicManager* _magic);
 	void ChangeBuffMode(PlayerBuffStateManager* _buff);
 	void ChangeDiffencePattern(PlayerDiffenceManager* _diffence);
 public:
@@ -47,7 +48,7 @@ public:
 	const int& Mana() const { return Mana_; }
 	const int& MaxLife() const { return Max_Life_; }
 	const int& MaxMana() const { return Max_Mana_; }
-	CSkinMesh* GetSkinMesh() { return skinmesh_; }
+	CSkinMesh* GetSkinMesh();
 	CInputKeyboard* GetKeyboard();
 public:
 	void SetPlayerMatrix(D3DXMATRIX _world);

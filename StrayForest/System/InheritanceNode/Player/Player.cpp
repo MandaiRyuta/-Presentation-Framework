@@ -4,21 +4,21 @@
 #include "../MeshFiled.h"
 #include "../../../InputManager/input.h"
 #include "../../../Renderer/GameManager.h"
-#include "../../../SceneManager/InheritanceNode/SceneGame.h"
 #include "PlayerMove\PlayerMoveManager.h"
-#include "PlayerMove\PlayerMove.h"
 #include "PlayerAttack\PlayerAttackManager.h"
 #include "PlayerBuffState\PlayerBuffStateManager.h"
 #include "PlayerDiffence\PlayerDiffenceManager.h"
 #include "PlayerMagic\PlayerMagicManager.h"
 #include "PlayerBuffState\PlayerBuffStateManager.h"
-#include "PlayerItem\ItemList.h"
+#include "PlayerMove\PlayerMove.h"
 #include "PlayerItem\PlayerShiled.h"
 #include "PlayerItem\PlayerWeapon.h"
 #include "PlayerMagic\PlayerMagic.h"
 #include "PlayerDiffence\PlayerDiffence.h"
 #include "PlayerBuffState\PlayerBuff.h"
 #include "PlayerAttack\PlayerNomalAttack.h"
+#include "../MyEffekseer/MyEffekseer.h"
+#include "PlayerItem\ItemList.h"
 D3DXMATRIX Player::world_;
 D3DXMATRIX Player::rot_;
 D3DXMATRIX Player::pos_;
@@ -40,7 +40,6 @@ void Player::Init()
 	LPDIRECT3DDEVICE9 device = GetDevice();
 	skinmesh_ = new CSkinMesh;
 	skinmesh_->Init(device, "Resource/Model/Player.x");
-	
 	scale_ = D3DXVECTOR3(30.0f, 30.0f, 30.0f);
 	skinmesh_->SetAnimSpeed(1.0f);
 	D3DXMatrixIdentity(&matrix_.position);
@@ -49,7 +48,7 @@ void Player::Init()
 	D3DXMatrixIdentity(&matrix_.world);
 	item_ = new ItemList;
 	item_->add(new Sword, new Shiled);
-	item_->Init(device);
+	item_->Init();
 }
 
 void Player::Update()
@@ -98,9 +97,9 @@ void Player::Draw()
 void Player::Uninit()
 {
 	skinmesh_->Release();
+	delete skinmesh_;
 	item_->Uninit();
 	delete item_;
-	delete skinmesh_;
 	delete movemanager_;
 	delete attackmanager_;
 	delete buffmanager_;
@@ -152,7 +151,7 @@ void Player::DeBuff(double _animtrack, double _speed)
 
 Player * Player::Create()
 {
-	Player* CreatePlayer = new Player;
+	Player* CreatePlayer = new Player();
 	CreatePlayer->Init();
 	return CreatePlayer;
 }
@@ -163,16 +162,16 @@ void Player::ChangeMovePattern(PlayerMoveManager * _move)
 	movemanager_ = _move;
 }
 
-void Player::ChangeAttackPattern(PlayerMagicManager * _magic)
-{
-	delete magicmanager_;
-	magicmanager_ = _magic;
-}
-
-void Player::ChangeMagicPattern(PlayerAttackManager * _attack)
+void Player::ChangeAttackPattern(PlayerAttackManager* _attack)
 {
 	delete attackmanager_;
 	attackmanager_ = _attack;
+}
+
+void Player::ChangeMagicPattern(PlayerMagicManager* _magic)
+{
+	delete magicmanager_;
+	magicmanager_ = _magic;
 }
 
 void Player::ChangeBuffMode(PlayerBuffStateManager * _buff)
@@ -185,6 +184,11 @@ void Player::ChangeDiffencePattern(PlayerDiffenceManager * _diffence)
 {
 	delete diffencemanager_;
 	diffencemanager_ = _diffence;
+}
+
+CSkinMesh * Player::GetSkinMesh()
+{
+	return skinmesh_;
 }
 
 CInputKeyboard * Player::GetKeyboard()
@@ -214,6 +218,7 @@ void Player::SetActionPattern(ACTIONPATTERN _action)
 
 void Player::SetStateMode(bool _StateMode)
 {
+
 }
 
 bool Player::GetStateMode()

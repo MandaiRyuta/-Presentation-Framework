@@ -13,16 +13,16 @@
 #include "../../../Entity/Entity.h"
 #include "../../../GameObjectManager/GameObjectManager.h"
 
-class MyEffekseer : public GameObjectManager
+class MyEffekseer
 {
 public:
 	MyEffekseer(int _priority, wchar_t _filepath[]);
 	~MyEffekseer();
 public:
-	void Init() override;
-	void Update() override;
-	void Draw() override;
-	void Uninit() override;
+	void Init();
+	void Update();
+	void Draw();
+	void Uninit();
 public:
 	static MyEffekseer* CreateMyEffect(int _priority, wchar_t _filepath[]);
 public:
@@ -39,9 +39,12 @@ public:
 	const D3DXVECTOR3 GetPosition();
 	const D3DXVECTOR3 GetRotation();
 	const D3DXMATRIX GetWorld();
-	const int GetFrameCount();
+	const float GetFrameCount();
 private:
-	int FrameCount_;
+	float deltaframe_;
+	float FrameCount_;
+	float FrameStack_;
+	bool FrameSet_;
 	bool IsMoving;
 	bool IsDrawing;
 	D3DXMATRIX world_;

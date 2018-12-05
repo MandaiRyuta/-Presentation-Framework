@@ -126,9 +126,6 @@
     <ClInclude Include="SceneManager\InheritanceNode\SceneChutorial.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\Guardian.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonster.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -157,9 +154,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternA.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternB.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Shadow\StenshilShadow.h">
@@ -210,21 +204,6 @@
     <ClInclude Include="System\InheritanceNode\Player\PlayerMagic\PlayerMagicManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardiansPattern.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianNomal.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianDiffence.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="System\InheritanceNode\Player\PlayerItem\PlayerWeapon.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -244,6 +223,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="System\InheritanceNode\MyEffekseer\MyEffekseer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternC.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -335,9 +317,6 @@
     <ClCompile Include="SceneManager\InheritanceNode\Chutorial.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\Guardian.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonster.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -357,9 +336,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternA.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternB.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Shadow\StenshilShadow.cpp">
@@ -395,18 +371,6 @@
     <ClCompile Include="System\InheritanceNode\Player\PlayerMove\PlayerMove.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianDiffence.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianNomal.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="System\InheritanceNode\Guardian\GuardianPattern\GuardianAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="System\InheritanceNode\Player\PlayerItem\PlayerWeapon.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -426,6 +390,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="System\InheritanceNode\MyEffekseer\MyEffekseer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternC.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,9 +2,9 @@
 #include "../LoadManager/ModelLoder.h"
 #include "../ShaderManager/EffectShaderManager.h"
 #include "../System/InheritanceNode/Camera.h"
-#include "../../StrayForest/System/InheritanceNode/Player/Player.h"
-#include "../../StrayForest/System/InheritanceNode/BossMonster/BossMonster.h"
-
+#include "../System/InheritanceNode/Player/Player.h"
+#include "../System/InheritanceNode/BossMonster/BossMonster.h"
+#include "../Renderer/GameManager.h"
 void StenshilShadow::Init()
 {
 	//ModelLoder::GetModelData(SHADOW)->position = D3DXVECTOR3(0.0f,0.0f,0.0f);
@@ -56,10 +56,10 @@ void StenshilShadow::Draw()
 	EffectShaderManager::GetEffect(STENSHILSHADOW)->Begin(NULL, 0);
 	EffectShaderManager::GetEffect(STENSHILSHADOW)->BeginPass(0);
 	
-	for (DWORD i = 0; i < ModelLoder::GetModelData(SHADOW)->dw_material; i++)
+	for (DWORD i = 0; i < GameManager::GetModel(LOADMODEL::MODEL_SHADOW)->GetModelData()->dw_material; i++)
 	{
-		EffectShaderManager::GetEffect(STENSHILSHADOW)->SetTexture("texDecal",ModelLoder::GetModelData(SHADOW)->p_meshtexture[i]);
-		ModelLoder::GetModelData(SHADOW)->p_mesh->DrawSubset(i);
+		EffectShaderManager::GetEffect(STENSHILSHADOW)->SetTexture("texDecal", GameManager::GetModel(LOADMODEL::MODEL_SHADOW)->GetModelData()->p_meshtexture[i]);
+		GameManager::GetModel(LOADMODEL::MODEL_SHADOW)->GetModelData()->p_mesh->DrawSubset(i);
 	};
 	
 	EffectShaderManager::GetEffect(STENSHILSHADOW)->EndPass();
@@ -73,10 +73,10 @@ void StenshilShadow::Draw()
 	EffectShaderManager::GetEffect(STENSHILSHADOW)->Begin(NULL, 0);
 	EffectShaderManager::GetEffect(STENSHILSHADOW)->BeginPass(0);
 	
-	for (DWORD i = 0; i < ModelLoder::GetModelData(SHADOW)->dw_material; i++)
+	for (DWORD i = 0; i < GameManager::GetModel(LOADMODEL::MODEL_SHADOW)->GetModelData()->dw_material; i++)
 	{
-		EffectShaderManager::GetEffect(STENSHILSHADOW)->SetTexture("texDecal", ModelLoder::GetModelData(SHADOW)->p_meshtexture[i]);
-		ModelLoder::GetModelData(SHADOW)->p_mesh->DrawSubset(i);
+		EffectShaderManager::GetEffect(STENSHILSHADOW)->SetTexture("texDecal", GameManager::GetModel(LOADMODEL::MODEL_SHADOW)->GetModelData()->p_meshtexture[i]);
+		GameManager::GetModel(LOADMODEL::MODEL_SHADOW)->GetModelData()->p_mesh->DrawSubset(i);
 	};
 
 	EffectShaderManager::GetEffect(STENSHILSHADOW)->EndPass();
@@ -91,19 +91,20 @@ void StenshilShadow::Uninit()
 {
 	if (type_ == 1)
 	{
-		if (ModelLoder::GetModelData(SHADOW)->p_mesh != nullptr)
-		{
-			ModelLoder::GetModelData(SHADOW)->p_mesh->Release();
-			ModelLoder::GetModelData(SHADOW)->p_mesh = nullptr;
-		}
-		if (ModelLoder::GetModelData(SHADOW)->p_meshmaterial != nullptr)
-		{
-			delete[] ModelLoder::GetModelData(SHADOW)->p_meshmaterial;
-		}
-		if (ModelLoder::GetModelData(SHADOW)->p_meshtexture != nullptr)
-		{
-			delete[] ModelLoder::GetModelData(SHADOW)->p_meshtexture;
-		}
+		//if (ModelLoder::GetModelData(SHADOW)->p_mesh != nullptr)
+		//{
+		//	ModelLoder::GetModelData(SHADOW)->p_mesh->Release();
+		//	ModelLoder::GetModelData(SHADOW)->p_mesh = nullptr;
+		//	delete ModelLoder::GetModelData(SHADOW)->p_mesh;
+		//}
+		//if (ModelLoder::GetModelData(SHADOW)->p_meshmaterial != nullptr)
+		//{
+		//	delete[] ModelLoder::GetModelData(SHADOW)->p_meshmaterial;
+		//}
+		//if (ModelLoder::GetModelData(SHADOW)->p_meshtexture != nullptr)
+		//{
+		//	delete[] ModelLoder::GetModelData(SHADOW)->p_meshtexture;
+		//}
 	}
 }
 

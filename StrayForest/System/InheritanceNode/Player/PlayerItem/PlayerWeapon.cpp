@@ -1,10 +1,9 @@
 #include "PlayerWeapon.h"
 #include "../../../../LoadManager/ModelLoder.h"
 #include "../../../../ShaderManager/EffectShaderManager.h"
-
-void Sword::Init(LPDIRECT3DDEVICE9 _device)
+#include "../../../Renderer/GameManager.h"
+void Sword::Init()
 {
-	ModelLoder::GetModelData(SWORDMODEL)->color = D3DCOLOR_RGBA(255, 255, 255, 255);
 }
 
 void Sword::Update()
@@ -35,10 +34,10 @@ void Sword::Draw(LPDIRECT3DDEVICE9 _device, D3DXMATRIX TargetBone)
 	EffectShaderManager::GetEffect(SWORD)->SetMatrix("mWVP", (D3DXMATRIX*)&Matrix_.world);
 	EffectShaderManager::GetEffect(SWORD)->Begin(NULL, 0);
 
-	for (DWORD i = 0; i < ModelLoder::GetModelData(SWORDMODEL)->dw_material; i++)
+	for (DWORD i = 0; i < GameManager::GetModel(LOADMODEL::MODEL_SWORD)->GetModelData()->dw_material; i++)
 	{
-		_device->SetTexture(0, ModelLoder::GetModelData(SWORDMODEL)->p_meshtexture[i]);
-		ModelLoder::GetModelData(SWORDMODEL)->p_mesh->DrawSubset(i);
+		_device->SetTexture(0, GameManager::GetModel(LOADMODEL::MODEL_SWORD)->GetModelData()->p_meshtexture[i]);
+		GameManager::GetModel(LOADMODEL::MODEL_SWORD)->GetModelData()->p_mesh->DrawSubset(i);
 	}
 
 	EffectShaderManager::GetEffect(SWORD)->End();
@@ -50,6 +49,4 @@ void Sword::Uninit()
 	{
 		EffectShaderManager::GetEffect(SWORD)->Release();
 	}
-	delete[] ModelLoder::GetModelData(SWORDMODEL)->p_meshtexture;
-	delete[] ModelLoder::GetModelData(SWORDMODEL)->p_meshmaterial;
 }

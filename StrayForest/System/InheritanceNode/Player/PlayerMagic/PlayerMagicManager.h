@@ -12,5 +12,5 @@ public:
 
 class PlayerMagicNull : public PlayerMagicManager
 {
-	void Update(Player* _player) override {}
+	void Update(Player* _player) override { _player = _player; }
 };

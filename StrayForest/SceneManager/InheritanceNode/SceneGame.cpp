@@ -7,11 +7,9 @@
 #include "../../System/InheritanceNode/Player/Player.h"
 #include "../../System/InheritanceNode/Sea.h"
 #include "../../System/MotionEffect.h"
-#include "../../System/InheritanceNode/Guardian/Guardian.h"
 #include "../../System/InheritanceNode/BossMonster/BossMonster.h"
 #include "../../Shadow/StenshilShadow.h"
 #include "../../System/Polygon2D.h"
-#include "../../System/InheritanceNode/MyEffekseer/MyEffekseer.h"
 #include "../../System/colision/SphereColision.h"
 
 MeshFiled* SceneGame::meshfiled_;
@@ -24,7 +22,7 @@ void SceneGame::Initialize()
 	filedsize.filed_z = MeshFiledZ;
 	filedsize.size_x = MeshFiledXSize;
 	filedsize.size_z = MeshFiledZSize;
-	MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/MagicArea.efk");
+	
 	meshfiled_ = MeshFiled::Create(filedsize);
 	Skydome::Create();
 	StenshilShadow::Create(0);
@@ -34,7 +32,7 @@ void SceneGame::Initialize()
 	BossMonster::Create(500, 1000);
 	//Instancing3D::Create();
 	Sea::Create();
-	MeshEffect::Create();
+
 	//Guardian::Create();
 }
 
@@ -44,6 +42,7 @@ void SceneGame::Update()
 
 void SceneGame::Draw()
 {
+
 }
 
 void SceneGame::Release()

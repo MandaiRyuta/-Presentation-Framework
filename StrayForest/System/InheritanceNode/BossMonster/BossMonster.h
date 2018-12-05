@@ -9,6 +9,7 @@ class BossMonsterSkillPattern;
 class BossMonsterMagicPattern;
 class BossMonsterPattern;
 class SphereColision;
+
 class BossMonster : public GameObjectManager
 {
 public:
@@ -21,11 +22,9 @@ public:
 	void Uninit() override;
 public:
 	void Damage(int _damage);
-	void SetAttack(double _animtrack, float _speed);
-	void SetMagic(double _animtrack, float _speed);
-	void SetSkill(double _animtrack, float _speed);
 	void SetPosition(D3DXVECTOR3 _pos);
 	void SetRotation(float _rotation);
+	void SetMoveFlagON();
 public:
 	void ChangeBossMonsterMovePattern(BossMonsterPattern* _bossmonsterpattern);
 	void ChangeBossMonsterSkillPattern(BossMonsterSkillPattern* _bossmonsterskillpattern);
@@ -44,6 +43,7 @@ public:
 	float& GetMoveLowSpeed();
 	float& GetMoveHighSpeed();
 	float& GetMoveVariableSpeed();
+	const bool& GetMoveHitColision();
 public:
 	D3DXVECTOR3& Position() { return position_; }
 	const int& Life() const { return life_; }
@@ -77,5 +77,6 @@ private:
 	int max_mana_;
 	int life_;
 	int max_life_;
-
+	bool movestatecheck_;
+	bool movecheckcolision_;
 };

@@ -15,5 +15,5 @@ class PlayerMoveNull : public PlayerMoveManager
 public:
 	PlayerMoveNull() {}
 	virtual ~PlayerMoveNull() {}
-	virtual void Update(Player* _player) override {}
+	virtual void Update(Player* _player) override { _player = _player; }
 };

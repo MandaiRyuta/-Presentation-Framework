@@ -12,5 +12,13 @@ BossMonsterSkillPatternA::~BossMonsterSkillPatternA()
 
 void BossMonsterSkillPatternA::Update(BossMonster * _bossmonster)
 {
-	//_bossmonster->Skill();
+	if (framecounter_ < 300)
+	{
+		framecounter_++;
+	}
+	else
+	{
+		_bossmonster->GetSkinMesh()->MyChangeAnim(9.0);
+		framecounter_ = 0;
+	}
 }

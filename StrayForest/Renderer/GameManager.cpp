@@ -9,12 +9,13 @@
 #include "../System/InheritanceNode/Camera.h"
 #include "../System/InheritanceNode/Light.h"
 #include "../InputManager/input.h"
-
+#include <algorithm>
 
 SceneManager* GameManager::mode_;
 CInputKeyboard* GameManager::keyboard_;
 CInputMouse* GameManager::mouse_;
-
+//Models* GameManager::modelinfo_[MODEL_MAX] = {};
+std::vector<Models*> GameManager::modelinfo_;
 GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _nWindowWidth, int _nWindowHeight)
 {
 	_hInstance = _hInstance;
@@ -39,8 +40,6 @@ GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _n
 
 void GameManager::Init()
 {
-	LPDIRECT3DDEVICE9 device = GetDevice();
-
 	/*読み込むテクスチャは先に読み込ませておく*/
 	TextureLoder::LoadData("Resource/Texture/floor01.png");
 	TextureLoder::LoadData("Resource/Texture/floor02.png");
@@ -48,12 +47,15 @@ void GameManager::Init()
 	TextureLoder::LoadData("Resource/Texture/floor02normal.png");
 	TextureLoder::LoadData("Resource/Texture/sea.png");
 	TextureLoder::LoadData("Resource/Texture/Particle.png");
-	ModelLoder::LoadData("Resource/Model/skydomemodel.x");
-	ModelLoder::LoadData("Resource/Model/treemodel.x");
-	ModelLoder::LoadData("Resource/Model/TestGurdian.x");
-	ModelLoder::LoadData("Resource/Model/Shadow.x");
-	ModelLoder::LoadData("Resource/Model/Shiled.x");
-	ModelLoder::LoadData("Resource/Model/Sword.x");
+	modelinfo_.push_back(new ModelLoder("Resource/Model/skydomemodel.x"));
+	modelinfo_.push_back(new ModelLoder("Resource/Model/treemodel.x"));
+	modelinfo_.push_back(new ModelLoder("Resource/Model/Shadow.x"));
+	modelinfo_.push_back(new ModelLoder("Resource/Model/Shiled.x"));
+	modelinfo_.push_back(new ModelLoder("Resource/Model/Sword.x"));
+	//modelinfo_[MODEL_SKYDOME] = new ModelLoder("Resource/Model/skydomemodel.x");
+	//modelinfo_[MODEL_SHADOW] = new ModelLoder("Resource/Model/Shadow.x");
+	//modelinfo_[MODEL_SHILED] = new ModelLoder("Resource/Model/Shiled.x");
+	//modelinfo_[MODEL_SWORD] = new ModelLoder("Resource/Model/Sword.x");
 	EffectShaderManager::EffectLoad("Resource/Shader/ModelShader.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/Instance3D.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/SkinMeshShader.fx");
@@ -101,6 +103,18 @@ void GameManager::Draw()
 
 void GameManager::Uninit()
 {
+	//for (int i = 0; i < MODEL_MAX; i++)
+	//{
+	//	modelinfo_[i]->Relese();
+	//	delete modelinfo_[i];
+	//}
+
+	for (DWORD i = 0; i < modelinfo_.size(); i++)
+	{
+		modelinfo_[i]->Relese();
+		delete modelinfo_[i];
+		modelinfo_[i] = nullptr;
+	}
 	if (renderer_ != nullptr)
 	{
 		renderer_->Uninit();
@@ -141,7 +155,7 @@ void GameManager::Uninit()
 	}
 
 	TextureLoder::RelaseAll();
-	ModelLoder::ReleseAll();
+	
 	EffectShaderManager::ReleaseAll();
 }
 
@@ -169,4 +183,9 @@ CInputKeyboard * GameManager::GetKeyboard()
 CInputMouse * GameManager::GetMouse()
 {
 	return mouse_;
+}
+
+Models* GameManager::GetModel(LOADMODEL _modelnum)
+{
+	return modelinfo_[_modelnum];
 }

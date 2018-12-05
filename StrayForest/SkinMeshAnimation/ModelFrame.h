@@ -33,10 +33,11 @@ struct MYMESHCONTAINER : public D3DXMESHCONTAINER
 	DWORD NumPaletteEntries; //パレットサイズ
 	//エフェクトファイル
 	LPD3DXEFFECT effect_;
-							 // Work用
-	std::vector<D3DXMATRIX> m_WorkBoneMatArray;
+
+	// Work用 <8x2byteメモリーリーク部位>
+	//std::vector<D3DXMATRIX> m_WorkBoneMatArray;
 	// 影響するフレームへの参照配列。描画時にこのフレームの行列を使う。
-	std::vector<MYFRAME*> BoneFrameArray;
+	//std::vector<MYFRAME*> BoneFrameArray;
 
 	MYMESHCONTAINER() {
 		ppBoneMatrix = NULL;

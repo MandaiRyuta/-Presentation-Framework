@@ -2,7 +2,7 @@
 #include "../BossMonster.h"
 
 BossMonsterMagicPatternB::BossMonsterMagicPatternB() 
-	: framecount_(0)
+	: FrameCount_(0)
 {
 }
 
@@ -12,5 +12,13 @@ BossMonsterMagicPatternB::~BossMonsterMagicPatternB()
 
 void BossMonsterMagicPatternB::Update(BossMonster * _bossmonster)
 {
-	//_bossmonster->Magic();
+	if (FrameCount_ < 400)
+	{
+		FrameCount_++;
+	}
+	else
+	{
+		_bossmonster->GetSkinMesh()->MyChangeAnim(31.0);
+		FrameCount_ = 0;
+	}
 }

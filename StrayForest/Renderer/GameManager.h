@@ -2,14 +2,27 @@
 #include "../main.h"
 #include "../Renderer/Renderer.h"
 #include "../GameObjectManager/GameObjectManager.h"
-
+#include <vector>
 class SceneManager;
 class CCamera;
 class Light;
 class CInputKeyboard;
 class CInputMouse;
+class Models;
 
-constexpr int DOWN_SAMPLE = 4;
+//****************************************************
+// óÒãìå^
+//****************************************************
+enum LOADMODEL
+{
+	MODEL_SKYDOME,
+	MODEL_TREE,
+	MODEL_SHADOW,
+	MODEL_SHILED,
+	MODEL_SWORD,
+	MODEL_MAX,	//ÉÇÉfÉãÇÃç≈ëÂå¬êî
+};
+
 class GameManager
 {
 public:
@@ -26,11 +39,14 @@ public:
 public:
 	static CInputKeyboard* GetKeyboard();
 	static CInputMouse* GetMouse();
+	static Models* GetModel(LOADMODEL _modelnum);
 private:
+	//static Models* modelinfo_[MODEL_MAX];
 	static CInputMouse* mouse_;
 	static CInputKeyboard* keyboard_;
 	CDX9Renderer* renderer_;
 	CCamera* camera_;
 	Light* light_;
 	static SceneManager* mode_;
+	static std::vector<Models*> modelinfo_;
 };

@@ -7,7 +7,6 @@
 //フレームを作成する
 HRESULT MY_HIERARCHY::CreateFrame(LPCTSTR Name, LPD3DXFRAME *ppNewFrame)
 {
-	HRESULT hr = S_OK;
 	MYFRAME *pFrame;
 
 
@@ -61,7 +60,7 @@ HRESULT MY_HIERARCHY::CreateMeshContainer(LPCSTR Name, CONST D3DXMESHDATA* pMesh
 	DWORD NumMaterials, CONST DWORD *pAdjacency, LPD3DXSKININFO pSkinInfo,
 	LPD3DXMESHCONTAINER *ppMeshContainer)
 {
-
+	pEffectInstances = pEffectInstances;
 	//    HRESULT hr;
 	//ローカル生成用
 	MYMESHCONTAINER *pMeshContainer = NULL;
@@ -213,7 +212,6 @@ HRESULT MY_HIERARCHY::CreateMeshContainer(LPCSTR Name, CONST D3DXMESHDATA* pMesh
 		memcpy(&pMeshContainer->pBoneOffsetMatrices[i],
 			pMeshContainer->pSkinInfo->GetBoneOffsetMatrix(i), sizeof(D3DMATRIX));
 	}
-
 	//- 変換作業 -//
 
 	//メッシュコンテナにオリジナルのpMesh情報を格納
@@ -255,10 +253,11 @@ HRESULT MY_HIERARCHY::CreateMeshContainer(LPCSTR Name, CONST D3DXMESHDATA* pMesh
 HRESULT MY_HIERARCHY::DestroyFrame(LPD3DXFRAME pFrameToFree)
 {
 	//2銃解放防止
-	// if (pFrameToFree == NULL)return S_FALSE;
+	if (pFrameToFree == NULL)return S_FALSE;
 
 	SAFE_DELETE_ARRAY(pFrameToFree->Name);
-
+	SAFE_DELETE_ARRAY(pFrameToFree->pMeshContainer);
+	
 	if (pFrameToFree->pFrameFirstChild)
 	{
 		DestroyFrame(pFrameToFree->pFrameFirstChild);
@@ -277,38 +276,63 @@ HRESULT MY_HIERARCHY::DestroyFrame(LPD3DXFRAME pFrameToFree)
 //メッシュコンテナーを破棄する
 HRESULT MY_HIERARCHY::DestroyMeshContainer(LPD3DXMESHCONTAINER pMeshContainerBase)
 {
+	MYMESHCONTAINER *container = (MYMESHCONTAINER*)pMeshContainerBase;
 
-	int iMaterial;
-	MYMESHCONTAINER *pMeshContainer = (MYMESHCONTAINER*)pMeshContainerBase;
-
-	SAFE_DELETE_ARRAY(pMeshContainer->Name);
-	SAFE_RELEASE(pMeshContainer->pSkinInfo);
-	SAFE_DELETE_ARRAY(pMeshContainer->pAdjacency);
-	SAFE_DELETE_ARRAY(pMeshContainer->pMaterials);
-
-	SAFE_DELETE_ARRAY(pMeshContainer->ppBoneMatrix);
-
-	if (pMeshContainer->ppTextures != NULL)
+	if (container->Name != NULL)
 	{
-		for (iMaterial = 0; (DWORD)iMaterial < pMeshContainer->NumMaterials; iMaterial++)
+		delete[](container->Name);
+	}
+
+	if (container->pAdjacency != NULL)
+	{
+		delete[](container->pAdjacency);
+	}
+
+	if (container->pMaterials != NULL)
+	{
+		delete[](container->pMaterials);
+	}
+
+	if (container->NumMaterials > 0)
+	{
+		for (int i = 0; i < container->NumMaterials; i++)
 		{
-			//テクスチャ解放
-			SAFE_RELEASE(pMeshContainer->ppTextures[iMaterial]);
+			if (container->ppTextures[i] != NULL)
+			{
+				container->ppTextures[i]->Release();
+				container->ppTextures[i] = NULL;
+			}
 		}
+		delete[](container->ppTextures);
 	}
-	SAFE_DELETE_ARRAY(pMeshContainer->ppTextures);
 
-	SAFE_RELEASE(pMeshContainer->MeshData.pMesh);
-	SAFE_RELEASE(pMeshContainer->pOriMesh);
-
-	if (pMeshContainer->pBoneBuffer != NULL)
+	if (container->pSkinInfo != NULL)
 	{
-		SAFE_RELEASE(pMeshContainer->pBoneBuffer);
-		SAFE_DELETE_ARRAY(pMeshContainer->pBoneOffsetMatrices);
+		container->pSkinInfo->Release();
 	}
 
-	SAFE_DELETE(pMeshContainer);
-	pMeshContainerBase = NULL;
+	if (container->pBoneBuffer != NULL)
+	{
+		container->pBoneBuffer->Release();
+	}
+
+	if (container->ppBoneMatrix != NULL)
+	{
+		delete[](container->ppBoneMatrix);
+	}
+
+	if (container->pBoneOffsetMatrices != NULL)
+	{
+		delete[](container->pBoneOffsetMatrices);
+	}
+
+	if (container->MeshData.pMesh != NULL)
+	{
+		container->MeshData.pMesh->Release();
+		container->MeshData.pMesh = NULL;
+	}
+
+	delete(container);
 
 	return S_OK;
 }

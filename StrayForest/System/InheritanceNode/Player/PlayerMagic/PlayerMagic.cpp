@@ -1,11 +1,11 @@
 #include "PlayerMagic.h"
 #include "../Player.h"
 #include "../../../../InputManager/input.h"
-
+#include "../../../SceneManager/InheritanceNode/SceneGame.h"
 PlayerMagic::PlayerMagic(Player * _player)
 	: FrameCounter_(0)
 {
-
+	_player = _player;
 }
 
 PlayerMagic::~PlayerMagic()
@@ -16,14 +16,13 @@ void PlayerMagic::Update(Player * _player)
 {
 	if (_player->GetKeyboard()->GetKeyTrigger(DIK_4))
 	{
-		_player->SetActionPattern(ACTIONPATTERN::MAGIC01);
 		_player->GetSkinMesh()->SetAnimSpeed(2.0f);
 		_player->GetSkinMesh()->MyChangeAnim(21.5);
+		
 		FrameCounter_ = 0;
 	}
 	if (_player->GetKeyboard()->GetKeyTrigger(DIK_5))
 	{
-		_player->SetActionPattern(ACTIONPATTERN::MAGIC02);
 		_player->GetSkinMesh()->SetAnimSpeed(2.0f);
 		_player->GetSkinMesh()->MyChangeAnim(24);
 		FrameCounter_ = 0;

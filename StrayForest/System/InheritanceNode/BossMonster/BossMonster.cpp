@@ -1,12 +1,13 @@
 #include "BossMonster.h"
+#include "BossMonsterPatterns\BossMonsterPatternA.h"
+#include "../MeshFiled.h"
 #include "BossMonsterAttack\BossMonsterAttackPattern.h"
 #include "BossMonsterMagic\BossMonsterMagicPattern.h"
 #include "BossMonsterSkill\BossMonsterSkillPattern.h"
 #include "BossMonsterPatterns\BossMonsterPattern.h"
-#include "BossMonsterPatterns\BossMonsterPatternA.h"
-#include "../MeshFiled.h"
 #include "../../../SceneManager/InheritanceNode/SceneGame.h"
 #include "../Player/Player.h"
+#include "BossMonsterAttack\BossMonsterAttackPatternA.h"
 
 D3DXVECTOR3 BossMonster::GetPos_;
 Entity::MATRIX3D BossMonster::GetMatrix_;
@@ -14,11 +15,16 @@ Entity::MATRIX3D BossMonster::GetMatrix_;
 BossMonster::BossMonster(int _Max_Life, int _Max_Mana)
 	: GameObjectManager(0)
 	, bosspattern_(new BossMonsterPatternNone)
+	, magic_(new BossMonsterMagicNone)
+	, skill_(new BossMonsterSkillNone)
+	, attack_(new BossMonsterAttackPatternA)
 	, max_life_(_Max_Life)
 	, life_(_Max_Life)
 	, max_mana_(_Max_Mana)
 	, mana_(_Max_Mana)
 	, movecolision_(new SphereColision)
+	, movecheckcolision_(false)
+	, movestatecheck_(false)
 {
 }
 
@@ -50,18 +56,29 @@ void BossMonster::Update()
 	movecolisioninfo_.colision01.modelpos = position_;
 	movecolisioninfo_.colision02.modelpos = D3DXVECTOR3(Player::GetPlayerPosMatrix()._41, Player::GetPlayerPosMatrix()._42, Player::GetPlayerPosMatrix()._43);
 	bool colisioncheck = movecolision_->Collision_detection_of_Sphere_and_Sphere(movecolisioninfo_);
-
+	movecheckcolision_ = colisioncheck;
 	skinmesh_->SetAnimSpeed(1.0f);
 	skinmesh_->Update(matrix_.world);
-	
+
 	if (colisioncheck)
 	{
 		movecolisioninfo_.hit_vector.y = 0.0f;
 		position_ += movecolisioninfo_.hit_vector;
+		attack_->Update(this);
+		skill_->Update(this);
+		magic_->Update(this);
 	}
 	else
 	{
-		bosspattern_->Update(this);
+		if (movestatecheck_)
+		{
+			skinmesh_->MyChangeAnim(63.3);
+			movestatecheck_ = false;
+		}
+		else
+		{
+			bosspattern_->Update(this);
+		}
 	}
 
 	D3DXMatrixTranslation(&matrix_.position, position_.x, position_.y, position_.z);
@@ -91,25 +108,18 @@ void BossMonster::Draw()
 void BossMonster::Uninit()
 {
 	skinmesh_->Release();
+
 	delete skinmesh_;
+	delete magic_;
+	delete skill_;
+	delete attack_;
+	delete bosspattern_;
+	delete movecolision_;
 }
 
 void BossMonster::Damage(int _damage)
 {
 	life_ -= _damage;
-}
-
-void BossMonster::SetAttack(double _animtrack, float _speed)
-{
-
-}
-
-void BossMonster::SetMagic(double _animtrack, float _speed)
-{
-}
-
-void BossMonster::SetSkill(double _animtrack, float _speed)
-{
 }
 
 void BossMonster::SetPosition(D3DXVECTOR3 _pos)
@@ -120,6 +130,11 @@ void BossMonster::SetPosition(D3DXVECTOR3 _pos)
 void BossMonster::SetRotation(float _rotation)
 {
 	D3DXMatrixRotationY(&matrix_.rotation, _rotation);
+}
+
+void BossMonster::SetMoveFlagON()
+{
+	movestatecheck_ = true;
 }
 
 void BossMonster::ChangeBossMonsterMovePattern(BossMonsterPattern * _bossmonsterpattern)
@@ -175,6 +190,11 @@ float& BossMonster::GetMoveHighSpeed()
 float& BossMonster::GetMoveVariableSpeed()
 {
 	return variable_movespeed_;
+}
+
+const bool & BossMonster::GetMoveHitColision()
+{
+	return movecheckcolision_;
 }
 
 BossMonster * BossMonster::Create(int _Max_Mana, int _Max_Life)

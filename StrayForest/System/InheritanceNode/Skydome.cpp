@@ -2,6 +2,7 @@
 #include "../../ShaderManager/EffectShaderManager.h"
 #include "../../LoadManager/ModelLoder.h"
 #include "Camera.h"
+#include "../../Renderer/GameManager.h"
 void Skydome::Init()
 {
 	//LPDIRECT3DDEVICE9 device = GetDevice();
@@ -26,6 +27,7 @@ void Skydome::Draw()
 {
 	LPDIRECT3DDEVICE9 device = GetDevice();
 	D3DXMATRIX mWVP = matrix_.world * CCamera::GetView() * CCamera::GetProj();
+
 	// ƒŒƒ“ƒ_ƒŠƒ“ƒO
 
 	device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, true);
@@ -38,10 +40,10 @@ void Skydome::Draw()
 	EffectShaderManager::GetEffect(MODEL3D)->Begin(NULL, 0);
 	EffectShaderManager::GetEffect(MODEL3D)->BeginPass(0);
 	
-	for (DWORD i = 0; i < ModelLoder::GetModelData(SKYDOME)->dw_material; i++)
+	for (DWORD i = 0; i < GameManager::GetModel(LOADMODEL::MODEL_SKYDOME)->GetModelData()->dw_material; i++)
 	{
-		EffectShaderManager::GetEffect(MODEL3D)->SetTexture("texDecal", ModelLoder::GetModelData(SKYDOME)->p_meshtexture[i]);
-		ModelLoder::GetModelData(SKYDOME)->p_mesh->DrawSubset(i);
+		EffectShaderManager::GetEffect(MODEL3D)->SetTexture("texDecal", GameManager::GetModel(LOADMODEL::MODEL_SKYDOME)->GetModelData()->p_meshtexture[i]);
+		GameManager::GetModel(LOADMODEL::MODEL_SKYDOME)->GetModelData()->p_mesh->DrawSubset(i);
 	}
 
 	EffectShaderManager::GetEffect(MODEL3D)->EndPass();
@@ -51,19 +53,20 @@ void Skydome::Draw()
 
 void Skydome::Uninit()
 {
-	if (ModelLoder::GetModelData(SKYDOME)->p_mesh != nullptr)
-	{
-		ModelLoder::GetModelData(SKYDOME)->p_mesh->Release();
-		ModelLoder::GetModelData(SKYDOME)->p_mesh = nullptr;
-	}
-	if (ModelLoder::GetModelData(SKYDOME)->p_meshtexture != nullptr)
-	{
-		delete[] ModelLoder::GetModelData(SKYDOME)->p_meshtexture;
-	}
-	if (ModelLoder::GetModelData(SKYDOME)->p_meshmaterial != nullptr)
-	{
-		delete[] ModelLoder::GetModelData(SKYDOME)->p_meshmaterial;
-	}
+	//if (ModelLoder::GetModelData(SKYDOME)->p_mesh != nullptr)
+	//{
+	//	ModelLoder::GetModelData(SKYDOME)->p_mesh->Release();
+	//	ModelLoder::GetModelData(SKYDOME)->p_mesh = nullptr;
+	//	delete ModelLoder::GetModelData(SKYDOME)->p_mesh;
+	//}
+	//if (ModelLoder::GetModelData(SKYDOME)->p_meshtexture != nullptr)
+	//{
+	//	delete[] ModelLoder::GetModelData(SKYDOME)->p_meshtexture;
+	//}
+	//if (ModelLoder::GetModelData(SKYDOME)->p_meshmaterial != nullptr)
+	//{
+	//	delete[] ModelLoder::GetModelData(SKYDOME)->p_meshmaterial;
+	//}
 }
 
 Skydome * Skydome::Create()

@@ -18,7 +18,7 @@ public:
 	static Skydome* Create();
 private:
 	Entity::MATRIX3D matrix_;
-	Entity::Model* model;
+
 	D3DXVECTOR3 position_;
 	D3DXVECTOR3 rotation_;
 	D3DXVECTOR3 scale_;

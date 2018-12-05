@@ -6,18 +6,12 @@
 /// <summary>
 /// モデル格納変数の宣言
 /// </summary>
-std::vector<Entity::Model*> ModelLoder::model_;
 
-/// <summary>
-/// モデルカウンターの宣言
-/// </summary>
-int ModelLoder::ModelCounter_ = 0;
-Entity::Model ModelLoder::InitModel[100];
-
-void ModelLoder::LoadData(std::string _filename)
+ModelLoder::ModelLoder(std::string _filename)
 {
 	LPD3DXBUFFER pD3DXMtrlBuffer = NULL;
-	Entity::Model* OneModel_ = &InitModel[ModelCounter_];
+
+	OneModel_ = new Entity::Model;
 	/// <summary>
 	/// xファイルからメッシュをロードする
 	/// </summary>
@@ -49,42 +43,41 @@ void ModelLoder::LoadData(std::string _filename)
 			}
 		}
 	}
-	ModelCounter_++;
-	model_.push_back(OneModel_);
+
 	pD3DXMtrlBuffer->Release();
 }
 
-Entity::Model* ModelLoder::GetModelData(LOADMODEL _targetmodel)
+ModelLoder::~ModelLoder()
 {
-	/// <summary>
-	/// 現在保持しているモデルの数情報より、指定された数値が越えていたらエラー処理に入る。
-	/// </summary>
-	if (_targetmodel > ModelCounter_)
-	{
-		MessageBox(NULL, "モデルの情報を呼び出せませんでした", "ModelLoderError", MB_OK);
-		PostQuitMessage(0);
-	}
-
-	return model_[_targetmodel];
 }
 
-void ModelLoder::ReleseAll()
+Entity::Model* ModelLoder::GetModelData()
 {
-	model_.erase(model_.begin(), model_.end());
+	return OneModel_;
+}
+
+void ModelLoder::Relese()
+{
+	if (OneModel_->p_meshtexture != nullptr)
+	{
+		delete[] OneModel_->p_meshtexture;
+	}
+	
+	if (OneModel_->p_meshmaterial != nullptr)
+	{
+		delete[] OneModel_->p_meshmaterial;
+	}
+	if (OneModel_->p_mesh != nullptr)
+	{
+		OneModel_->p_mesh->Release();
+	}
+
+	if (OneModel_ != nullptr)
+	{
+		delete OneModel_;
+	}
 	//for (unsigned int i = 0; i < model_.size(); i++)
 	//{
-	//	if (model_[i]->p_mesh != nullptr)
-	//	{
-	//		model_[i]->p_mesh->Release();
-	//		model_[i]->p_mesh = nullptr;
-	//	}
-	//	if (model_[i]->p_meshtexture != nullptr)
-	//	{
-	//		delete[] model_[i]->p_meshtexture;
-	//	}
-	//	if (model_[i]->p_meshmaterial != nullptr)
-	//	{			
-	//		delete[] model_[i]->p_meshmaterial;
-	//	}
+	//	
 	//}
 }

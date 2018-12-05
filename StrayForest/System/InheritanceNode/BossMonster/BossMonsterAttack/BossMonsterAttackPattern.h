@@ -8,7 +8,7 @@ public:
 	virtual void Update(BossMonster* _bossmonster) = 0;
 };
 
-class BossMonsterAttackNull : public BossMonsterAttackPattern
+class BossMonsterAttackNone : public BossMonsterAttackPattern
 {
 	void Update(BossMonster* _bossmonster) override {}
 };

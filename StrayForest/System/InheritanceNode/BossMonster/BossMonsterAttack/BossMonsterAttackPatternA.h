@@ -8,5 +8,6 @@ public:
 	~BossMonsterAttackPatternA();
 	void Update(BossMonster* _bossmonster) override;
 private:
-	int framecounter_;
+	int FrameCount_;
+	bool AttackSetFlag_;
 };

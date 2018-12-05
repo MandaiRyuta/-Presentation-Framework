@@ -17,11 +17,11 @@ public:
 	// void InitBase(SMESH_DATA_FILE* _pSMeshData);
 
 	//メッシュの現在のMatrixデータ取得
-	D3DXMATRIX GetMatrix();
+	//D3DXMATRIX GetMatrix();
 
 	CSkinMesh();
 	~CSkinMesh() {
-		Release();
+
 	}
 
 	//スキンメッシュ内部処理
@@ -30,7 +30,7 @@ public:
 	HRESULT AllocateAllBoneMatrices(LPD3DXFRAME pFrameRoot, LPD3DXFRAME pFrameBase);
 	void RenderMeshContainer(LPDIRECT3DDEVICE9 lpD3DDevice, MYMESHCONTAINER*, MYFRAME*);
 	void UpdateFrameMatrices(LPD3DXFRAME pFrameBase, LPD3DXMATRIX pParentMatrix);
-	void DrawFrame(PDIRECT3DDEVICE9 lpD3DDevice, LPD3DXFRAME);
+	void DrawFrame(LPDIRECT3DDEVICE9 pDevice, LPD3DXFRAME pFrameBase);
 
 	//フレーム解放
 	void FreeAnim(LPD3DXFRAME pFrame);
@@ -45,7 +45,6 @@ public:
 
 	//オブジェクトのアニメーション変更( メッシュオブジェクトの操作用番号, 変更するアニメーション番号 )
 	void ChangeAnim(DWORD NewAnimNum);
-	void SetAnimTrack(DOUBLE _AnimTrack);
 	void MyChangeAnim(double _frame);
 	//現在のアニメーション番号取得
 	DWORD GetAnimTrack() { return m_CurrentTrack; }
@@ -81,7 +80,7 @@ private:
 	std::vector<MYFRAME*> m_FrameArray; // 全フレーム参照配列
 	std::vector<MYFRAME*> m_IntoMeshFrameArray;// メッシュコンテナありのフレーム参照配列
 
-											   //ボーン情報
+	//ボーン情報
 	LPD3DXFRAME m_pFrameRoot;
 	//アニメーションコントローラ
 	LPD3DXANIMATIONCONTROLLER m_pAnimController;
@@ -89,7 +88,7 @@ private:
 	MY_HIERARCHY m_cHierarchy;
 
 	//アニメーションデータ格納用変数(ここは可変に変更したほうがいい)
-	LPD3DXANIMATIONSET m_pAnimSet[20];
+	LPD3DXANIMATIONSET m_pAnimSet[1];
 
 	//現在のアニメーションが開始されてからの時間(1/60秒)
 	DWORD m_AnimeTime;

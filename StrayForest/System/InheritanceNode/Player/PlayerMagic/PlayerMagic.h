@@ -1,6 +1,8 @@
 #pragma once
 
 #include "PlayerMagicManager.h"
+#include "../../../SceneManager/InheritanceNode/SceneGame.h"
+#include "../../MyEffekseer/MyEffekseer.h"
 
 class PlayerMagic : public PlayerMagicManager
 {

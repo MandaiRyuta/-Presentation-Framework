@@ -2,8 +2,7 @@
 #include "../Camera.h"
 
 MyEffekseer::MyEffekseer(int _priority, wchar_t _filepath[])
-	: GameObjectManager(_priority)
-	, IsDrawing(true)
+	: IsDrawing(false)
 	, IsMoving(true)
 	, FrameCount_(0)
 {
@@ -28,11 +27,15 @@ MyEffekseer::MyEffekseer(int _priority, wchar_t _filepath[])
 	MyEfkEffect_ = Effekseer::Effect::Create(MyEfkManager_, (const EFK_CHAR*)_filepath);
 	/**/
 	MyEfkManager_->SetSpeed(MyEfkHandle_, 1.0f);
+	
 	location_.position = D3DXVECTOR3(0.0f, 70.0f, 0.0f);
 	/**/
 	MyEfkManager_->SetLocation(MyEfkHandle_, Effekseer::Vector3D(location_.position.x, location_.position.y, location_.position.z));
 	location_.scale = D3DXVECTOR3(10.0f, 10.0f, 10.0f);
 	location_.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+	deltaframe_ = 1.0f;
+	FrameSet_ = false;
 }
 
 MyEffekseer::~MyEffekseer()
@@ -45,11 +48,6 @@ void MyEffekseer::Init()
 
 void MyEffekseer::Update()
 {
-	if (FrameCount_ % 60 == 59)
-	{
-		FrameCount_ = 0;
-	}
-
 	MyEfkRenderer_->SetCameraMatrix(
 		::Effekseer::Matrix44().LookAtLH(
 			Effekseer::Vector3D(CCamera::GetEye().x, CCamera::GetEye().y, CCamera::GetEye().z),
@@ -74,36 +72,42 @@ void MyEffekseer::Update()
 	SetEfkWorldMatrix(world_);
 	MyEfkManager_->Flip();
 	MyEfkManager_->Update();
-	
-	FrameCount_++;
 }
 
 void MyEffekseer::Draw()
 {
-	MyEfkRenderer_->BeginRendering();
-	
 	if (IsDrawing)
 	{
+		MyEfkRenderer_->BeginRendering();
 		MyEfkManager_->Draw();
+		MyEfkRenderer_->EndRendering();
 	}
-
-	MyEfkRenderer_->EndRendering();
 }
 
 void MyEffekseer::Uninit()
 {
-	MyEfkManager_->StopEffect(MyEfkHandle_);
-	ES_SAFE_RELEASE(MyEfkEffect_);
-	MyEfkManager_->Destroy();
-	MyEfkManager_ = nullptr;
-	MyEfkRenderer_->Destroy();
-	MyEfkRenderer_ = nullptr;
+	if (MyEfkManager_ != nullptr)
+	{
+		MyEfkManager_->StopEffect(MyEfkHandle_);
+		MyEfkManager_->Destroy();
+		MyEfkManager_ = nullptr;
+	}
+	if (MyEfkEffect_ != nullptr)
+	{
+		ES_SAFE_RELEASE(MyEfkEffect_);
+	}
+	if (MyEfkRenderer_ != nullptr)
+	{
+		MyEfkRenderer_->Destroy();
+		MyEfkRenderer_ = nullptr;
+	}
 }
 
 MyEffekseer * MyEffekseer::CreateMyEffect(int _priority, wchar_t _filepath[])
 {
 	MyEffekseer* CreateMyEffect = new MyEffekseer(_priority, _filepath);
-	return nullptr;
+	CreateMyEffect->Init();
+	return CreateMyEffect;
 }
 
 void MyEffekseer::SetMovePosition(D3DXVECTOR3 _addmove)
@@ -182,7 +186,7 @@ const D3DXMATRIX MyEffekseer::GetWorld()
 	return world_;
 }
 
-const int MyEffekseer::GetFrameCount()
+const float MyEffekseer::GetFrameCount()
 {
 	return FrameCount_;
 }
