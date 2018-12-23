@@ -36,6 +36,7 @@ public:
 	const int GetMaxLife() const { return max_life_; }
 	const int GetMaxMana() const { return max_mana_; }
 	static D3DXVECTOR3 GetPosition() { return GetPos_; }
+	static D3DXMATRIX GetRotation() { return GetRotation_; }
 	D3DXMATRIX& GetPositionMatrix();
 	CSkinMesh* GetSkinMesh();
 	SphereColision* GetMoveColision();
@@ -68,6 +69,7 @@ private:
 	Entity::MATRIX3D matrix_;
 	static Entity::MATRIX3D GetMatrix_;
 	static D3DXVECTOR3 GetPos_;
+	static D3DXMATRIX GetRotation_;
 	D3DXVECTOR3 scale_;
 	D3DXVECTOR3 position_;
 	D3DXVECTOR3 rotation_;

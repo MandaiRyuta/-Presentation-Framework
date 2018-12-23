@@ -2,12 +2,12 @@
 #include "../Camera.h"
 
 MyEffekseer::MyEffekseer(int _priority, wchar_t _filepath[])
-	: IsDrawing(false)
-	, IsMoving(true)
+	: GameObjectManager(_priority)
+	, IsDrawing_(false)
 	, FrameCount_(0)
 {
 	MyEfkRenderer_ = EffekseerRendererDX9::Renderer::Create(GetDevice(), 100);
-	MyEfkManager_ = Effekseer::Manager::Create(100);
+	MyEfkManager_ = Effekseer::Manager::Create(100,false);
 
 	MyEfkRenderer_->SetProjectionMatrix(
 		::Effekseer::Matrix44().PerspectiveFovLH(D3DX_PI / 3, (float)windows_rect::SCREEN_WIDTH / (float)windows_rect::SCREEN_HEIGHT, 1.0f, 10000.0f)
@@ -56,27 +56,29 @@ void MyEffekseer::Update()
 		)
 	);
 
+	PlayFlag_ = MyEfkManager_->Exists(MyEfkHandle_);
+
+	if(!PlayFlag_)
 	{
-		if (IsMoving)
+		if (IsDrawing_)
 		{
-			MyEfkHandle_ = MyEfkManager_->Play(MyEfkEffect_, location_.position.x, location_.position.y, location_.position.z);
-			MyEfkManager_->Flip();
+			PlayEffect();
 		}
-		else if(!IsMoving)
+		else if(!IsDrawing_)
 		{
-			MyEfkManager_->StopEffect(MyEfkHandle_);
+			StopEffect();
 		}
 	}
 
 	SetWorldMatrix(location_);
 	SetEfkWorldMatrix(world_);
 	MyEfkManager_->Flip();
-	MyEfkManager_->Update();
+	MyEfkManager_->Update(deltaframe_);
 }
 
 void MyEffekseer::Draw()
 {
-	if (IsDrawing)
+	if (IsDrawing_)
 	{
 		MyEfkRenderer_->BeginRendering();
 		MyEfkManager_->Draw();
@@ -148,14 +150,9 @@ void MyEffekseer::SetWorldMatrix(Entity::EffectInfomation _location)
 	world_ = Scale * Rotation * Translation;
 }
 
-void MyEffekseer::SetIsMoving(bool _moving)
-{
-	IsMoving = _moving;
-}
-
 void MyEffekseer::SetIsDrawing(bool _drawing)
 {
-	IsDrawing = _drawing;
+	IsDrawing_ = _drawing;
 }
 
 void MyEffekseer::SetEfkWorldMatrix(D3DXMATRIX _world)
@@ -169,6 +166,19 @@ void MyEffekseer::SetEfkWorldMatrix(D3DXMATRIX _world)
 	EfkWorldMatrix.Value[3][0] = _world._41; EfkWorldMatrix.Value[3][1] = _world._42; EfkWorldMatrix.Value[3][2] = _world._43;
 
 	MyEfkManager_->SetMatrix(MyEfkHandle_, EfkWorldMatrix);
+}
+
+void MyEffekseer::PlayEffect()
+{
+	MyEfkHandle_ = MyEfkManager_->Play(MyEfkEffect_, location_.position.x, location_.position.y, location_.position.z);
+	MyEfkManager_->Flip();
+
+	PlayFlag_ = true;
+}
+
+void MyEffekseer::StopEffect()
+{
+	MyEfkManager_->StopEffect(MyEfkHandle_);
 }
 
 const D3DXVECTOR3 MyEffekseer::GetPosition()
@@ -189,4 +199,9 @@ const D3DXMATRIX MyEffekseer::GetWorld()
 const float MyEffekseer::GetFrameCount()
 {
 	return FrameCount_;
+}
+
+void MyEffekseer::SetFrameCount(float _deltatime)
+{
+	deltaframe_ = _deltatime;
 }

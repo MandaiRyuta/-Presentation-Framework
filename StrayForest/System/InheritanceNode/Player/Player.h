@@ -10,6 +10,7 @@ class PlayerMagicManager;
 class PlayerAttackManager;
 class PlayerDiffenceManager;
 class PlayerBuffStateManager;
+class PlayerStateManager;
 class ItemList;
 
 class Player : public GameObjectManager
@@ -74,6 +75,7 @@ private:
 	PlayerAttackManager* attackmanager_;
 	PlayerDiffenceManager* diffencemanager_;
 	PlayerBuffStateManager* buffmanager_;
+	PlayerStateManager* statusmanager_;
 	CSkinMesh* skinmesh_;
 	CInputKeyboard* keyboard_;
 	D3DXVECTOR3 scale_;

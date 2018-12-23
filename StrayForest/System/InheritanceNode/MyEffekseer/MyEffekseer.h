@@ -13,7 +13,7 @@
 #include "../../../Entity/Entity.h"
 #include "../../../GameObjectManager/GameObjectManager.h"
 
-class MyEffekseer
+class MyEffekseer : public GameObjectManager
 {
 public:
 	MyEffekseer(int _priority, wchar_t _filepath[]);
@@ -23,6 +23,7 @@ public:
 	void Update();
 	void Draw();
 	void Uninit();
+
 public:
 	static MyEffekseer* CreateMyEffect(int _priority, wchar_t _filepath[]);
 public:
@@ -31,22 +32,26 @@ public:
 	void SetScale(D3DXVECTOR3 _scale);
 	void SetRotation(D3DXVECTOR3 _rotation);
 	void SetWorldMatrix(Entity::EffectInfomation _location);
-	void SetIsMoving(bool _moving);
 	void SetIsDrawing(bool _drawing);
 private:
 	void SetEfkWorldMatrix(D3DXMATRIX _world);
+public:
+	void PlayEffect();
+	void StopEffect();
 public:
 	const D3DXVECTOR3 GetPosition();
 	const D3DXVECTOR3 GetRotation();
 	const D3DXMATRIX GetWorld();
 	const float GetFrameCount();
+public:
+	void SetFrameCount(float _deltatime);
 private:
 	float deltaframe_;
 	float FrameCount_;
 	float FrameStack_;
 	bool FrameSet_;
-	bool IsMoving;
-	bool IsDrawing;
+	bool IsDrawing_;
+	bool PlayFlag_;
 	D3DXMATRIX world_;
 	Effekseer::Manager* MyEfkManager_;
 	EffekseerRendererDX9::Renderer* MyEfkRenderer_;

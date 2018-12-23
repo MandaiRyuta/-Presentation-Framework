@@ -3,6 +3,8 @@
 #include <string>
 #include "../SceneManager/SceneManager.h"
 
+constexpr int MAGIC_AVARAGE = 10;
+
 enum TEXTURENUMBER
 {
 	NONE,
@@ -24,6 +26,15 @@ enum ACTIONPATTERN
 
 namespace Entity
 {
+	struct MAGIC_WORK
+	{
+		bool bUse;
+		bool bDead;
+		D3DXVECTOR3 position;
+		D3DXVECTOR3 moveposition;
+		D3DXVECTOR3 oldmoveposition;
+		int time;
+	};
 	struct EffectInfomation
 	{
 		D3DXVECTOR3 position;

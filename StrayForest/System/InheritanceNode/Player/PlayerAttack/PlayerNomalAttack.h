@@ -20,4 +20,5 @@ private:
 	};
 	ATTACKPATTERN attackpattern_;
 	int FrameCounter_;
+	float AtkAddEffect01_;
 };

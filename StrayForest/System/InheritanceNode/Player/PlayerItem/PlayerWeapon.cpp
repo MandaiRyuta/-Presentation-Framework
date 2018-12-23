@@ -2,6 +2,9 @@
 #include "../../../../LoadManager/ModelLoder.h"
 #include "../../../../ShaderManager/EffectShaderManager.h"
 #include "../../../Renderer/GameManager.h"
+
+D3DXMATRIX Sword::mtxworld_;
+
 void Sword::Init()
 {
 }
@@ -16,6 +19,8 @@ void Sword::Update()
 void Sword::Draw(LPDIRECT3DDEVICE9 _device, D3DXMATRIX TargetBone)
 {
 	Matrix_.world = Matrix_.scale * Matrix_.rotation * Matrix_.position * TargetBone;
+
+	mtxworld_ = Matrix_.world;
 	// ƒtƒBƒ‹ƒ^Ý’è
 	_device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 	_device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
@@ -49,4 +54,9 @@ void Sword::Uninit()
 	{
 		EffectShaderManager::GetEffect(SWORD)->Release();
 	}
+}
+
+D3DXMATRIX Sword::GetMtxWorld()
+{
+	return mtxworld_;
 }

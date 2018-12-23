@@ -120,9 +120,6 @@
     <ClInclude Include="System\Polygon3D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="System\MotionEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="SceneManager\InheritanceNode\SceneChutorial.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -228,6 +225,18 @@
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternC.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="System\InheritanceNode\MotionEffect\MotionEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerState.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerStateManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\MagicObject\MagicObject.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObjectManager\GameObjectManager.cpp">
@@ -311,9 +320,6 @@
     <ClCompile Include="System\Polygon3D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="System\MotionEffect.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="SceneManager\InheritanceNode\Chutorial.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -393,6 +399,15 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternC.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\MotionEffect\MotionEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Player\PlayerState\PlayerState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\MagicObject\MagicObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

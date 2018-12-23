@@ -11,6 +11,7 @@
 
 D3DXVECTOR3 BossMonster::GetPos_;
 Entity::MATRIX3D BossMonster::GetMatrix_;
+D3DXMATRIX BossMonster::GetRotation_;
 
 BossMonster::BossMonster(int _Max_Life, int _Max_Mana)
 	: GameObjectManager(0)
@@ -84,6 +85,7 @@ void BossMonster::Update()
 	D3DXMatrixTranslation(&matrix_.position, position_.x, position_.y, position_.z);
 
 	D3DXMatrixScaling(&matrix_.scale, scale_.x, scale_.y, scale_.z);
+	GetRotation_ = matrix_.rotation;
 	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
 	GetPos_ = D3DXVECTOR3(matrix_.position._41, matrix_.position._42, matrix_.position._43);
 }

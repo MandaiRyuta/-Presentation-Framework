@@ -78,10 +78,18 @@ void Polygon2D::CreateVertexAffine(D3DCOLOR _color, float _dx, float _dy, float 
 	
 	buffer_.vertex_buffer->Lock(0, 0, (void**)&pv, D3DLOCK_DISCARD);
 
+	float RotOffSetX = rot_offsetX_ * scaleX_;
+	float RotOffSetY = rot_offsetY_ * scaleY_;
+
 	float x0 = (0.0f - scale_offsetX_) * scaleX_ + scaleX_;
 	float x1 = (_dw - scale_offsetX_) * scaleX_ + scaleX_;
 	float y0 = (0.0f - scale_offsetY_) * scaleY_ + scaleY_;
 	float y1 = (_dh - scale_offsetY_) * scaleY_ + scaleY_;
+
+	x0 -= RotOffSetX;
+	x1 -= RotOffSetX;
+	y0 -= RotOffSetY;
+	y1 -= RotOffSetY;
 
 	float VX0 = _dx + x0 * cosf(angle_) - y0 * sinf(angle_);
 	float VY0 = _dy + x0 * sinf(angle_) + y0 * cosf(angle_);
@@ -90,12 +98,12 @@ void Polygon2D::CreateVertexAffine(D3DCOLOR _color, float _dx, float _dy, float 
 	float VX2 = _dx + x1 * cosf(angle_) - y1 * sinf(angle_);
 	float VY2 = _dy + x1 * sinf(angle_) + y1 * cosf(angle_);
 	float VX3 = _dx + x0 * cosf(angle_) - y1 * sinf(angle_);
-	float VY3 = _dx + x0 * sinf(angle_) + y1 * cosf(angle_);
+	float VY3 = _dy + x0 * sinf(angle_) + y1 * cosf(angle_);
 
-	pv[0].position = D3DXVECTOR4(_dx + VX0, _dy + VY0, 0.0f, 1.0f);
-	pv[1].position = D3DXVECTOR4(_dx + VX1, _dy + VY1, 0.0f, 1.0f);
-	pv[2].position = D3DXVECTOR4(_dx + VX2, _dy + VY2, 0.0f, 1.0f);
-	pv[3].position = D3DXVECTOR4(_dx + VX3, _dy + VY3, 0.0f, 1.0f);
+	pv[0].position = D3DXVECTOR4(_dx + VX0, _dy + VY0, 0.5f, 1.0f);
+	pv[1].position = D3DXVECTOR4(_dx + VX1, _dy + VY1, 0.5f, 1.0f);
+	pv[2].position = D3DXVECTOR4(_dx + VX2, _dy + VY2, 0.5f, 1.0f);
+	pv[3].position = D3DXVECTOR4(_dx + VX3, _dy + VY3, 0.5f, 1.0f);
 
 	pv[0].color = _color;
 	pv[1].color = _color;

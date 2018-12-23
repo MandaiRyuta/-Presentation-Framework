@@ -26,6 +26,7 @@ public:
 	void Update() override;
 	void Draw(LPDIRECT3DDEVICE9 _device, D3DXMATRIX TargetBone) override;
 	void Uninit() override;
+	static D3DXMATRIX GetMtxWorld();
 private:
 	Entity::MATRIX3D Matrix_;
 	Entity::Dx9Buffer buffer_;
@@ -33,5 +34,7 @@ private:
 	D3DXVECTOR3 scale_;
 	D3DXVECTOR3 rotation_;
 	LPD3DXEFFECT effect_;
+
+	static D3DXMATRIX mtxworld_;
 };
 

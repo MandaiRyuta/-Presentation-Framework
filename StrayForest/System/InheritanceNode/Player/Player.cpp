@@ -19,6 +19,8 @@
 #include "PlayerAttack\PlayerNomalAttack.h"
 #include "../MyEffekseer/MyEffekseer.h"
 #include "PlayerItem\ItemList.h"
+#include "PlayerState\PlayerStateManager.h"
+#include "PlayerState\PlayerState.h"
 D3DXMATRIX Player::world_;
 D3DXMATRIX Player::rot_;
 D3DXMATRIX Player::pos_;
@@ -31,6 +33,7 @@ Player::Player()
 	, attackmanager_(new PlayerNomalAttack(this))
 	, diffencemanager_(new PlayerDiffence(this))
 	, buffmanager_(new PlayerBuff(this))
+	, statusmanager_(new PlayerState(this))
 	, playeraction_(STATE)
 	, StateMode_(false)
 {

@@ -30,7 +30,6 @@ private:
 	D3DXVECTOR3 rightvec_;
 	D3DXVECTOR3 upvec_;
 
-	bool movemode_;
 	float movespeed_;
 	int counttime_;
 	int sleeptime_;

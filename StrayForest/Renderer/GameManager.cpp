@@ -47,6 +47,13 @@ void GameManager::Init()
 	TextureLoder::LoadData("Resource/Texture/floor02normal.png");
 	TextureLoder::LoadData("Resource/Texture/sea.png");
 	TextureLoder::LoadData("Resource/Texture/Particle.png");
+	TextureLoder::LoadData("Resource/Texture/motioneffect.png");
+	TextureLoder::LoadData("Resource/Texture/base3.png");
+	TextureLoder::LoadData("Resource/Texture/hp.png");
+	TextureLoder::LoadData("Resource/Texture/mana.png");
+	TextureLoder::LoadData("Resource/Texture/waku_bugs.png");
+	TextureLoder::LoadData("Resource/Texture/button_bugs1.png");
+	TextureLoder::LoadData("Resource/Texture/button_bugs2.png");
 	modelinfo_.push_back(new ModelLoder("Resource/Model/skydomemodel.x"));
 	modelinfo_.push_back(new ModelLoder("Resource/Model/treemodel.x"));
 	modelinfo_.push_back(new ModelLoder("Resource/Model/Shadow.x"));

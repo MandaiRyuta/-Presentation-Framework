@@ -200,7 +200,9 @@
     <ClInclude Include="System\InheritanceNode\EffectParticle\Particle.h" />
     <ClInclude Include="System\InheritanceNode\Instancing3D.h" />
     <ClInclude Include="System\InheritanceNode\Light.h" />
+    <ClInclude Include="System\InheritanceNode\MagicObject\MagicObject.h" />
     <ClInclude Include="System\InheritanceNode\MeshFiled.h" />
+    <ClInclude Include="System\InheritanceNode\MotionEffect\MotionEffect.h" />
     <ClInclude Include="System\InheritanceNode\MyEffekseer\MyEffekseer.h" />
     <ClInclude Include="System\InheritanceNode\Player\Player.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackManager.h" />
@@ -217,9 +219,10 @@
     <ClInclude Include="System\InheritanceNode\Player\PlayerMagic\PlayerMagicManager.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerMove\PlayerMove.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerMove\PlayerMoveManager.h" />
+    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerState.h" />
+    <ClInclude Include="System\InheritanceNode\Player\PlayerState\PlayerStateManager.h" />
     <ClInclude Include="System\InheritanceNode\Sea.h" />
     <ClInclude Include="System\InheritanceNode\Skydome.h" />
-    <ClInclude Include="System\MotionEffect.h" />
     <ClInclude Include="System\Polygon3D.h" />
     <ClInclude Include="System\Sound.h" />
     <ClInclude Include="System\System.h" />
@@ -263,6 +266,7 @@
     <ClCompile Include="System\InheritanceNode\EffectParticle\Particle.cpp" />
     <ClCompile Include="System\InheritanceNode\Instancing3D.cpp" />
     <ClCompile Include="System\InheritanceNode\Light.cpp" />
+    <ClCompile Include="System\InheritanceNode\MagicObject\MagicObject.cpp" />
     <ClCompile Include="System\InheritanceNode\MeshFiled.cpp" />
     <ClCompile Include="System\InheritanceNode\MyEffekseer\MyEffekseer.cpp" />
     <ClCompile Include="System\InheritanceNode\Player\Player.cpp" />
@@ -275,9 +279,10 @@
     <ClCompile Include="System\InheritanceNode\Player\PlayerItem\PlayerWeapon.cpp" />
     <ClCompile Include="System\InheritanceNode\Player\PlayerMagic\PlayerMagic.cpp" />
     <ClCompile Include="System\InheritanceNode\Player\PlayerMove\PlayerMove.cpp" />
+    <ClCompile Include="System\InheritanceNode\Player\PlayerState\PlayerState.cpp" />
     <ClCompile Include="System\InheritanceNode\Sea.cpp" />
     <ClCompile Include="System\InheritanceNode\Skydome.cpp" />
-    <ClCompile Include="System\MotionEffect.cpp" />
+    <ClCompile Include="System\InheritanceNode\MotionEffect\MotionEffect.cpp" />
     <ClCompile Include="System\Polygon3D.cpp" />
     <ClCompile Include="System\Sound.cpp" />
     <ClCompile Include="System\Polygon2D.cpp" />
