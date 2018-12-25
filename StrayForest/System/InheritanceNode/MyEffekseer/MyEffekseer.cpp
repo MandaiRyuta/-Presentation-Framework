@@ -6,8 +6,8 @@ MyEffekseer::MyEffekseer(int _priority, wchar_t _filepath[])
 	, IsDrawing_(false)
 	, FrameCount_(0)
 {
-	MyEfkRenderer_ = EffekseerRendererDX9::Renderer::Create(GetDevice(), 100);
-	MyEfkManager_ = Effekseer::Manager::Create(100,false);
+	MyEfkRenderer_ = EffekseerRendererDX9::Renderer::Create(GetDevice(), 200);
+	MyEfkManager_ = Effekseer::Manager::Create(200,false);
 
 	MyEfkRenderer_->SetProjectionMatrix(
 		::Effekseer::Matrix44().PerspectiveFovLH(D3DX_PI / 3, (float)windows_rect::SCREEN_WIDTH / (float)windows_rect::SCREEN_HEIGHT, 1.0f, 10000.0f)
@@ -198,7 +198,7 @@ const D3DXMATRIX MyEffekseer::GetWorld()
 
 const float MyEffekseer::GetFrameCount()
 {
-	return FrameCount_;
+	return deltaframe_;
 }
 
 void MyEffekseer::SetFrameCount(float _deltatime)

@@ -33,7 +33,9 @@ void PlayerMove::Update(Player * _player)
 
 	int x = -_player->GetKeyboard()->GetKeyPress(DIK_A) + _player->GetKeyboard()->GetKeyPress(DIK_D);
 	int z = -_player->GetKeyboard()->GetKeyPress(DIK_S) + _player->GetKeyboard()->GetKeyPress(DIK_W);
-
+	//movecolisioninfo_.colision01.modelpos = position_;
+	//movecolisioninfo_.colision02.modelpos = D3DXVECTOR3(::GetPlayerPosMatrix()._41, Player::GetPlayerPosMatrix()._42, Player::GetPlayerPosMatrix()._43);
+	//bool colisioncheck = movecolision_->Collision_detection_of_Sphere_and_Sphere(movecolisioninfo_);
 	move_ = D3DXVECTOR3((float)x, 0.0f, (float)z);
 	D3DXVECTOR3 rotationalposition = D3DXVECTOR3((float)x, 0.0f, (float)z);
 	frontvec_ = (position_)-CCamera::GetEye();

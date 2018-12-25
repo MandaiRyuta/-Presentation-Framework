@@ -103,6 +103,7 @@ void Player::Uninit()
 	delete skinmesh_;
 	item_->Uninit();
 	delete item_;
+	delete statusmanager_;
 	delete movemanager_;
 	delete attackmanager_;
 	delete buffmanager_;

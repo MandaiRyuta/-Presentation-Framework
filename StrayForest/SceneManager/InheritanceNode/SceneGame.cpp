@@ -23,8 +23,11 @@ MyEffekseer* SceneGame::PlayerAttack03Efk_ = nullptr;
 MyEffekseer* SceneGame::PlayerBuffEfk_ = nullptr;
 MyEffekseer* SceneGame::EnemyBuff01Efk_ = nullptr;
 MyEffekseer* SceneGame::EnemyBuff02Efk_ = nullptr;
+MyEffekseer* SceneGame::MagicObjects[10] = {};
+MyEffekseer* SceneGame::HitExplosion_ = nullptr;
 Polygon2D* SceneGame::HealthBar_ = nullptr;
 Polygon2D* SceneGame::ManaBar_ = nullptr;
+MosionEffect* SceneGame::motioneffect_ = nullptr;
 void SceneGame::Initialize()
 {
 	Entity::MeshFiledSize filedsize;
@@ -47,6 +50,11 @@ void SceneGame::Initialize()
 	PlayerBuffEfk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/Buff01.efk");
 	EnemyBuff01Efk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/EnemyBuff.efk");
 	EnemyBuff02Efk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/EnemyBuff.efk");
+	HitExplosion_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/HitExplosion.efk");
+	for (int i = 0; i < 10; i++)
+	{
+		MagicObjects[i] = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/magicobjects.efk");
+	}
 	Polygon2D::Create(1, 5.0f, 240.0f, 550.0f, 250.0f, 0, 0, 2000, 1000, D3DCOLOR_RGBA(255, 255, 255, 255), true, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(STATUS));
 	HealthBar_ = Polygon2D::Create(1, 132.0f, 280.0f, 250.0f, 55.0f, 0, 0, 2000, 1000, D3DCOLOR_RGBA(255, 255, 255, 255), true, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(HP));
 	ManaBar_ = Polygon2D::Create(1, 132.0f, 300.0f, 250.0f, 55.0f, 0, 0, 2000, 1000, D3DCOLOR_RGBA(255, 255, 255, 255), true, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(MANA));
@@ -56,7 +64,7 @@ void SceneGame::Initialize()
 	//Instancing3D::Create();
 	Sea::Create();
 
-	MosionEffect::CreateMotionEffect(1);
+	motioneffect_ = MosionEffect::CreateMotionEffect(1);
 	MagicObject::Create(1);
 
 	//Guardian::Create();
@@ -74,6 +82,11 @@ void SceneGame::Draw()
 void SceneGame::Release()
 {
 	GameObjectManager::ReleaseAll();
+}
+
+MyEffekseer * SceneGame::GetHitExplosion()
+{
+	return HitExplosion_;
 }
 
 MyEffekseer * SceneGame::GetPlayerMagicEfk()
@@ -111,6 +124,11 @@ MyEffekseer * SceneGame::GetEnemyBuf02Efk()
 	return EnemyBuff02Efk_;
 }
 
+MyEffekseer * SceneGame::GetMagicObjects(int i)
+{
+	return MagicObjects[i];
+}
+
 MeshFiled * SceneGame::GetMeshFiled()
 {
 	return meshfiled_;
@@ -124,4 +142,9 @@ Polygon2D * SceneGame::GetHealthBar()
 Polygon2D * SceneGame::GetManaBar()
 {
 	return ManaBar_;
+}
+
+MosionEffect * SceneGame::GetMotionEffect()
+{
+	return motioneffect_;
 }

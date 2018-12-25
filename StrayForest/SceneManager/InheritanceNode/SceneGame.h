@@ -3,6 +3,7 @@
 #include "../SceneManager.h"
 class MeshFiled;
 class Polygon2D;
+class MosionEffect;
 class SceneGame : public SceneManager
 {
 public:
@@ -14,6 +15,7 @@ public:
 	void Draw() override;
 	void Release() override;
 public:
+	static MyEffekseer* GetHitExplosion();
 	static MyEffekseer* GetPlayerMagicEfk();
 	static MyEffekseer* GetPlayerAttack01Efk();
 	static MyEffekseer* GetPlayerAttack02Efk();
@@ -21,11 +23,17 @@ public:
 	static MyEffekseer* GetPlayerBuffEfk();
 	static MyEffekseer* GetEnemyBuf01Efk();
 	static MyEffekseer* GetEnemyBuf02Efk();
+	static MyEffekseer* GetMagicObjects(int i);
 	static MeshFiled* GetMeshFiled();
 	static Polygon2D* GetHealthBar();
 	static Polygon2D* GetManaBar();
+	static MosionEffect* GetMotionEffect();
+	
 private:
 	static MeshFiled* meshfiled_;
+	static MosionEffect* motioneffect_;
+	static MyEffekseer* HitExplosion_;
+	static MyEffekseer* MagicObjects[10];
 	static MyEffekseer* PlayerMagicEfk_;
 	static MyEffekseer* PlayerAttack01Efk_;
 	static MyEffekseer* PlayerAttack02Efk_;

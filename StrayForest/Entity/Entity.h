@@ -28,12 +28,11 @@ namespace Entity
 {
 	struct MAGIC_WORK
 	{
-		bool bUse;
-		bool bDead;
+		bool IsDraw;
 		D3DXVECTOR3 position;
 		D3DXVECTOR3 moveposition;
 		D3DXVECTOR3 oldmoveposition;
-		int time;
+		float frame;
 	};
 	struct EffectInfomation
 	{
