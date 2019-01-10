@@ -295,7 +295,7 @@ HRESULT MY_HIERARCHY::DestroyMeshContainer(LPD3DXMESHCONTAINER pMeshContainerBas
 
 	if (container->NumMaterials > 0)
 	{
-		for (int i = 0; i < container->NumMaterials; i++)
+		for (DWORD i = 0; i < container->NumMaterials; i++)
 		{
 			if (container->ppTextures[i] != NULL)
 			{

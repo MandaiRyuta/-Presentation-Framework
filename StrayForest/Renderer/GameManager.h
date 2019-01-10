@@ -40,12 +40,13 @@ public:
 	static CInputKeyboard* GetKeyboard();
 	static CInputMouse* GetMouse();
 	static Models* GetModel(LOADMODEL _modelnum);
+	static CCamera* GetCamera();
 private:
 	//static Models* modelinfo_[MODEL_MAX];
 	static CInputMouse* mouse_;
 	static CInputKeyboard* keyboard_;
 	CDX9Renderer* renderer_;
-	CCamera* camera_;
+	static CCamera* camera_;
 	Light* light_;
 	static SceneManager* mode_;
 	static std::vector<Models*> modelinfo_;

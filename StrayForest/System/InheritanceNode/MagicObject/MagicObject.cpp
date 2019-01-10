@@ -104,7 +104,7 @@ void MagicObject::Update()
 		{
 			SceneGame::GetHitExplosion()->SetIsDrawing(true);
 			SceneGame::GetHitExplosion()->SetScale(D3DXVECTOR3(10.0f, 10.0f, 10.0f));
-			SceneGame::GetHitExplosion()->SetPosition(BossMonster::GetPosition());
+			SceneGame::GetHitExplosion()->SetPosition(SceneGame::GetBossMonster()->GetPosition());
 			count+= 0.1f;
 		}
 		if (count > 5.0f)

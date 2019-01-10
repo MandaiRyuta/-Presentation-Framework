@@ -1,9 +1,14 @@
 #pragma once
 #include "../../System/InheritanceNode/MyEffekseer/MyEffekseer.h"
 #include "../SceneManager.h"
+#include "../../System/InheritanceNode/Player/Player.h"
+#include "../../System/InheritanceNode/BossMonster/BossMonster.h"
+
 class MeshFiled;
 class Polygon2D;
 class MosionEffect;
+class Sword;
+class Shiled;
 class SceneGame : public SceneManager
 {
 public:
@@ -15,6 +20,7 @@ public:
 	void Draw() override;
 	void Release() override;
 public:
+	static Player* GetPlayer();
 	static MyEffekseer* GetHitExplosion();
 	static MyEffekseer* GetPlayerMagicEfk();
 	static MyEffekseer* GetPlayerAttack01Efk();
@@ -28,8 +34,12 @@ public:
 	static Polygon2D* GetHealthBar();
 	static Polygon2D* GetManaBar();
 	static MosionEffect* GetMotionEffect();
-	
+	static BossMonster* GetBossMonster();
+	static Shiled* GetPlayerShiled();
+	static Sword* GetPlayerSword();
 private:
+	static Player* player_;
+	static BossMonster* boss_;
 	static MeshFiled* meshfiled_;
 	static MosionEffect* motioneffect_;
 	static MyEffekseer* HitExplosion_;
@@ -43,4 +53,6 @@ private:
 	static MyEffekseer* EnemyBuff02Efk_;
 	static Polygon2D* HealthBar_;
 	static Polygon2D* ManaBar_;
+	static Sword* sword_;
+	static Shiled* shiled_;
 };

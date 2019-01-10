@@ -4,16 +4,16 @@
 #include "../../System/InheritanceNode/MeshFiled.h"
 #include "../../System/InheritanceNode/Skydome.h"
 #include "../../System/InheritanceNode/Instancing3D.h"
-#include "../../System/InheritanceNode/Player/Player.h"
 #include "../../System/InheritanceNode/Sea.h"
 #include "../../System/InheritanceNode/MotionEffect/MotionEffect.h"
-#include "../../System/InheritanceNode/BossMonster/BossMonster.h"
 #include "../../Shadow/StenshilShadow.h"
 #include "../../System/Polygon2D.h"
 #include "../../System/colision/SphereColision.h"
 #include "../../System/InheritanceNode/MyEffekseer/MyEffekseer.h"
 #include "../../LoadManager/TextureLoder.h"
 #include "../../System/InheritanceNode/MagicObject/MagicObject.h"
+#include "../../System/InheritanceNode/Player/PlayerItem/PlayerShiled.h"
+#include "../../System/InheritanceNode/Player/PlayerItem/PlayerWeapon.h"
 
 MeshFiled* SceneGame::meshfiled_;
 MyEffekseer* SceneGame::PlayerMagicEfk_ = nullptr;
@@ -28,6 +28,11 @@ MyEffekseer* SceneGame::HitExplosion_ = nullptr;
 Polygon2D* SceneGame::HealthBar_ = nullptr;
 Polygon2D* SceneGame::ManaBar_ = nullptr;
 MosionEffect* SceneGame::motioneffect_ = nullptr;
+BossMonster* SceneGame::boss_ = nullptr;
+Player* SceneGame::player_ = nullptr;
+Sword* SceneGame::sword_ = nullptr;
+Shiled* SceneGame::shiled_ = nullptr;
+
 void SceneGame::Initialize()
 {
 	Entity::MeshFiledSize filedsize;
@@ -59,12 +64,15 @@ void SceneGame::Initialize()
 	HealthBar_ = Polygon2D::Create(1, 132.0f, 280.0f, 250.0f, 55.0f, 0, 0, 2000, 1000, D3DCOLOR_RGBA(255, 255, 255, 255), true, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(HP));
 	ManaBar_ = Polygon2D::Create(1, 132.0f, 300.0f, 250.0f, 55.0f, 0, 0, 2000, 1000, D3DCOLOR_RGBA(255, 255, 255, 255), true, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(MANA));
 	Polygon2D::Create(0, 0.0f, 0.0f, (float)windows_rect::SCREEN_WIDTH, (float)windows_rect::SCREEN_HEIGHT, 0, 0, windows_rect::SCREEN_WIDTH, windows_rect::SCREEN_HEIGHT, D3DCOLOR_RGBA(0, 0, 0, 155),true,0.0f,0.0f,0.0f,NULL);
-	Player::Create();
-	BossMonster::Create(500, 1000);
+	player_ = Player::Create();
+	boss_ = BossMonster::Create(500, 1000);
 	//Instancing3D::Create();
 	Sea::Create();
 
-	motioneffect_ = MosionEffect::CreateMotionEffect(1);
+	sword_ = Sword::Create(0);
+	shiled_ = Shiled::Create(0);
+
+	motioneffect_ = MosionEffect::CreateMotionEffect(0);
 	MagicObject::Create(1);
 
 	//Guardian::Create();
@@ -82,6 +90,11 @@ void SceneGame::Draw()
 void SceneGame::Release()
 {
 	GameObjectManager::ReleaseAll();
+}
+
+Player * SceneGame::GetPlayer()
+{
+	return player_;
 }
 
 MyEffekseer * SceneGame::GetHitExplosion()
@@ -147,4 +160,19 @@ Polygon2D * SceneGame::GetManaBar()
 MosionEffect * SceneGame::GetMotionEffect()
 {
 	return motioneffect_;
+}
+
+BossMonster * SceneGame::GetBossMonster()
+{
+	return boss_;
+}
+
+Shiled * SceneGame::GetPlayerShiled()
+{
+	return shiled_;
+}
+
+Sword * SceneGame::GetPlayerSword()
+{
+	return sword_;
 }

@@ -3,7 +3,7 @@
 #include "../../InputManager/input.h"
 #include "../../Renderer/GameManager.h"
 #include "Player\Player.h"
-
+#include "../../SceneManager/InheritanceNode/SceneGame.h"
 D3DXMATRIX CCamera::matrix_view;
 D3DXMATRIX CCamera::matrix_projection;
 Entity::CameraInfo CCamera::camerainfo_;
@@ -67,9 +67,9 @@ void CCamera::CameraUpdate()
 	offset_ = D3DXVECTOR3(0.0f, 20.f, -200.0f);
 	D3DXVec3TransformCoord(&offset_, &offset_, &CameraRotation);
 
-	camerainfo_.eye = offset_ + D3DXVECTOR3(Player::GetPlayerMatrix()._41, Player::GetPlayerMatrix()._42, Player::GetPlayerMatrix()._43);
+	camerainfo_.eye = offset_ + D3DXVECTOR3(SceneGame::GetPlayer()->GetPlayerPosMatrix()._41, SceneGame::GetPlayer()->GetPlayerPosMatrix()._42, SceneGame::GetPlayer()->GetPlayerPosMatrix()._43);
 
-	camerainfo_.at = D3DXVECTOR3(Player::GetPlayerMatrix()._41, Player::GetPlayerMatrix()._42, Player::GetPlayerMatrix()._43);
+	camerainfo_.at = D3DXVECTOR3(SceneGame::GetPlayer()->GetPlayerPosMatrix()._41, SceneGame::GetPlayer()->GetPlayerPosMatrix()._42, SceneGame::GetPlayer()->GetPlayerPosMatrix()._43);
 
 	//ƒrƒ…[s—ñ‚Ìì¬
 	D3DXMatrixLookAtLH(

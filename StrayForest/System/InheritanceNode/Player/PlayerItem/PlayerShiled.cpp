@@ -2,6 +2,9 @@
 #include "../../../../LoadManager/ModelLoder.h"
 #include "../../../../ShaderManager/EffectShaderManager.h"
 #include "../../../Renderer/GameManager.h"
+
+D3DXMATRIX Shiled::TargetBone_;
+
 void Shiled::Init()
 {
 }
@@ -13,9 +16,10 @@ void Shiled::Update()
 	D3DXMatrixRotationYawPitchRoll(&Matrix_.rotation, rotation_.x, rotation_.y, rotation_.z);
 }
 
-void Shiled::Draw(LPDIRECT3DDEVICE9 _device, D3DXMATRIX TargetBone)
+void Shiled::Draw()
 {
-	Matrix_.world = Matrix_.scale * Matrix_.rotation * Matrix_.position * TargetBone;
+	LPDIRECT3DDEVICE9 _device = GetDevice();
+	Matrix_.world = Matrix_.scale * Matrix_.rotation * Matrix_.position * TargetBone_;
 	// ƒtƒBƒ‹ƒ^Ý’è
 	_device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 	_device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
@@ -43,11 +47,19 @@ void Shiled::Draw(LPDIRECT3DDEVICE9 _device, D3DXMATRIX TargetBone)
 
 void Shiled::Uninit()
 {
-	if (EffectShaderManager::GetEffect(SHILED) != nullptr)
-	{
-		EffectShaderManager::GetEffect(SHILED)->Release();
-	}
-
 	//delete[] ModelLoder::GetModelData(SHILEDMODEL)->p_meshtexture;
 	//delete[] ModelLoder::GetModelData(SHILEDMODEL)->p_meshmaterial;
+}
+
+void Shiled::SetTargetBone(D3DXMATRIX TargetBone)
+{
+	TargetBone_ = TargetBone;
+}
+
+Shiled * Shiled::Create(int _Priority)
+{
+	Shiled* shiled = new Shiled(_Priority);
+	shiled->Init();
+
+	return shiled;
 }

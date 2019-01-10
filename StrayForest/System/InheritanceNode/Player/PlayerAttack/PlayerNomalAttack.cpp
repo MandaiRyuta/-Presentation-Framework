@@ -19,7 +19,7 @@ void PlayerNomalAttack::Update(Player * _player)
 		SceneGame::GetMotionEffect()->SetDraw(true);
 		SceneGame::GetPlayerAttack01Efk()->SetPosition(D3DXVECTOR3(_player->GetPlayerPosMatrix()._41, _player->GetPlayerPosMatrix()._42 + AtkAddEffect01_, _player->GetPlayerPosMatrix()._43));
 		SceneGame::GetPlayerAttack01Efk()->SetIsDrawing(true);
-		SceneGame::GetPlayerAttack01Efk()->SetFrameCount(2.0f);
+		SceneGame::GetPlayerAttack01Efk()->SetFrameCount(3.0f);
 		_player->GetSkinMesh()->MyChangeAnim(10.8);
 		attackpattern_ = ATTACK01;
 		FrameCounter_ = 0;

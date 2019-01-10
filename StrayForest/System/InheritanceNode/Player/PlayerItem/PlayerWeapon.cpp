@@ -4,6 +4,7 @@
 #include "../../../Renderer/GameManager.h"
 
 D3DXMATRIX Sword::mtxworld_;
+D3DXMATRIX Sword::TargetBone_;
 
 void Sword::Init()
 {
@@ -16,9 +17,10 @@ void Sword::Update()
 	D3DXMatrixRotationYawPitchRoll(&Matrix_.rotation, rotation_.x, rotation_.y, rotation_.z);
 }
 
-void Sword::Draw(LPDIRECT3DDEVICE9 _device, D3DXMATRIX TargetBone)
+void Sword::Draw()
 {
-	Matrix_.world = Matrix_.scale * Matrix_.rotation * Matrix_.position * TargetBone;
+	LPDIRECT3DDEVICE9 _device = GetDevice();
+	Matrix_.world = Matrix_.scale * Matrix_.rotation * Matrix_.position * TargetBone_;
 
 	mtxworld_ = Matrix_.world;
 	// ƒtƒBƒ‹ƒ^Ý’è
@@ -50,10 +52,18 @@ void Sword::Draw(LPDIRECT3DDEVICE9 _device, D3DXMATRIX TargetBone)
 
 void Sword::Uninit()
 {
-	if (EffectShaderManager::GetEffect(SWORD) != nullptr)
-	{
-		EffectShaderManager::GetEffect(SWORD)->Release();
-	}
+}
+
+void Sword::SetTargetBone(D3DXMATRIX TargetBone)
+{
+	TargetBone_ = TargetBone;
+}
+
+Sword * Sword::Create(int _priority)
+{
+	Sword* sword = new Sword(_priority);
+	sword->Init();
+	return sword;
 }
 
 D3DXMATRIX Sword::GetMtxWorld()

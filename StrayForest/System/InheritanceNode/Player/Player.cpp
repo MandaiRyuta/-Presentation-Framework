@@ -18,13 +18,16 @@
 #include "PlayerBuffState\PlayerBuff.h"
 #include "PlayerAttack\PlayerNomalAttack.h"
 #include "../MyEffekseer/MyEffekseer.h"
-#include "PlayerItem\ItemList.h"
+//#include "PlayerItem\ItemList.h"
 #include "PlayerState\PlayerStateManager.h"
 #include "PlayerState\PlayerState.h"
+#include "../../colision/SphereColision.h"
+#include "../BossMonster/BossMonster.h"
 D3DXMATRIX Player::world_;
 D3DXMATRIX Player::rot_;
 D3DXMATRIX Player::pos_;
 D3DXMATRIX Player::body_;
+SphereColision* Player::AttackHitColision_ = nullptr;
 
 Player::Player() 
 	: GameObjectManager(OBJ_3D_MODEL)
@@ -36,6 +39,7 @@ Player::Player()
 	, statusmanager_(new PlayerState(this))
 	, playeraction_(STATE)
 	, StateMode_(false)
+	, spherecolision_(new SphereColision)
 {
 }
 void Player::Init()
@@ -49,27 +53,44 @@ void Player::Init()
 	D3DXMatrixIdentity(&matrix_.rotation);
 	D3DXMatrixIdentity(&matrix_.scale);
 	D3DXMatrixIdentity(&matrix_.world);
-	item_ = new ItemList;
-	item_->add(new Sword, new Shiled);
-	item_->Init();
+	//item_ = new ItemList;
+	//item_->add(new Sword, new Shiled);
+	//item_->Init();
 }
 
 void Player::Update()
 {
+	Entity::SphereColision moveinfo;
+
 	keyboard_ = GameManager::GetKeyboard();
-	item_->Update();
-	ImGui::GetMatrixInfomation("Player", matrix_.world);
-	attackmanager_->Update(this);
-	skinmesh_->Update(matrix_.world);
 	D3DXMatrixScaling(&matrix_.scale, scale_.x, scale_.y, scale_.z);
+	//moveinfo.colision01.modelpos = D3DXVECTOR3(matrix_.position._41, matrix_.position._42, matrix_.position._43);
+	//moveinfo.colision02.modelpos = SceneGame::GetBossMonster()->GetPosition();
+	//moveinfo.colision01.r = 35.0f;
+	//moveinfo.colision02.r = 35.0f;
+
+	//bool colisioncheck = spherecolision_->Collision_detection_of_Sphere_and_Sphere(moveinfo);
+
+	//if (colisioncheck)
+	//{
+	//	matrix_.position._41 += moveinfo.hit_vector.x;
+	//	matrix_.position._43 += moveinfo.hit_vector.z;
+	//}
+
 	movemanager_->Update(this);
+
 	magicmanager_->Update(this);
 	diffencemanager_->Update(this);
 	buffmanager_->Update(this);
-	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
 	pos_ = matrix_.position;
 	rot_ = matrix_.rotation;
 	world_ = matrix_.world;
+	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
+
+	ImGui::GetMatrixInfomation("Player", matrix_.world);
+	attackmanager_->Update(this);
+	skinmesh_->Update(matrix_.world);
+	//item_->Update();
 }
 
 void Player::Draw()
@@ -92,8 +113,10 @@ void Player::Draw()
 	mtxSword = skinmesh_->GetBoneMatrix("Bip001_001_Bip001_R_Hand");
 	mtxShiled = skinmesh_->GetBoneMatrix("Bip001_001_Bip001_L_Hand");
 	body_ = skinmesh_->GetBoneMatrix("Bip001_001_Bip001_Head");
-	item_->ShiledDraw(device,mtxShiled);
-	item_->SwordDraw(device,mtxSword);
+	SceneGame::GetPlayerShiled()->SetTargetBone(mtxShiled);
+	SceneGame::GetPlayerSword()->SetTargetBone(mtxSword);
+	//item_->ShiledDraw(device,mtxShiled);
+	//item_->SwordDraw(device,mtxSword);
 	skinmesh_->Draw(device);
 }
 
@@ -101,8 +124,9 @@ void Player::Uninit()
 {
 	skinmesh_->Release();
 	delete skinmesh_;
-	item_->Uninit();
-	delete item_;
+	//item_->Uninit();
+	delete spherecolision_;
+	//delete item_;
 	delete statusmanager_;
 	delete movemanager_;
 	delete attackmanager_;
@@ -240,7 +264,7 @@ D3DXMATRIX & Player::GetPlayerMatrix()
 	return world_;
 }
 
-D3DXMATRIX & Player::GetPlayerPosMatrix()
+D3DXMATRIX Player::GetPlayerPosMatrix()
 {
 	return pos_;
 }
@@ -253,4 +277,9 @@ D3DXMATRIX & Player::GetPlayerRotMatrix()
 D3DXMATRIX & Player::GetPlayerBodyMatrix()
 {
 	return body_;
+}
+
+SphereColision * Player::AttackColision()
+{
+	return AttackHitColision_;
 }

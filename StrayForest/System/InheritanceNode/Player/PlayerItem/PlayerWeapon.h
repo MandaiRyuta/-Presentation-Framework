@@ -1,22 +1,12 @@
 #pragma once
 
 #include "../../../../Entity/Entity.h"
-#include <vector>
+#include "../../../GameObjectManager/GameObjectManager.h"
 
-class PlayerSword
+class Sword : public GameObjectManager
 {
 public:
-	virtual ~PlayerSword() {}
-	virtual void Init() = 0;
-	virtual void Update() = 0;
-	virtual void Draw(LPDIRECT3DDEVICE9 _device, D3DXMATRIX TargetBone) = 0;
-	virtual void Uninit() = 0;
-};
-
-class Sword : public PlayerSword
-{
-public:
-	Sword()
+	Sword(int _priority) : GameObjectManager(_priority)
 	{
 		position_ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		scale_ = D3DXVECTOR3(15.0f, 15.0f, 15.0f);
@@ -24,8 +14,10 @@ public:
 	}
 	void Init() override;
 	void Update() override;
-	void Draw(LPDIRECT3DDEVICE9 _device, D3DXMATRIX TargetBone) override;
+	void Draw() override;
 	void Uninit() override;
+	static void SetTargetBone(D3DXMATRIX TargetBone);
+	static Sword* Create(int _priority);
 	static D3DXMATRIX GetMtxWorld();
 private:
 	Entity::MATRIX3D Matrix_;
@@ -35,6 +27,7 @@ private:
 	D3DXVECTOR3 rotation_;
 	LPD3DXEFFECT effect_;
 
+	static D3DXMATRIX TargetBone_;
 	static D3DXMATRIX mtxworld_;
 };
 

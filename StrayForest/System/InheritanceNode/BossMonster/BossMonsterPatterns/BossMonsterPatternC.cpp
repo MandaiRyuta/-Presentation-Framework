@@ -12,7 +12,7 @@ BossMonsterPatternC::BossMonsterPatternC()
 void BossMonsterPatternC::Update(BossMonster * _bossmonster)
 {
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR3 PlayerPosition = D3DXVECTOR3(Player::GetPlayerMatrix()._41, 0.0f, Player::GetPlayerMatrix()._43);
+	D3DXVECTOR3 PlayerPosition = D3DXVECTOR3(SceneGame::GetPlayer()->GetPlayerMatrix()._41, 0.0f, SceneGame::GetPlayer()->GetPlayerPosMatrix()._43);
 	D3DXVECTOR3 AxisMove = PlayerPosition - D3DXVECTOR3(_bossmonster->GetPositionMatrix()._41, 0.0f, _bossmonster->GetPositionMatrix()._43);
 	D3DXVec3Normalize(&AxisMove, &AxisMove);
 	float rotation = atan2f(AxisMove.x, AxisMove.z);

@@ -4,7 +4,8 @@
 #include "../../MeshFiled.h"
 #include "../../../../InputManager/input.h"
 #include "../../../../Renderer/GameManager.h"
-
+#include "../../Camera.h"
+#include "../../../Renderer/GameManager.h"
 constexpr float WALKSPEED = 0.5f;
 constexpr float RUNSPEED = 2.5f;
 PlayerMove::PlayerMove()
@@ -15,7 +16,7 @@ PlayerMove::PlayerMove()
 	move_ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	frontvec_ = CCamera::GetAt() - CCamera::GetEye();
 	frontvec_.y = 0.0f;
-	movespeed_ = 1.2f;
+	movespeed_ = 1.0f;
 	D3DXVec3Normalize(&frontvec_, &frontvec_);
 	AnimPattern_ = WALK;
 	counttime_ = 0;
@@ -28,17 +29,15 @@ PlayerMove::~PlayerMove()
 
 void PlayerMove::Update(Player * _player)
 {
-	position_ = CCamera::GetAt();
+	position_ = GameManager::GetCamera()->GetAt();
 	position_.y = SceneGame::GetMeshFiled()->GetHeight(position_);
 
 	int x = -_player->GetKeyboard()->GetKeyPress(DIK_A) + _player->GetKeyboard()->GetKeyPress(DIK_D);
 	int z = -_player->GetKeyboard()->GetKeyPress(DIK_S) + _player->GetKeyboard()->GetKeyPress(DIK_W);
-	//movecolisioninfo_.colision01.modelpos = position_;
-	//movecolisioninfo_.colision02.modelpos = D3DXVECTOR3(::GetPlayerPosMatrix()._41, Player::GetPlayerPosMatrix()._42, Player::GetPlayerPosMatrix()._43);
-	//bool colisioncheck = movecolision_->Collision_detection_of_Sphere_and_Sphere(movecolisioninfo_);
+
 	move_ = D3DXVECTOR3((float)x, 0.0f, (float)z);
 	D3DXVECTOR3 rotationalposition = D3DXVECTOR3((float)x, 0.0f, (float)z);
-	frontvec_ = (position_)-CCamera::GetEye();
+	frontvec_ = (position_) - GameManager::GetCamera()->GetEye();
 	D3DXVec3Normalize(&frontvec_, &frontvec_);
 	D3DXVec3Cross(&rightvec_, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), &frontvec_);
 	D3DXVec3Normalize(&rightvec_, &rightvec_);
@@ -57,6 +56,7 @@ void PlayerMove::Update(Player * _player)
 			_player->GetSkinMesh()->MyChangeAnim(0.0);
 			sleeptime_ = 0;
 			AnimPattern_ = STATE;
+			movespeed_ = 0.0f;
 		}
 	}
 	if (_player->GetKeyboard()->GetKeyTrigger(DIK_A))

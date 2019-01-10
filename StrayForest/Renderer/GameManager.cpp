@@ -16,6 +16,7 @@ CInputKeyboard* GameManager::keyboard_;
 CInputMouse* GameManager::mouse_;
 //Models* GameManager::modelinfo_[MODEL_MAX] = {};
 std::vector<Models*> GameManager::modelinfo_;
+CCamera* GameManager::camera_;
 GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _nWindowWidth, int _nWindowHeight)
 {
 	_hInstance = _hInstance;
@@ -195,4 +196,9 @@ CInputMouse * GameManager::GetMouse()
 Models* GameManager::GetModel(LOADMODEL _modelnum)
 {
 	return modelinfo_[_modelnum];
+}
+
+CCamera * GameManager::GetCamera()
+{
+	return camera_;
 }

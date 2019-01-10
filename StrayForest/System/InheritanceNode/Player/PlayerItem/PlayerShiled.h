@@ -1,22 +1,12 @@
 #pragma once
 
 #include "../../../../Entity/Entity.h"
-#include <vector>
+#include "../../../GameObjectManager/GameObjectManager.h"
 
-class PlayerShiled
+class Shiled : public GameObjectManager
 {
 public:
-	virtual ~PlayerShiled() {}
-	virtual void Init() = 0;
-	virtual void Update() = 0;
-	virtual void Draw(LPDIRECT3DDEVICE9 _device, D3DXMATRIX TargetBone) = 0;
-	virtual void Uninit() = 0;
-};
-
-class Shiled : public PlayerShiled
-{
-public:
-	Shiled()
+	Shiled(int _Priority) : GameObjectManager(1)
 	{
 		position_ = D3DXVECTOR3(0.0f, -10.0f, 0.0f);
 		scale_ = D3DXVECTOR3(15.0f, 15.0f, 15.0f);
@@ -24,12 +14,15 @@ public:
 	}
 	void Init() override;
 	void Update() override;
-	void Draw(LPDIRECT3DDEVICE9 _device, D3DXMATRIX TargetBone) override;
+	void Draw() override;
 	void Uninit() override;
+	static void SetTargetBone(D3DXMATRIX TargetBone);
+	static Shiled* Create(int _Priority);
 private:
 	Entity::MATRIX3D Matrix_;
 	D3DXVECTOR3 position_;
 	D3DXVECTOR3 scale_;
 	D3DXVECTOR3 rotation_;
+	static D3DXMATRIX TargetBone_;
 };
 

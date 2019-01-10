@@ -4,14 +4,14 @@
 #include "../../../GameObjectManager/GameObjectManager.h"
 #include "../../../SkinMeshAnimation/ModelAnim.h"
 #include "../Camera.h"
-
 class PlayerMoveManager;
 class PlayerMagicManager;
 class PlayerAttackManager;
 class PlayerDiffenceManager;
 class PlayerBuffStateManager;
 class PlayerStateManager;
-class ItemList;
+//class ItemList;
+class SphereColision;
 
 class Player : public GameObjectManager
 {
@@ -60,9 +60,10 @@ public:
 	bool GetStateMode();
 	ACTIONPATTERN& GetActionPattern();
 	static D3DXMATRIX& GetPlayerMatrix();
-	static D3DXMATRIX& GetPlayerPosMatrix();
+	static D3DXMATRIX GetPlayerPosMatrix();
 	static D3DXMATRIX& GetPlayerRotMatrix();
 	static D3DXMATRIX& GetPlayerBodyMatrix();
+	static SphereColision* AttackColision();
 private:
 	ACTIONPATTERN playeraction_;
 	bool StateMode_;
@@ -70,6 +71,8 @@ private:
 	int Max_Mana_;
 	int Life_;
 	int Mana_;
+	static SphereColision* AttackHitColision_;
+	SphereColision* spherecolision_;
 	PlayerMoveManager* movemanager_;
 	PlayerMagicManager* magicmanager_;
 	PlayerAttackManager* attackmanager_;
@@ -84,5 +87,5 @@ private:
 	static D3DXMATRIX world_;
 	static D3DXMATRIX pos_;
 	static D3DXMATRIX rot_;
-	ItemList* item_;
+	//ItemList* item_;
 };
