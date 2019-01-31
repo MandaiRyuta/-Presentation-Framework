@@ -2,8 +2,7 @@
 #include "PlayerStateManager.h"
 #include "../../../../Entity/Entity.h"
 #include "../../../../GameObjectManager/GameObjectManager.h"
-#include "../../../Polygon3D.h"
-#include "../../../Polygon2D.h"
+#include "../../../colision/SphereColision.h"
 
 class PlayerState : public PlayerStateManager
 {
@@ -12,5 +11,8 @@ public:
 	virtual ~PlayerState();
 	virtual void Update(Player* _player);
 private:
-
+	SphereColision attackcolision_;
+	Entity::SphereColision attackcheck_;
+	bool flag_;
+	int alphacolor_;
 };

@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BehaviorTree\BehaviorTree.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Entity\Entity.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -49,9 +46,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager\InheritanceNode\SceneGame.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager\InheritanceNode\SceneResult.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager\InheritanceNode\SceneTitle.h">
@@ -234,6 +228,33 @@
     <ClInclude Include="System\InheritanceNode\MagicObject\MagicObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Number\Number.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Fade\Fade.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\BossMonster\BossStatus\BossStatus.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\BossMonster\BossStatus\BossStatusManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\BossMonster\ChutorialBoss.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="System\InheritanceNode\Player\ChutorialPlayer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager\InheritanceNode\SceneWinResult.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager\InheritanceNode\SceneLoseResult.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager\XBoxController.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObjectManager\GameObjectManager.cpp">
@@ -281,9 +302,6 @@
     <ClCompile Include="SceneManager\InheritanceNode\SceneTitle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SceneManager\InheritanceNode\SceneResult.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="SceneManager\InheritanceNode\SceneGame.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -315,9 +333,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="System\Polygon3D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager\InheritanceNode\Chutorial.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonster.cpp">
@@ -402,6 +417,33 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="System\InheritanceNode\MagicObject\MagicObject.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Number\Number.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Fade\Fade.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\BossMonster\BossStatus\BossStatus.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\Player\ChutorialPlayer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="System\InheritanceNode\BossMonster\ChutorialBoss.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager\InheritanceNode\SceneChutorial.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager\InheritanceNode\SceneWinResult.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager\InheritanceNode\SceneLoseResult.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager\XBoxController.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

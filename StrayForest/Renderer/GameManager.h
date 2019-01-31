@@ -9,6 +9,11 @@ class Light;
 class CInputKeyboard;
 class CInputMouse;
 class Models;
+class GamePadXbox;
+
+constexpr float WALKSPEED = 0.5f;
+constexpr float RUNSPEED = 2.5f;
+constexpr float ROLLSPEED = 10.0f;
 
 //****************************************************
 // óÒãìå^
@@ -23,6 +28,16 @@ enum LOADMODEL
 	MODEL_MAX,	//ÉÇÉfÉãÇÃç≈ëÂå¬êî
 };
 
+enum SCENE_NUM
+{
+	SCENE_TITLE,
+	SCENE_CHUTORIAL,
+	SCENE_GAME,
+	SCENE_WINRESULT,
+	SCENE_LOSERESULT,
+	SCENE_MAX
+};
+
 class GameManager
 {
 public:
@@ -35,13 +50,17 @@ public:
 	void Draw();
 	void Uninit();
 public:
-	void SetSceneMode(SceneManager* _Mode);
+	static void SetSceneMode(SceneManager* _Mode, SCENE_NUM _scene_num);
 public:
+	static SCENE_NUM GetSceneNumber();
 	static CInputKeyboard* GetKeyboard();
 	static CInputMouse* GetMouse();
 	static Models* GetModel(LOADMODEL _modelnum);
 	static CCamera* GetCamera();
+	static GamePadXbox* GetGamePad();
 private:
+	static GamePadXbox* GamePad_;
+	static SCENE_NUM SceneNum_;
 	//static Models* modelinfo_[MODEL_MAX];
 	static CInputMouse* mouse_;
 	static CInputKeyboard* keyboard_;

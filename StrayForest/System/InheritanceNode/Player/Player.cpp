@@ -18,18 +18,18 @@
 #include "PlayerBuffState\PlayerBuff.h"
 #include "PlayerAttack\PlayerNomalAttack.h"
 #include "../MyEffekseer/MyEffekseer.h"
-//#include "PlayerItem\ItemList.h"
 #include "PlayerState\PlayerStateManager.h"
 #include "PlayerState\PlayerState.h"
 #include "../../colision/SphereColision.h"
 #include "../BossMonster/BossMonster.h"
+#include "../../Polygon2D.h"
 D3DXMATRIX Player::world_;
 D3DXMATRIX Player::rot_;
 D3DXMATRIX Player::pos_;
 D3DXMATRIX Player::body_;
 SphereColision* Player::AttackHitColision_ = nullptr;
 
-Player::Player() 
+Player::Player(float max_health, float max_mana, float health, float mana)
 	: GameObjectManager(OBJ_3D_MODEL)
 	, movemanager_(new PlayerMove)
 	, magicmanager_(new PlayerMagic(this))
@@ -40,6 +40,13 @@ Player::Player()
 	, playeraction_(STATE)
 	, StateMode_(false)
 	, spherecolision_(new SphereColision)
+	, Max_Life_(max_health)
+	, Max_Mana_(max_mana)
+	, Life_(health)
+	, Mana_(mana)
+	, Diffence_(false)
+	, oldPosition_(D3DXVECTOR3(0.0f,0.0f,0.0f))
+	, keyframe_(400)
 {
 }
 void Player::Init()
@@ -48,7 +55,7 @@ void Player::Init()
 	skinmesh_ = new CSkinMesh;
 	skinmesh_->Init(device, "Resource/Model/Player.x");
 	scale_ = D3DXVECTOR3(30.0f, 30.0f, 30.0f);
-	skinmesh_->SetAnimSpeed(1.0f);
+	skinmesh_->SetAnimSpeed(2.0f);
 	D3DXMatrixIdentity(&matrix_.position);
 	D3DXMatrixIdentity(&matrix_.rotation);
 	D3DXMatrixIdentity(&matrix_.scale);
@@ -64,6 +71,7 @@ void Player::Update()
 
 	keyboard_ = GameManager::GetKeyboard();
 	D3DXMatrixScaling(&matrix_.scale, scale_.x, scale_.y, scale_.z);
+
 	//moveinfo.colision01.modelpos = D3DXVECTOR3(matrix_.position._41, matrix_.position._42, matrix_.position._43);
 	//moveinfo.colision02.modelpos = SceneGame::GetBossMonster()->GetPosition();
 	//moveinfo.colision01.r = 35.0f;
@@ -78,7 +86,7 @@ void Player::Update()
 	//}
 
 	movemanager_->Update(this);
-
+	statusmanager_->Update(this);
 	magicmanager_->Update(this);
 	diffencemanager_->Update(this);
 	buffmanager_->Update(this);
@@ -90,6 +98,8 @@ void Player::Update()
 	ImGui::GetMatrixInfomation("Player", matrix_.world);
 	attackmanager_->Update(this);
 	skinmesh_->Update(matrix_.world);
+
+	keyframe_++;
 	//item_->Update();
 }
 
@@ -135,9 +145,14 @@ void Player::Uninit()
 	delete magicmanager_;
 }
 
-void Player::Damage(int _damage)
+void Player::Damage(float _damage)
 {
 	Life_ -= _damage;
+}
+
+void Player::UseMana(float _mana)
+{
+	Mana_ -= _mana;
 }
 
 void Player::Heal(double _animtrack, float _speed, int _amount)
@@ -177,9 +192,9 @@ void Player::DeBuff(double _animtrack, double _speed)
 	skinmesh_->MyChangeAnim(_animtrack);
 }
 
-Player * Player::Create()
+Player * Player::Create(int max_health, int max_mana, int health, int mana)
 {
-	Player* CreatePlayer = new Player();
+	Player* CreatePlayer = new Player(max_health, max_mana, health, mana);
 	CreatePlayer->Init();
 	return CreatePlayer;
 }
@@ -246,12 +261,58 @@ void Player::SetActionPattern(ACTIONPATTERN _action)
 
 void Player::SetStateMode(bool _StateMode)
 {
+	StateMode_ = _StateMode;
+}
 
+void Player::SetDiffenceMode(bool _diffence)
+{
+	Diffence_ = _diffence;
+}
+
+void Player::SetOldPosition(D3DXVECTOR3 _pos)
+{
+	oldPosition_ = _pos;
+}
+
+void Player::SetKeyframe(int _keyframe)
+{
+	keyframe_ = _keyframe;
+}
+
+void Player::addLife(float _Life)
+{
+	if (Life_ < Max_Life_)
+	{
+		Life_ += _Life;
+	}
+}
+
+void Player::addmana(float _Mana)
+{
+	if (Mana_ < Max_Mana_)
+	{
+		Mana_ += _Mana;
+	}
+}
+
+int Player::GetKeyframe()
+{
+	return keyframe_;
 }
 
 bool Player::GetStateMode()
 {
 	return StateMode_;
+}
+
+bool Player::GetDiffenceMode()
+{
+	return Diffence_;
+}
+
+D3DXVECTOR3 Player::GetOldPosition()
+{
+	return oldPosition_;
 }
 
 ACTIONPATTERN& Player::GetActionPattern()

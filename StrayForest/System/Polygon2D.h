@@ -29,7 +29,8 @@ public:
 		float _scale_offsetY,
 		float _scaleX,
 		float _scaleY,
-		LPDIRECT3DTEXTURE9 _texture
+		LPDIRECT3DTEXTURE9 _texture,
+		bool _draw
 		);
 	~Polygon2D();
 private:
@@ -63,6 +64,13 @@ public:
 	
 	void SetColor(D3DCOLOR _color);
 	void SetPolygonScale(float _x, float _y);
+	void SetDraw(bool _draw);
+	void StatusSetUp(int status, int max_status);
+	void SetPosition(float x, float y);
+	void SetMoveAmount(float x, float y);
+	void SetControllPosX(float axis);
+	void SetControllPosY(float axis);
+	bool GetDraw();
 public:
 	static Polygon2D* Create(
 		int _priority,
@@ -79,9 +87,16 @@ public:
 		float _angle,
 		float _rot_offsetx,
 		float _rot_offsety,
-		LPDIRECT3DTEXTURE9 _texture
+		LPDIRECT3DTEXTURE9 _texture,
+		bool _draw = false
 	);
 private:
+	float initial_position_x_;
+	float initial_position_y_;
+	float moveamount_x_;
+	float moveamount_y_;
+	bool draw_;
+	float max_dw_;
 	LPDIRECT3DTEXTURE9 texture_;
 	Entity::POLYGONSIZE infomation_;
 	Entity::Dx9Buffer buffer_;

@@ -8,6 +8,9 @@
 #include "../../../SceneManager/InheritanceNode/SceneGame.h"
 #include "BossMonsterAttack\BossMonsterAttackPatternA.h"
 #include "../Player/Player.h"
+#include "BossStatus\BossStatusManager.h"
+#include "BossStatus\BossStatus.h"
+#include "BossMonsterMagic\BossMonsterMagicPatternA.h"
 
 D3DXVECTOR3 BossMonster::GetPos_;
 Entity::MATRIX3D BossMonster::GetMatrix_;
@@ -16,7 +19,7 @@ D3DXMATRIX BossMonster::GetRotation_;
 BossMonster::BossMonster(int _Max_Life, int _Max_Mana)
 	: GameObjectManager(0)
 	, bosspattern_(new BossMonsterPatternNone)
-	, magic_(new BossMonsterMagicNone)
+	, magic_(new BossMonsterMagicPatternA)
 	, skill_(new BossMonsterSkillNone)
 	, attack_(new BossMonsterAttackPatternA)
 	, max_life_(_Max_Life)
@@ -24,8 +27,11 @@ BossMonster::BossMonster(int _Max_Life, int _Max_Mana)
 	, max_mana_(_Max_Mana)
 	, mana_(_Max_Mana)
 	, movecolision_(new SphereColision)
+	, statusmanager_(new BossStatus)
 	, movecheckcolision_(false)
 	, movestatecheck_(false)
+	, MagicCoolTime_(0)
+	, magicflag_(false)
 {
 }
 
@@ -47,7 +53,7 @@ void BossMonster::Init()
 	basic_highspeed_ = 1.0f;
 	variable_movespeed_ = 0.5f;
 	movecolisioninfo_.colision01.r = 35.0f;
-	movecolisioninfo_.colision02.r = 25.0f;
+	movecolisioninfo_.colision02.r = 35.0f;
 }
 
 void BossMonster::Update()
@@ -58,16 +64,26 @@ void BossMonster::Update()
 	bool colisioncheck = movecolision_->Collision_detection_of_Sphere_and_Sphere(movecolisioninfo_);
 	movecheckcolision_ = colisioncheck;
 
+	statusmanager_->Update(this);
+
+	if (magicflag_)
+	{
+		SceneGame::GetBossMagicAEfk()->SetIsDrawing(false);
+		SceneGame::GetBossMagicB_1Efk()->SetIsDrawing(false);
+		SceneGame::GetBossMagicCEfk()->SetIsDrawing(false);
+
+	}
 	if (colisioncheck)
 	{
+		magicflag_ = true;
 		attack_->Update(this);
 		skill_->Update(this);
-		magic_->Update(this);
 		movecolisioninfo_.hit_vector.y = 0.0f;
 		position_ += movecolisioninfo_.hit_vector;
 	}
 	else
 	{
+		magicflag_ = false;
 		if (movestatecheck_)
 		{
 			skinmesh_->MyChangeAnim(63.3);
@@ -75,8 +91,16 @@ void BossMonster::Update()
 		}
 		else
 		{
-			bosspattern_->Update(this);
+			if (MagicCoolTime_ < 600)
+			{
+				bosspattern_->Update(this);
+			}
+			else if (MagicCoolTime_ > 600)
+			{
+				magic_->Update(this);
+			}
 		}
+		MagicCoolTime_++;
 	}
 
 	D3DXMatrixTranslation(&matrix_.position, position_.x, position_.y, position_.z);
@@ -118,7 +142,7 @@ void BossMonster::Uninit()
 	delete bosspattern_;
 }
 
-void BossMonster::Damage(int _damage)
+void BossMonster::Damage(float _damage)
 {
 	life_ -= _damage;
 }
@@ -136,6 +160,11 @@ void BossMonster::SetRotation(float _rotation)
 void BossMonster::SetMoveFlagON()
 {
 	movestatecheck_ = true;
+}
+
+void BossMonster::SetMagicCoolTime(int _MagicCoolTime)
+{
+	MagicCoolTime_ = _MagicCoolTime;
 }
 
 void BossMonster::ChangeBossMonsterMovePattern(BossMonsterPattern * _bossmonsterpattern)
@@ -156,6 +185,11 @@ void BossMonster::ChangeBossMonsterMagicPattern(BossMonsterMagicPattern * _bossm
 void BossMonster::ChangeBossMonsterAttackPattern(BossMonsterAttackPattern * _bossmonsterattackpattern)
 {
 	attack_ = _bossmonsterattackpattern;
+}
+
+bool BossMonster::GetMagicFlag()
+{
+	return magicflag_;
 }
 
 D3DXMATRIX & BossMonster::GetPositionMatrix()

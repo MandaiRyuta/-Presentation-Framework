@@ -433,13 +433,6 @@ void CSkinMesh::Update(D3DXMATRIX _World) {
 	//マトリックス行列反映
 	m_World = _World;
 
-	//アニメーション時間を更新
-	m_AnimeTime++;
-}
-
-//スキンメッシュの描画
-void CSkinMesh::Draw(LPDIRECT3DDEVICE9 lpD3DDevice) {
-
 	//現在のアニメーション番号を適応
 	m_pAnimController->SetTrackAnimationSet(0, m_pAnimSet[m_CurrentTrack]);
 
@@ -451,6 +444,25 @@ void CSkinMesh::Draw(LPDIRECT3DDEVICE9 lpD3DDevice) {
 
 	//アニメーションデータを更新
 	UpdateFrameMatrices(m_pFrameRoot, &m_World);
+
+	//アニメーション時間を更新
+	m_AnimeTime++;
+}
+
+//スキンメッシュの描画
+void CSkinMesh::Draw(LPDIRECT3DDEVICE9 lpD3DDevice) {
+
+	////現在のアニメーション番号を適応
+	//m_pAnimController->SetTrackAnimationSet(0, m_pAnimSet[m_CurrentTrack]);
+
+	////0(再生中の)トラックからトラックデスクをセットする
+	//m_pAnimController->SetTrackDesc(0, &(m_CurrentTrackDesc));
+
+	////アニメーション時間データの更新
+	//m_pAnimController->AdvanceTime(m_AnimSpeed, NULL);
+
+	////アニメーションデータを更新
+	//UpdateFrameMatrices(m_pFrameRoot, &m_World);
 
 	//アニメーション描画
 	DrawFrame(lpD3DDevice, m_pFrameRoot);

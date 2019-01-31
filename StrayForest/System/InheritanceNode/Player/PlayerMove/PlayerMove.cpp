@@ -5,9 +5,7 @@
 #include "../../../../InputManager/input.h"
 #include "../../../../Renderer/GameManager.h"
 #include "../../Camera.h"
-#include "../../../Renderer/GameManager.h"
-constexpr float WALKSPEED = 0.5f;
-constexpr float RUNSPEED = 2.5f;
+
 PlayerMove::PlayerMove()
 {
 	position_ = D3DXVECTOR3(0.0f, 0.0f, -500.0f);
@@ -21,6 +19,7 @@ PlayerMove::PlayerMove()
 	AnimPattern_ = WALK;
 	counttime_ = 0;
 	sleeptime_ = 0;
+
 }
 
 PlayerMove::~PlayerMove()
@@ -59,6 +58,7 @@ void PlayerMove::Update(Player * _player)
 			movespeed_ = 0.0f;
 		}
 	}
+
 	if (_player->GetKeyboard()->GetKeyTrigger(DIK_A))
 	{
 		if (AnimPattern_ == WALK)
@@ -114,7 +114,7 @@ void PlayerMove::Update(Player * _player)
 		}
 	}
 	else if (_player->GetKeyboard()->GetKeyTrigger(DIK_W))
-	{	
+	{
 		if (AnimPattern_ == WALK)
 		{
 			movespeed_ = WALKSPEED;
@@ -169,7 +169,7 @@ void PlayerMove::Update(Player * _player)
 		}
 	}
 	else if (_player->GetKeyboard()->GetKeyTrigger(DIK_LSHIFT))
-	{	
+	{
 		if (AnimPattern_ != RUN)
 		{
 			movespeed_ = RUNSPEED;
@@ -181,8 +181,11 @@ void PlayerMove::Update(Player * _player)
 	}
 	else if (_player->GetKeyboard()->GetKeyPress(DIK_LSHIFT))
 	{
-		movespeed_ = RUNSPEED;
-		AnimPattern_ = RUN;
+		if (AnimPattern_ != ROLL)
+		{
+			movespeed_ = RUNSPEED;
+			AnimPattern_ = RUN;
+		}
 	}
 	else if (_player->GetKeyboard()->GetKeyRelease(DIK_LSHIFT))
 	{
@@ -195,15 +198,19 @@ void PlayerMove::Update(Player * _player)
 			AnimPattern_ = WALK;
 		}
 	}
-	
-	if (_player->GetKeyboard()->GetKeyTrigger(DIK_SPACE))
+	if (_player->GetKeyframe() > 100)
 	{
-		if (AnimPattern_ == RUN)
+		if (_player->GetKeyboard()->GetKeyTrigger(DIK_SPACE))
 		{
-			_player->GetSkinMesh()->SetAnimSpeed(2.0f);
-			_player->GetSkinMesh()->MyChangeAnim(8.0);
-			sleeptime_ = 0;
-			AnimPattern_ = ROLL;
+			if (AnimPattern_ == RUN)
+			{
+				movespeed_ = ROLL;
+				_player->GetSkinMesh()->SetAnimSpeed(2.0f);
+				_player->GetSkinMesh()->MyChangeAnim(8.0);
+				sleeptime_ = 0;
+				_player->SetKeyframe(0);
+				AnimPattern_ = ROLL;
+			}
 		}
 	}
 
@@ -267,6 +274,7 @@ void PlayerMove::Update(Player * _player)
 		}
 		break;
 	}
+	_player->SetOldPosition(position_);
 
 	position_ -= move_ * movespeed_;
 	//‰ŠúˆÊ’u•Ï‚¦‚ç‚ê‚é
@@ -282,8 +290,32 @@ void PlayerMove::Update(Player * _player)
 
 	D3DXMATRIX mtx_rot;
 	D3DXMATRIX mtx_pos;
-	D3DXMatrixRotationY(&mtx_rot, modelrotation);
-	D3DXMatrixTranslation(&mtx_pos, position_.x, position_.y, position_.z);
+	if (position_.y > 54.0f)
+	{
+		D3DXMatrixRotationY(&mtx_rot, modelrotation);
+		D3DXMatrixTranslation(&mtx_pos, position_.x, position_.y, position_.z);
+	}
+	else
+	{
+		if (position_.x < 0.0f)
+		{
+			position_.x += RUNSPEED * 2;
+		}
+		else
+		{
+			position_.x -= RUNSPEED * 2;
+		}
+		if (position_.z < 0.0f)
+		{
+			position_.z += RUNSPEED * 2;
+		}
+		else
+		{
+			position_.z -= RUNSPEED * 2;
+		}
+		D3DXMatrixRotationY(&mtx_rot, modelrotation);
+		D3DXMatrixTranslation(&mtx_pos, position_.x, position_.y, position_.z);
+	}
 	_player->SetPlayerPosMatrix(mtx_pos);
 	_player->SetPlayerRotMatrix(mtx_rot);
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Entity/Entity.h"
+#include "../../InputManager/XBoxController.h"
 
 class CCamera
 {
@@ -23,6 +24,7 @@ private:
 	D3DXMATRIX mtx_up_;
 
 	D3DXQUATERNION qtnAttitude;
+	GamePadXbox* GamePad_;
 public:
 	CCamera(D3DXVECTOR3 _at, D3DXVECTOR3 _eye)
 	{

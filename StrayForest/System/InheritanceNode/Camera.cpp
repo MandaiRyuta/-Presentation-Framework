@@ -4,6 +4,9 @@
 #include "../../Renderer/GameManager.h"
 #include "Player\Player.h"
 #include "../../SceneManager/InheritanceNode/SceneGame.h"
+#include "Player\ChutorialPlayer.h"
+#include "../../SceneManager/InheritanceNode/SceneChutorial.h"
+#include "../Polygon2D.h"
 D3DXMATRIX CCamera::matrix_view;
 D3DXMATRIX CCamera::matrix_projection;
 Entity::CameraInfo CCamera::camerainfo_;
@@ -14,6 +17,7 @@ CCamera::~CCamera()
 
 void CCamera::CameraUpdate()
 {
+	GamePad_ = GameManager::GetGamePad();
 	constexpr float SPEED = 0.1f;
 	LPDIRECT3DDEVICE9 device = GetDevice();
 	CInputKeyboard* pInputKeyboard;
@@ -22,44 +26,47 @@ void CCamera::CameraUpdate()
 	D3DXMATRIX CameraRotation;
 	D3DXMatrixIdentity(&CameraRotation);
 
-	if (pInputKeyboard->GetKeyPress(DIK_UP))
+	if (!GameObjectManager::GetPause())
 	{
-		yawpitchroll_.pitch += D3DXToRadian(3.0f);
-	}
-	if (pInputKeyboard->GetKeyPress(DIK_DOWN))
-	{
-		yawpitchroll_.pitch += D3DXToRadian(-3.0f);
-	}
-	if (pInputKeyboard->GetKeyPress(DIK_RIGHT))
-	{
-		yawpitchroll_.yaw += D3DXToRadian(-3.0f);
-	}
-	if (pInputKeyboard->GetKeyPress(DIK_LEFT))
-	{
-		yawpitchroll_.yaw += D3DXToRadian(3.0f);
-	}
-	if (yawpitchroll_.pitch >= D3DXToRadian(75.0f))
-	{
-		yawpitchroll_.pitch = D3DXToRadian(75.0f);
-	}
-	else if (yawpitchroll_.pitch <= D3DXToRadian(0.0f))
-	{
-		yawpitchroll_.pitch = D3DXToRadian(0.0f);
-		if (pInputKeyboard->GetKeyPress(DIK_DOWN))
+		if (GamePad_->GetState()._right_thumbstick.y > 0.25f)
 		{
-			zoom_ += -0.002f;
+			yawpitchroll_.pitch += D3DXToRadian(3.0f);
 		}
-	}
-	if (!pInputKeyboard->GetKeyPress(DIK_DOWN))
-	{
-		if (zoom_ <= D3DX_PI / 3)
+		if (GamePad_->GetState()._right_thumbstick.y < -0.25f)
 		{
-			zoom_ += 0.002f;
+			yawpitchroll_.pitch += D3DXToRadian(-3.0f);
 		}
-	}
-	if (zoom_ <= D3DX_PI / 5)
-	{
-		zoom_ = D3DX_PI / 5;
+		if (GamePad_->GetState()._right_thumbstick.x > 0.25f)
+		{
+			yawpitchroll_.yaw += D3DXToRadian(-3.0f);
+		}
+		if (GamePad_->GetState()._right_thumbstick.x < -0.25f)
+		{
+			yawpitchroll_.yaw += D3DXToRadian(3.0f);
+		}
+		if (yawpitchroll_.pitch >= D3DXToRadian(75.0f))
+		{
+			yawpitchroll_.pitch = D3DXToRadian(75.0f);
+		}
+		else if (yawpitchroll_.pitch <= D3DXToRadian(0.0f))
+		{
+			yawpitchroll_.pitch = D3DXToRadian(0.0f);
+			//if (pInputKeyboard->GetKeyPress(DIK_DOWN))
+			//{
+			//	zoom_ += -0.002f;
+			//}
+		}
+		//if (!pInputKeyboard->GetKeyPress(DIK_DOWN))
+		//{
+		//	if (zoom_ <= D3DX_PI / 3)
+		//	{
+		//		zoom_ += 0.002f;
+		//	}
+		//}
+		//if (zoom_ <= D3DX_PI / 5)
+		//{
+		//	zoom_ = D3DX_PI / 5;
+		//}
 	}
 	//
 	D3DXMatrixRotationYawPitchRoll(&CameraRotation, yawpitchroll_.yaw, yawpitchroll_.pitch, yawpitchroll_.roll);
@@ -67,9 +74,21 @@ void CCamera::CameraUpdate()
 	offset_ = D3DXVECTOR3(0.0f, 20.f, -200.0f);
 	D3DXVec3TransformCoord(&offset_, &offset_, &CameraRotation);
 
-	camerainfo_.eye = offset_ + D3DXVECTOR3(SceneGame::GetPlayer()->GetPlayerPosMatrix()._41, SceneGame::GetPlayer()->GetPlayerPosMatrix()._42, SceneGame::GetPlayer()->GetPlayerPosMatrix()._43);
+	if (GameManager::GetSceneNumber() == SCENE_CHUTORIAL)
+	{
+		SceneChutorial::GetRightController()->SetControllPosX(GamePad_->GetState()._right_thumbstick.x);
+		SceneChutorial::GetRightController()->SetControllPosY(GamePad_->GetState()._right_thumbstick.y);
 
-	camerainfo_.at = D3DXVECTOR3(SceneGame::GetPlayer()->GetPlayerPosMatrix()._41, SceneGame::GetPlayer()->GetPlayerPosMatrix()._42, SceneGame::GetPlayer()->GetPlayerPosMatrix()._43);
+		camerainfo_.eye = offset_ + SceneChutorial::GetChutorialPlayer()->GetPosition();
+
+		camerainfo_.at = SceneChutorial::GetChutorialPlayer()->GetPosition();
+	}
+	if (GameManager::GetSceneNumber() == SCENE_GAME)
+	{
+		camerainfo_.eye = offset_ + D3DXVECTOR3(SceneGame::GetPlayer()->GetPlayerPosMatrix()._41, SceneGame::GetPlayer()->GetPlayerPosMatrix()._42, SceneGame::GetPlayer()->GetPlayerPosMatrix()._43);
+
+		camerainfo_.at = D3DXVECTOR3(SceneGame::GetPlayer()->GetPlayerPosMatrix()._41, SceneGame::GetPlayer()->GetPlayerPosMatrix()._42, SceneGame::GetPlayer()->GetPlayerPosMatrix()._43);
+	}
 
 	//ÉrÉÖÅ[çsóÒÇÃçÏê¨
 	D3DXMatrixLookAtLH(

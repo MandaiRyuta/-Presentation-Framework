@@ -93,13 +93,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\lua-5.3.4_Win32_dllw4_lib\include;C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\lua-5.3.4_Win32_dllw4_lib\include;C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>liblua53.a;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\lua-5.3.4_Win32_dllw4_lib;C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\lua-5.3.4_Win32_dllw4_lib;C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -125,14 +125,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Effekseer\src\lib\VS2015\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -153,10 +153,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BehaviorTree\BehaviorTree.h" />
     <ClInclude Include="Entity\Entity.h" />
     <ClInclude Include="GameObjectManager\GameObjectManager.h" />
     <ClInclude Include="InputManager\input.h" />
+    <ClInclude Include="InputManager\XBoxController.h" />
     <ClInclude Include="LoadManager\CsvLoder.h" />
     <ClInclude Include="LoadManager\ModelLoder.h" />
     <ClInclude Include="LoadManager\TextureLoder.h" />
@@ -169,7 +169,8 @@
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="SceneManager\InheritanceNode\SceneChutorial.h" />
     <ClInclude Include="SceneManager\InheritanceNode\SceneGame.h" />
-    <ClInclude Include="SceneManager\InheritanceNode\SceneResult.h" />
+    <ClInclude Include="SceneManager\InheritanceNode\SceneLoseResult.h" />
+    <ClInclude Include="SceneManager\InheritanceNode\SceneWinResult.h" />
     <ClInclude Include="SceneManager\InheritanceNode\SceneTitle.h" />
     <ClInclude Include="SceneManager\SceneManager.h" />
     <ClInclude Include="ShaderManager\EffectShaderManager.h" />
@@ -196,14 +197,20 @@
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternC.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPattern.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternA.h" />
+    <ClInclude Include="System\InheritanceNode\BossMonster\BossStatus\BossStatus.h" />
+    <ClInclude Include="System\InheritanceNode\BossMonster\BossStatus\BossStatusManager.h" />
+    <ClInclude Include="System\InheritanceNode\BossMonster\ChutorialBoss.h" />
     <ClInclude Include="System\InheritanceNode\Camera.h" />
     <ClInclude Include="System\InheritanceNode\EffectParticle\Particle.h" />
+    <ClInclude Include="System\InheritanceNode\Fade\Fade.h" />
     <ClInclude Include="System\InheritanceNode\Instancing3D.h" />
     <ClInclude Include="System\InheritanceNode\Light.h" />
     <ClInclude Include="System\InheritanceNode\MagicObject\MagicObject.h" />
     <ClInclude Include="System\InheritanceNode\MeshFiled.h" />
     <ClInclude Include="System\InheritanceNode\MotionEffect\MotionEffect.h" />
     <ClInclude Include="System\InheritanceNode\MyEffekseer\MyEffekseer.h" />
+    <ClInclude Include="System\InheritanceNode\Number\Number.h" />
+    <ClInclude Include="System\InheritanceNode\Player\ChutorialPlayer.h" />
     <ClInclude Include="System\InheritanceNode\Player\Player.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerAttack\PlayerAttackManager.h" />
     <ClInclude Include="System\InheritanceNode\Player\PlayerAttack\PlayerNomalAttack.h" />
@@ -230,6 +237,7 @@
   <ItemGroup>
     <ClCompile Include="GameObjectManager\GameObjectManager.cpp" />
     <ClCompile Include="InputManager\input.cpp" />
+    <ClCompile Include="InputManager\XBoxController.cpp" />
     <ClCompile Include="LoadManager\CsvLoder.cpp" />
     <ClCompile Include="LoadManager\ModelLoder.cpp" />
     <ClCompile Include="LoadManager\TextureLoder.cpp" />
@@ -239,9 +247,10 @@
     <ClCompile Include="myimgui\imgui_impl_dx9.cpp" />
     <ClCompile Include="Renderer\GameManager.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
-    <ClCompile Include="SceneManager\InheritanceNode\Chutorial.cpp" />
+    <ClCompile Include="SceneManager\InheritanceNode\SceneChutorial.cpp" />
     <ClCompile Include="SceneManager\InheritanceNode\SceneGame.cpp" />
-    <ClCompile Include="SceneManager\InheritanceNode\SceneResult.cpp" />
+    <ClCompile Include="SceneManager\InheritanceNode\SceneLoseResult.cpp" />
+    <ClCompile Include="SceneManager\InheritanceNode\SceneWinResult.cpp" />
     <ClCompile Include="SceneManager\InheritanceNode\SceneTitle.cpp" />
     <ClCompile Include="ShaderManager\EffectShaderManager.cpp" />
     <ClCompile Include="ShaderManager\ShaderManager.cpp" />
@@ -261,13 +270,18 @@
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternB.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternC.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternA.cpp" />
+    <ClCompile Include="System\InheritanceNode\BossMonster\BossStatus\BossStatus.cpp" />
+    <ClCompile Include="System\InheritanceNode\BossMonster\ChutorialBoss.cpp" />
     <ClCompile Include="System\InheritanceNode\Camera.cpp" />
     <ClCompile Include="System\InheritanceNode\EffectParticle\Particle.cpp" />
+    <ClCompile Include="System\InheritanceNode\Fade\Fade.cpp" />
     <ClCompile Include="System\InheritanceNode\Instancing3D.cpp" />
     <ClCompile Include="System\InheritanceNode\Light.cpp" />
     <ClCompile Include="System\InheritanceNode\MagicObject\MagicObject.cpp" />
     <ClCompile Include="System\InheritanceNode\MeshFiled.cpp" />
     <ClCompile Include="System\InheritanceNode\MyEffekseer\MyEffekseer.cpp" />
+    <ClCompile Include="System\InheritanceNode\Number\Number.cpp" />
+    <ClCompile Include="System\InheritanceNode\Player\ChutorialPlayer.cpp" />
     <ClCompile Include="System\InheritanceNode\Player\Player.cpp" />
     <ClCompile Include="System\InheritanceNode\Player\PlayerAttack\PlayerNomalAttack.cpp" />
     <ClCompile Include="System\InheritanceNode\Player\PlayerBuffState\PlayerBuff.cpp" />

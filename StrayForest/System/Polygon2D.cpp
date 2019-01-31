@@ -1,4 +1,6 @@
 #include "Polygon2D.h"
+#include "InheritanceNode\Player\Player.h"
+#include "InheritanceNode\Player\ChutorialPlayer.h"
 
 Polygon2D::Polygon2D(
 	int _priority,
@@ -19,7 +21,8 @@ Polygon2D::Polygon2D(
 	float _scale_offsetY,
 	float _scaleX,
 	float _scaleY,
-	LPDIRECT3DTEXTURE9 _texture)
+	LPDIRECT3DTEXTURE9 _texture,
+	bool _draw)
 	: GameObjectManager(_priority)
 	, angle_(_angle)
 	, rot_offsetX_(_rot_offsetx)
@@ -29,10 +32,16 @@ Polygon2D::Polygon2D(
 	, scaleX_(_scaleX)
 	, scaleY_(_scaleY)
 	, texture_(_texture)
+	, draw_(_draw)
+	, moveamount_x_(10.0f)
+	, moveamount_y_(10.0f)
 {
+	initial_position_x_ = _dx;
+	initial_position_y_ = _dy;
 	infomation_.dx_ = _dx;
 	infomation_.dy_ = _dy;
 	infomation_.dw_ = _dw;
+	max_dw_ = _dw;
 	infomation_.dh_ = _dh;
 	infomation_.tcx_ = _tcx;
 	infomation_.tcy_ = _tcy;
@@ -137,12 +146,6 @@ void Polygon2D::Init()
 
 void Polygon2D::Update()
 {
-}
-
-void Polygon2D::Draw()
-{
-	LPDIRECT3DDEVICE9 device = GetDevice();
-
 	if (infomation_.affine_)
 	{
 		CreateVertexAffine(infomation_.color_, infomation_.dx_, infomation_.dy_, infomation_.dw_, infomation_.dh_, infomation_.tcx_, infomation_.tcy_, infomation_.tcw_, infomation_.tch_);
@@ -151,23 +154,30 @@ void Polygon2D::Draw()
 	{
 		CreateVertex(infomation_.color_, infomation_.dx_, infomation_.dy_, infomation_.dw_, infomation_.dh_, infomation_.tcx_, infomation_.tcy_, infomation_.tcw_, infomation_.tch_);
 	}
+}
 
-	device->SetStreamSource(0, buffer_.vertex_buffer, 0, sizeof(Entity::VECTOR2D));
+void Polygon2D::Draw()
+{
+	LPDIRECT3DDEVICE9 device = GetDevice();
 
-	device->SetFVF(FVF_POLYGON2D);
+	if (draw_)
+	{
+		device->SetStreamSource(0, buffer_.vertex_buffer, 0, sizeof(Entity::VECTOR2D));
 
-	device->SetRenderState(D3DRS_LIGHTING, FALSE);
+		device->SetFVF(FVF_POLYGON2D);
 
-	device->SetRenderState(D3DRS_NORMALIZENORMALS, FALSE);
+		device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	device->SetTexture(0, texture_);
+		device->SetRenderState(D3DRS_NORMALIZENORMALS, FALSE);
 
-	device->DrawPrimitive(
-		D3DPT_TRIANGLEFAN, 0, 2
-	);
+		device->SetTexture(0, texture_);
 
-	device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	device->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+		device->DrawPrimitive(
+			D3DPT_TRIANGLEFAN, 0, 2
+		);
+		device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+		device->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	}
 }
 
 void Polygon2D::Uninit()
@@ -191,9 +201,94 @@ void Polygon2D::SetPolygonScale(float _x, float _y)
 	scaleY_ = _y;
 }
 
-Polygon2D * Polygon2D::Create(int _priority, float _dx, float _dy, float _dw, float _dh, unsigned int _tcx, unsigned int _tcy, unsigned int _tcw, unsigned int _tch, D3DCOLOR _color, bool _affine, float _angle, float _rot_offsetx, float _rot_offsety, LPDIRECT3DTEXTURE9 _texture)
+void Polygon2D::SetDraw(bool _draw)
 {
-	Polygon2D* createpolygon2d = new Polygon2D(_priority, _dx, _dy, _dw, _dh, _tcx, _tcy, _tcw, _tch, _color, _affine, _angle, _rot_offsetx, _rot_offsety, 0.0f, 0.0f, 1.0f, 1.0f, _texture);
+	draw_ = _draw;
+}
+
+void Polygon2D::StatusSetUp(int status, int max_status)
+{
+	infomation_.dw_ = (float)((max_dw_ * status) / max_status);
+}
+
+void Polygon2D::SetPosition(float x, float y)
+{
+	infomation_.dx_ = x;
+	infomation_.dy_ = y;
+}
+
+void Polygon2D::SetMoveAmount(float x, float y)
+{
+	moveamount_x_ = x;
+	moveamount_y_ = y;
+}
+
+void Polygon2D::SetControllPosX(float axis)
+{
+	if (axis <= -0.25f)
+	{
+		if (infomation_.dx_ > initial_position_x_ - moveamount_x_)
+		{
+			infomation_.dx_ -= 1.0f;
+		}
+	}
+	else if (axis >= 0.25f)
+	{
+		if (infomation_.dx_ < initial_position_x_ + moveamount_x_)
+		{
+			infomation_.dx_ += 1.0f;
+		}
+	}
+	else
+	{
+		if (infomation_.dx_ > initial_position_x_)
+		{
+			infomation_.dx_ -= 1.0f;
+		}
+		else if (infomation_.dx_ < initial_position_x_)
+		{
+			infomation_.dx_ += 1.0f;
+		}
+	}
+}
+
+void Polygon2D::SetControllPosY(float axis)
+{
+	if (axis >= 0.25f)
+	{
+		if (infomation_.dy_ > initial_position_y_ - moveamount_y_)
+		{
+			infomation_.dy_ -= 1.0f;
+		}
+	}
+	else if (axis <= -0.25f)
+	{
+		if (infomation_.dy_ < initial_position_y_ + moveamount_y_)
+		{
+			infomation_.dy_ += 1.0f;
+		}
+	}
+	else
+	{
+		if (infomation_.dy_ > initial_position_y_)
+		{
+			infomation_.dy_ -= 1.0f;
+		}
+		else if (infomation_.dy_ < initial_position_y_)
+		{
+			infomation_.dy_ += 1.0f;
+		}
+	}
+}
+
+bool Polygon2D::GetDraw()
+{
+	return draw_;
+}
+
+Polygon2D * Polygon2D::Create(int _priority, float _dx, float _dy, float _dw, float _dh, unsigned int _tcx, unsigned int _tcy, unsigned int _tcw, unsigned int _tch, D3DCOLOR _color, bool _affine, float _angle, float _rot_offsetx, float _rot_offsety, LPDIRECT3DTEXTURE9 _texture, bool _draw)
+{
+	Polygon2D* createpolygon2d = new Polygon2D(_priority, _dx, _dy, _dw, _dh, _tcx, _tcy, _tcw, _tch, _color, _affine, _angle, _rot_offsetx, _rot_offsety, 0.0f, 0.0f, 1.0f, 1.0f, _texture, _draw);
 	createpolygon2d->Init();
 	return createpolygon2d;
 }

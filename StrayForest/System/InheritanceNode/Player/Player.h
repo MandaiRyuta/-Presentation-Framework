@@ -16,7 +16,7 @@ class SphereColision;
 class Player : public GameObjectManager
 {
 public:
-	Player();
+	Player(float max_health, float max_mana, float health, float mana);
 	~Player() {}
 public:
 	void Init() override;
@@ -24,7 +24,8 @@ public:
 	void Draw() override;
 	void Uninit() override;
 public:
-	void Damage(int _damage);
+	void Damage(float _damage);
+	void UseMana(float _mana);
 	void Heal(double _animtrack, float _speed, int _amount);
 	void Attack(double _animtrack, double _speed);
 	void Skill(double _animtrack, double _speed);
@@ -32,12 +33,12 @@ public:
 	void Buff(double _animtrack, double _speed);
 	void DeBuff(double _animtrack, double _speed);
 public:
-	static Player* Create();
+	static Player* Create(int max_health, int max_mana, int health, int mana);
 public:
-	const int GetLife() const { return Life_; }
-	const int GetMana() const { return Mana_; }
-	const int GetMaxLife() const { return Max_Life_; }
-	const int GetMaxMana() const { return Max_Mana_; }
+	float GetLife() const { return Life_; }
+	float GetMana() const { return Mana_; }
+	const float GetMaxLife() const { return Max_Life_; }
+	const float GetMaxMana() const { return Max_Mana_; }
 public:
 	void ChangeMovePattern(PlayerMoveManager* _move);
 	void ChangeAttackPattern(PlayerAttackManager* _attack);
@@ -45,10 +46,6 @@ public:
 	void ChangeBuffMode(PlayerBuffStateManager* _buff);
 	void ChangeDiffencePattern(PlayerDiffenceManager* _diffence);
 public:
-	const int& Life() const { return Life_; }
-	const int& Mana() const { return Mana_; }
-	const int& MaxLife() const { return Max_Life_; }
-	const int& MaxMana() const { return Max_Mana_; }
 	CSkinMesh* GetSkinMesh();
 	CInputKeyboard* GetKeyboard();
 public:
@@ -57,7 +54,15 @@ public:
 	void SetPlayerRotMatrix(D3DXMATRIX _rot);
 	void SetActionPattern(ACTIONPATTERN _action);
 	void SetStateMode(bool _StateMode);
+	void SetDiffenceMode(bool _diffence);
+	void SetOldPosition(D3DXVECTOR3 _pos);
+	void SetKeyframe(int _keyframe);
+	void addLife(float _Life);
+	void addmana(float _Mana);
+	int GetKeyframe();
 	bool GetStateMode();
+	bool GetDiffenceMode();
+	D3DXVECTOR3 GetOldPosition();
 	ACTIONPATTERN& GetActionPattern();
 	static D3DXMATRIX& GetPlayerMatrix();
 	static D3DXMATRIX GetPlayerPosMatrix();
@@ -67,10 +72,12 @@ public:
 private:
 	ACTIONPATTERN playeraction_;
 	bool StateMode_;
-	int Max_Life_;
-	int Max_Mana_;
-	int Life_;
-	int Mana_;
+	bool Diffence_;
+	float Max_Life_;
+	float Max_Mana_;
+	float Life_;
+	float Mana_;
+	int keyframe_;
 	static SphereColision* AttackHitColision_;
 	SphereColision* spherecolision_;
 	PlayerMoveManager* movemanager_;
@@ -83,6 +90,7 @@ private:
 	CInputKeyboard* keyboard_;
 	D3DXVECTOR3 scale_;
 	Entity::MATRIX3D matrix_;
+	D3DXVECTOR3 oldPosition_;
 	static D3DXMATRIX body_;
 	static D3DXMATRIX world_;
 	static D3DXMATRIX pos_;

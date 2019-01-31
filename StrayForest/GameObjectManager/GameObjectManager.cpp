@@ -1,7 +1,12 @@
 #include "../Renderer/GameManager.h"
 #include "GameObjectManager.h"
+#include "../InputManager/input.h"
+#include "../Renderer/GameManager.h"
+#include "../SceneManager/InheritanceNode/SceneGame.h"
+#include "../System/Polygon2D.h"
 
 GameObjectManager* GameObjectManager::object_[SORT_MAX][OBJ_MAX];
+bool GameObjectManager::pause_;
 
 GameObjectManager::GameObjectManager(int _Priority)
 {
@@ -16,6 +21,7 @@ GameObjectManager::GameObjectManager(int _Priority)
 			}
 		}
 	}
+	pause_ = false;
 }
 
 void GameObjectManager::Release()
@@ -36,14 +42,58 @@ void GameObjectManager::Release()
 
 void GameObjectManager::UpdateAll()
 {
-	for (int i = 0; i < SORT_MAX; i++)
+	//ここでポーズ用のフラグを設定する
+	if (!pause_)
 	{
-		for (int t = 0; t < OBJ_MAX; t++)
+		if (GameManager::GetKeyboard()->GetKeyTrigger(DIK_P))
 		{
-			if (object_[i][t] != NULL)
+			SceneGame::GetPauseScreen()->SetDraw(true);
+			SceneGame::GetPauseButton01ON()->SetDraw(true);
+			SceneGame::GetPauseButton01OFF()->SetDraw(false);
+			SceneGame::GetPauseButton02ON()->SetDraw(false);
+			SceneGame::GetPauseButton02OFF()->SetDraw(true);
+			SetPause(true);
+		}
+
+		for (int i = 0; i < SORT_MAX; i++)
+		{
+			for (int t = 0; t < OBJ_MAX; t++)
 			{
-				object_[i][t]->Update();
+				if (object_[i][t] != NULL)
+				{
+					object_[i][t]->Update();
+				}
 			}
+		}
+	}
+	else
+	{
+		if (SceneGame::GetPauseScreen()->GetDraw())
+		{
+			if (GameManager::GetKeyboard()->GetKeyTrigger(DIK_UP))
+			{
+				SceneGame::GetPauseButton01ON()->SetDraw(true);
+				SceneGame::GetPauseButton01OFF()->SetDraw(false);
+				SceneGame::GetPauseButton02ON()->SetDraw(false);
+				SceneGame::GetPauseButton02OFF()->SetDraw(true);
+			}
+			else if (GameManager::GetKeyboard()->GetKeyTrigger(DIK_DOWN))
+			{
+				SceneGame::GetPauseButton01ON()->SetDraw(false);
+				SceneGame::GetPauseButton01OFF()->SetDraw(true);
+				SceneGame::GetPauseButton02ON()->SetDraw(true);
+				SceneGame::GetPauseButton02OFF()->SetDraw(false);
+			}
+		}
+
+		if (GameManager::GetKeyboard()->GetKeyTrigger(DIK_P))
+		{
+			SceneGame::GetPauseScreen()->SetDraw(false);
+			SceneGame::GetPauseButton01ON()->SetDraw(false);
+			SceneGame::GetPauseButton01OFF()->SetDraw(false);
+			SceneGame::GetPauseButton02ON()->SetDraw(false);
+			SceneGame::GetPauseButton02OFF()->SetDraw(false);
+			SetPause(false);
 		}
 	}
 }
@@ -75,4 +125,14 @@ void GameObjectManager::ReleaseAll()
 			}
 		}
 	}
+}
+
+void GameObjectManager::SetPause(bool _pause)
+{
+	 pause_ = _pause;
+}
+
+bool GameObjectManager::GetPause()
+{
+	return pause_;
 }

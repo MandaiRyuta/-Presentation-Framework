@@ -1,8 +1,10 @@
 #include "GameManager.h"
 #include "../SceneManager/SceneManager.h"
+#include "../SceneManager/InheritanceNode/SceneChutorial.h"
 #include "../SceneManager/InheritanceNode/SceneTitle.h"
 #include "../SceneManager/InheritanceNode/SceneGame.h"
-#include "../SceneManager/InheritanceNode/SceneResult.h"
+#include "../SceneManager/InheritanceNode/SceneWinResult.h"
+#include "../SceneManager/InheritanceNode/SceneLoseResult.h"
 #include "../LoadManager/ModelLoder.h"
 #include "../LoadManager/TextureLoder.h"
 #include "../ShaderManager/EffectShaderManager.h"
@@ -10,6 +12,7 @@
 #include "../System/InheritanceNode/Light.h"
 #include "../InputManager/input.h"
 #include <algorithm>
+#include "../InputManager/XBoxController.h"
 
 SceneManager* GameManager::mode_;
 CInputKeyboard* GameManager::keyboard_;
@@ -17,6 +20,8 @@ CInputMouse* GameManager::mouse_;
 //Models* GameManager::modelinfo_[MODEL_MAX] = {};
 std::vector<Models*> GameManager::modelinfo_;
 CCamera* GameManager::camera_;
+SCENE_NUM GameManager::SceneNum_;
+GamePadXbox* GameManager::GamePad_;
 GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _nWindowWidth, int _nWindowHeight)
 {
 	_hInstance = _hInstance;
@@ -37,6 +42,10 @@ GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _n
 	camera_ = new CCamera(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 200.0f, -100.0f));
 	light_ = new Light();
 	light_->Init();
+
+	GamePad_ = new GamePadXbox(GamePadIndex_One, 1);
+
+	SceneNum_ = SCENE_CHUTORIAL;
 }
 
 void GameManager::Init()
@@ -55,6 +64,25 @@ void GameManager::Init()
 	TextureLoder::LoadData("Resource/Texture/waku_bugs.png");
 	TextureLoder::LoadData("Resource/Texture/button_bugs1.png");
 	TextureLoder::LoadData("Resource/Texture/button_bugs2.png");
+	TextureLoder::LoadData("Resource/Texture/empty.png");
+	TextureLoder::LoadData("Resource/Texture/waku_bugs.png");
+	TextureLoder::LoadData("Resource/Texture/button_bugs1.png");
+	TextureLoder::LoadData("Resource/Texture/button_bugs2.png");
+	TextureLoder::LoadData("Resource/Texture/button_bugs1_1.png");
+	TextureLoder::LoadData("Resource/Texture/button_bugs2_1.png");
+	TextureLoder::LoadData("Resource/Texture/DamegeEffect01.png");
+	TextureLoder::LoadData("Resource/Texture/AButton.png");
+	TextureLoder::LoadData("Resource/Texture/BButton.png");
+	TextureLoder::LoadData("Resource/Texture/XButton.png");
+	TextureLoder::LoadData("Resource/Texture/YButton.png");
+	TextureLoder::LoadData("Resource/Texture/Roll.png");
+	TextureLoder::LoadData("Resource/Texture/sword.png");
+	TextureLoder::LoadData("Resource/Texture/magic.png");
+	TextureLoder::LoadData("Resource/Texture/shiled.png");
+	TextureLoder::LoadData("Resource/Texture/Controlbutton01.png");
+	TextureLoder::LoadData("Resource/Texture/Controlbutton02.png");
+	TextureLoder::LoadData("Resource/Texture/SideButton.png");
+	TextureLoder::LoadData("Resource/Texture/move.png");
 	modelinfo_.push_back(new ModelLoder("Resource/Model/skydomemodel.x"));
 	modelinfo_.push_back(new ModelLoder("Resource/Model/treemodel.x"));
 	modelinfo_.push_back(new ModelLoder("Resource/Model/Shadow.x"));
@@ -73,7 +101,7 @@ void GameManager::Init()
 	EffectShaderManager::EffectLoad("Resource/Shader/Sword.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/Particle.fx");
 	//EffectShaderManager::EffectLoad("Resource/Shader/BumpMap.fx");
-	SetSceneMode(new SceneGame);
+	SetSceneMode(new SceneChutorial, SCENE_CHUTORIAL);
 }
 
 void GameManager::Update()
@@ -81,6 +109,10 @@ void GameManager::Update()
 	camera_->CameraUpdate();
 	keyboard_->Update();
 	mouse_->Update();
+	if (GamePad_->is_connected())
+	{
+		GamePad_->update();
+	}
 	GameObjectManager::UpdateAll();
 }
 
@@ -161,13 +193,17 @@ void GameManager::Uninit()
 		delete mouse_;
 		mouse_ = nullptr;
 	}
-
+	if (GamePad_ != nullptr)
+	{
+		delete GamePad_;
+		GamePad_ = nullptr;
+	}
 	TextureLoder::RelaseAll();
 	
 	EffectShaderManager::ReleaseAll();
 }
 
-void GameManager::SetSceneMode(SceneManager * _Mode)
+void GameManager::SetSceneMode(SceneManager * _Mode, SCENE_NUM _scene_num)
 {
 	if (mode_ != nullptr) {
 		mode_->Release();
@@ -176,11 +212,17 @@ void GameManager::SetSceneMode(SceneManager * _Mode)
 	}
 
 	mode_ = _Mode;
+	SceneNum_ = _scene_num;
 
 	if (mode_ != nullptr)
 	{
 		mode_->Initialize();
 	}
+}
+
+SCENE_NUM GameManager::GetSceneNumber()
+{
+	return SceneNum_;
 }
 
 CInputKeyboard * GameManager::GetKeyboard()
@@ -201,4 +243,9 @@ Models* GameManager::GetModel(LOADMODEL _modelnum)
 CCamera * GameManager::GetCamera()
 {
 	return camera_;
+}
+
+GamePadXbox * GameManager::GetGamePad()
+{
+	return GamePad_;
 }

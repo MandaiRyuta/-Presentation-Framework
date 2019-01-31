@@ -1,6 +1,3 @@
-﻿  PlayerWeapon.cpp
-  PlayerShiled.cpp
-c:\users\samiy\desktop\-presentation-framework\strayforest\system\inheritancenode\player\playeritem\playershiled.h(9): warning C4100: '_Priority': 引数は関数の本体部で 1 度も参照されません。
-  コードを生成中...
-  StrayForest.vcxproj -> C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.exe
-  StrayForest.vcxproj -> C:\Users\Samiy\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.pdb (Full PDB)
+﻿  Polygon2D.cpp
+  StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.exe
+  StrayForest.vcxproj -> C:\Users\Owner\Desktop\-Presentation-Framework\StrayForest\Debug\StrayForest.pdb (Full PDB)

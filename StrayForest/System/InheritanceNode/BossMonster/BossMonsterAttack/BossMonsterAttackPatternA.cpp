@@ -26,5 +26,6 @@ void BossMonsterAttackPatternA::Update(BossMonster * _bossmonster)
 	{
 		_bossmonster->GetSkinMesh()->MyChangeAnim(5.2);
 		FrameCount_ = 0;
+		AttackSetFlag_ = false;
 	}
 }

@@ -25,7 +25,10 @@ public:
 	static void UpdateAll();
 	static void DrawAll();
 	static void ReleaseAll();
+	static void SetPause(bool _pause);
+	static bool GetPause();
 private:
+	static bool pause_;
 	static GameObjectManager* object_[SORT_MAX][OBJ_MAX];
 	static int PauseState_;
 };

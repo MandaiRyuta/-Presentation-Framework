@@ -126,11 +126,11 @@ void MosionEffect::Update()
 	D3DXVECTOR3 weponPosTop;
 	D3DXVECTOR3 weponPosBottom;
 
+	D3DXVec3TransformCoord(&weponPosTop, &D3DXVECTOR3(0.0f, 3.0f, 0.0f), &SceneGame::GetPlayerSword()->GetMtxWorld());
+	D3DXVec3TransformCoord(&weponPosBottom, &D3DXVECTOR3(0.0f, 0.0f, 0.0f), &SceneGame::GetPlayerSword()->GetMtxWorld());
+
 	if (isdraw_)
 	{
-		D3DXVec3TransformCoord(&weponPosTop, &D3DXVECTOR3(0.0f, 3.0f, 0.0f), &SceneGame::GetPlayerSword()->GetMtxWorld());
-		D3DXVec3TransformCoord(&weponPosBottom, &D3DXVECTOR3(0.0f, 0.0f, 0.0f), &SceneGame::GetPlayerSword()->GetMtxWorld());
-
 		buffer_.vertex_buffer->Lock(0, 0, (void**)&mpv_, D3DLOCK_DISCARD);
 
 		for (int i = 0; i < 4; i++)

@@ -17,19 +17,26 @@ void PlayerDiffence::Update(Player * _player)
 	if (_player->GetKeyboard()->GetKeyTrigger(DIK_6))
 	{
 		FrameCounter_ = 0;
+		_player->SetDiffenceMode(true);
 		_player->SetActionPattern(ACTIONPATTERN::DSTART);
 		_player->GetSkinMesh()->SetAnimSpeed(1.0f);
 		_player->GetSkinMesh()->MyChangeAnim(18.7);
+		_player->SetKeyframe(0);
 	}
 	else if (_player->GetKeyboard()->GetKeyRelease(DIK_6))
 	{
 		FrameCounter_ = 0;
+		_player->SetDiffenceMode(false);
 		_player->GetSkinMesh()->SetAnimSpeed(1.0f);
 		_player->GetSkinMesh()->MyChangeAnim(0.0);
+		_player->SetKeyframe(0);
 		_player->SetActionPattern(ACTIONPATTERN::STATE);
 	}
+
 	switch (_player->GetActionPattern())
 	{
+	case STATE:
+		break;
 	case DSTART:
 		if (FrameCounter_ < 60)
 		{

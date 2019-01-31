@@ -4,7 +4,6 @@
 #include "../../MeshFiled.h"
 #include "../../../../SceneManager/InheritanceNode/SceneGame.h"
 #include "BossMonsterPatternB.h"
-#include "../BossMonsterAttack/BossMonsterAttackPatternB.h"
 BossMonsterPatternA::BossMonsterPatternA()
 	: FrameCount_(0)
 {
@@ -12,6 +11,8 @@ BossMonsterPatternA::BossMonsterPatternA()
 
 void BossMonsterPatternA::Update(BossMonster * _bossmonster)
 {
+	SceneGame::GetBossBuffEfk()->SetIsDrawing(false);
+
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 PlayerPosition = D3DXVECTOR3(SceneGame::GetPlayer()->GetPlayerMatrix()._41, 0.0f, SceneGame::GetPlayer()->GetPlayerPosMatrix()._43);
 	D3DXVECTOR3 AxisMove = PlayerPosition - D3DXVECTOR3(_bossmonster->GetPositionMatrix()._41, 0.0f, _bossmonster->GetPositionMatrix()._43);
@@ -35,9 +36,9 @@ void BossMonsterPatternA::Update(BossMonster * _bossmonster)
 	move = AxisMove * (_bossmonster->GetMoveLowSpeed() + _bossmonster->GetMoveVariableSpeed());
 
 
-	if (_bossmonster->GetLife() < _bossmonster->GetMaxLife() / 1.5f)
+	if (_bossmonster->GetLife() < _bossmonster->GetMaxLife() * 0.75f)
 	{
-		_bossmonster->ChangeBossMonsterAttackPattern(new BossMonsterAttackPatternB);
+		//_bossmonster->ChangeBossMonsterAttackPattern(new BossMonsterAttackPatternB);
 		_bossmonster->ChangeBossMonsterMovePattern(new BossMonsterPatternB);
 	}
 
