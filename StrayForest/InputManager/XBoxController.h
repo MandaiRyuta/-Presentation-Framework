@@ -23,7 +23,6 @@ typedef enum
 	GamePadButton_Max = 14
 }GamePadButton;
 
-// GamePad Indexes
 typedef enum
 {
 	GamePadIndex_One = 0,
@@ -31,6 +30,7 @@ typedef enum
 	GamePadIndex_Three = 2,
 	GamePadIndex_Four = 3,
 }GamePadIndex;
+
 struct Vector2
 {
 	float x;
@@ -41,23 +41,45 @@ struct Vector2
 		x = y = amount;
 	}
 };
-// The GamePad State Stuct, were we store the buttons positions
+
+struct ControllerFlag
+{
+	bool up;
+	bool down;
+	bool left;
+	bool right;
+
+	void set(bool flag)
+	{
+		up = down = left = right = flag;
+	}
+};
+
 struct GamePadState
 {
 	bool		_buttons[GamePadButton_Max];
-	Vector2 	_left_thumbstick;               // <= I'm using a Vector2 (floats) class but you can replaced it with a float X and Y or whatever your Vector2 class is
+	Vector2 	_left_thumbstick;
 	Vector2	    _right_thumbstick;
 	float		_left_trigger;
 	float		_right_trigger;
-	// Just to clear all values to default
+	ControllerFlag _left_controllflag;
+
 	void reset()
 	{
 		for (int i = 0; i<(int)GamePadButton_Max; ++i) _buttons[i] = false;
 		_left_thumbstick.set(0.0f);
 		_right_thumbstick.set(0.0f);
+		_left_controllflag.set(false);
 		_left_trigger = _right_trigger = 0.0f;
 	}
 };
+
+typedef enum {
+	LEFT = 0,
+	RIGHT = 1,
+	UP = 2,
+	DOWN = 3
+}LeftControllFlag;
 
 class GamePadXbox
 {
@@ -71,7 +93,6 @@ public:
 
 	virtual ~GamePadXbox(void)
 	{
-		// We don't want the controller to be vibrating accidentally when we exit the app
 		if (is_connected()) vibrate(0.0f, 0.0f);
 	}
 
@@ -79,8 +100,13 @@ public:
 	void vibrate(float leftmotor = 0.0f, float rightmotor = 0.0f);
 	void update();
 	GamePadState GetState();
+	bool GetLeftControllerTrigger(int flag);
+	bool GetButtonPress(int nButton);
+	bool GetButtonTrigger(int nButton);
+	bool GetButtonRelease(int nButton);
 private:
 	GamePadState	State;
+	GamePadState	OldState;
 	int player_;
 	DWORD _controllerNum;
 	XINPUT_STATE _controllerState;

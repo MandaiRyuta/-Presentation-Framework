@@ -50,4 +50,5 @@ private:
 	int magictime_;
 	int sleeptime_;
 	int keyframe_;
+	bool rollflag_;
 };

@@ -42,6 +42,7 @@ void ChutorialPlayer::Init()
 	animpattern_ = STATE;
 	attackpattern_ = ACTIONPATTERN::STATE;
 	diffencetime_ = 0;
+	rollflag_ = false;
 }
 
 void ChutorialPlayer::Update()
@@ -148,113 +149,143 @@ void ChutorialPlayer::Move()
 		}
 	}
 
-	//if (keyboard_->GetKeyTrigger(DIK_A))
-	//{
-	//	if (animpattern_ == WALK)
-	//	{
-	//		movespeed_ = WALKSPEED;
-	//		skinmesh_->SetAnimSpeed(1.0f);
-	//		skinmesh_->MyChangeAnim(6.6);
-	//		sleeptime_ = 0;
-	//		animpattern_ = WALK;
-	//	}
-	//	if (animpattern_ != RUN)
-	//	{
-	//		movespeed_ = WALKSPEED;
-	//		skinmesh_->SetAnimSpeed(1.0f);
-	//		skinmesh_->MyChangeAnim(6.6);
-	//		sleeptime_ = 0;
-	//		animpattern_ = WALK;
-	//	}
-	//	else if (animpattern_ == RUN)
-	//	{
-	//		movespeed_ = RUNSPEED;
-	//		skinmesh_->SetAnimSpeed(2.0f);
-	//		skinmesh_->MyChangeAnim(9.63);
-	//		sleeptime_ = 0;
-	//		animpattern_ = RUN;
-	//	}
-	//}
-	//else if (keyboard_->GetKeyTrigger(DIK_D))
-	//{
-	//	if (animpattern_ == WALK)
-	//	{
-	//		movespeed_ = WALKSPEED;
-	//		skinmesh_->SetAnimSpeed(1.0f);
-	//		skinmesh_->MyChangeAnim(6.6);
-	//		sleeptime_ = 0;
-	//		animpattern_ = WALK;
-	//	}
-	//	if (animpattern_ != RUN)
-	//	{
-	//		movespeed_ = WALKSPEED;
-	//		skinmesh_->SetAnimSpeed(1.0f);
-	//		skinmesh_->MyChangeAnim(6.6);
-	//		sleeptime_ = 0;
-	//		animpattern_ = WALK;
-	//	}
-	//	else if (animpattern_ == RUN)
-	//	{
-	//		movespeed_ = RUNSPEED;
-	//		skinmesh_->SetAnimSpeed(2.0f);
-	//		skinmesh_->MyChangeAnim(9.63);
-	//		sleeptime_ = 0;
-	//		animpattern_ = RUN;
-	//	}
-	//}
-	//else if (keyboard_->GetKeyTrigger(DIK_W))
-	//{
-	//	if (animpattern_ == WALK)
-	//	{
-	//		movespeed_ = WALKSPEED;
-	//		skinmesh_->SetAnimSpeed(1.0f);
-	//		skinmesh_->MyChangeAnim(6.6);
-	//		sleeptime_ = 0;
-	//		animpattern_ = WALK;
-	//	}
-	//	if (animpattern_ != RUN)
-	//	{
-	//		movespeed_ = WALKSPEED;
-	//		skinmesh_->SetAnimSpeed(1.0f);
-	//		skinmesh_->MyChangeAnim(6.6);
-	//		sleeptime_ = 0;
-	//		animpattern_ = WALK;
-	//	}
-	//	else if (animpattern_ == RUN)
-	//	{
-	//		movespeed_ = RUNSPEED;
-	//		skinmesh_->SetAnimSpeed(2.0f);
-	//		skinmesh_->MyChangeAnim(9.63);
-	//		sleeptime_ = 0;
-	//		animpattern_ = RUN;
-	//	}
-	//}
-	//else if (keyboard_->GetKeyTrigger(DIK_S))
-	//{
-	//	if (animpattern_ == WALK)
-	//	{
-	//		movespeed_ = WALKSPEED;
-	//		skinmesh_->SetAnimSpeed(1.0f);
-	//		skinmesh_->MyChangeAnim(6.6);
-	//		sleeptime_ = 0;
-	//		animpattern_ = WALK;
-	//	}
-	//	if (animpattern_ != RUN)
-	//	{
-	//		movespeed_ = WALKSPEED;
-	//		skinmesh_->SetAnimSpeed(1.0f);
-	//		skinmesh_->MyChangeAnim(6.6);
+	if (gamepad_->GetLeftControllerTrigger(LEFT))
+	{
+		if (animpattern_ == WALK)
+		{
+			movespeed_ = WALKSPEED;
+			skinmesh_->SetAnimSpeed(1.0f);
+			skinmesh_->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			animpattern_ = WALK;
+		}
+		if (animpattern_ != RUN && rollflag_ == false)
+		{
+			movespeed_ = WALKSPEED;
+			skinmesh_->SetAnimSpeed(1.0f);
+			skinmesh_->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			animpattern_ = WALK;
+		}
+		else if (animpattern_ == RUN)
+		{
+			movespeed_ = RUNSPEED;
+			skinmesh_->SetAnimSpeed(2.0f);
+			skinmesh_->MyChangeAnim(9.63);
+			sleeptime_ = 0;
+			animpattern_ = RUN;
+		}
+	}
+	else if (gamepad_->GetLeftControllerTrigger(RIGHT))
+	{
+		if (animpattern_ == WALK)
+		{
+			movespeed_ = WALKSPEED;
+			skinmesh_->SetAnimSpeed(1.0f);
+			skinmesh_->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			animpattern_ = WALK;
+		}
+		if (animpattern_ != RUN && rollflag_ == false)
+		{
+			movespeed_ = WALKSPEED;
+			skinmesh_->SetAnimSpeed(1.0f);
+			skinmesh_->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			animpattern_ = WALK;
+		}
+		else if (animpattern_ == RUN)
+		{
+			movespeed_ = RUNSPEED;
+			skinmesh_->SetAnimSpeed(2.0f);
+			skinmesh_->MyChangeAnim(9.63);
+			sleeptime_ = 0;
+			animpattern_ = RUN;
+		}
+	}
+	else if (gamepad_->GetLeftControllerTrigger(UP))
+	{
+		if (animpattern_ == WALK)
+		{
+			movespeed_ = WALKSPEED;
+			skinmesh_->SetAnimSpeed(1.0f);
+			skinmesh_->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			animpattern_ = WALK;
+		}
+		if (animpattern_ != RUN && rollflag_ == false)
+		{
+			movespeed_ = WALKSPEED;
+			skinmesh_->SetAnimSpeed(1.0f);
+			skinmesh_->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			animpattern_ = WALK;
+		}
+		else if (animpattern_ == RUN)
+		{
+			movespeed_ = RUNSPEED;
+			skinmesh_->SetAnimSpeed(2.0f);
+			skinmesh_->MyChangeAnim(9.63);
+			sleeptime_ = 0;
+			animpattern_ = RUN;
+		}
+	}
+	else if (gamepad_->GetLeftControllerTrigger(DOWN))
+	{
+		if (animpattern_ == WALK)
+		{
+			movespeed_ = WALKSPEED;
+			skinmesh_->SetAnimSpeed(1.0f);
+			skinmesh_->MyChangeAnim(6.6);
+			sleeptime_ = 0;
+			animpattern_ = WALK;
+		}
+		if (animpattern_ != RUN && rollflag_ == false)
+		{
+			movespeed_ = WALKSPEED;
+			skinmesh_->SetAnimSpeed(1.0f);
+			skinmesh_->MyChangeAnim(6.6);
 
-	//		sleeptime_ = 0;
-	//		animpattern_ = WALK;
-	//	}
-	//	else if (animpattern_ == RUN)
+			sleeptime_ = 0;
+			animpattern_ = WALK;
+		}
+		else if (animpattern_ == RUN)
+		{
+			movespeed_ = RUNSPEED;
+			skinmesh_->SetAnimSpeed(2.0f);
+			skinmesh_->MyChangeAnim(9.63);
+			sleeptime_ = 0;
+			animpattern_ = RUN;
+		}
+	}
+	//else if (gamepad_->GetButtonTrigger(GamePad_Button_RIGHT_SHOULDER))
+	//{
+	//	if (animpattern_ != RUN)
 	//	{
 	//		movespeed_ = RUNSPEED;
 	//		skinmesh_->SetAnimSpeed(2.0f);
 	//		skinmesh_->MyChangeAnim(9.63);
 	//		sleeptime_ = 0;
 	//		animpattern_ = RUN;
+	//	}
+	//}
+	//else if (gamepad_->GetButtonPress(GamePad_Button_RIGHT_SHOULDER))
+	//{
+	//	if (animpattern_ != ROLL)
+	//	{
+	//		movespeed_ = RUNSPEED;
+	//		animpattern_ = RUN;
+	//	}
+	//}
+	//else if (gamepad_->GetButtonRelease(GamePad_Button_RIGHT_SHOULDER))
+	//{
+	//	if (animpattern_ != WALK)
+	//	{
+	//		movespeed_ = WALKSPEED;
+	//		skinmesh_->SetAnimSpeed(1.0f);
+	//		skinmesh_->MyChangeAnim(6.6);
+	//		sleeptime_ = 0;
+	//		animpattern_ = WALK;
 	//	}
 	//}
 	if (gamepad_->GetState()._buttons[GamePad_Button_RIGHT_SHOULDER])
@@ -272,7 +303,7 @@ void ChutorialPlayer::Move()
 	{
 		if (x != 0 || z != 0)
 		{
-			if (animpattern_ != WALK)
+			if (animpattern_ == RUN)
 			{
 				movespeed_ = WALKSPEED;
 				skinmesh_->SetAnimSpeed(1.0f);
@@ -280,6 +311,14 @@ void ChutorialPlayer::Move()
 				sleeptime_ = 0;
 				animpattern_ = WALK;
 			}
+			//if (animpattern_ != WALK)
+			//{
+			//	movespeed_ = WALKSPEED;
+			//	skinmesh_->SetAnimSpeed(1.0f);
+			//	skinmesh_->MyChangeAnim(6.6);
+			//	sleeptime_ = 0;
+			//	animpattern_ = WALK;
+			//}
 		}
 	}
 	if (keyframe_ > 100)
@@ -288,6 +327,7 @@ void ChutorialPlayer::Move()
 		{
 			if (animpattern_ == RUN)
 			{
+				rollflag_ = true;
 				movespeed_ = ROLL;
 				skinmesh_->SetAnimSpeed(2.0f);
 				skinmesh_->MyChangeAnim(8.0);
@@ -340,6 +380,7 @@ void ChutorialPlayer::Move()
 			sleeptime_++;
 		}
 		else {
+			rollflag_ = false;
 			skinmesh_->SetAnimSpeed(2.0f);
 			skinmesh_->MyChangeAnim(9.63);
 			sleeptime_ = 0;
