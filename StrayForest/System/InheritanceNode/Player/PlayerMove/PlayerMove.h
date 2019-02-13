@@ -2,9 +2,6 @@
 
 #include "PlayerMoveManager.h"
 #include "../../../../Entity/Entity.h"
-#include "../../../../GameObjectManager/GameObjectManager.h"
-#include "../../../../SkinMeshAnimation/ModelAnim.h"
-#include "../../Camera.h"
 
 class PlayerMove : public PlayerMoveManager
 {
@@ -22,6 +19,8 @@ private:
 		NONE
 	};
 
+	double stickx_;
+	double sticky_;
 	MOVE_PATTERN AnimPattern_;
 	D3DXVECTOR3 position_;
 
@@ -29,8 +28,10 @@ private:
 	D3DXVECTOR3 frontvec_;
 	D3DXVECTOR3 rightvec_;
 	D3DXVECTOR3 upvec_;
-
+	float oldmodelrotation_;
 	float movespeed_;
 	int counttime_;
 	int sleeptime_;
+	bool rollflag_;
+	bool runflag_;
 };

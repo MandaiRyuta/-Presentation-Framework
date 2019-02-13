@@ -9,6 +9,10 @@ BossMonsterPatternA::BossMonsterPatternA()
 {
 }
 
+BossMonsterPatternA::~BossMonsterPatternA()
+{
+}
+
 void BossMonsterPatternA::Update(BossMonster * _bossmonster)
 {
 	SceneGame::GetBossBuffEfk()->SetIsDrawing(false);
@@ -23,23 +27,35 @@ void BossMonsterPatternA::Update(BossMonster * _bossmonster)
 	_bossmonster->Position().y = SceneGame::GetMeshFiled()->GetHeight(_bossmonster->Position());
 
 	//_skinmesh@•à‚«İ’è
-	if (FrameCount_ < 140)
+	if (FrameCount_ < 70)
 	{
 		FrameCount_++;
 	}
 	else
 	{
+		_bossmonster->SetMoveFlagON();
 		_bossmonster->GetSkinMesh()->MyChangeAnim(63.3);
 		FrameCount_ = 0;
 	}
 
-	move = AxisMove * (_bossmonster->GetMoveLowSpeed() + _bossmonster->GetMoveVariableSpeed());
+	//if (!colisioncheck)
+	if (!_bossmonster->GetMoveColisionCheck())
+	{
+		if (!_bossmonster->GetknockbackFlag())
+		{
+			move = _bossmonster->GetAxisMove() * (_bossmonster->GetMoveMiddleSpeed() + _bossmonster->GetMoveVariableSpeed());
+		}
+		else
+		{
+			move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		}
+	}
 
 
 	if (_bossmonster->GetLife() < _bossmonster->GetMaxLife() * 0.75f)
 	{
 		//_bossmonster->ChangeBossMonsterAttackPattern(new BossMonsterAttackPatternB);
-		_bossmonster->ChangeBossMonsterMovePattern(new BossMonsterPatternB);
+		_bossmonster->ChangeBossMonsterMovePattern(1,new BossMonsterPatternB);
 	}
 
 	move.y = 0.0f;

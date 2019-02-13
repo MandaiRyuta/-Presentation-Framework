@@ -46,13 +46,16 @@ void MeshFiled::Init()
 	/// <summary>
 	/// ワールド行列を単位行列にする
 	/// </summary>
+	position_ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	rotation_ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	scale_ = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	D3DXMatrixIdentity(&matrix_.world);
 	D3DXMatrixIdentity(&matrix_.position);
 	D3DXMatrixIdentity(&matrix_.rotation);
 	D3DXMatrixIdentity(&matrix_.scale);
-	D3DXMatrixTranslation(&matrix_.position, 0.0f, 0.0f, 0.0f);
-	D3DXMatrixScaling(&matrix_.scale, 1.0f, 1.0f, 1.0f);
-	D3DXMatrixRotationYawPitchRoll(&matrix_.rotation, 0.0f, 0.0f, 0.0f);
+	D3DXMatrixTranslation(&matrix_.position, position_.x, position_.y, position_.z);
+	D3DXMatrixScaling(&matrix_.scale, scale_.x, scale_.y, scale_.z);
+	D3DXMatrixRotationYawPitchRoll(&matrix_.rotation, rotation_.y, rotation_.x, rotation_.z);
 }
 
 //****************************************************

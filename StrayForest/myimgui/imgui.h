@@ -136,7 +136,10 @@ namespace ImGui
 	IMGUI_API void			GetScaleInfomation(const char* name, D3DXVECTOR3 TargetScale);				//対象の拡大情報を表示する。
 	IMGUI_API void			GetKeyFrameAnimation(const char* name, float TargetKeyFrameAnimation);		//対象の現在のキーフレームを表示する。
 	IMGUI_API void			GetKeyCheck(const char* name, bool TargetKey);								//対象のキーが押されているかどうかを表示する
-	
+	IMGUI_API void			GetFlagCheck(const char* name, bool flag);
+	IMGUI_API void			GetfloatCheck(const char* name, float amount);
+	IMGUI_API void			ChangePosition(const char* name, D3DXVECTOR3& position);
+	IMGUI_API void			ChangeScale(const char* name, float& scale);
 	// Main
 	IMGUI_API ImGuiIO&      GetIO();
 	IMGUI_API ImGuiStyle&   GetStyle();

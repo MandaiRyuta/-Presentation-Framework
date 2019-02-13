@@ -11,6 +11,10 @@ public:
 		position_ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		scale_ = D3DXVECTOR3(15.0f, 15.0f, 15.0f);
 		rotation_ = D3DXVECTOR3(D3DXToRadian(0.0f), D3DXToRadian(45.0f), D3DXToRadian(-45.0f));
+		D3DXMatrixIdentity(&Matrix_.world);
+		D3DXMatrixIdentity(&Matrix_.position);
+		D3DXMatrixIdentity(&Matrix_.rotation);
+		D3DXMatrixIdentity(&Matrix_.scale);
 	}
 	void Init() override;
 	void Update() override;

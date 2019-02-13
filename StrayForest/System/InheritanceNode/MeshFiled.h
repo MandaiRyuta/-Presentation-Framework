@@ -43,7 +43,7 @@ public:
 	//* @ _mesh_info : ƒƒbƒVƒ…î•ñ
 	//****************************************************
 	MeshFiled(Entity::MeshFiledSize _mesh_info)
-		: meshinfo_(_mesh_info), GameObjectManager(OBJ_3D_MODEL)
+		: meshinfo_(_mesh_info), GameObjectManager(0)
 	{
 
 	}

@@ -11,12 +11,13 @@ public:
 	void Update(BossMonster* _bossmonster) override;
 private:
 	int FrameCount_;
-	int MagicEffectTime_;
+	bool WalkFlag_;
+	bool MagicUseFlag_;
 	bool MagicSetFlag_;
 	bool MagicEffectDrawFlag_;
-	bool MagicEffectFlag_;
 	D3DXVECTOR3 Position_;
 	bool Damegecheck_;
+	bool ColisionCheck_;
 	bool GetDamegeFlag_;
 	SphereColision colision_;
 	Entity::SphereColision spherecolision_;

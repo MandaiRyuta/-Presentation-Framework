@@ -1,8 +1,7 @@
 #include "ChutorialBoss.h"
-#include "../Player/ChutorialPlayer.h"
 #include "../MeshFiled.h"
 #include "../../../SceneManager/InheritanceNode/SceneChutorial.h"
-
+#include "../../../SkinMeshAnimation/ModelAnim.h"
 ChutorialBoss::ChutorialBoss()
 	: GameObjectManager(0)
 	, framecount_(0)
@@ -30,13 +29,15 @@ void ChutorialBoss::Init()
 	D3DXVECTOR3 AxisSet = PlayerPos - D3DXVECTOR3(position_.x,0.0f,position_.z);
 	rotation_ = atan2f(AxisSet.x, AxisSet.z);
 	rotation_ = rotation_ + D3DX_PI;
-	skinmesh_->MyChangeAnim(0.0);
+	framecount_ = 0;
 }
 
 void ChutorialBoss::Update()
 {
+	skinmesh_->SetAnimSpeed(1.0f);
 	if (framecount_ > 540)
 	{
+		skinmesh_->SetAnimSpeed(1.0f);
 		skinmesh_->MyChangeAnim(0.0);
 		framecount_ = 0;
 	}
@@ -70,13 +71,14 @@ void ChutorialBoss::Uninit()
 {
 	skinmesh_->Release();
 	delete skinmesh_;
+	skinmesh_ = nullptr;
 }
 
 ChutorialBoss * ChutorialBoss::Create()
 {
-	ChutorialBoss* boss = new ChutorialBoss;
-	boss->Init();
-	return boss;
+	ChutorialBoss* ChutoBoss = new ChutorialBoss;
+	ChutoBoss->Init();
+	return ChutoBoss;
 }
 
 D3DXVECTOR3 ChutorialBoss::GetPosition()

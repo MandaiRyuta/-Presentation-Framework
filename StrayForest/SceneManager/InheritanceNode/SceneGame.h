@@ -4,11 +4,13 @@
 #include "../../System/InheritanceNode/Player/Player.h"
 #include "../../System/InheritanceNode/BossMonster/BossMonster.h"
 
+class MagicObject;
 class MeshFiled;
 class Polygon2D;
 class MosionEffect;
 class Sword;
 class Shiled;
+class Fade;
 class SceneGame : public SceneManager
 {
 public:
@@ -33,6 +35,7 @@ public:
 	static MyEffekseer* GetBossBuffEfk();
 	static MyEffekseer* GetDamegeEffectONEfk();
 	static MyEffekseer* GetBossBuff2Efk();
+	static MyEffekseer* GetBossAttackEfk();
 	static MeshFiled* GetMeshFiled();
 	static Polygon2D* GetHealthBar();
 	static Polygon2D* GetManaBar();
@@ -46,7 +49,12 @@ public:
 	static Polygon2D* GetPauseButton01OFF();
 	static Polygon2D* GetPauseButton02OFF();
 	static Polygon2D* GetDamegeEffect();
+	static Polygon2D* GetGameStartPolygon01();
+	static Polygon2D* GetGameStartpolygon02();
+	static Fade* GetFade();
+	static MagicObject* GetMagicEffect();
 private:
+	static MagicObject* magic_;
 	static Player* player_;
 	static BossMonster* boss_;
 	static MeshFiled* meshfiled_;
@@ -63,6 +71,7 @@ private:
 	static MyEffekseer* BossMonsterBuffEfk_;
 	static MyEffekseer* GetDamegeEffectONEfk_;
 	static MyEffekseer* BossMonsterBuff2Efk_;
+	static MyEffekseer* BossAttackEfk_;
 	static Polygon2D* DamegeEffect_;
 	static Polygon2D* HealthBar_;
 	static Polygon2D* ManaBar_;
@@ -71,6 +80,9 @@ private:
 	static Polygon2D* PauseButtonOn02_;
 	static Polygon2D* PauseButtonOff01_;
 	static Polygon2D* PauseButtonOff02_;
+	static Polygon2D* GameStartPolygon01_;
+	static Polygon2D* GameStartPolygon02_;
 	static Sword* sword_;
 	static Shiled* shiled_;
+	static Fade* fade_;
 };

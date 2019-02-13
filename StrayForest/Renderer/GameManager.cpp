@@ -13,6 +13,7 @@
 #include "../InputManager/input.h"
 #include <algorithm>
 #include "../InputManager/XBoxController.h"
+#include "../System/Sound.h"
 
 SceneManager* GameManager::mode_;
 CInputKeyboard* GameManager::keyboard_;
@@ -22,6 +23,7 @@ std::vector<Models*> GameManager::modelinfo_;
 CCamera* GameManager::camera_;
 SCENE_NUM GameManager::SceneNum_;
 GamePadXbox* GameManager::GamePad_;
+EffectSound* GameManager::sound_;
 GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _nWindowWidth, int _nWindowHeight)
 {
 	_hInstance = _hInstance;
@@ -33,6 +35,11 @@ GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _n
 		MessageBox(NULL, "CRendererの初期化に失敗しました。", "初期化エラー", MB_OK);
 		PostQuitMessage(0);
 	}
+	
+	sound_ = new EffectSound();
+	sound_->InitSound(_hWnd);
+	sound_->InitEffectSound();
+
 	keyboard_ = new CInputKeyboard();
 	keyboard_->Init(_hInstance, _hWnd);
 
@@ -44,6 +51,7 @@ GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _n
 	light_->Init();
 
 	GamePad_ = new GamePadXbox(GamePadIndex_One, 1);
+
 
 	SceneNum_ = SCENE_CHUTORIAL;
 }
@@ -83,6 +91,18 @@ void GameManager::Init()
 	TextureLoder::LoadData("Resource/Texture/Controlbutton02.png");
 	TextureLoder::LoadData("Resource/Texture/SideButton.png");
 	TextureLoder::LoadData("Resource/Texture/move.png");
+	TextureLoder::LoadData("Resource/Texture/hiru.png");
+	TextureLoder::LoadData("Resource/Texture/BattleEdition.png");
+	TextureLoder::LoadData("Resource/Texture/StartButton.png");
+	TextureLoder::LoadData("Resource/Texture/logo.png");
+	TextureLoder::LoadData("Resource/Texture/tutorial.png");
+	TextureLoder::LoadData("Resource/Texture/tutorialset.png");
+	TextureLoder::LoadData("Resource/Texture/GameClear.png");
+	TextureLoder::LoadData("Resource/Texture/youdied.png");
+	TextureLoder::LoadData("Resource/Texture/WinPolygon.png");
+	TextureLoder::LoadData("Resource/Texture/LosePolygon.png");
+	TextureLoder::LoadData("Resource/Texture/GameStartPolygon.png");
+	TextureLoder::LoadData("Resource/Texture/setumei.png");
 	modelinfo_.push_back(new ModelLoder("Resource/Model/skydomemodel.x"));
 	modelinfo_.push_back(new ModelLoder("Resource/Model/treemodel.x"));
 	modelinfo_.push_back(new ModelLoder("Resource/Model/Shadow.x"));
@@ -101,7 +121,7 @@ void GameManager::Init()
 	EffectShaderManager::EffectLoad("Resource/Shader/Sword.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/Particle.fx");
 	//EffectShaderManager::EffectLoad("Resource/Shader/BumpMap.fx");
-	SetSceneMode(new SceneChutorial, SCENE_CHUTORIAL);
+	SetSceneMode(new SceneGame, SCENE_GAME);
 }
 
 void GameManager::Update()
@@ -109,10 +129,12 @@ void GameManager::Update()
 	camera_->CameraUpdate();
 	keyboard_->Update();
 	mouse_->Update();
+
 	if (GamePad_->is_connected())
 	{
 		GamePad_->update();
 	}
+
 	GameObjectManager::UpdateAll();
 }
 
@@ -128,12 +150,13 @@ void GameManager::Draw()
 		0);									// ステンシル値のクリア値
 	SUCCEEDED(device->BeginScene());
 
-	ImGui::GetFPS();
-	device->SetRenderState(D3DRS_DITHERENABLE,D3DFILL_FORCE_DWORD);
+	device->SetRenderState(D3DRS_DITHERENABLE, D3DFILL_FORCE_DWORD);
 	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	device->SetRenderState(D3DRS_CLIPPING, TRUE);
 
 	GameObjectManager::DrawAll();
+
+	//ImGui::GetFPS();
 
 	ImGui::Render();
 
@@ -155,6 +178,7 @@ void GameManager::Uninit()
 		delete modelinfo_[i];
 		modelinfo_[i] = nullptr;
 	}
+
 	if (renderer_ != nullptr)
 	{
 		renderer_->Uninit();
@@ -198,6 +222,14 @@ void GameManager::Uninit()
 		delete GamePad_;
 		GamePad_ = nullptr;
 	}
+
+	if (sound_ != nullptr)
+	{
+		sound_->UninitSound();
+		delete sound_;
+		sound_ = nullptr;
+	}
+
 	TextureLoder::RelaseAll();
 	
 	EffectShaderManager::ReleaseAll();
@@ -211,6 +243,7 @@ void GameManager::SetSceneMode(SceneManager * _Mode, SCENE_NUM _scene_num)
 		mode_ = nullptr;
 	}
 
+	camera_->CameraReset();
 	mode_ = _Mode;
 	SceneNum_ = _scene_num;
 
@@ -248,4 +281,9 @@ CCamera * GameManager::GetCamera()
 GamePadXbox * GameManager::GetGamePad()
 {
 	return GamePad_;
+}
+
+EffectSound * GameManager::GetEffectSound()
+{
+	return sound_;
 }

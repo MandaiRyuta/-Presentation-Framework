@@ -16,14 +16,16 @@ public:
 
 	static MagicObject* Create(int _Priority);
 public:
-	static void MoveMagic();
-	static void StartMagic(D3DXVECTOR3 target, D3DXVECTOR3 pos);
-
+	void StartMagic(D3DXVECTOR3 target, D3DXVECTOR3 pos);
 private:
+	int usetime_;
+	int count_;
+	int objectnum_;
+	bool objectdrawflag_;
 	//SphereColision HitColision_;
-	static D3DXVECTOR3 TargetVec_[MAGIC_NUM];
-	static D3DXVECTOR3 OwnerVec_[MAGIC_NUM];
-	static D3DXVECTOR3 target_;
-	static D3DXVECTOR3 pos_;
-	static Entity::MAGIC_WORK magic[MAGIC_NUM];
+	D3DXVECTOR3 TargetVec_[MAGIC_NUM];
+	D3DXVECTOR3 OwnerVec_[MAGIC_NUM];
+	D3DXVECTOR3 target_;
+	D3DXVECTOR3 pos_;
+	Entity::MAGIC_WORK magic[MAGIC_NUM];
 };

@@ -1,5 +1,6 @@
 #include "SceneGame.h"
 #include "../../main.h"
+#include "../../SkinMeshAnimation/ModelAnim.h"
 #include "../../GameObjectManager/GameObjectManager.h"
 #include "../../System/InheritanceNode/MeshFiled.h"
 #include "../../System/InheritanceNode/Skydome.h"
@@ -16,6 +17,8 @@
 #include "../../System/InheritanceNode/Player/PlayerItem/PlayerWeapon.h"
 #include "../../../Renderer/GameManager.h"
 #include "../../../InputManager/input.h"
+#include "../../System/InheritanceNode/Fade/Fade.h"
+
 MeshFiled* SceneGame::meshfiled_;
 MyEffekseer* SceneGame::PlayerMagicEfk_ = nullptr;
 MyEffekseer* SceneGame::PlayerAttack01Efk_ = nullptr;
@@ -29,6 +32,7 @@ MyEffekseer* SceneGame::BossMonsterMagicCEfk_ = nullptr;
 MyEffekseer* SceneGame::BossMonsterBuffEfk_ = nullptr;
 MyEffekseer* SceneGame::GetDamegeEffectONEfk_ = nullptr;
 MyEffekseer* SceneGame::BossMonsterBuff2Efk_ = nullptr;
+MyEffekseer* SceneGame::BossAttackEfk_ = nullptr;
 Polygon2D* SceneGame::HealthBar_ = nullptr;
 Polygon2D* SceneGame::ManaBar_ = nullptr;
 Polygon2D* SceneGame::DamegeEffect_ = nullptr;
@@ -42,7 +46,10 @@ Polygon2D* SceneGame::PauseButtonOn01_ = nullptr;
 Polygon2D* SceneGame::PauseButtonOn02_ = nullptr;
 Polygon2D* SceneGame::PauseButtonOff01_ = nullptr;
 Polygon2D* SceneGame::PauseButtonOff02_ = nullptr;
-
+Polygon2D* SceneGame::GameStartPolygon01_ = nullptr;
+Polygon2D* SceneGame::GameStartPolygon02_ = nullptr;
+Fade* SceneGame::fade_ = nullptr;
+MagicObject* SceneGame::magic_ = nullptr;
 void SceneGame::Initialize()
 {
 	Entity::MeshFiledSize filedsize;
@@ -62,13 +69,14 @@ void SceneGame::Initialize()
 	PlayerAttack01Efk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/Attack01.efk");
 	EnemyBuff01Efk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/EnemyBuff.efk");
 	EnemyBuff02Efk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/EnemyBuff.efk");
-	HitExplosion_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/HitExplosion.efk");
+	HitExplosion_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/PlayerFireMagic.efk");
 	BossMonsterMagicAEfk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/BossMonsterMagicA.efk");
 	BossMonsterMagicB_1Efk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/BossMonsterMagicB_1.efk");
 	BossMonsterMagicCEfk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/BossMonsterMagicC_1.efk");
 	BossMonsterBuffEfk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/BossMonsterBuff.efk");
 	BossMonsterBuff2Efk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/BossEffectBuff.efk");
 	GetDamegeEffectONEfk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/DamegeEffectON.efk");
+	BossAttackEfk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/EnemyAttack.efk");
 	for (int i = 0; i < 10; i++)
 	{
 		MagicObjects[i] = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/magicobjects.efk");
@@ -86,35 +94,28 @@ void SceneGame::Initialize()
 	PauseButtonOn01_ = Polygon2D::Create(1, 490.0f, 360.0f, 550.0f, 70.0f, 0, 0, 100, 100, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(PAUSEBUTTON01_OFF),false);
 	PauseButtonOn02_ = Polygon2D::Create(1, 490.0f, 460.0f, 550.0f, 70.0f, 0, 0, 100, 100, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(PAUSEBUTTON02_OFF),false);
 	
-	Polygon2D::Create(1, 1100.0f, 325.0f, 100.0f, 100.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(XBUTTON), true);
-	Polygon2D::Create(1, 1200.0f, 325.0f, 100.0f, 100.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(BBUTTON), true);
-	Polygon2D::Create(1, 1150.0f, 250.0f, 100.0f, 100.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(YBUTTON), true);
-	Polygon2D::Create(1, 1150.0f, 425.0f, 100.0f, 100.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(ABUTTON), true);
+	Polygon2D::Create(1, 1100.0f, 325.0f, 130.0f, 100.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(XBUTTON), true);
+	Polygon2D::Create(1, 1200.0f, 325.0f, 130.0f, 100.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(BBUTTON), true);
+	Polygon2D::Create(1, 1150.0f, 250.0f, 130.0f, 100.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(YBUTTON), true);
+	Polygon2D::Create(1, 1150.0f, 425.0f, 130.0f, 100.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(ABUTTON), true);
 	Polygon2D::Create(1, 1105.0f, 325.0f, 100.0f, 75.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(MAGIC), true);
 	Polygon2D::Create(1, 1205.0f, 325.0f, 100.0f, 75.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(ATTACK), true);
 	Polygon2D::Create(1, 1152.5f, 250.0f, 100.0f, 75.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(DEF), true);
 	Polygon2D::Create(1, 1152.5f, 425.0f, 100.0f, 75.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(ROLL), true);
 
-	//Polygon2D::Create(1, 1100.0f, 575.0f, 100.0f, 100.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(XBUTTON), true);
-	//Polygon2D::Create(1, 1200.0f, 575.0f, 100.0f, 100.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(BBUTTON), true);
-	//Polygon2D::Create(1, 1150.0f, 500.0f, 100.0f, 100.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(YBUTTON), true);
-	//Polygon2D::Create(1, 1150.0f, 650.0f, 100.0f, 100.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(ABUTTON), true);
-	//Polygon2D::Create(1, 1105.0f, 575.0f, 100.0f,  75.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(MAGIC), true);
-	//Polygon2D::Create(1, 1205.0f, 575.0f, 100.0f,  75.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(ATTACK), true);
-	//Polygon2D::Create(1, 1152.5f, 500.0f, 100.0f,  75.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(DEF), true);
-	//Polygon2D::Create(1, 1152.5f, 650.0f, 100.0f,  75.0f, 0, 0, 500, 500, D3DCOLOR_RGBA(255, 255, 255, 255), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(ROLL), true);
-	player_ = Player::Create(2650,1880,2650,1880);
-	boss_ = BossMonster::Create(5480, 500);
+	//ƒQ[ƒ€ŠJŽnŽž‚É‰f‚é‰æ–Ê
+	GameStartPolygon01_ = Polygon2D::Create(1, 0.0f, 0.0f, (float)windows_rect::SCREEN_WIDTH * 2, (float)windows_rect::SCREEN_HEIGHT * 2, 0, 0, 1000, 1000, D3DCOLOR_RGBA(0, 0, 0, 0), false, 0.0f, 0.0f, 0.0f, NULL, true);
+	GameStartPolygon02_ = Polygon2D::Create(1, 0.0f, 400.0f, (float)windows_rect::SCREEN_WIDTH * 2, (float)windows_rect::SCREEN_HEIGHT * 2, 0, 0, 2126, 1417, D3DCOLOR_RGBA(255, 255, 255, 0), false, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(GAMESTARTPOLYGON), true);
+	player_ = Player::Create(2650.0f,1880.0f,2650.0f,1880.0f);
+	boss_ = BossMonster::Create(5480.0f, 500.0f);
 	//Instancing3D::Create();
 	Sea::Create();
 
+	motioneffect_ = MosionEffect::CreateMotionEffect(0);
 	sword_ = Sword::Create(0);
 	shiled_ = Shiled::Create(0);
-
-	motioneffect_ = MosionEffect::CreateMotionEffect(0);
-	MagicObject::Create(1);
-
-	//Guardian::Create();
+	magic_ = MagicObject::Create(1);
+	fade_ = Fade::Create();
 }
 
 void SceneGame::Update()
@@ -196,6 +197,11 @@ MyEffekseer * SceneGame::GetBossBuff2Efk()
 	return BossMonsterBuff2Efk_;
 }
 
+MyEffekseer * SceneGame::GetBossAttackEfk()
+{
+	return BossAttackEfk_;
+}
+
 MeshFiled * SceneGame::GetMeshFiled()
 {
 	return meshfiled_;
@@ -259,4 +265,24 @@ Polygon2D * SceneGame::GetPauseButton02OFF()
 Polygon2D * SceneGame::GetDamegeEffect()
 {
 	return DamegeEffect_;
+}
+
+Polygon2D * SceneGame::GetGameStartPolygon01()
+{
+	return GameStartPolygon01_;
+}
+
+Polygon2D * SceneGame::GetGameStartpolygon02()
+{
+	return GameStartPolygon02_;
+}
+
+Fade * SceneGame::GetFade()
+{
+	return fade_;
+}
+
+MagicObject * SceneGame::GetMagicEffect()
+{
+	return magic_;
 }

@@ -1,7 +1,8 @@
 #include "PlayerMagic.h"
-#include "../Player.h"
-#include "../../../../InputManager/input.h"
 #include "../../../SceneManager/InheritanceNode/SceneGame.h"
+#include "../../MyEffekseer/MyEffekseer.h"
+#include "../Player.h"
+#include "../../../../InputManager/XBoxController.h"
 #include "../../MagicObject/MagicObject.h"
 #include "../../BossMonster/BossMonster.h"
 PlayerMagic::PlayerMagic(Player * _player)
@@ -19,14 +20,16 @@ void PlayerMagic::Update(Player * _player)
 {
 	if (_player->GetMana() > 430.0f)
 	{
-		if (_player->GetKeyframe() > 150)
+		if (_player->GetKeyframe() > 40)
 		{
-			if (_player->GetKeyboard()->GetKeyTrigger(DIK_4))
+			if (_player->GetGamePad()->GetButtonTrigger(GamePad_Button_X))
 			{
-				SceneGame::GetPlayerMagicEfk()->SetPosition(D3DXVECTOR3(_player->GetPlayerPosMatrix()._41, _player->GetPlayerPosMatrix()._42 + EffectAddHeight, _player->GetPlayerPosMatrix()._43));
+				_player->SetActionUseFlag(true);
+				SceneGame::GetPlayerMagicEfk()->SetScale(D3DXVECTOR3(20.0f, 20.0f, 20.0f));
+				SceneGame::GetPlayerMagicEfk()->SetPosition(_player->GetPlayerPosition());
 				SceneGame::GetPlayerMagicEfk()->SetIsDrawing(true);
 				SceneGame::GetPlayerMagicEfk()->SetFrameCount(1.0f);
-				MagicObject::StartMagic(BossMonster::GetPosition(), D3DXVECTOR3(_player->GetPlayerPosMatrix()._41, _player->GetPlayerPosMatrix()._42 + EffectAddHeight, _player->GetPlayerPosMatrix()._43));
+				SceneGame::GetMagicEffect()->StartMagic(BossMonster::GetPosition(), _player->GetPlayerPosition());
 				_player->SetActionPattern(MAGIC01);
 				_player->GetSkinMesh()->SetAnimSpeed(2.0f);
 				_player->GetSkinMesh()->MyChangeAnim(24);
@@ -41,7 +44,7 @@ void PlayerMagic::Update(Player * _player)
 	switch (_player->GetActionPattern())
 	{
 	case MAGIC01:
-		if (FrameCounter_ < 350)
+		if (FrameCounter_ < 120)
 		{
 			if (FrameCounter_ > 60)
 			{
@@ -54,6 +57,7 @@ void PlayerMagic::Update(Player * _player)
 			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
 			_player->GetSkinMesh()->MyChangeAnim(0.0);
 			_player->SetActionPattern(ACTIONPATTERN::STATE);
+			_player->SetActionUseFlag(false);
 			FrameCounter_ = 0;
 		}
 	default:

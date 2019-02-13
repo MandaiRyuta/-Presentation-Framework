@@ -730,6 +730,7 @@ namespace ImGui
 		{
 			ImGui::Text("ModelKeyFrame : %.3f", TargetKeyFrameAnimation);
 		}
+		ImGui::End();
 	}
 	IMGUI_API void GetKeyCheck(const char * name, bool TargetKey)
 	{
@@ -740,6 +741,64 @@ namespace ImGui
 				ImGui::Text("KeyMode : true");
 			}
 		}
+		ImGui::End();
+	}
+	IMGUI_API void GetFlagCheck(const char* name, bool flag)
+	{
+		if (ImGui::Begin(name))
+		{
+			if (flag)
+			{
+				ImGui::Text("true");
+			}
+			else
+			{
+				ImGui::Text("false");
+			}
+		}
+		ImGui::End();
+	}
+	IMGUI_API void GetfloatCheck(const char* name, float amount)
+	{
+		if (ImGui::Begin(name))
+		{
+			ImGui::Text("Amount : %.3f", amount);
+		}
+		ImGui::End();
+	}
+
+	IMGUI_API void ChangePosition(const char* name, D3DXVECTOR3& position)
+	{
+		ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(0.0f, 0.7f, 0.2f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(0.0f, 0.3f, 0.1f, 1.0f));
+		ImGui::SetNextWindowPos(ImVec2(50, 450), ImGuiSetCond_Once);
+		ImGui::SetNextWindowSize(ImVec2(600, 200), ImGuiSetCond_Once);
+
+		if (ImGui::Begin(name))
+		{
+			if (ImGui::TreeNode("ChangePos"))
+			{
+				ImGui::SliderFloat3("target", position, -100.0f, 100.0f, "%.2f");
+			}
+		}
+		ImGui::End();
+	}
+
+	IMGUI_API void ChangeScale(const char* name, float& scale)
+	{
+		ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(0.0f, 0.7f, 0.2f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(0.0f, 0.3f, 0.1f, 1.0f));
+		ImGui::SetNextWindowPos(ImVec2(50, 450), ImGuiSetCond_Once);
+		ImGui::SetNextWindowSize(ImVec2(600, 200), ImGuiSetCond_Once);
+
+		if (ImGui::Begin(name))
+		{
+			if (ImGui::TreeNode("Scale"))
+			{
+				ImGui::SliderFloat("target",&scale, -100.0f, 100.0f);
+			}
+		}
+		ImGui::End();
 	}
 
 	static void             FocusPreviousWindow();

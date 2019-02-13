@@ -33,10 +33,10 @@ typedef enum
 
 struct Vector2
 {
-	float x;
-	float y;
+	double x;
+	double y;
 
-	void set(float amount)
+	void set(double amount)
 	{
 		x = y = amount;
 	}

@@ -9,12 +9,7 @@
 #include "../../../SceneManager/InheritanceNode/SceneChutorial.h"
 #include "../../../Renderer/GameManager.h"
 #include "../BossMonster/ChutorialBoss.h"
-
-Entity::MAGIC_WORK MagicObject::magic[MAGIC_NUM] = {};
-D3DXVECTOR3 MagicObject::TargetVec_[MAGIC_NUM] = {};
-D3DXVECTOR3 MagicObject::OwnerVec_[MAGIC_NUM] = {};
-D3DXVECTOR3 MagicObject::target_;
-D3DXVECTOR3 MagicObject::pos_;
+#include "../MyEffekseer/MyEffekseer.h"
 
 MagicObject::MagicObject(int _Priority) 
 	: GameObjectManager(_Priority)
@@ -46,6 +41,9 @@ MagicObject::MagicObject(int _Priority)
 			SceneGame::GetMagicObjects(i)->SetFrameCount(0.1f);
 		}
 	}
+	objectdrawflag_ = false;
+	objectnum_ = 0;
+	usetime_ = 0;
 }
 
 MagicObject::~MagicObject()
@@ -54,128 +52,88 @@ MagicObject::~MagicObject()
 
 void MagicObject::Init()
 {
+	count_ = 0;
 }
-float count = 0.0f;
 void MagicObject::Update()
 {
-	ImGui::GetPositionInfomation("Position", magic[0].position);
-
-	for (int i = 0; i < MAGIC_NUM; i++)
+	if (usetime_ > 25)
 	{
-		if (magic[i].IsDraw)
+		if (objectnum_ < 9)
+		{
+			for (int i = 0; i < MAGIC_NUM; i++)
+			{
+				if (magic[i].frame >= 1.0f)
+				{
+					if (GameManager::GetSceneNumber() == SCENE_CHUTORIAL)
+					{
+						SceneChutorial::GetMagicObject(i)->SetIsDrawing(false);
+					}
+					if (GameManager::GetSceneNumber() == SCENE_GAME)
+					{
+						SceneGame::GetMagicObjects(i)->SetIsDrawing(false);
+					}
+				}
+			}
+		}
+
+		if (magic[objectnum_].frame >= 0.3f)
+		{
+			if (objectnum_ < 9)
+			{
+				magic[objectnum_].IsDraw = true;
+			}
+		}
+
+		if (magic[objectnum_].frame >= 1.0f)
+		{
+			magic[objectnum_].IsDraw = false;
+			if (objectnum_ < 9)
+			{
+				objectnum_++;
+			}
+		}
+
+		if (magic[objectnum_].IsDraw)
 		{
 			if (GameManager::GetSceneNumber() == SCENE_CHUTORIAL)
 			{
-				SceneChutorial::GetMagicObject(i)->SetIsDrawing(true);
+				SceneChutorial::GetMagicObject(objectnum_)->SetIsDrawing(true);
 			}
+
 			if (GameManager::GetSceneNumber() == SCENE_GAME)
 			{
-				SceneGame::GetMagicObjects(i)->SetIsDrawing(true);
+				SceneGame::GetMagicObjects(objectnum_)->SetIsDrawing(true);
 			}
-			if (magic[i].frame >= 0.3f)
-			{
-				if (i < 9)
-				{
-					magic[i + 1].IsDraw = true;
-				}
-			}
-			if (magic[i].frame >= 1.0f)
-			{
-				magic[i].IsDraw = false;
-			}
-			D3DXVec3Hermite(&magic[i].position, &pos_, &OwnerVec_[i], &target_, &TargetVec_[i], magic[i].frame);
-			
+
+			D3DXVec3Hermite(&magic[objectnum_].position, &pos_, &OwnerVec_[objectnum_], &target_, &TargetVec_[objectnum_], magic[objectnum_].frame);
+
 			if (GameManager::GetSceneNumber() == SCENE_CHUTORIAL)
 			{
-				switch (i)
-				{
-				case 0:
-					SceneChutorial::GetMagicObject(0)->SetPosition(magic[0].position);
-					break;
-				case 1:
-					SceneChutorial::GetMagicObject(1)->SetPosition(magic[1].position);
-					break;
-				case 2:
-					SceneChutorial::GetMagicObject(2)->SetPosition(magic[2].position);
-					break;
-				case 3:
-					SceneChutorial::GetMagicObject(3)->SetPosition(magic[3].position);
-					break;
-				case 4:
-					SceneChutorial::GetMagicObject(4)->SetPosition(magic[4].position);
-					break;
-				case 5:
-					SceneChutorial::GetMagicObject(5)->SetPosition(magic[5].position);
-					break;
-				case 6:
-					SceneChutorial::GetMagicObject(6)->SetPosition(magic[6].position);
-					break;
-				case 7:
-					SceneChutorial::GetMagicObject(7)->SetPosition(magic[7].position);
-					break;
-				case 8:
-					SceneChutorial::GetMagicObject(8)->SetPosition(magic[8].position);
-					break;
-				case 9:
-					SceneChutorial::GetMagicObject(9)->SetPosition(magic[9].position);
-					break;
-				default:
-					break;
-				}
+				SceneChutorial::GetMagicObject(objectnum_)->SetPosition(magic[objectnum_].position);
 			}
 			if (GameManager::GetSceneNumber() == SCENE_GAME)
 			{
-				switch (i)
-				{
-				case 0:
-					SceneGame::GetMagicObjects(0)->SetPosition(magic[0].position);
-					break;
-				case 1:
-					SceneGame::GetMagicObjects(1)->SetPosition(magic[1].position);
-					break;
-				case 2:
-					SceneGame::GetMagicObjects(2)->SetPosition(magic[2].position);
-					break;
-				case 3:
-					SceneGame::GetMagicObjects(3)->SetPosition(magic[3].position);
-					break;
-				case 4:
-					SceneGame::GetMagicObjects(4)->SetPosition(magic[4].position);
-					break;
-				case 5:
-					SceneGame::GetMagicObjects(5)->SetPosition(magic[5].position);
-					break;
-				case 6:
-					SceneGame::GetMagicObjects(6)->SetPosition(magic[6].position);
-					break;
-				case 7:
-					SceneGame::GetMagicObjects(7)->SetPosition(magic[7].position);
-					break;
-				case 8:
-					SceneGame::GetMagicObjects(8)->SetPosition(magic[8].position);
-					break;
-				case 9:
-					SceneGame::GetMagicObjects(9)->SetPosition(magic[9].position);
-					break;
-				default:
-					break;
-				}
+				SceneGame::GetMagicObjects(objectnum_)->SetPosition(magic[objectnum_].position);
 			}
-			magic[i].frame += 0.05f;
+
+			magic[objectnum_].frame += 0.15f;
 		}
 		else
 		{
-			magic[i].position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+			magic[objectnum_].position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 			if (GameManager::GetSceneNumber() == SCENE_CHUTORIAL)
 			{
-				SceneChutorial::GetMagicObject(i)->SetIsDrawing(false);
+				SceneChutorial::GetMagicObject(objectnum_)->SetIsDrawing(false);
 			}
 			if (GameManager::GetSceneNumber() == SCENE_GAME)
 			{
-				SceneGame::GetMagicObjects(i)->SetIsDrawing(false);
+				SceneGame::GetMagicObjects(objectnum_)->SetIsDrawing(false);
 			}
 		}
+	}
 
+	if (magic[9].frame >= 1.0f)
+	{
 		if (magic[9].IsDraw)
 		{
 			if (GameManager::GetSceneNumber() == SCENE_CHUTORIAL)
@@ -183,33 +141,48 @@ void MagicObject::Update()
 				SceneChutorial::GetExplosion()->SetIsDrawing(true);
 				SceneChutorial::GetExplosion()->SetFrameCount(1.0f);
 				SceneChutorial::GetExplosion()->SetScale(D3DXVECTOR3(10.0f, 10.0f, 10.0f));
-				SceneChutorial::GetExplosion()->SetPosition(SceneChutorial::GetChutorialBoss()->GetPosition());
+				D3DXVECTOR3 HitEffectPos = D3DXVECTOR3(SceneChutorial::GetChutorialBoss()->GetPosition().x, SceneChutorial::GetChutorialBoss()->GetPosition().y + 50.0f, SceneChutorial::GetChutorialBoss()->GetPosition().z);
+				SceneChutorial::GetExplosion()->SetPosition(HitEffectPos);
+				objectdrawflag_ = true;
 			}
 			if (GameManager::GetSceneNumber() == SCENE_GAME)
 			{
 				SceneGame::GetHitExplosion()->SetIsDrawing(true);
 				SceneGame::GetHitExplosion()->SetFrameCount(1.0f);
 				SceneGame::GetHitExplosion()->SetScale(D3DXVECTOR3(10.0f, 10.0f, 10.0f));
-				SceneGame::GetHitExplosion()->SetPosition(SceneGame::GetBossMonster()->GetPosition());
+				D3DXVECTOR3 HitEffectPos = D3DXVECTOR3(SceneGame::GetBossMonster()->GetPosition().x, SceneGame::GetBossMonster()->GetPosition().y + 50.0f, SceneGame::GetBossMonster()->GetPosition().z);
+				SceneGame::GetHitExplosion()->SetPosition(HitEffectPos);
+				objectdrawflag_ = true;
 			}
-			count+= 0.1f;
-		}
-		if (count > 5.0f)
-		{
-			if (GameManager::GetSceneNumber() == SCENE_CHUTORIAL)
-			{
-				SceneChutorial::GetExplosion()->SetIsDrawing(false);
-				SceneChutorial::GetExplosion()->StopEffect();
-			}
-			if (GameManager::GetSceneNumber() == SCENE_GAME)
-			{
-				SceneGame::GetBossMonster()->Damage(50);
-				SceneGame::GetHitExplosion()->SetIsDrawing(false);
-				SceneGame::GetHitExplosion()->StopEffect();
-			}
-			count = 0.0f;
 		}
 	}
+
+	if (objectdrawflag_)
+	{
+		count_++;
+	}
+
+	if (count_ > 120)
+	{
+		if (GameManager::GetSceneNumber() == SCENE_CHUTORIAL)
+		{
+			SceneChutorial::GetExplosion()->SetIsDrawing(false);
+			SceneChutorial::GetExplosion()->StopEffect();
+			count_ = 0;
+			objectdrawflag_ = false;
+		}
+		if (GameManager::GetSceneNumber() == SCENE_GAME)
+		{
+			D3DXVECTOR3 knockbackpos = SceneGame::GetBossMonster()->GetPosition() - SceneGame::GetPlayer()->GetPlayerPosition();
+			SceneGame::GetBossMonster()->Damage(210.0f, knockbackpos);
+			SceneGame::GetHitExplosion()->SetIsDrawing(false);
+			SceneGame::GetHitExplosion()->StopEffect();
+			count_ = 0;
+			objectdrawflag_ = false;
+		}
+	}
+
+	usetime_++;
 }
 
 void MagicObject::Draw()
@@ -227,12 +200,10 @@ MagicObject * MagicObject::Create(int _Priority)
 	return magicobj;
 }
 
-void MagicObject::MoveMagic()
-{
-}
-
 void MagicObject::StartMagic(D3DXVECTOR3 target, D3DXVECTOR3 pos)
 {
+	usetime_ = 0;
+	objectnum_ = 0;
 	pos_ = pos;
 	target_ = target;
 	D3DXVECTOR3 startvec,endvec,startpos,endpos;
@@ -257,11 +228,9 @@ void MagicObject::StartMagic(D3DXVECTOR3 target, D3DXVECTOR3 pos)
 		D3DXVec3Hermite(&Hermite[i], &startpos, &startvec, &endpos, &endvec, time);
 		magic[i].position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		magic[i].frame = 0.0f;
-		magic[i].IsDraw = false;
+		magic[i].IsDraw = true;
 		OwnerVec_[i] = pos + D3DXVECTOR3(Hermite[i].x, Hermite[i].y, 100.0f);
 		TargetVec_[i] = target - D3DXVECTOR3(Hermite[i].x, Hermite[i].y, 100.0f);
 		time += 0.1f;
 	}
-
-	magic[0].IsDraw = true;
 }

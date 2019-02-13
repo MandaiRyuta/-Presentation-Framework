@@ -3,6 +3,7 @@
 #include "../Renderer/Renderer.h"
 #include "../GameObjectManager/GameObjectManager.h"
 #include <vector>
+
 class SceneManager;
 class CCamera;
 class Light;
@@ -10,10 +11,10 @@ class CInputKeyboard;
 class CInputMouse;
 class Models;
 class GamePadXbox;
-
-constexpr float WALKSPEED = 0.5f;
-constexpr float RUNSPEED = 2.5f;
-constexpr float ROLLSPEED = 10.0f;
+class EffectSound;
+constexpr float WALKSPEED = 1.0f;
+constexpr float RUNSPEED = 3.0f;
+constexpr float ROLLSPEED = 4.0f;
 
 //****************************************************
 // —ñ‹“Œ^
@@ -58,6 +59,7 @@ public:
 	static Models* GetModel(LOADMODEL _modelnum);
 	static CCamera* GetCamera();
 	static GamePadXbox* GetGamePad();
+	static EffectSound* GetEffectSound();
 private:
 	static GamePadXbox* GamePad_;
 	static SCENE_NUM SceneNum_;
@@ -69,4 +71,5 @@ private:
 	Light* light_;
 	static SceneManager* mode_;
 	static std::vector<Models*> modelinfo_;
+	static EffectSound* sound_;
 };

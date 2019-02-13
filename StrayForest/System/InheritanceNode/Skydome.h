@@ -5,7 +5,7 @@
 class Skydome : public GameObjectManager
 {
 public:
-	Skydome() : GameObjectManager(OBJ_3D_MODEL)
+	Skydome() : GameObjectManager(0)
 	{
 
 	}

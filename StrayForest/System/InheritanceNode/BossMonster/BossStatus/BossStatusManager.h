@@ -8,6 +8,7 @@ public:
 	explicit BossStatusManager() {}
 	virtual ~BossStatusManager() {}
 	virtual void Update(BossMonster* _bossmonster) = 0;
+	virtual void Draw() = 0;
 };
 
 class BossStatusNull : public BossStatusManager

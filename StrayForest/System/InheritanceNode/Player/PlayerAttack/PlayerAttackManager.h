@@ -1,6 +1,5 @@
 #pragma once
-
-class Player;
+#include "../Player.h"
 
 class PlayerAttackManager
 {

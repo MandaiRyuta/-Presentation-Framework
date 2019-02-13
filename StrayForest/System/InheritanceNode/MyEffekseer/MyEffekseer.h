@@ -49,7 +49,6 @@ private:
 	float deltaframe_;
 	float FrameCount_;
 	float FrameStack_;
-	bool FrameSet_;
 	bool IsDrawing_;
 	bool PlayFlag_;
 	D3DXMATRIX world_;

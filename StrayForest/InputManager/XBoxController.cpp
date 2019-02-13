@@ -1,4 +1,5 @@
 #include "XBoxController.h"
+constexpr double LEFT_STICK_DEADZONE = 8000.0;
 
 bool GamePadXbox::is_connected()
 {
@@ -75,25 +76,29 @@ void GamePadXbox::update()
 	{
 		State._left_thumbstick.y = leftThumbY / 32767;
 	}
+
 	float leftThumbX = _controllerState.Gamepad.sThumbLX;
 	if (leftThumbX)
 	{
 		State._left_thumbstick.x = leftThumbX / 32767;
 	}
 
-	if (State._left_thumbstick.x <= -1.0f)
+	//1.0@‚à‚µ‚¢‚­‚Í -1.0‚Æ”äŠr‚·‚é‚æ‚¤‚É‚µ‚Ä‚µ‚Ü‚¤‚Æã‰º¶‰E‚µ‚©”»’è‚³‚ê‚È‚­‚È‚é
+	//ŽÎ‚ß‚É‚à‘Î‰ž‚³‚¹‚é‚É‚Í0.5‚à‚µ‚­‚Í-0.5‚Æ”äŠr‚·‚é‚×‚«
+
+	if (State._left_thumbstick.x <= -0.5f)
 	{
 		State._left_controllflag.left = true;
 	}
-	if (State._left_thumbstick.x >= 1.0f)
+	if (State._left_thumbstick.x >= 0.5f)
 	{
 		State._left_controllflag.right = true;
 	}
-	if (State._left_thumbstick.y <= -1.0f)
+	if (State._left_thumbstick.y <= -0.5f)
 	{
 		State._left_controllflag.down = true;
 	}
-	if (State._left_thumbstick.y >= 1.0f)
+	if (State._left_thumbstick.y >= 0.5f)
 	{
 		State._left_controllflag.up = true;
 	}
@@ -338,7 +343,7 @@ bool GamePadXbox::GetButtonRelease(int nButton)
 	case GamePad_Button_DPAD_UP:
 		if (OldState._buttons[GamePad_Button_DPAD_UP] == true && State._buttons[GamePad_Button_DPAD_UP] == false)
 		{
-			return State._buttons[GamePad_Button_DPAD_UP];
+			return true;
 		}
 		else
 		{
@@ -348,7 +353,7 @@ bool GamePadXbox::GetButtonRelease(int nButton)
 	case GamePad_Button_DPAD_DOWN:
 		if (OldState._buttons[GamePad_Button_DPAD_DOWN] == true && State._buttons[GamePad_Button_DPAD_DOWN] == false)
 		{
-			return State._buttons[GamePad_Button_DPAD_DOWN];
+			return true;
 		}
 		else
 		{
@@ -358,7 +363,7 @@ bool GamePadXbox::GetButtonRelease(int nButton)
 	case GamePad_Button_DPAD_LEFT:
 		if (OldState._buttons[GamePad_Button_DPAD_LEFT] == true && State._buttons[GamePad_Button_DPAD_LEFT] == false)
 		{
-			return State._buttons[GamePad_Button_DPAD_LEFT];
+			return true;
 		}
 		else
 		{
@@ -378,7 +383,7 @@ bool GamePadXbox::GetButtonRelease(int nButton)
 	case GamePad_Button_START:
 		if (OldState._buttons[GamePad_Button_START] == true && State._buttons[GamePad_Button_START] == false)
 		{
-			return State._buttons[GamePad_Button_START];
+			return true;
 		}
 		else
 		{
@@ -388,7 +393,7 @@ bool GamePadXbox::GetButtonRelease(int nButton)
 	case GamePad_Button_BACK:
 		if (OldState._buttons[GamePad_Button_BACK] == true && State._buttons[GamePad_Button_BACK] == false)
 		{
-			return State._buttons[GamePad_Button_BACK];
+			return true;
 		}
 		else
 		{
@@ -398,7 +403,7 @@ bool GamePadXbox::GetButtonRelease(int nButton)
 	case GamePad_Button_LEFT_THUMB:
 		if (OldState._buttons[GamePad_Button_LEFT_THUMB] == true && State._buttons[GamePad_Button_LEFT_THUMB] == false)
 		{
-			return State._buttons[GamePad_Button_LEFT_THUMB];
+			return true;
 		}
 		else
 		{
@@ -408,7 +413,7 @@ bool GamePadXbox::GetButtonRelease(int nButton)
 	case GamePad_Button_RIGHT_THUMB:
 		if (OldState._buttons[GamePad_Button_RIGHT_THUMB] == true && State._buttons[GamePad_Button_RIGHT_THUMB] == false)
 		{
-			return State._buttons[GamePad_Button_RIGHT_THUMB];
+			return true;
 		}
 		else
 		{
@@ -418,7 +423,7 @@ bool GamePadXbox::GetButtonRelease(int nButton)
 	case GamePad_Button_LEFT_SHOULDER:
 		if (OldState._buttons[GamePad_Button_LEFT_SHOULDER] == true && State._buttons[GamePad_Button_LEFT_SHOULDER] == false)
 		{
-			return State._buttons[GamePad_Button_LEFT_SHOULDER];
+			return true;
 		}
 		else
 		{
@@ -428,7 +433,7 @@ bool GamePadXbox::GetButtonRelease(int nButton)
 	case GamePad_Button_RIGHT_SHOULDER:
 		if (OldState._buttons[GamePad_Button_RIGHT_SHOULDER] == true && State._buttons[GamePad_Button_RIGHT_SHOULDER] == false)
 		{
-			return State._buttons[GamePad_Button_RIGHT_SHOULDER];
+			return true;
 		}
 		else
 		{
@@ -438,7 +443,7 @@ bool GamePadXbox::GetButtonRelease(int nButton)
 	case GamePad_Button_A:
 		if (OldState._buttons[GamePad_Button_A] == true && State._buttons[GamePad_Button_A] == false)
 		{
-			return State._buttons[GamePad_Button_A];
+			return true;
 		}
 		else
 		{
@@ -448,7 +453,7 @@ bool GamePadXbox::GetButtonRelease(int nButton)
 	case GamePad_Button_B:
 		if (OldState._buttons[GamePad_Button_B] == true && State._buttons[GamePad_Button_B] == false)
 		{
-			return State._buttons[GamePad_Button_B];
+			return true;
 		}
 		else
 		{
@@ -458,7 +463,7 @@ bool GamePadXbox::GetButtonRelease(int nButton)
 	case GamePad_Button_X:
 		if (OldState._buttons[GamePad_Button_X] == true && State._buttons[GamePad_Button_X] == false)
 		{
-			return State._buttons[GamePad_Button_X];
+			return true;
 		}
 		else
 		{
@@ -468,7 +473,7 @@ bool GamePadXbox::GetButtonRelease(int nButton)
 	case GamePad_Button_Y:
 		if (OldState._buttons[GamePad_Button_Y] == true && State._buttons[GamePad_Button_Y] == false)
 		{
-			return State._buttons[GamePad_Button_Y];
+			return true;
 		}
 		else
 		{

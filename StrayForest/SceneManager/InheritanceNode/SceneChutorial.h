@@ -1,12 +1,16 @@
 #pragma once
 #include "../SceneManager.h"
 #include "../../System/InheritanceNode/MyEffekseer/MyEffekseer.h"
+#include "../../System/InheritanceNode/Player/ChutorialPlayer.h"
+#include "../../System/InheritanceNode/BossMonster/ChutorialBoss.h"
+#include "../../System/InheritanceNode/MagicObject/MagicObject.h"
+
 class MeshFiled;
 class Polygon2D;
 class Sword;
 class Shiled;
-class ChutorialPlayer;
-class ChutorialBoss;
+class Fade;
+
 class SceneChutorial : public SceneManager
 {
 public:
@@ -31,6 +35,8 @@ public:
 	static Polygon2D* GetRightController();
 	static Sword* GetSwordModel();
 	static Shiled* GetShiledModel();
+	static Fade* GetFade();
+	static MagicObject* GetMagic();
 private:
 	static ChutorialBoss* chutorialboss_;
 	static ChutorialPlayer* chutorialplayer_;
@@ -41,10 +47,11 @@ private:
 	static MyEffekseer* ChutorialMagicObjects[10];
 	static MyEffekseer* ChutorialPlayerMagicEfk_;
 	static MyEffekseer* ChutorialPlayerAttack01Efk_;
-
+	static MagicObject* magic_;
 	static Polygon2D* LeftController_;
 	static Polygon2D* RightController_;
 
 	static Sword* chutorialsword_;
 	static Shiled* chutorialshiled_;
+	static Fade* fade_;
 };

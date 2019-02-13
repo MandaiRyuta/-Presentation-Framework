@@ -1,6 +1,7 @@
 #include "PlayerDiffence.h"
+#include "../../../../InputManager/XBoxController.h"
+#include "../../../SkinMeshAnimation/ModelAnim.h"
 #include "../Player.h"
-#include "../../../../InputManager/input.h"
 
 PlayerDiffence::PlayerDiffence(Player * _player)
 	: FrameCounter_(0)
@@ -14,7 +15,7 @@ PlayerDiffence::~PlayerDiffence()
 
 void PlayerDiffence::Update(Player * _player)
 {
-	if (_player->GetKeyboard()->GetKeyTrigger(DIK_6))
+	if (_player->GetGamePad()->GetButtonTrigger(GamePad_Button_Y))
 	{
 		FrameCounter_ = 0;
 		_player->SetDiffenceMode(true);
@@ -22,10 +23,12 @@ void PlayerDiffence::Update(Player * _player)
 		_player->GetSkinMesh()->SetAnimSpeed(1.0f);
 		_player->GetSkinMesh()->MyChangeAnim(18.7);
 		_player->SetKeyframe(0);
+		_player->SetActionUseFlag(true);
 	}
-	else if (_player->GetKeyboard()->GetKeyRelease(DIK_6))
+	else if (_player->GetGamePad()->GetButtonRelease(GamePad_Button_Y))
 	{
 		FrameCounter_ = 0;
+		_player->SetActionUseFlag(false);
 		_player->SetDiffenceMode(false);
 		_player->GetSkinMesh()->SetAnimSpeed(1.0f);
 		_player->GetSkinMesh()->MyChangeAnim(0.0);

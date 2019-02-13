@@ -1,10 +1,12 @@
 #pragma once
-#include "../../../Entity/Entity.h"
-#include "../../../InputManager/input.h"
 #include "../../../GameObjectManager/GameObjectManager.h"
 #include "../../../SkinMeshAnimation/ModelAnim.h"
 #include "../Camera.h"
+#include "../../../Entity/Entity.h"
 #include "../../../InputManager/XBoxController.h"
+#include "../../../GameObjectManager/GameObjectManager.h"
+#include "../../../SkinMeshAnimation/ModelAnim.h"
+#include "../Camera.h"
 
 class ChutorialPlayer : public GameObjectManager
 {
@@ -30,11 +32,17 @@ private:
 		WALK,
 		RUN,
 		ROLL,
+		NORMALATTACK,
+		MAGIC,
+		DEFFENCE,
+		DSTART,
 		NONE
 	};
+	bool runflag_;
+	bool ActionUseFlag_;
 	GamePadXbox* gamepad_;
 	CSkinMesh* skinmesh_;
-	CInputKeyboard* keyboard_;
+	//CInputKeyboard* keyboard_;
 	Entity::MATRIX3D matrix_;
 	D3DXVECTOR3 position_;
 	D3DXVECTOR3 rotation_;
@@ -52,3 +60,4 @@ private:
 	int keyframe_;
 	bool rollflag_;
 };
+

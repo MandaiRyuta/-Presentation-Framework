@@ -6,8 +6,8 @@ MyEffekseer::MyEffekseer(int _priority, wchar_t _filepath[])
 	, IsDrawing_(false)
 	, FrameCount_(0)
 {
-	MyEfkRenderer_ = EffekseerRendererDX9::Renderer::Create(GetDevice(), 200);
-	MyEfkManager_ = Effekseer::Manager::Create(200,false);
+	MyEfkRenderer_ = EffekseerRendererDX9::Renderer::Create(GetDevice(), 4000);
+	MyEfkManager_ = Effekseer::Manager::Create(4000,false);
 
 	MyEfkRenderer_->SetProjectionMatrix(
 		::Effekseer::Matrix44().PerspectiveFovLH(D3DX_PI / 3, (float)windows_rect::SCREEN_WIDTH / (float)windows_rect::SCREEN_HEIGHT, 1.0f, 10000.0f)
@@ -35,7 +35,6 @@ MyEffekseer::MyEffekseer(int _priority, wchar_t _filepath[])
 	location_.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	deltaframe_ = 1.0f;
-	FrameSet_ = false;
 }
 
 MyEffekseer::~MyEffekseer()
@@ -72,6 +71,7 @@ void MyEffekseer::Update()
 
 	SetWorldMatrix(location_);
 	SetEfkWorldMatrix(world_);
+
 	MyEfkManager_->Flip();
 	MyEfkManager_->Update(deltaframe_);
 }
@@ -173,12 +173,13 @@ void MyEffekseer::PlayEffect()
 	MyEfkHandle_ = MyEfkManager_->Play(MyEfkEffect_, location_.position.x, location_.position.y, location_.position.z);
 	MyEfkManager_->Flip();
 
-	PlayFlag_ = true;
+	//PlayFlag_ = true;
 }
 
 void MyEffekseer::StopEffect()
 {
-	MyEfkManager_->StopEffect(MyEfkHandle_);
+	PlayFlag_ = true;
+	//MyEfkManager_->StopEffect(MyEfkHandle_);
 }
 
 const D3DXVECTOR3 MyEffekseer::GetPosition()

@@ -16,7 +16,7 @@ D3DXVECTOR3 BossMonster::GetPos_;
 Entity::MATRIX3D BossMonster::GetMatrix_;
 D3DXMATRIX BossMonster::GetRotation_;
 
-BossMonster::BossMonster(int _Max_Life, int _Max_Mana)
+BossMonster::BossMonster(float _Max_Life, float _Max_Mana)
 	: GameObjectManager(0)
 	, bosspattern_(new BossMonsterPatternNone)
 	, magic_(new BossMonsterMagicPatternA)
@@ -32,6 +32,11 @@ BossMonster::BossMonster(int _Max_Life, int _Max_Mana)
 	, movestatecheck_(false)
 	, MagicCoolTime_(0)
 	, magicflag_(false)
+	, cameraflag_(false)
+	, magicpositonflag_(false)
+	, camerastartcount_(0)
+	, StateNum_(0)
+	, knockbackflag_(false)
 {
 }
 
@@ -49,74 +54,114 @@ void BossMonster::Init()
 	D3DXMatrixIdentity(&matrix_.world);
 	position_ = D3DXVECTOR3(0.0f, 0.0f, 300.0f);
 	position_.y = SceneGame::GetMeshFiled()->GetHeight(position_);
-	basic_lowspeed_ = 0.5f;
-	basic_highspeed_ = 1.0f;
+	basic_lowspeed_ = 1.0f;
+	basic_middlespeed_ = 1.75f;
+	basic_highspeed_ = 2.5f;
 	variable_movespeed_ = 0.5f;
-	movecolisioninfo_.colision01.r = 35.0f;
-	movecolisioninfo_.colision02.r = 35.0f;
+	movecolisioninfo_.colision01.r = 36.0f;
+	movecolisioninfo_.colision02.r = 28.0f;
+	movecolisioninfo_.center_to_center = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	movecolisioninfo_.hit_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	movecolisioninfo_.hit_vector = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	movecolisioninfo_.two_radius = 0.0f;
+	AxisMove_ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }
 
 void BossMonster::Update()
 {
 	movecolisioninfo_.colision01.modelpos = position_;
 	D3DXMATRIX getmtx = SceneGame::GetPlayer()->GetPlayerPosMatrix();
-	movecolisioninfo_.colision02.modelpos = D3DXVECTOR3(SceneGame::GetPlayer()->GetPlayerPosMatrix()._41,SceneGame::GetPlayer()->GetPlayerBodyMatrix()._42,SceneGame::GetPlayer()->GetPlayerBodyMatrix()._43);
-	bool colisioncheck = movecolision_->Collision_detection_of_Sphere_and_Sphere(movecolisioninfo_);
-	movecheckcolision_ = colisioncheck;
+	movecolisioninfo_.colision02.modelpos = SceneGame::GetPlayer()->GetPlayerPosition();
+	movecheckcolision_ = movecolision_->Collision_detection_of_Sphere_and_Sphere(movecolisioninfo_);
+	//movecheckcolision_ = SceneGame::GetPlayer()->GetColisionFlag();
+	//ImGui::GetFlagCheck("PlayerColision", movecheckcolision_);
+	D3DXVECTOR3 PlayerPosition = SceneGame::GetPlayer()->GetPlayerPosition();
+	AxisMove_ = PlayerPosition - position_;
+	D3DXVec3Normalize(&AxisMove_, &AxisMove_);
 
-	statusmanager_->Update(this);
+	position_.y = SceneGame::GetMeshFiled()->GetHeight(position_);
 
-	if (magicflag_)
+	float rotation = atan2f(AxisMove_.x, AxisMove_.z);
+	rotation = rotation + D3DX_PI;
+	
+	if (!cameraflag_)
 	{
-		SceneGame::GetBossMagicAEfk()->SetIsDrawing(false);
-		SceneGame::GetBossMagicB_1Efk()->SetIsDrawing(false);
-		SceneGame::GetBossMagicCEfk()->SetIsDrawing(false);
-
-	}
-	if (colisioncheck)
-	{
-		magicflag_ = true;
-		attack_->Update(this);
-		skill_->Update(this);
-		movecolisioninfo_.hit_vector.y = 0.0f;
-		position_ += movecolisioninfo_.hit_vector;
-	}
-	else
-	{
-		magicflag_ = false;
-		if (movestatecheck_)
+		if (camerastartcount_ < 250)
 		{
-			skinmesh_->MyChangeAnim(63.3);
-			movestatecheck_ = false;
+			skinmesh_->SetAnimSpeed(2.0f);
 		}
 		else
 		{
-			if (MagicCoolTime_ < 600)
-			{
-				bosspattern_->Update(this);
-			}
-			else if (MagicCoolTime_ > 600)
-			{
-				magic_->Update(this);
-			}
+			skinmesh_->SetAnimSpeed(0.0f);
+			skinmesh_->MyChangeAnim(0.0);
+			camerastartcount_ = 0;
 		}
-		MagicCoolTime_++;
+
+		camerastartcount_++;
+	}
+	if (cameraflag_)
+	{
+		//skinmesh_->SetAnimSpeed(2.0f);
+		statusmanager_->Update(this);
+
+		if (magicflag_)
+		{
+			SceneGame::GetBossMagicAEfk()->SetIsDrawing(false);
+			SceneGame::GetBossMagicB_1Efk()->SetIsDrawing(false);
+			SceneGame::GetBossMagicCEfk()->SetIsDrawing(false);
+		}
+		if (movecheckcolision_)
+		{
+			magicflag_ = true;
+			attack_->Update(this);
+			skill_->Update(this);
+		}
+		else
+		{
+			magicflag_ = false;
+			if (movestatecheck_)
+			{
+				skinmesh_->MyChangeAnim(63.3);
+				movestatecheck_ = false;
+			}
+			else
+			{
+				if (MagicCoolTime_ < 600)
+				{
+					bosspattern_->Update(this);
+				}
+				else if (MagicCoolTime_ > 600)
+				{
+					magic_->Update(this);
+				}
+			}
+
+			MagicCoolTime_++;
+		}
 	}
 
-	D3DXMatrixTranslation(&matrix_.position, position_.x, position_.y, position_.z);
+	if (knockbackflag_)
+	{
+		position_ += Getknockback() * 30.0f;
+	}
 
+	GetPos_ = position_;
+	D3DXMatrixTranslation(&matrix_.position, position_.x, position_.y, position_.z);
+	D3DXMatrixRotationY(&matrix_.rotation, rotation);
 	D3DXMatrixScaling(&matrix_.scale, scale_.x, scale_.y, scale_.z);
 	GetRotation_ = matrix_.rotation;
 	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
-	skinmesh_->SetAnimSpeed(1.0f);
 	skinmesh_->Update(matrix_.world);
-	GetPos_ = D3DXVECTOR3(matrix_.position._41, matrix_.position._42, matrix_.position._43);
 }
 
 void BossMonster::Draw()
 {
 	LPDIRECT3DDEVICE9 device = GetDevice();
-
+	//コリジョンの確認
+	if (cameraflag_)
+	{
+		statusmanager_->Draw();
+	}
 	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
@@ -133,8 +178,8 @@ void BossMonster::Draw()
 void BossMonster::Uninit()
 {
 	skinmesh_->Release();
-
 	delete skinmesh_;
+	delete statusmanager_;
 	delete magic_;
 	delete skill_;
 	delete attack_;
@@ -142,8 +187,9 @@ void BossMonster::Uninit()
 	delete bosspattern_;
 }
 
-void BossMonster::Damage(float _damage)
+void BossMonster::Damage(float _damage, D3DXVECTOR3 knockback)
 {
+	knockback_ = knockback;
 	life_ -= _damage;
 }
 
@@ -167,9 +213,25 @@ void BossMonster::SetMagicCoolTime(int _MagicCoolTime)
 	MagicCoolTime_ = _MagicCoolTime;
 }
 
-void BossMonster::ChangeBossMonsterMovePattern(BossMonsterPattern * _bossmonsterpattern)
+void BossMonster::SetMagicPositionFlag(bool _SetMagicPositionFlag)
+{
+	magicpositonflag_ = _SetMagicPositionFlag;
+}
+
+void BossMonster::SetCameraMoveFlag(bool _cameraflag)
+{
+	cameraflag_ = _cameraflag;
+}
+
+void BossMonster::SetKnockBackFlag(bool _knockbackflag)
+{
+	knockbackflag_ = _knockbackflag;
+}
+
+void BossMonster::ChangeBossMonsterMovePattern(int _pattern, BossMonsterPattern * _bossmonsterpattern)
 {
 	bosspattern_ = _bossmonsterpattern;
+	StateNum_ = _pattern;
 }
 
 void BossMonster::ChangeBossMonsterSkillPattern(BossMonsterSkillPattern * _bossmonsterskillpattern)
@@ -187,9 +249,55 @@ void BossMonster::ChangeBossMonsterAttackPattern(BossMonsterAttackPattern * _bos
 	attack_ = _bossmonsterattackpattern;
 }
 
+void BossMonster::SetAxisMove(D3DXVECTOR3 _AxisMove)
+{
+	AxisMove_ = _AxisMove;
+}
+
+D3DXVECTOR3 BossMonster::GetAxisMove()
+{
+	return AxisMove_;
+}
+
+bool BossMonster::GetMagicPositionFlag()
+{
+	return magicpositonflag_;
+}
+
 bool BossMonster::GetMagicFlag()
 {
 	return magicflag_;
+}
+
+bool BossMonster::GetMoveFlag()
+{
+	return movestatecheck_;
+}
+
+bool BossMonster::GetCameraMoveFlag()
+{
+	return cameraflag_;
+}
+
+bool BossMonster::GetknockbackFlag()
+{
+	return knockbackflag_;
+}
+
+D3DXVECTOR3 BossMonster::Getknockback()
+{
+	D3DXVec3Normalize(&knockback_, &knockback_);
+	return knockback_;
+}
+
+int BossMonster::GetMagicCoolTime()
+{
+	return MagicCoolTime_;
+}
+
+D3DXVECTOR3 BossMonster::GetPosition()
+{
+	return GetPos_;
 }
 
 D3DXMATRIX & BossMonster::GetPositionMatrix()
@@ -202,16 +310,6 @@ CSkinMesh * BossMonster::GetSkinMesh()
 	return skinmesh_;
 }
 
-SphereColision * BossMonster::GetMoveColision()
-{
-	return movecolision_;
-}
-
-Entity::SphereColision& BossMonster::GetMoveColisionInfo()
-{
-	return movecolisioninfo_;
-}
-
 float& BossMonster::GetMoveLowSpeed()
 {
 	return basic_lowspeed_;
@@ -222,14 +320,14 @@ float& BossMonster::GetMoveHighSpeed()
 	return basic_highspeed_;
 }
 
+float & BossMonster::GetMoveMiddleSpeed()
+{
+	return basic_middlespeed_;
+}
+
 float& BossMonster::GetMoveVariableSpeed()
 {
 	return variable_movespeed_;
-}
-
-const bool & BossMonster::GetMoveHitColision()
-{
-	return movecheckcolision_;
 }
 
 BossMonster * BossMonster::Create(int _Max_Mana, int _Max_Life)
@@ -237,4 +335,14 @@ BossMonster * BossMonster::Create(int _Max_Mana, int _Max_Life)
 	BossMonster* createboss = new BossMonster(_Max_Mana, _Max_Life);
 	createboss->Init();
 	return createboss;
+}
+
+bool BossMonster::GetMoveColisionCheck()
+{
+	return movecheckcolision_;
+}
+
+int BossMonster::GetStateNum()
+{
+	return StateNum_;
 }

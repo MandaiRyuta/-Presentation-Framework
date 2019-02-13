@@ -13,7 +13,7 @@ void BossMonsterPatternNone::Update(BossMonster * _bossmonster)
 	if (FrameCount_ > 250)
 	{
 		_bossmonster->GetSkinMesh()->MyChangeAnim(63.3);
-		_bossmonster->ChangeBossMonsterMovePattern(new BossMonsterPatternA);
+		_bossmonster->ChangeBossMonsterMovePattern(0,new BossMonsterPatternA);
 	}
 	FrameCount_++;
 }

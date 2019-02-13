@@ -1,16 +1,5 @@
 #include "sound.h"
 
-IXAudio2* EffectSound::m_pXAudio2_ = nullptr;
-IXAudio2MasteringVoice* EffectSound::m_pMasteringVoice_ = nullptr;
-IXAudio2SourceVoice* EffectSound::m_apSourceVoice_[SOUND_LABEL::SOUND_NONE] = {};
-BYTE* EffectSound::m_apDataAudio_[SOUND_LABEL::SOUND_NONE] = {};
-DWORD EffectSound::m_aSizeAudio_[SOUND_LABEL::SOUND_NONE] = {};
-IUnknown* EffectSound::m_pXAPO_ = nullptr;
-XAUDIO2_EFFECT_DESCRIPTOR EffectSound::m_descriptor_;
-XAUDIO2_EFFECT_CHAIN EffectSound::m_chain_;
-EffectSound::SOUNDPARAM EffectSound::m_aParam[SOUND_LABEL::SOUND_NONE] = {
-	{/*"ファイルパス",ループ用かループ用じゃないか*/ },
-};
 HRESULT EffectSound::InitSound(HWND hWnd)
 {
 	HRESULT hr;
@@ -342,11 +331,83 @@ void EffectSound::StopSound(void)
 }
 HRESULT EffectSound::CheckChunk(HANDLE hFile, DWORD format, DWORD * pChunkSize, DWORD * pChunkDataPosition)
 {
-	return E_NOTIMPL;
+	HRESULT hr = S_OK;
+	DWORD dwRead;
+	DWORD dwChunkType;
+	DWORD dwChunkDataSize;
+	DWORD dwRIFFDataSize = 0;
+	DWORD dwFileType;
+	DWORD dwBytesRead = 0;
+	DWORD dwOffset = 0;
+
+	if (SetFilePointer(hFile, 0, NULL, FILE_BEGIN) == INVALID_SET_FILE_POINTER)
+	{// ファイルポインタを先頭に移動
+		return HRESULT_FROM_WIN32(GetLastError());
+	}
+
+	while (hr == S_OK)
+	{
+		if (ReadFile(hFile, &dwChunkType, sizeof(DWORD), &dwRead, NULL) == 0)
+		{// チャンクの読み込み
+			hr = HRESULT_FROM_WIN32(GetLastError());
+		}
+
+		if (ReadFile(hFile, &dwChunkDataSize, sizeof(DWORD), &dwRead, NULL) == 0)
+		{// チャンクデータの読み込み
+			hr = HRESULT_FROM_WIN32(GetLastError());
+		}
+
+		switch (dwChunkType)
+		{
+		case 'FFIR':
+			dwRIFFDataSize = dwChunkDataSize;
+			dwChunkDataSize = 4;
+			if (ReadFile(hFile, &dwFileType, sizeof(DWORD), &dwRead, NULL) == 0)
+			{// ファイルタイプの読み込み
+				hr = HRESULT_FROM_WIN32(GetLastError());
+			}
+			break;
+
+		default:
+			if (SetFilePointer(hFile, dwChunkDataSize, NULL, FILE_CURRENT) == INVALID_SET_FILE_POINTER)
+			{// ファイルポインタをチャンクデータ分移動
+				return HRESULT_FROM_WIN32(GetLastError());
+			}
+		}
+
+		dwOffset += sizeof(DWORD) * 2;
+		if (dwChunkType == format)
+		{
+			*pChunkSize = dwChunkDataSize;
+			*pChunkDataPosition = dwOffset;
+
+			return S_OK;
+		}
+
+		dwOffset += dwChunkDataSize;
+		if (dwBytesRead >= dwRIFFDataSize)
+		{
+			return S_FALSE;
+		}
+	}
+
+	return S_OK;
 }
 HRESULT EffectSound::ReadChunkData(HANDLE hFile, void * pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset)
 {
-	return E_NOTIMPL;
+	DWORD dwRead;
+
+	if (SetFilePointer(hFile, dwBufferoffset, NULL, FILE_BEGIN) == INVALID_SET_FILE_POINTER)
+	{// ファイルポインタを指定位置まで移動
+		return HRESULT_FROM_WIN32(GetLastError());
+	}
+
+	if (ReadFile(hFile, pBuffer, dwBuffersize, &dwRead, NULL) == 0)
+	{// データの読み込み
+		return HRESULT_FROM_WIN32(GetLastError());
+	}
+
+	return S_OK;
 }
 //================================================================================
 //

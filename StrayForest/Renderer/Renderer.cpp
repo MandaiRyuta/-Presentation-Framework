@@ -1,4 +1,5 @@
 #include "Renderer.h"
+
 //バックバッファの設定用
 D3DPRESENT_PARAMETERS d3dpp_ = CDX9Parameter::getInstance();
 //DirectX9 デバイス

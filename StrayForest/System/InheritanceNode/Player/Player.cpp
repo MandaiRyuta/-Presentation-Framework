@@ -1,8 +1,10 @@
 #include "Player.h"
 #include "../../../main.h"
+#include "../../../SkinMeshAnimation/ModelAnim.h"
+#include "../Camera.h"
 #include "../../../SceneManager/InheritanceNode/SceneGame.h"
 #include "../MeshFiled.h"
-#include "../../../InputManager/input.h"
+#include "../../../InputManager/XBoxController.h"
 #include "../../../Renderer/GameManager.h"
 #include "PlayerMove\PlayerMoveManager.h"
 #include "PlayerAttack\PlayerAttackManager.h"
@@ -23,6 +25,7 @@
 #include "../../colision/SphereColision.h"
 #include "../BossMonster/BossMonster.h"
 #include "../../Polygon2D.h"
+
 D3DXMATRIX Player::world_;
 D3DXMATRIX Player::rot_;
 D3DXMATRIX Player::pos_;
@@ -30,7 +33,7 @@ D3DXMATRIX Player::body_;
 SphereColision* Player::AttackHitColision_ = nullptr;
 
 Player::Player(float max_health, float max_mana, float health, float mana)
-	: GameObjectManager(OBJ_3D_MODEL)
+	: GameObjectManager(0)
 	, movemanager_(new PlayerMove)
 	, magicmanager_(new PlayerMagic(this))
 	, attackmanager_(new PlayerNomalAttack(this))
@@ -45,8 +48,14 @@ Player::Player(float max_health, float max_mana, float health, float mana)
 	, Life_(health)
 	, Mana_(mana)
 	, Diffence_(false)
-	, oldPosition_(D3DXVECTOR3(0.0f,0.0f,0.0f))
+	, oldPosition_(D3DXVECTOR3(0.0f, 0.0f, -500.0f))
 	, keyframe_(400)
+	, cameraflag_(false)
+	, oldposframetime_(0)
+	, movecolisioncheck_(false)
+	, rotate_(0.0f)
+	, ActionUseFlag_(false)
+	, MagicUseFlag_(false)
 {
 }
 void Player::Init()
@@ -55,52 +64,94 @@ void Player::Init()
 	skinmesh_ = new CSkinMesh;
 	skinmesh_->Init(device, "Resource/Model/Player.x");
 	scale_ = D3DXVECTOR3(30.0f, 30.0f, 30.0f);
-	skinmesh_->SetAnimSpeed(2.0f);
 	D3DXMatrixIdentity(&matrix_.position);
 	D3DXMatrixIdentity(&matrix_.rotation);
 	D3DXMatrixIdentity(&matrix_.scale);
 	D3DXMatrixIdentity(&matrix_.world);
-	//item_ = new ItemList;
-	//item_->add(new Sword, new Shiled);
-	//item_->Init();
+	D3DXMatrixIdentity(&rot_);
+	D3DXMatrixIdentity(&pos_);
+	D3DXMatrixIdentity(&world_);
+	position_ = D3DXVECTOR3(0.0f, 0.0f, -500.0f);
+	position_.y = SceneGame::GetMeshFiled()->GetHeight(position_);
+	
+	moveinfo_.colision01.r = 35.0f;
+	moveinfo_.colision02.r = 28.0f;
+	moveinfo_.center_to_center = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	moveinfo_.hit_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	moveinfo_.hit_vector = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	moveinfo_.two_radius = 0.0f;
+	knockback_ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }
 
 void Player::Update()
 {
-	Entity::SphereColision moveinfo;
-
-	keyboard_ = GameManager::GetKeyboard();
+	//ImGui::GetPositionInfomation("PLAYER_POSITION", position_);
+	gamepad_ = GameManager::GetGamePad();
+	//keyboard_ = GameManager::GetKeyboard();
 	D3DXMatrixScaling(&matrix_.scale, scale_.x, scale_.y, scale_.z);
+	position_.y = SceneGame::GetMeshFiled()->GetHeight(position_);
+	D3DXVECTOR3 bossposition = SceneGame::GetBossMonster()->GetPosition();
 
-	//moveinfo.colision01.modelpos = D3DXVECTOR3(matrix_.position._41, matrix_.position._42, matrix_.position._43);
-	//moveinfo.colision02.modelpos = SceneGame::GetBossMonster()->GetPosition();
-	//moveinfo.colision01.r = 35.0f;
-	//moveinfo.colision02.r = 35.0f;
+	moveinfo_.colision01.modelpos = D3DXVECTOR3(bossposition.x, bossposition.y, bossposition.z);
+	moveinfo_.colision02.modelpos = D3DXVECTOR3(position_.x, position_.y, position_.z);
+	movecolisioncheck_ = spherecolision_->Collision_detection_of_Sphere_and_Sphere(moveinfo_);
 
-	//bool colisioncheck = spherecolision_->Collision_detection_of_Sphere_and_Sphere(moveinfo);
+	if (!cameraflag_)
+	{
+		skinmesh_->SetAnimSpeed(0.0f);
+		movemanager_->Update(this);
+	}
+	else if (cameraflag_)
+	{
+		skinmesh_->SetAnimSpeed(2.0f);
+		
+		movemanager_->Update(this);
+		magicmanager_->Update(this);
+		diffencemanager_->Update(this);
+		buffmanager_->Update(this);
+		attackmanager_->Update(this);
+		statusmanager_->Update(this);
+	}
 
-	//if (colisioncheck)
-	//{
-	//	matrix_.position._41 += moveinfo.hit_vector.x;
-	//	matrix_.position._43 += moveinfo.hit_vector.z;
-	//}
+	if (position_.y > 54.0f)
+	{
+		D3DXMatrixRotationY(&matrix_.rotation, rotate_);
+		D3DXMatrixTranslation(&matrix_.position, position_.x, position_.y, position_.z);
+	}
+	else
+	{
+		if (position_.x < 0.0f)
+		{
+			position_.x += RUNSPEED * 2;
+		}
+		else
+		{
+			position_.x -= RUNSPEED * 2;
+		}
+		if (position_.z < 0.0f)
+		{
+			position_.z += RUNSPEED * 2;
+		}
+		else
+		{
+			position_.z -= RUNSPEED * 2;
+		}
+	}
 
-	movemanager_->Update(this);
-	statusmanager_->Update(this);
-	magicmanager_->Update(this);
-	diffencemanager_->Update(this);
-	buffmanager_->Update(this);
 	pos_ = matrix_.position;
 	rot_ = matrix_.rotation;
 	world_ = matrix_.world;
 	matrix_.world = matrix_.scale * matrix_.rotation * matrix_.position;
-
-	ImGui::GetMatrixInfomation("Player", matrix_.world);
-	attackmanager_->Update(this);
-	skinmesh_->Update(matrix_.world);
+	skinmesh_->Update(matrix_.world);	
+	D3DXMATRIX mtxSword, mtxShiled;
+	mtxSword = skinmesh_->GetBoneMatrix("Bip001_001_Bip001_R_Hand");
+	mtxShiled = skinmesh_->GetBoneMatrix("Bip001_001_Bip001_L_Hand");
+	body_ = skinmesh_->GetBoneMatrix("Bip001_001_Bip001_Head");
+	SceneGame::GetPlayerShiled()->SetTargetBone(mtxShiled);
+	SceneGame::GetPlayerSword()->SetTargetBone(mtxSword);
 
 	keyframe_++;
-	//item_->Update();
+	oldposframetime_++;
 }
 
 void Player::Draw()
@@ -119,12 +170,7 @@ void Player::Draw()
 	device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	//ƒ}ƒeƒŠƒAƒ‹‚ÌÝ’è
 	device->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_MATERIAL);
-	D3DXMATRIX mtxSword, mtxShiled;
-	mtxSword = skinmesh_->GetBoneMatrix("Bip001_001_Bip001_R_Hand");
-	mtxShiled = skinmesh_->GetBoneMatrix("Bip001_001_Bip001_L_Hand");
-	body_ = skinmesh_->GetBoneMatrix("Bip001_001_Bip001_Head");
-	SceneGame::GetPlayerShiled()->SetTargetBone(mtxShiled);
-	SceneGame::GetPlayerSword()->SetTargetBone(mtxSword);
+
 	//item_->ShiledDraw(device,mtxShiled);
 	//item_->SwordDraw(device,mtxSword);
 	skinmesh_->Draw(device);
@@ -132,21 +178,47 @@ void Player::Draw()
 
 void Player::Uninit()
 {
-	skinmesh_->Release();
-	delete skinmesh_;
+	if (skinmesh_ != nullptr)
+	{
+		skinmesh_->Release();
+		delete skinmesh_;
+	}
 	//item_->Uninit();
-	delete spherecolision_;
+	if (spherecolision_ != nullptr)
+	{
+		delete spherecolision_;
+	}
 	//delete item_;
-	delete statusmanager_;
-	delete movemanager_;
-	delete attackmanager_;
-	delete buffmanager_;
-	delete diffencemanager_;
-	delete magicmanager_;
+	if (statusmanager_ != nullptr)
+	{
+		delete statusmanager_;
+	}
+	if (movemanager_ != nullptr)
+	{
+		delete movemanager_;
+	}
+	if (attackmanager_ != nullptr)
+	{
+		delete attackmanager_;
+	}
+	if (buffmanager_ != nullptr)
+	{
+		delete buffmanager_;
+	}
+	if (diffencemanager_ != nullptr)
+	{
+		delete diffencemanager_;
+	}
+	if (magicmanager_ != nullptr)
+	{
+		delete magicmanager_;
+	}
 }
 
-void Player::Damage(float _damage)
+void Player::Damage(float _damage, D3DXVECTOR3 knockback)
 {
+	//knockbackflag_ = true;
+	knockback_ = knockback;
 	Life_ -= _damage;
 }
 
@@ -192,7 +264,7 @@ void Player::DeBuff(double _animtrack, double _speed)
 	skinmesh_->MyChangeAnim(_animtrack);
 }
 
-Player * Player::Create(int max_health, int max_mana, int health, int mana)
+Player * Player::Create(float max_health, float max_mana, float health, float mana)
 {
 	Player* CreatePlayer = new Player(max_health, max_mana, health, mana);
 	CreatePlayer->Init();
@@ -229,14 +301,29 @@ void Player::ChangeDiffencePattern(PlayerDiffenceManager * _diffence)
 	diffencemanager_ = _diffence;
 }
 
+bool Player::GetSphereColisionFlag()
+{
+	return movecolisioncheck_;
+}
+
+Entity::SphereColision Player::GetSphereColisionInfo()
+{
+	return moveinfo_;
+}
+
 CSkinMesh * Player::GetSkinMesh()
 {
 	return skinmesh_;
 }
 
-CInputKeyboard * Player::GetKeyboard()
+GamePadXbox * Player::GetGamePad()
 {
-	return keyboard_;
+	return gamepad_;
+}
+
+void Player::SetPlayerPosition(D3DXVECTOR3 _pos)
+{
+	position_ = _pos;
 }
 
 void Player::SetPlayerMatrix(D3DXMATRIX _world)
@@ -279,6 +366,31 @@ void Player::SetKeyframe(int _keyframe)
 	keyframe_ = _keyframe;
 }
 
+void Player::SetCameraMove(bool _cameraflag)
+{
+	cameraflag_ = _cameraflag;
+}
+
+void Player::SetOldPosFrame(int _oldposframe)
+{
+	oldposframetime_ = _oldposframe;
+}
+
+void Player::SetRotation(float _rotation)
+{
+	rotate_ = _rotation;
+}
+
+void Player::SetActionUseFlag(bool _actionusecheck)
+{
+	ActionUseFlag_ = _actionusecheck;
+}
+
+bool Player::GetCameraMove()
+{
+	return cameraflag_;
+}
+
 void Player::addLife(float _Life)
 {
 	if (Life_ < Max_Life_)
@@ -300,6 +412,11 @@ int Player::GetKeyframe()
 	return keyframe_;
 }
 
+int Player::GetOldPosFrame()
+{
+	return oldposframetime_;
+}
+
 bool Player::GetStateMode()
 {
 	return StateMode_;
@@ -308,6 +425,11 @@ bool Player::GetStateMode()
 bool Player::GetDiffenceMode()
 {
 	return Diffence_;
+}
+
+float Player::GetRotation()
+{
+	return rotate_;
 }
 
 D3DXVECTOR3 Player::GetOldPosition()
@@ -320,12 +442,43 @@ ACTIONPATTERN& Player::GetActionPattern()
 	return playeraction_;
 }
 
+D3DXVECTOR3 Player::GetPlayerPosition()
+{
+	return position_;
+}
+
+bool Player::GetColisionFlag()
+{
+	return movecolisioncheck_;
+}
+
+bool Player::GetActionUseFlag()
+{
+	return ActionUseFlag_;
+}
+
+D3DXVECTOR3 & Player::GetPosition()
+{
+	return position_;
+}
+
+D3DXVECTOR3 Player::Getknokback()
+{
+	D3DXVec3Normalize(&knockback_, &knockback_);
+	return knockback_;
+}
+
+Entity::SphereColision& Player::GetColisioninfo()
+{
+	return moveinfo_;
+}
+
 D3DXMATRIX & Player::GetPlayerMatrix()
 {
 	return world_;
 }
 
-D3DXMATRIX Player::GetPlayerPosMatrix()
+D3DXMATRIX & Player::GetPlayerPosMatrix()
 {
 	return pos_;
 }

@@ -2,8 +2,6 @@
 
 #include "PlayerDiffenceManager.h"
 
-class Player;
-
 class PlayerDiffence : public PlayerDiffenceManager
 {
 public:
