@@ -3,7 +3,6 @@
 #include "../MeshFiled.h"
 #include "BossMonsterAttack\BossMonsterAttackPattern.h"
 #include "BossMonsterMagic\BossMonsterMagicPattern.h"
-#include "BossMonsterSkill\BossMonsterSkillPattern.h"
 #include "BossMonsterPatterns\BossMonsterPattern.h"
 #include "../../../SceneManager/InheritanceNode/SceneGame.h"
 #include "BossMonsterAttack\BossMonsterAttackPatternA.h"
@@ -13,14 +12,12 @@
 #include "BossMonsterMagic\BossMonsterMagicPatternA.h"
 
 D3DXVECTOR3 BossMonster::GetPos_;
-Entity::MATRIX3D BossMonster::GetMatrix_;
 D3DXMATRIX BossMonster::GetRotation_;
 
 BossMonster::BossMonster(float _Max_Life, float _Max_Mana)
 	: GameObjectManager(0)
 	, bosspattern_(new BossMonsterPatternNone)
 	, magic_(new BossMonsterMagicPatternA)
-	, skill_(new BossMonsterSkillNone)
 	, attack_(new BossMonsterAttackPatternA)
 	, max_life_(_Max_Life)
 	, life_(_Max_Life)
@@ -30,13 +27,12 @@ BossMonster::BossMonster(float _Max_Life, float _Max_Mana)
 	, statusmanager_(new BossStatus)
 	, movecheckcolision_(false)
 	, movestatecheck_(false)
-	, MagicCoolTime_(0)
-	, magicflag_(false)
 	, cameraflag_(false)
-	, magicpositonflag_(false)
 	, camerastartcount_(0)
 	, StateNum_(0)
-	, knockbackflag_(false)
+	, nowattack_(false)
+	, magicsetflag_(false)
+	, attackframe_(145)
 {
 }
 
@@ -45,6 +41,11 @@ void BossMonster::Init()
 	LPDIRECT3DDEVICE9 device = GetDevice();
 	skinmesh_ = new CSkinMesh;
 	skinmesh_->Init(device, "Resource/Model/Boss.x");
+	magicuseinfo_.magic_cool_time = 0;
+	magicuseinfo_.magic_flag = false;
+	magicuseinfo_.magic_position_flag = false;
+	knockback_.knockbackflag = false;
+	knockback_.knockback = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	scale_ = D3DXVECTOR3(60.0f, 60.0f, 60.0f);
 	skinmesh_->SetAnimSpeed(0.0f);
 	D3DXMatrixIdentity(&matrix_.position);
@@ -54,10 +55,10 @@ void BossMonster::Init()
 	D3DXMatrixIdentity(&matrix_.world);
 	position_ = D3DXVECTOR3(0.0f, 0.0f, 300.0f);
 	position_.y = SceneGame::GetMeshFiled()->GetHeight(position_);
-	basic_lowspeed_ = 1.0f;
-	basic_middlespeed_ = 1.75f;
-	basic_highspeed_ = 2.5f;
-	variable_movespeed_ = 0.5f;
+	moveinfomation_.basic_lowspeed = 1.0f;
+	moveinfomation_.basic_middlespeed = 1.75f;
+	moveinfomation_.basic_highspeed = 2.5f;
+	moveinfomation_.variable_movespeed = 0.5f;
 	movecolisioninfo_.colision01.r = 36.0f;
 	movecolisioninfo_.colision02.r = 28.0f;
 	movecolisioninfo_.center_to_center = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -83,7 +84,7 @@ void BossMonster::Update()
 
 	float rotation = atan2f(AxisMove_.x, AxisMove_.z);
 	rotation = rotation + D3DX_PI;
-	
+
 	if (!cameraflag_)
 	{
 		if (camerastartcount_ < 250)
@@ -101,10 +102,9 @@ void BossMonster::Update()
 	}
 	if (cameraflag_)
 	{
-		//skinmesh_->SetAnimSpeed(2.0f);
 		statusmanager_->Update(this);
 
-		if (magicflag_)
+		if (magicuseinfo_.magic_flag)
 		{
 			SceneGame::GetBossMagicAEfk()->SetIsDrawing(false);
 			SceneGame::GetBossMagicB_1Efk()->SetIsDrawing(false);
@@ -112,35 +112,39 @@ void BossMonster::Update()
 		}
 		if (movecheckcolision_)
 		{
-			magicflag_ = true;
+			attackframe_ = 0;
+			magicuseinfo_.magic_flag = true;
 			attack_->Update(this);
-			skill_->Update(this);
 		}
 		else
 		{
-			magicflag_ = false;
-			if (movestatecheck_)
+			attackframe_++;
+			if (attackframe_ > 50)
 			{
-				skinmesh_->MyChangeAnim(63.3);
-				movestatecheck_ = false;
-			}
-			else
-			{
-				if (MagicCoolTime_ < 600)
+				magicuseinfo_.magic_flag = false;
+				if (movestatecheck_)
 				{
-					bosspattern_->Update(this);
+					skinmesh_->MyChangeAnim(63.3);
+					movestatecheck_ = false;
 				}
-				else if (MagicCoolTime_ > 600)
+				else
 				{
-					magic_->Update(this);
+					if (magicuseinfo_.magic_cool_time < 600)
+					{
+						bosspattern_->Update(this);
+					}
+					else if (magicuseinfo_.magic_cool_time > 600)
+					{
+						magic_->Update(this);
+					}
 				}
 			}
 
-			MagicCoolTime_++;
+			magicuseinfo_.magic_cool_time++;
 		}
 	}
 
-	if (knockbackflag_)
+	if (knockback_.knockbackflag)
 	{
 		position_ += Getknockback() * 30.0f;
 	}
@@ -157,11 +161,7 @@ void BossMonster::Update()
 void BossMonster::Draw()
 {
 	LPDIRECT3DDEVICE9 device = GetDevice();
-	//コリジョンの確認
-	if (cameraflag_)
-	{
-		statusmanager_->Draw();
-	}
+
 	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
@@ -181,15 +181,14 @@ void BossMonster::Uninit()
 	delete skinmesh_;
 	delete statusmanager_;
 	delete magic_;
-	delete skill_;
 	delete attack_;
 	delete movecolision_;
 	delete bosspattern_;
 }
 
-void BossMonster::Damage(float _damage, D3DXVECTOR3 knockback)
+void BossMonster::Damage(float _damage, D3DXVECTOR3 _knockback)
 {
-	knockback_ = knockback;
+	knockback_.knockback = _knockback;
 	life_ -= _damage;
 }
 
@@ -210,12 +209,12 @@ void BossMonster::SetMoveFlagON()
 
 void BossMonster::SetMagicCoolTime(int _MagicCoolTime)
 {
-	MagicCoolTime_ = _MagicCoolTime;
+	magicuseinfo_.magic_cool_time = _MagicCoolTime;
 }
 
 void BossMonster::SetMagicPositionFlag(bool _SetMagicPositionFlag)
 {
-	magicpositonflag_ = _SetMagicPositionFlag;
+	magicuseinfo_.magic_position_flag = _SetMagicPositionFlag;
 }
 
 void BossMonster::SetCameraMoveFlag(bool _cameraflag)
@@ -225,18 +224,13 @@ void BossMonster::SetCameraMoveFlag(bool _cameraflag)
 
 void BossMonster::SetKnockBackFlag(bool _knockbackflag)
 {
-	knockbackflag_ = _knockbackflag;
+	knockback_.knockbackflag = _knockbackflag;
 }
 
 void BossMonster::ChangeBossMonsterMovePattern(int _pattern, BossMonsterPattern * _bossmonsterpattern)
 {
 	bosspattern_ = _bossmonsterpattern;
 	StateNum_ = _pattern;
-}
-
-void BossMonster::ChangeBossMonsterSkillPattern(BossMonsterSkillPattern * _bossmonsterskillpattern)
-{
-	skill_ = _bossmonsterskillpattern;
 }
 
 void BossMonster::ChangeBossMonsterMagicPattern(BossMonsterMagicPattern * _bossmonstermagicpattern)
@@ -261,12 +255,12 @@ D3DXVECTOR3 BossMonster::GetAxisMove()
 
 bool BossMonster::GetMagicPositionFlag()
 {
-	return magicpositonflag_;
+	return magicuseinfo_.magic_position_flag;
 }
 
 bool BossMonster::GetMagicFlag()
 {
-	return magicflag_;
+	return magicuseinfo_.magic_flag;
 }
 
 bool BossMonster::GetMoveFlag()
@@ -281,18 +275,18 @@ bool BossMonster::GetCameraMoveFlag()
 
 bool BossMonster::GetknockbackFlag()
 {
-	return knockbackflag_;
+	return knockback_.knockbackflag;
 }
 
 D3DXVECTOR3 BossMonster::Getknockback()
 {
-	D3DXVec3Normalize(&knockback_, &knockback_);
-	return knockback_;
+	D3DXVec3Normalize(&knockback_.knockback, &knockback_.knockback);
+	return knockback_.knockback;
 }
 
 int BossMonster::GetMagicCoolTime()
 {
-	return MagicCoolTime_;
+	return magicuseinfo_.magic_cool_time;
 }
 
 D3DXVECTOR3 BossMonster::GetPosition()
@@ -312,25 +306,25 @@ CSkinMesh * BossMonster::GetSkinMesh()
 
 float& BossMonster::GetMoveLowSpeed()
 {
-	return basic_lowspeed_;
+	return moveinfomation_.basic_lowspeed;
 }
 
 float& BossMonster::GetMoveHighSpeed()
 {
-	return basic_highspeed_;
+	return moveinfomation_.basic_highspeed;
 }
 
 float & BossMonster::GetMoveMiddleSpeed()
 {
-	return basic_middlespeed_;
+	return moveinfomation_.basic_middlespeed;
 }
 
 float& BossMonster::GetMoveVariableSpeed()
 {
-	return variable_movespeed_;
+	return moveinfomation_.variable_movespeed;
 }
 
-BossMonster * BossMonster::Create(int _Max_Mana, int _Max_Life)
+BossMonster * BossMonster::Create(float _Max_Mana, float _Max_Life)
 {
 	BossMonster* createboss = new BossMonster(_Max_Mana, _Max_Life);
 	createboss->Init();
@@ -345,4 +339,24 @@ bool BossMonster::GetMoveColisionCheck()
 int BossMonster::GetStateNum()
 {
 	return StateNum_;
+}
+
+bool BossMonster::GetAttackState()
+{
+	return nowattack_;
+}
+
+void BossMonster::SetAttackState(bool _attack)
+{
+	nowattack_ = _attack;
+}
+
+bool BossMonster::GetMagicState()
+{
+	return magicsetflag_;
+}
+
+void BossMonster::SetMagicState(bool _magicstate)
+{
+	magicsetflag_ = _magicstate;
 }

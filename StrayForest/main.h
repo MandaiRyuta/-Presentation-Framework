@@ -17,6 +17,7 @@
 #pragma comment(lib,"dxguid.lib")
 #pragma comment(lib,"XAudio2.lib")
 
+#pragma warning(disable : 4838)
 #include "myimgui\imgui.h"
 #include "myimgui\imgui_impl_dx9.h"
 

@@ -6,7 +6,6 @@
 #include "BossMonsterMagicPatternB.h"
 BossMonsterMagicPatternA::BossMonsterMagicPatternA()
 	: FrameCount_(0)
-	, MagicSetFlag_(false)
 	, MagicEffectDrawFlag_(false)
 	, Position_(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 	, Damegecheck_(false)
@@ -23,11 +22,11 @@ BossMonsterMagicPatternA::~BossMonsterMagicPatternA()
 
 void BossMonsterMagicPatternA::Update(BossMonster * _bossmonster)
 {
-	if (!MagicSetFlag_)
+	if (!_bossmonster->GetMagicState())
 	{
 		Damegecheck_ = false;
 		_bossmonster->GetSkinMesh()->MyChangeAnim(26.7);
-		MagicSetFlag_ = true;
+		_bossmonster->SetMagicState(true);
 	}
 	if (FrameCount_ < 173)
 	{
@@ -57,7 +56,7 @@ void BossMonsterMagicPatternA::Update(BossMonster * _bossmonster)
 		_bossmonster->SetMagicCoolTime(0);
 		_bossmonster->GetSkinMesh()->MyChangeAnim(63.3);
 		FrameCount_ = 0;
-		MagicSetFlag_ = false;
+		_bossmonster->SetMagicState(false);
 	}
 
 	if (MagicEffectDrawFlag_)
@@ -91,6 +90,7 @@ void BossMonsterMagicPatternA::Update(BossMonster * _bossmonster)
 
 	if (_bossmonster->GetLife() < _bossmonster->GetMaxLife() * 0.75f)
 	{
+		SceneGame::GetBossMagicAEfk()->SetIsDrawing(false);
 		_bossmonster->ChangeBossMonsterMagicPattern(new BossMonsterMagicPatternB);
 	}
 }

@@ -182,12 +182,9 @@
     <ClInclude Include="stb_textedit.h" />
     <ClInclude Include="stb_truetype.h" />
     <ClInclude Include="System\colision\SphereColision.h" />
-    <ClInclude Include="System\colision\SphereColisionDebugModel.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonster.h" />
-    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternC.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternA.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPattern.h" />
-    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternB.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterMagic\BossMonsterMagicPattern.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterMagic\BossMonsterMagicPatternA.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterMagic\BossMonsterMagicPatternB.h" />
@@ -196,21 +193,16 @@
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternA.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternB.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternC.h" />
-    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPattern.h" />
-    <ClInclude Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternA.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossStatus\BossStatus.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\BossStatus\BossStatusManager.h" />
     <ClInclude Include="System\InheritanceNode\BossMonster\ChutorialBoss.h" />
     <ClInclude Include="System\InheritanceNode\Camera.h" />
-    <ClInclude Include="System\InheritanceNode\EffectParticle\Particle.h" />
     <ClInclude Include="System\InheritanceNode\Fade\Fade.h" />
-    <ClInclude Include="System\InheritanceNode\Instancing3D.h" />
     <ClInclude Include="System\InheritanceNode\Light.h" />
     <ClInclude Include="System\InheritanceNode\MagicObject\MagicObject.h" />
     <ClInclude Include="System\InheritanceNode\MeshFiled.h" />
     <ClInclude Include="System\InheritanceNode\MotionEffect\MotionEffect.h" />
     <ClInclude Include="System\InheritanceNode\MyEffekseer\MyEffekseer.h" />
-    <ClInclude Include="System\InheritanceNode\Number\Number.h" />
     <ClInclude Include="System\InheritanceNode\Player\ChutorialPlayer.h" />
     <ClInclude Include="System\InheritanceNode\Player\LostPlayer.h" />
     <ClInclude Include="System\InheritanceNode\Player\Player.h" />
@@ -235,7 +227,6 @@
     <ClInclude Include="System\InheritanceNode\Skydome.h" />
     <ClInclude Include="System\Polygon3D.h" />
     <ClInclude Include="System\Sound.h" />
-    <ClInclude Include="System\System.h" />
     <ClInclude Include="System\Polygon2D.h" />
   </ItemGroup>
   <ItemGroup>
@@ -262,11 +253,8 @@
     <ClCompile Include="SkinMeshAnimation\ModelAnim.cpp" />
     <ClCompile Include="SkinMeshAnimation\ModelFrame.cpp" />
     <ClCompile Include="System\colision\SphereColision.cpp" />
-    <ClCompile Include="System\colision\SphereColisionDebugModel.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonster.cpp" />
-    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternC.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternA.cpp" />
-    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterAttack\BossMonsterAttackPatternB.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterMagic\BossMonsterMagicPatternA.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterMagic\BossMonsterMagicPatternB.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterMagic\BossMonsterMagicPatternC.cpp" />
@@ -274,18 +262,14 @@
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternA.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternB.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterPatterns\BossMonsterPatternC.cpp" />
-    <ClCompile Include="System\InheritanceNode\BossMonster\BossMonsterSkill\BossMonsterSkillPatternA.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\BossStatus\BossStatus.cpp" />
     <ClCompile Include="System\InheritanceNode\BossMonster\ChutorialBoss.cpp" />
     <ClCompile Include="System\InheritanceNode\Camera.cpp" />
-    <ClCompile Include="System\InheritanceNode\EffectParticle\Particle.cpp" />
     <ClCompile Include="System\InheritanceNode\Fade\Fade.cpp" />
-    <ClCompile Include="System\InheritanceNode\Instancing3D.cpp" />
     <ClCompile Include="System\InheritanceNode\Light.cpp" />
     <ClCompile Include="System\InheritanceNode\MagicObject\MagicObject.cpp" />
     <ClCompile Include="System\InheritanceNode\MeshFiled.cpp" />
     <ClCompile Include="System\InheritanceNode\MyEffekseer\MyEffekseer.cpp" />
-    <ClCompile Include="System\InheritanceNode\Number\Number.cpp" />
     <ClCompile Include="System\InheritanceNode\Player\ChutorialPlayer.cpp" />
     <ClCompile Include="System\InheritanceNode\Player\LostPlayer.cpp" />
     <ClCompile Include="System\InheritanceNode\Player\Player.cpp" />

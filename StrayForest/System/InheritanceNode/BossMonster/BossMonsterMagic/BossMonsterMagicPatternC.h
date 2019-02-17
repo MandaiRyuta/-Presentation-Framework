@@ -8,15 +8,16 @@ class BossMonsterMagicPatternC : public BossMonsterMagicPattern
 public:
 	BossMonsterMagicPatternC();
 	~BossMonsterMagicPatternC();
+	//@Summary	Update	:	ボスの魔法攻撃の更新用の関数
+	//@ParamName	=	"_bossmonster"	:	ボスの情報
 	void Update(BossMonster* _bossmonster) override;
 private:
-	int FrameCount_;
-	bool MagicSetFlag_;
-	bool MagicEffectDrawFlag_;
-	D3DXVECTOR3 Position_;
-	bool Damegecheck_;
-	bool ColisionCheck_;
-	bool GetDamegeFlag_;
-	SphereColision colision_;
-	Entity::SphereColision spherecolision_;
+	int FrameCount_;	//フレームカウント
+	bool MagicEffectDrawFlag_;	//魔法使用フラグ
+	D3DXVECTOR3 Position_;	//魔法描画用フラグ
+	bool Damegecheck_;	//魔法が発動してからダメージを与えるようにするためのフラグ
+	bool ColisionCheck_;	//衝突確認フラグ
+	bool GetDamegeFlag_;	//詠唱が終了したときにダメージを与えるようにするためのフラグ
+	SphereColision colision_;	//衝突判定用の変数
+	Entity::SphereColision spherecolision_;	//球情報
 };

@@ -16,8 +16,6 @@
 #include "../../System/Sound.h"
 #include "../../Renderer/GameManager.h"
 MeshFiled* SceneChutorial::meshfiled_ = nullptr;
-Sword* SceneChutorial::sword_ = nullptr;
-Shiled* SceneChutorial::shiled_ = nullptr;
 ChutorialPlayer* SceneChutorial::chutorialplayer_ = nullptr;
 ChutorialBoss* SceneChutorial::chutorialboss_ = nullptr;
 MyEffekseer* SceneChutorial::ChutorialHitExplosion_ = nullptr;
@@ -84,11 +82,12 @@ void SceneChutorial::Initialize()
 	Polygon2D::Create(1, 0.0f, 0.0f, (float)windows_rect::SCREEN_WIDTH, (float)windows_rect::SCREEN_HEIGHT, 0, 0, 800, 400, D3DCOLOR_RGBA(255, 255, 255, 255), true, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(CHUTORIALWORD02), true);
 
 	PolygonColorChanger::Create(1);
+	GameManager::GetEffectSound()->PlaySoundA(EffectSound::SOUND_LABEL::SOUND_CHUTORIAL);
 }
 
 void SceneChutorial::Update()
 {
-	//GameManager::GetEffectSound()->PlaySound(SOUND_SELECT01);
+
 }
 
 void SceneChutorial::Draw()
@@ -98,22 +97,13 @@ void SceneChutorial::Draw()
 
 void SceneChutorial::Release()
 {
+	GameManager::GetEffectSound()->StopSound(EffectSound::SOUND_LABEL::SOUND_CHUTORIAL);
 	GameObjectManager::ReleaseAll();
 }
 
 MeshFiled * SceneChutorial::GetMeshFiled()
 {
 	return meshfiled_;
-}
-
-Sword * SceneChutorial::GetSword()
-{
-	return sword_;
-}
-
-Shiled * SceneChutorial::GetShiled()
-{
-	return shiled_;
 }
 
 ChutorialPlayer * SceneChutorial::GetChutorialPlayer()

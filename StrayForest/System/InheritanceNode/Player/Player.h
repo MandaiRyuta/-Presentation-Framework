@@ -65,6 +65,7 @@ public:
 	void SetOldPosFrame(int _oldposframe);
 	void SetRotation(float _rotation);
 	void SetActionUseFlag(bool _actionusecheck);
+	void SetMobileMotion(bool _mobilemotion);
 	bool GetCameraMove();
 	void addLife(float _Life);
 	void addmana(float _Mana);
@@ -80,6 +81,7 @@ public:
 	bool GetActionUseFlag();
 	D3DXVECTOR3& GetPosition();
 	D3DXVECTOR3 Getknokback();
+	bool GetMobilemotion();
 	Entity::SphereColision& GetColisioninfo();
 	static D3DXMATRIX& GetPlayerMatrix();
 	static D3DXMATRIX& GetPlayerPosMatrix();
@@ -87,6 +89,7 @@ public:
 	static D3DXMATRIX& GetPlayerBodyMatrix();
 	static SphereColision* AttackColision();
 private:
+	bool mobilemotion_;
 	D3DXVECTOR3 knockback_;
 	bool MagicUseFlag_;
 	bool ActionUseFlag_;

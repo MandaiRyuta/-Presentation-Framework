@@ -26,6 +26,9 @@ void BossMonsterPatternA::Update(BossMonster * _bossmonster)
 
 	_bossmonster->Position().y = SceneGame::GetMeshFiled()->GetHeight(_bossmonster->Position());
 
+	_bossmonster->SetAttackState(false);
+	_bossmonster->SetMagicState(false);
+
 	//_skinmesh@•à‚«İ’è
 	if (FrameCount_ < 70)
 	{

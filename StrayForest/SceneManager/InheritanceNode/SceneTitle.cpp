@@ -14,7 +14,7 @@ void SceneTitle::Initialize()
 	Polygon2D::Create(1, 300.f, 180.f, 450.0f, 240.0f, 0, 0, 800, 400, D3DCOLOR_RGBA(255, 255, 255, 255), true, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(TITLE_BATTLEEDITION), true);
 	TitleStartBar_ = Polygon2D::Create(1, 150.f, 240.0f, 680.0f, 340.0f, 0, 0, 800, 400, D3DCOLOR_RGBA(255, 255, 255, 255), true, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(TITLE_STARTBUTTON), true);
 	PolygonColorChanger::Create(1);
-	//GameManager::GetEffectSound()->PlaySoundA(EffectSound::SOUND_TITLE);
+	GameManager::GetEffectSound()->PlaySoundA(EffectSound::SOUND_LABEL::SOUND_TITLE1);
 }
 
 void SceneTitle::Update()
@@ -28,6 +28,7 @@ void SceneTitle::Draw()
 
 void SceneTitle::Release()
 {
+	GameManager::GetEffectSound()->StopSound(EffectSound::SOUND_LABEL::SOUND_TITLE1);
 	GameObjectManager::ReleaseAll();
 }
 

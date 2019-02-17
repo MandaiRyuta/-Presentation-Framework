@@ -65,7 +65,7 @@ public:
 	void SetColor(D3DCOLOR _color);
 	void SetPolygonScale(float _x, float _y);
 	void SetDraw(bool _draw);
-	void StatusSetUp(int status, int max_status);
+	void StatusSetUp(float status, float max_status);
 	void SetPosition(float x, float y);
 	void SetMoveAmount(float x, float y);
 	void SetControllPosX(float axis);

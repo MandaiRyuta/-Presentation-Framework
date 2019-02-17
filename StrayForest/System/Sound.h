@@ -7,19 +7,21 @@
 class EffectSound {
 public:
 	enum SOUND_LABEL {
-		SOUND_SELECT01,
-		SOUND_TITLE,
-		//SOUND_CHUTORIAL,
-		//SOUND_GAME,
-		//SOUND_WINRESULT,
-		//SOUND_LOSERESULT,
-		//SOUND_PLAYER_ATTACK,
-		//SOUND_PLAYER_MAGIC,
-		//SOUND_ENEMY_ATTACK,
-		//SOUND_ENEMY_MAGIC,
-		//SOUND_SELECT01,
-		//SOUND_SELECT02,
-		//SOUND_PAUSE_SOUND,
+		SOUND_ENEMYMAGIC01,
+		SOUND_ENEMYMAGIC02,
+		SOUND_ENEMYMAGIC03,
+		SOUND_PLAYERATTACK,
+		//SOUND_PLAYERRUN,
+		//SOUND_PLAYERWALK,
+		SOUND_PLAYERMAGIC,
+		SOUND_POSE,
+		SOUND_SELECT,
+		SOUND_TITLE1,
+		SOUND_TITLE2,
+		SOUND_CHUTORIAL,
+		SOUND_GAME,
+		SOUND_LOSE,
+		SOUND_WIN,
 		SOUND_NONE,
 	};
 public:
@@ -53,7 +55,21 @@ private:
 	}SOUNDPARAM;
 
 	SOUNDPARAM m_aParam[SOUND_LABEL::SOUND_NONE] = {
-		{ "Resource/Sound/Button02.wav",0 },
-		{ "Resource/Sound/TitleBGM.wav",1 },
+		{ "Resource/Sound/MD Enemymagic1.wav",0 },
+		{ "Resource/Sound/MD enemymagic2.wav",0 },
+		{ "Resource/Sound/MD enemymagic3.wav",0 },
+		{ "Resource/Sound/PlayerAttack.wav",0 },
+		//{ "Resource/Sound/PlayerRun.wav", 0 },
+		//{ "Resource/Sound/PlayerWalk.wav", 0 },
+		{ "Resource/Sound/MD playmagic.wav", 0},
+		{ "Resource/Sound/MD pose.wav",0 },
+		{ "Resource/Sound/MD Select.wav",0 },
+		{ "Resource/Sound/MD title1.wav",1 },
+		{ "Resource/Sound/MD title2.wav",1 },
+		{ "Resource/Sound/MD trail.wav",1 },
+		{ "Resource/Sound/MD Battle.wav",1 },
+		{ "Resource/Sound/MD lose.wav",1 },
+		{ "Resource/Sound/MD win.wav",1 },
+
 	};
 };

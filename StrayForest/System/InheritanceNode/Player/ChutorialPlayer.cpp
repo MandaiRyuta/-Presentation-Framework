@@ -114,19 +114,19 @@ void ChutorialPlayer::Move()
 	float x = 0, z = 0;
 	if (gamepad_->GetState()._left_thumbstick.x > 0.25f)
 	{
-		x = gamepad_->GetState()._left_thumbstick.x;
+		x = (float)gamepad_->GetState()._left_thumbstick.x;
 	}
 	else if(gamepad_->GetState()._left_thumbstick.x < -0.25f)
 	{
-		x = gamepad_->GetState()._left_thumbstick.x;
+		x = (float)gamepad_->GetState()._left_thumbstick.x;
 	}
 	if (gamepad_->GetState()._left_thumbstick.y > 0.25f)
 	{
-		z = gamepad_->GetState()._left_thumbstick.y;
+		z = (float)gamepad_->GetState()._left_thumbstick.y;
 	}
 	else if (gamepad_->GetState()._left_thumbstick.y < -0.25f)
 	{
-		z = gamepad_->GetState()._left_thumbstick.y;
+		z = (float)gamepad_->GetState()._left_thumbstick.y;
 	}
 	//int x = -keyboard_->GetKeyPress(DIK_A) + keyboard_->GetKeyPress(DIK_D);
 	//int z = -keyboard_->GetKeyPress(DIK_S) + keyboard_->GetKeyPress(DIK_W);
@@ -144,8 +144,8 @@ void ChutorialPlayer::Move()
 	D3DXMatrixRotationAxis(&rotate, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), moverotation);
 	D3DXVec3TransformNormal(&move_, &move_, &rotate);
 
-	SceneChutorial::GetLeftController()->SetControllPosX(gamepad_->GetState()._left_thumbstick.x);
-	SceneChutorial::GetLeftController()->SetControllPosY(gamepad_->GetState()._left_thumbstick.y);
+	SceneChutorial::GetLeftController()->SetControllPosX((float)gamepad_->GetState()._left_thumbstick.x);
+	SceneChutorial::GetLeftController()->SetControllPosY((float)gamepad_->GetState()._left_thumbstick.y);
 	if (!ActionUseFlag_)
 	{
 		if (x == 0 && z == 0)

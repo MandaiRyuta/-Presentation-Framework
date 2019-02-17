@@ -71,6 +71,7 @@ void GameObjectManager::UpdateAll()
 		}
 		else if (GameManager::GetSceneNumber() == SCENE_CHUTORIAL)
 		{
+			GameManager::GetEffectSound()->StopSound(EffectSound::SOUND_LABEL::SOUND_TITLE1);
 			if (GameManager::GetGamePad()->GetButtonTrigger(GamePad_Button_START))
 			{
 				SceneChutorial::GetFade()->FadeSetNumber(1);
@@ -94,10 +95,6 @@ void GameObjectManager::UpdateAll()
 					SceneGame::GetPauseButton02ON()->SetDraw(false);
 					SceneGame::GetPauseButton02OFF()->SetDraw(true);
 				}
-				//if (GameManager::GetGamePad()->GetButtonTrigger(GamePad_Button_A))
-				//{
-				//	GameManager::SetSceneMode(new SceneLoseResult, SCENE_LOSERESULT);
-				//}
 				if (SceneGame::GetPlayer()->GetLife() < 0.0f)
 				{
 					SceneGame::GetFade()->FadeSetNumber(1);

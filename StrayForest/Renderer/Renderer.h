@@ -3,6 +3,8 @@
 #include "../main.h"
 #include "../Entity/Entity.h"
 
+//シングルトンクラス
+//デバイスやパラメーターをシングルトンで作る
 template <typename U>
 class CDXCore
 {
@@ -60,44 +62,15 @@ public:
 	CDX9Renderer() {}
 	~CDX9Renderer() {}
 public:
+	//@Summary	Init	:	DirectX9初期化
 	bool Init(HWND hWnd, bool bWindow, int nWindowWidth, int nWindowHeight);
 	void Uninit();
 private:
-	bool DX9Init(HWND hWnd, bool bWindow, int nWindowWidth, int nWindowHeight);
-private:
 	//DirectX9 インターフェースポインタ
 	LPDIRECT3D9 pD3D_;
-	//CCamera* camera_;
-	//CLight* light_;
 };
 
+//@Summary	=	GetParameter	:	パラメーター取得関数
 D3DPRESENT_PARAMETERS GetParameter();
+//@Summary	=	GetDevice	:	デバイス取得関数
 LPDIRECT3DDEVICE9 GetDevice();
-
-////DirectX9を使ったレンダリング
-//class CDX9Renderer 
-//{
-//public:
-//	CDX9Renderer() {}
-//	~CDX9Renderer() {}
-//public:
-//	bool Init(HWND hWnd, bool bWindow, int nWindowWidth, int nWindowHeight);
-//	void Uninit();
-//	void Update();
-//	void Draw();
-//
-//	//ゲッター
-//	static LPDIRECT3DDEVICE9 GetDevice() { return device_; }
-//	static D3DPRESENT_PARAMETERS GetParameters() { return d3dpp_; }
-//private:
-//	bool DX9Init(HWND hWnd, bool bWindow, int nWindowWidth, int nWindowHeight);
-//private:
-//	//DirectX9 インターフェースポインタ
-//	static LPDIRECT3D9 pD3D_;
-//	//DirectX9 デバイス
-//	static LPDIRECT3DDEVICE9 device_;
-//	//バックバッファの設定用
-//	static D3DPRESENT_PARAMETERS    d3dpp_;
-//	//CCamera* camera_;
-//	//CLight* light_;
-//};

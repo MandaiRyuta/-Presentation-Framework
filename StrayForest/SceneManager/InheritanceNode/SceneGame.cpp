@@ -4,7 +4,6 @@
 #include "../../GameObjectManager/GameObjectManager.h"
 #include "../../System/InheritanceNode/MeshFiled.h"
 #include "../../System/InheritanceNode/Skydome.h"
-#include "../../System/InheritanceNode/Instancing3D.h"
 #include "../../System/InheritanceNode/Sea.h"
 #include "../../System/InheritanceNode/MotionEffect/MotionEffect.h"
 #include "../../Shadow/StenshilShadow.h"
@@ -18,12 +17,11 @@
 #include "../../../Renderer/GameManager.h"
 #include "../../../InputManager/input.h"
 #include "../../System/InheritanceNode/Fade/Fade.h"
+#include "../../System/Sound.h"
 
 MeshFiled* SceneGame::meshfiled_;
 MyEffekseer* SceneGame::PlayerMagicEfk_ = nullptr;
 MyEffekseer* SceneGame::PlayerAttack01Efk_ = nullptr;
-MyEffekseer* SceneGame::EnemyBuff01Efk_ = nullptr;
-MyEffekseer* SceneGame::EnemyBuff02Efk_ = nullptr;
 MyEffekseer* SceneGame::MagicObjects[10] = {};
 MyEffekseer* SceneGame::HitExplosion_ = nullptr;
 MyEffekseer* SceneGame::BossMonsterMagicAEfk_ = nullptr;
@@ -67,8 +65,6 @@ void SceneGame::Initialize()
 	StenshilShadow::Create(1);
 	PlayerMagicEfk_ =MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/MagicArea.efk");
 	PlayerAttack01Efk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/Attack01.efk");
-	EnemyBuff01Efk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/EnemyBuff.efk");
-	EnemyBuff02Efk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/EnemyBuff.efk");
 	HitExplosion_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/PlayerFireMagic.efk");
 	BossMonsterMagicAEfk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/BossMonsterMagicA.efk");
 	BossMonsterMagicB_1Efk_ = MyEffekseer::CreateMyEffect(1, L"Resource/EffekseerAsset/BossMonsterMagicB_1.efk");
@@ -116,6 +112,8 @@ void SceneGame::Initialize()
 	shiled_ = Shiled::Create(0);
 	magic_ = MagicObject::Create(1);
 	fade_ = Fade::Create();
+
+	GameManager::GetEffectSound()->PlaySoundA(EffectSound::SOUND_LABEL::SOUND_GAME);
 }
 
 void SceneGame::Update()
@@ -129,6 +127,7 @@ void SceneGame::Draw()
 
 void SceneGame::Release()
 {
+	GameManager::GetEffectSound()->StopSound(EffectSound::SOUND_LABEL::SOUND_GAME);
 	GameObjectManager::ReleaseAll();
 }
 
@@ -150,16 +149,6 @@ MyEffekseer * SceneGame::GetPlayerMagicEfk()
 MyEffekseer * SceneGame::GetPlayerAttack01Efk()
 {
 	return PlayerAttack01Efk_;
-}
-
-MyEffekseer * SceneGame::GetEnemyBuf01Efk()
-{
-	return EnemyBuff01Efk_;
-}
-
-MyEffekseer * SceneGame::GetEnemyBuf02Efk()
-{
-	return EnemyBuff02Efk_;
 }
 
 MyEffekseer * SceneGame::GetMagicObjects(int i)

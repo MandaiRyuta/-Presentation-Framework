@@ -10,6 +10,7 @@
 #include "../../System/Polygon2D.h"
 #include "../../System/InheritanceNode/PolygonColorChanger/PolygonColorChanger.h"
 #include "../../LoadManager/TextureLoder.h"
+#include "../../System/Sound.h"
 
 MeshFiled* SceneLoseResult::LostResultMeshFiled_ = nullptr;
 LosePlayer* SceneLoseResult::LostResultPlayer_ = nullptr;
@@ -39,6 +40,7 @@ void SceneLoseResult::Initialize()
 	GameOverPolygon_ = Polygon2D::Create(1, 0.0f, 0.0f, (float)windows_rect::SCREEN_WIDTH, (float)windows_rect::SCREEN_HEIGHT, 0, 0, 100, 100, D3DCOLOR_RGBA(255, 255, 255, 0), true, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(RESULTLOSEWORD), true);
 	PressButtonWord_ = Polygon2D::Create(1, 120.0f, 240.0f, 800.0f, 350.0f, 0, 0, 2126, 1417, D3DCOLOR_RGBA(255, 255, 255, 0), true, 0.0f, 0.0f, 0.0f, TextureLoder::GetTextureData(LOSEPOLYGONWORD), true);
 	PolygonColorChanger::Create(1);
+	GameManager::GetEffectSound()->PlaySoundA(EffectSound::SOUND_LABEL::SOUND_LOSE);
 }
 
 void SceneLoseResult::Update()
@@ -51,6 +53,7 @@ void SceneLoseResult::Draw()
 
 void SceneLoseResult::Release()
 {
+	GameManager::GetEffectSound()->StopSound(EffectSound::SOUND_LABEL::SOUND_LOSE);
 	GameObjectManager::ReleaseAll();
 }
 

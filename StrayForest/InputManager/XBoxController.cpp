@@ -131,9 +131,9 @@ GamePadState GamePadXbox::GetState()
 	return State;
 }
 
-bool GamePadXbox::GetLeftControllerTrigger(int flag)
+bool GamePadXbox::GetLeftControllerTrigger(LeftControllFlag axis)
 {
-	switch (flag)
+	switch (axis)
 	{
 	case LEFT:
 		if (!OldState._left_controllflag.left)
@@ -179,12 +179,12 @@ bool GamePadXbox::GetLeftControllerTrigger(int flag)
 	return false;
 }
 
-bool GamePadXbox::GetButtonPress(int nButton)
+bool GamePadXbox::GetButtonPress(GamePadButton nButton)
 {
 	return State._buttons[nButton];
 }
 
-bool GamePadXbox::GetButtonTrigger(int nButton)
+bool GamePadXbox::GetButtonTrigger(GamePadButton nButton)
 {
 	//過去のボタン情報がFalseの時に返す
 	switch (nButton)
@@ -335,7 +335,7 @@ bool GamePadXbox::GetButtonTrigger(int nButton)
 	}
 }
 
-bool GamePadXbox::GetButtonRelease(int nButton)
+bool GamePadXbox::GetButtonRelease(GamePadButton nButton)
 {
 	//過去のボタン情報がTrueの時と現在のボタン情報がFALSEの時にTRUE返す
 	switch (nButton)

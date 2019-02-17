@@ -8,7 +8,6 @@ public:
 	PlayerStateManager() {}
 	virtual ~PlayerStateManager() {}
 	virtual void Update(Player* _player) = 0;
-	virtual void Draw() = 0;
 };
 
 class PlayerStateNull : public PlayerStateManager

@@ -15,14 +15,18 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Release() override;
-	static Fade* GetFade();
 public:
+	//@Summary	GetMeshFiled	:	メッシュフィールドを取得する関数
 	static MeshFiled* GetMeshFiled();
+	//@Summary	GetWinPlayer	:	プレイヤー取得する関数
 	static WinPlayer* GetWinPlayer();
+	//@Summary	GetWinWord	:	スタートボタンを押すを描画するポリゴンを取得する変数
 	static Polygon2D* GetWinWord();
+	//@Summary	GetFade	:	フェード処理を取得する関数
+	static Fade* GetFade();
 private:
-	static MeshFiled* WinResultMeshFiled_;
-	static WinPlayer* WinResultPlayer_;
-	static Fade* fade_;
-	static Polygon2D* WinWord_;
+	static MeshFiled* WinResultMeshFiled_;	//メッシュフィールド変数
+	static WinPlayer* WinResultPlayer_;	//プレイヤー変数
+	static Fade* fade_;	//フェード処理変数
+	static Polygon2D* WinWord_;	//スタートボタンを押すを描画するポリゴンの変数
 };

@@ -3,13 +3,7 @@
 #include <string>
 #include "../SceneManager/SceneManager.h"
 
-constexpr int MAGIC_AVARAGE = 10;
-
-enum TEXTURENUMBER
-{
-	NONE,
-};
-
+/*モージョン一覧*/
 enum ACTIONPATTERN
 {
 	STATE,
@@ -26,167 +20,141 @@ enum ACTIONPATTERN
 
 namespace Entity
 {
+	//魔法の情報
 	struct MAGIC_WORK
 	{
-		bool IsDraw;
-		D3DXVECTOR3 position;
-		D3DXVECTOR3 moveposition;
-		D3DXVECTOR3 oldmoveposition;
-		float frame;
+		bool IsDraw;					//描画フラグ	true : 描画する		false: 描画しない
+		D3DXVECTOR3 position;			//座標（描画位置）
+		D3DXVECTOR3 moveposition;		//移動速度
+		D3DXVECTOR3 oldmoveposition;	//過去の移動速度
+		float frame;					//フレーム数
 	};
+	//エフェクト描画用の構造体
 	struct EffectInfomation
 	{
-		D3DXVECTOR3 position;
-		D3DXVECTOR3 scale;
-		D3DXVECTOR3 rotation;
+		D3DXVECTOR3 position;			//座標
+		D3DXVECTOR3 scale;				//大きさ
+		D3DXVECTOR3 rotation;			//回転
 	};
+	//球の座標、半径の構造体
 	struct Sphere
 	{
-		D3DXVECTOR3 modelpos;
-		float r;
+		D3DXVECTOR3 modelpos;			//座標
+		float r;						//半径
 	};
+	//衝突判定(球)
 	struct SphereColision
 	{
-		Sphere colision01;
-		Sphere colision02;
-		D3DXVECTOR3 hit_position;
-		float two_radius;
-		D3DXVECTOR3 center_to_center;
-		D3DXVECTOR3 hit_vector;
+		Sphere colision01;				//球情報01
+		Sphere colision02;				//球情報02
+		D3DXVECTOR3 hit_position;		//衝突位置
+		float two_radius;				//二つの球の半径を合わせた数値
+		D3DXVECTOR3 center_to_center;	//二つの球の中心点と中心点を結んだ長さ
+		D3DXVECTOR3 hit_vector;			//めりこみ
 	};
-
+	//ライト情報
 	struct LightInfo
 	{
-		D3DLIGHT9 light;
-		D3DXCOLOR color;
+		D3DLIGHT9 light;				//ライト構造体
+		D3DXCOLOR color;				//ライトにセットする色情報
 	};
 
-	struct PLAYERSTATUS
-	{
-		bool hit;
-		bool skill; 
-		bool power;
-		bool stamina;
-
-		int attack_number;
-		int skill_number;
-		int buff_number;
-		int debuff_number;
-		int hit_number;
-		int heal_number;
-
-		double heal_amount;
-		double helth_amount;
-		double mana_amount;
-		double power_amount;
-	};
-
-	struct BOSSSTATUS
-	{
-		bool hit;
-		bool skill;
-		bool magic;
-		bool buff;
-		bool debuff;
-		bool heal;
-
-		int attack_number;
-		int skill_number;
-		int magic_number;
-		int buff_number;
-		int debuff_number;
-		int hit_number;
-		int heal_number;
-
-		float heal_amount;
-		float health_amount;
-		float mana_amount;
-		float power_amount;
-	};
-
+	//ボスの移動情報
 	struct BOSSMOVESTATE
 	{
-		float basic_highspeed_;
-		float basic_lowspeed_;
-		float variable_speed_;
-		int movestate_;
+		float basic_highspeed;			//速度　高
+		float basic_middlespeed;		//速度　中
+		float basic_lowspeed;			//速度　低
+		float variable_movespeed;		//可変速度
 	};
-
+	
+	struct ENEMYMAGICINFO
+	{
+		bool magic_position_flag;		//魔法を打ち込む位置取得フラグ
+		bool magic_flag;				//魔法使用フラグ
+		int magic_cool_time;			//魔法のクールタイム
+	};
+	//ノックバック情報
+	struct KNOCKBACKINFO
+	{
+		bool knockbackflag;			//ノックバックフラグ
+		D3DXVECTOR3 knockback;			//ノックバック量
+	};
+	//ポリゴン情報
 	struct POLYGONSIZE
 	{
-		float        dx_;
-		float        dy_;
-		float        dw_;
-		float        dh_;
-		int          tcx_;
-		int          tcy_;
-		unsigned int tcw_;
-		unsigned int tch_;
-		D3DCOLOR	 color_;
-		bool         affine_;
+		float        dx_;				//開始位置　x
+		float        dy_;				//開始位置　y
+		float        dw_;				//横幅		x
+		float        dh_;				//縦幅		y
+		int          tcx_;				//テクスチャ読み込み位置	x
+		int          tcy_;				//テクスチャ読み込み位置	y
+		unsigned int tcw_;				//テクスチャ読み込み横幅	x
+		unsigned int tch_;				//テクスチャ読み込み縦幅	y
+		D3DCOLOR	 color_;			//色
+		bool         affine_;			//アフィン変換
 	};
 
+	//Directx9バッファ
 	struct Dx9Buffer
 	{
-		LPDIRECT3DINDEXBUFFER9 index_buffer;
-		LPDIRECT3DVERTEXBUFFER9 vertex_buffer;
+		LPDIRECT3DINDEXBUFFER9 index_buffer;		//インデックスバッファ
+		LPDIRECT3DVERTEXBUFFER9 vertex_buffer;		//バーテックスバッファ
 	};
-
+	//敵のステートパターン情報
 	struct EnemyStatePattern
 	{
-		ACTIONPATTERN action_;
-		D3DXVECTOR3 position;
-		D3DXVECTOR3 scale;
-		D3DXVECTOR3 rotation;
+		ACTIONPATTERN action_;						//行動パターン
+		D3DXVECTOR3 position;						//座標
+		D3DXVECTOR3 scale;							//大きさ
+		D3DXVECTOR3 rotation;						//回転
 	};
+
+	//ヨーピッチロール
 	struct YawPitchRoll
 	{
 		float yaw;	 //Y軸
 		float pitch; //X軸
 		float roll;  //Z軸
 	};
+
+	//カメラ情報
 	struct CameraInfo
 	{
-		D3DXVECTOR3 at;
-		D3DXVECTOR3 eye;
-		D3DXVECTOR3 up;
-		D3DXMATRIX view;
-		D3DXMATRIX proj;
+		D3DXVECTOR3 at;								//カメラ注視点
+		D3DXVECTOR3 eye;							//カメラ配置座標
+		D3DXVECTOR3 up;								//カメラ上向きベクトル
+		D3DXMATRIX view;							//ビュー行列
+		D3DXMATRIX proj;							//プロジェクション行列
 	};
 
+	//モデル情報
 	struct Model
 	{
-		LPD3DXMESH p_mesh;
-		D3DMATERIAL9* p_meshmaterial;
-		LPDIRECT3DTEXTURE9* p_meshtexture;
-		DWORD dw_material;
-		D3DXVECTOR3 position;
-		D3DXVECTOR3 scall;
-		D3DXCOLOR color;
-		D3DXVECTOR3 rotation;
-		D3DXMATRIX world;
+		LPD3DXMESH p_mesh;							//メッシュ情報
+		D3DMATERIAL9* p_meshmaterial;				//マテリアル情報
+		LPDIRECT3DTEXTURE9* p_meshtexture;			//テクスチャ情報
+		DWORD dw_material;							//頂点数
+		D3DXVECTOR3 position;						//位置
+		D3DXVECTOR3 scall;							//モデルの拡大量
+		D3DXCOLOR color;							//色
+		D3DXVECTOR3 rotation;						//回転
+		D3DXMATRIX world;							//ワールド行列
 	};
 
+	//ファイルパスの情報
 	struct FilePathData
 	{
-		int texturecount_;
-		std::vector <std::string> texture_;
+		int texturecount_;							//テクスチャ番号
+		std::vector <std::string> texture_;			//テクスチャファイルパス
 	};
-
+	//テクスチャ情報
 	struct Textureinfomation
 	{
-		LPDIRECT3DTEXTURE9 texture;
+		LPDIRECT3DTEXTURE9 texture;					//テクスチャ情報
 	};
 
-	struct CharactorStatus
-	{
-		int charaLv;
-		int charaHP;
-		int charaMP;
-		int charaSP;
-		float charaSTAMINA;
-	};
-
+	//サウンドエフェクトのパラメーター情報
 	struct EffectSoundParameter
 	{
 		//ReflectionDelay:ダイレクトパスに対する初期反射の遅延時間　指定範囲可能範囲　0 ~ 300ミリ秒
@@ -236,6 +204,7 @@ namespace Entity
 		float WetDryMix;
 	};
 
+	//海の波情報
 	struct WAVE 
 	{
 		int status;				//ステータス
@@ -243,86 +212,89 @@ namespace Entity
 		float ampliture;		//振幅
 		float time;				//時間
 	};
-
+	//波の頂点情報
 	struct WAVE_VERTEX
 	{
-		D3DXVECTOR3 position;
-		DWORD color;
-		D3DXVECTOR2 texcoord_;
+		D3DXVECTOR3 position;	//座標
+		DWORD color;			//色
+		D3DXVECTOR2 texcoord_;	//テクスチャーuv
 	};
-
+	//インスタンシングを除いた3Dの描画情報
 	struct VECTOR3D
 	{
-		D3DXVECTOR3 position;
-		D3DXVECTOR3 normal;
-		D3DCOLOR color;
-		D3DXVECTOR2 texcoord;
+		D3DXVECTOR3 position;	//位置
+		D3DXVECTOR3 normal;		//法線
+		D3DCOLOR color;			//色
+		D3DXVECTOR2 texcoord;	//テクスチャーuv
 	};
-
+	//インスタンシング用の描画情報
 	struct INSTANCINGVECTOR3D
 	{
-		D3DXVECTOR3 position;
-		D3DXVECTOR2 texcoord;
-		D3DCOLOR color;
+		D3DXVECTOR3 position;	//位置
+		D3DXVECTOR2 texcoord;	//テクスチャーuv
+		D3DCOLOR color;			//色
 	};
-
+	//描画に必要な行列情報
 	struct MATRIX3D
 	{
-		D3DXMATRIX world;
-		D3DXMATRIX position;
-		D3DXMATRIX rotation;
-		D3DXMATRIX scale;
+		D3DXMATRIX world;		//ワールド行列
+		D3DXMATRIX position;	//位置行列
+		D3DXMATRIX rotation;	//回転行列
+		D3DXMATRIX scale;		//拡大行列
 	};
-
+	//3Dポリゴンの描画情報
 	struct POLYGON3D
 	{
-		D3DXVECTOR3 position;
-		D3DXVECTOR2 uv;
-		D3DXVECTOR3 normal;
+		D3DXVECTOR3 position;	//位置
+		D3DXVECTOR2 uv;			//テクスチャuv
+		D3DXVECTOR3 normal;		//法線
 	};
+	//2Dポリゴンの描画情報
 	struct VECTOR2D
 	{
-		D3DXVECTOR4 position;
-		D3DCOLOR color;
-		D3DXVECTOR2 texcoord;
+		D3DXVECTOR4 position;	//位置
+		D3DCOLOR color;			//色
+		D3DXVECTOR2 texcoord;	//テクスチャーuv
 	};
-
+	//メッシュフィールド情報
 	struct MeshFiledSize
 	{
-		int filed_x;
-		int filed_z;
-		float size_x;
-		float size_z;
+		int filed_x;			//フィールドに使う頂点数 x
+		int filed_z;			//フィールドに使う頂点数 y
+		float size_x;			//頂点同士の幅	x
+		float size_z;			//頂点同士の幅　y
 	};
-
+	//行列1行目
 	struct MODEL_WORLD1
 	{
-		float m11, m12, m13, m14;
+		float m11, m12, m13, m14;		//ワールド行列 11 ~ 14番地への配置用構造体
 	};
-
+	//行列2行目
 	struct MODEL_WORLD2
 	{
-		float m21, m22, m23, m24;
+		float m21, m22, m23, m24;		//ワールド行列 21 ~ 24番地への配置用構造体
 	};
-
+	//行列3行目
 	struct MODEL_WORLD3
 	{
-		float m31, m32, m33, m34;
+		float m31, m32, m33, m34;		//ワールド行列 31 ~ 34番地への配置用構造体
 	};
-
+	//行列4行目
 	struct MODEL_WORLD4
 	{
-		float m41, m42, m43, m44;
+		float m41, m42, m43, m44;		//ワールド行列 41 ~ 44番地への配置用構造体
 	};
 
+	//インスタンシング　行列情報
 	struct INSTANCINGWORLD
 	{
-		MODEL_WORLD1* pWorld1;
-		MODEL_WORLD2* pWorld2;
-		MODEL_WORLD3* pWorld3;
-		MODEL_WORLD4* pWorld4;
+		MODEL_WORLD1* pWorld1;			//行列情報1行目
+		MODEL_WORLD2* pWorld2;			//行列情報2行目
+		MODEL_WORLD3* pWorld3;			//行列情報3行目
+		MODEL_WORLD4* pWorld4;			//行列情報4行目
 	};
 
+	//インスタンシング用の構造体
 	struct INSTANCINGBUFFER
 	{
 		IDirect3DVertexBuffer9* pWorld1Buffer;
@@ -332,23 +304,12 @@ namespace Entity
 		IDirect3DVertexDeclaration9* pDecl;
 	};
 
+	//Directx9シェーダー情報
 	struct Dx9Shader
 	{
-		/// <summary>
-		/// 定数テーブル
-		/// </summary>
-		std::unordered_map<std::string, LPD3DXCONSTANTTABLE> VSConstantTable_;
-		/// <summary>
-		/// 定数テーブル
-		/// </summary>
-		std::unordered_map<std::string, LPD3DXCONSTANTTABLE> PSConstantTable_;
-		/// <summary>
-		/// 頂点シェーダー
-		/// </summary>
-		std::unordered_map<std::string, LPDIRECT3DVERTEXSHADER9> vertexshader_;
-		/// <summary>
-		/// ピクセルシェーダー
-		/// </summary>
-		std::unordered_map<std::string, LPDIRECT3DPIXELSHADER9> pixelshader_;
+		std::unordered_map<std::string, LPD3DXCONSTANTTABLE> VSConstantTable_;		//定数テーブル
+		std::unordered_map<std::string, LPD3DXCONSTANTTABLE> PSConstantTable_;		//定数テーブル
+		std::unordered_map<std::string, LPDIRECT3DVERTEXSHADER9> vertexshader_;		//頂点シェーダー
+		std::unordered_map<std::string, LPDIRECT3DPIXELSHADER9> pixelshader_;		//ピクセルシェーダー
 	};
 }

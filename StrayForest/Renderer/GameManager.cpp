@@ -24,6 +24,7 @@ CCamera* GameManager::camera_;
 SCENE_NUM GameManager::SceneNum_;
 GamePadXbox* GameManager::GamePad_;
 EffectSound* GameManager::sound_;
+
 GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _nWindowWidth, int _nWindowHeight)
 {
 	_hInstance = _hInstance;
@@ -53,7 +54,7 @@ GameManager::GameManager(HINSTANCE _hInstance, HWND _hWnd, bool _bWindow, int _n
 	GamePad_ = new GamePadXbox(GamePadIndex_One, 1);
 
 
-	SceneNum_ = SCENE_CHUTORIAL;
+	SceneNum_ = SCENE_TITLE;
 }
 
 void GameManager::Init()
@@ -104,7 +105,7 @@ void GameManager::Init()
 	TextureLoder::LoadData("Resource/Texture/GameStartPolygon.png");
 	TextureLoder::LoadData("Resource/Texture/setumei.png");
 	modelinfo_.push_back(new ModelLoder("Resource/Model/skydomemodel.x"));
-	modelinfo_.push_back(new ModelLoder("Resource/Model/treemodel.x"));
+	//modelinfo_.push_back(new ModelLoder("Resource/Model/treemodel.x"));
 	modelinfo_.push_back(new ModelLoder("Resource/Model/Shadow.x"));
 	modelinfo_.push_back(new ModelLoder("Resource/Model/Shiled.x"));
 	modelinfo_.push_back(new ModelLoder("Resource/Model/Sword.x"));
@@ -113,7 +114,7 @@ void GameManager::Init()
 	//modelinfo_[MODEL_SHILED] = new ModelLoder("Resource/Model/Shiled.x");
 	//modelinfo_[MODEL_SWORD] = new ModelLoder("Resource/Model/Sword.x");
 	EffectShaderManager::EffectLoad("Resource/Shader/ModelShader.fx");
-	EffectShaderManager::EffectLoad("Resource/Shader/Instance3D.fx");
+	//EffectShaderManager::EffectLoad("Resource/Shader/Instance3D.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/SkinMeshShader.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/Guardian.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/StenshillShadow.fx");
@@ -121,7 +122,7 @@ void GameManager::Init()
 	EffectShaderManager::EffectLoad("Resource/Shader/Sword.fx");
 	EffectShaderManager::EffectLoad("Resource/Shader/Particle.fx");
 	//EffectShaderManager::EffectLoad("Resource/Shader/BumpMap.fx");
-	SetSceneMode(new SceneGame, SCENE_GAME);
+	SetSceneMode(new SceneTitle, SCENE_TITLE);
 }
 
 void GameManager::Update()

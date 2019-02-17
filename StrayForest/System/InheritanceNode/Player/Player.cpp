@@ -56,6 +56,7 @@ Player::Player(float max_health, float max_mana, float health, float mana)
 	, rotate_(0.0f)
 	, ActionUseFlag_(false)
 	, MagicUseFlag_(false)
+	, mobilemotion_(false)
 {
 }
 void Player::Init()
@@ -386,6 +387,11 @@ void Player::SetActionUseFlag(bool _actionusecheck)
 	ActionUseFlag_ = _actionusecheck;
 }
 
+void Player::SetMobileMotion(bool _mobilemotion)
+{
+	mobilemotion_ = _mobilemotion;
+}
+
 bool Player::GetCameraMove()
 {
 	return cameraflag_;
@@ -466,6 +472,11 @@ D3DXVECTOR3 Player::Getknokback()
 {
 	D3DXVec3Normalize(&knockback_, &knockback_);
 	return knockback_;
+}
+
+bool Player::GetMobilemotion()
+{
+	return mobilemotion_;
 }
 
 Entity::SphereColision& Player::GetColisioninfo()

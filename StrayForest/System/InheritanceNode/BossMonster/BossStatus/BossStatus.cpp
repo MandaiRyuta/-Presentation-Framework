@@ -4,7 +4,6 @@
 #include "../../../colision/SphereColision.h"
 #include "../../MyEffekseer/MyEffekseer.h"
 #include "../.././/Player/PlayerItem/PlayerWeapon.h"
-#include "../../../colision/SphereColisionDebugModel.h"
 #include <random>
 
 BossStatus::BossStatus()
@@ -15,8 +14,6 @@ BossStatus::BossStatus()
 	, damegeactiioncount_(0)
 	, damegeactionflag_(false)
 {
-	//attackCheck = new SphereColisionDebug;
-	//monstercheck_ = new SphereColisionDebug;
 	weponcolisionset_ = D3DXVECTOR3(0.0f, 2.65f, 0.0f);
 	bosshitpos_ = D3DXVECTOR3(0.0f, 15.0f, 0.0f);
 	damegecount_ = 0;
@@ -26,22 +23,17 @@ BossStatus::BossStatus()
 
 BossStatus::~BossStatus()
 {
-	//delete monstercheck_;
-	//delete attackCheck;
 }
 
 void BossStatus::Update(BossMonster * _bossmonster)
 {
-	//ImGui::ChangePosition("wepon", weponcolisionset_);
-	//ImGui::ChangePosition("EnemyPos", bosshitpos_);
-	//ImGui::ChangeScale("Player", PlayerHitScale_);
-	//ImGui::ChangeScale("Enemy", EnemyHitScale_);
 	D3DXVECTOR3 ColisionPlayer, ColisionEnemy;
 	bool check;
 	std::random_device rd;
 	std::mt19937 mt(rd());
 	std::uniform_real_distribution<double> AttackDamage(110.0, 140.0);
 	D3DXMATRIX LeftHand = SceneGame::GetPlayerSword()->GetMtxWorld();
+
 	D3DXVec3TransformCoord(&ColisionPlayer, &D3DXVECTOR3(weponcolisionset_.x, weponcolisionset_.y, weponcolisionset_.z), &LeftHand);
 	D3DXVec3TransformCoord(&ColisionEnemy, &D3DXVECTOR3(bosshitpos_.x, bosshitpos_.y, bosshitpos_.z), &_bossmonster->GetPositionMatrix());
 	
@@ -63,7 +55,7 @@ void BossStatus::Update(BossMonster * _bossmonster)
 		{
 			damegeactionflag_ = true;
 			SceneGame::GetDamegeEffectONEfk()->SetIsDrawing(true);
-			float setdamege = AttackDamage(mt);
+			float setdamege = (float)AttackDamage(mt);
 			_bossmonster->Damage(setdamege, knockbackpos);
 			effectdrawflag_ = true;
 		}
@@ -117,10 +109,4 @@ void BossStatus::Update(BossMonster * _bossmonster)
 	{
 		frame_++;
 	}
-}
-
-void BossStatus::Draw()
-{
-	//attackCheck->Draw(attackcheck_.colision01.modelpos, attackcheck_.colision01.r, 0);
-	//monstercheck_->Draw(attackcheck_.colision02.modelpos, attackcheck_.colision02.r, 0);
 }

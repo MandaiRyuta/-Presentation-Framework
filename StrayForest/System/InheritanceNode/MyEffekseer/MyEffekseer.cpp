@@ -4,7 +4,6 @@
 MyEffekseer::MyEffekseer(int _priority, wchar_t _filepath[])
 	: GameObjectManager(_priority)
 	, IsDrawing_(false)
-	, FrameCount_(0)
 {
 	MyEfkRenderer_ = EffekseerRendererDX9::Renderer::Create(GetDevice(), 4000);
 	MyEfkManager_ = Effekseer::Manager::Create(4000,false);

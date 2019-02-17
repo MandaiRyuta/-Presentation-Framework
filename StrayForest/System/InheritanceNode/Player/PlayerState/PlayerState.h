@@ -2,14 +2,13 @@
 #include "PlayerStateManager.h"
 #include "../../../../Entity/Entity.h"
 #include "../../../colision/SphereColision.h"
-class SphereColisionDebug;
+
 class PlayerState : public PlayerStateManager
 {
 public:
 	explicit PlayerState(Player* _player);
 	virtual ~PlayerState();
 	virtual void Update(Player* _player);
-	void Draw();
 private:
 	bool damegeflag_;
 	int damegeframe_;
@@ -25,6 +24,4 @@ private:
 	int alphacolor_;
 	int frame_;
 	bool attackflag_;
-	//SphereColisionDebug* monsterattackCheck;
-	//SphereColisionDebug* playercheck_;
 };

@@ -7,27 +7,7 @@ LPDIRECT3DDEVICE9 device_ = CDX9Device::getInstance();
 
 bool CDX9Renderer::Init(HWND hWnd, bool bWindow, int nWindowWidth, int nWindowHeight)
 {
-	DX9Init(hWnd, bWindow, nWindowWidth, nWindowHeight);
-
-	return true;
-}
-
-void CDX9Renderer::Uninit()
-{
-	if (pD3D_ != NULL)
-	{
-		pD3D_->Release();
-		pD3D_ = NULL;
-	}
-	if (device_ != NULL)
-	{
-		device_->Release();
-		device_ = NULL;
-	}
-}
-
-bool CDX9Renderer::DX9Init(HWND hWnd, bool bWindow, int nWindowWidth, int nWindowHeight)
-{
+	//DX9Init(hWnd, bWindow, nWindowWidth, nWindowHeight);
 	pD3D_ = Direct3DCreate9(D3D_SDK_VERSION);
 	if (pD3D_ == NULL)
 	{
@@ -83,8 +63,24 @@ bool CDX9Renderer::DX9Init(HWND hWnd, bool bWindow, int nWindowWidth, int nWindo
 
 	// Setup ImGui binding
 	ImGui_ImplDX9_Init(hWnd, device_);
+
 	return true;
 }
+
+void CDX9Renderer::Uninit()
+{
+	if (pD3D_ != NULL)
+	{
+		pD3D_->Release();
+		pD3D_ = NULL;
+	}
+	if (device_ != NULL)
+	{
+		device_->Release();
+		device_ = NULL;
+	}
+}
+
 
 D3DPRESENT_PARAMETERS GetParameter()
 {

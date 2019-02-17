@@ -3,7 +3,6 @@
 
 BossMonsterAttackPatternA::BossMonsterAttackPatternA() 
 	: FrameCount_(0)
-	, AttackSetFlag_(false)
 {
 }
 
@@ -13,10 +12,11 @@ BossMonsterAttackPatternA::~BossMonsterAttackPatternA()
 
 void BossMonsterAttackPatternA::Update(BossMonster * _bossmonster)
 {
-	if (!AttackSetFlag_)
+	if (!_bossmonster->GetAttackState())
 	{
 		_bossmonster->GetSkinMesh()->MyChangeAnim(5.2);
-		AttackSetFlag_ = true;
+		_bossmonster->SetAttackState(true);
+		_bossmonster->SetMagicState(false);
 	}
 	if (FrameCount_ < 100)
 	{
@@ -26,6 +26,5 @@ void BossMonsterAttackPatternA::Update(BossMonster * _bossmonster)
 	{
 		_bossmonster->GetSkinMesh()->MyChangeAnim(5.2);
 		FrameCount_ = 0;
-		AttackSetFlag_ = false;
 	}
 }

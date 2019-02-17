@@ -5,7 +5,7 @@
 #include "../../../../InputManager/input.h"
 #include "../../../../Renderer/GameManager.h"
 #include "../../Camera.h"
-
+#include "../../../Sound.h"
 PlayerMove::PlayerMove()
 {
 	position_ = D3DXVECTOR3(0.0f, 0.0f, -500.0f);

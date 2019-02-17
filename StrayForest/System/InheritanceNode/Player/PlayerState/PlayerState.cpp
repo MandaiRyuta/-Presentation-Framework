@@ -8,7 +8,6 @@
 #include "../Player.h"
 #include "../../../Polygon3D.h"
 #include "../../../Polygon2D.h"
-#include "../../../System/colision/SphereColisionDebugModel.h"
 #include "../../../Renderer/GameManager.h"
 #include "../../../System/InheritanceNode/Camera.h"
 #include "../../MyEffekseer/MyEffekseer.h"
@@ -21,8 +20,6 @@ PlayerState::PlayerState(Player* _player)
 	, frame_(0)
 	, damegeflag_(false)
 {
-	//monsterattackCheck = new SphereColisionDebug;
-	//playercheck_ = new SphereColisionDebug;
 	D3DXMatrixIdentity(&LeftHand_.position);
 	D3DXMatrixIdentity(&LeftHand_.rotation);
 	D3DXMatrixIdentity(&LeftHand_.scale);
@@ -37,17 +34,10 @@ PlayerState::PlayerState(Player* _player)
 
 PlayerState::~PlayerState()
 {
-	//delete playercheck_;
-	//delete monsterattackCheck;
 }
 
 void PlayerState::Update(Player * _player)
 {
-	
-	//ImGui::ChangePosition("monster", set);
-	//ImGui::ChangeScale("monster", enemyweponscale_);
-	//ImGui::ChangePosition("player", playerhitpos_);
-	//ImGui::ChangeScale("player", playerhitscale_);
 	D3DXVECTOR3 ColisionPlayer,ColisionEnemy;
 	std::random_device rd;
 	std::mt19937 mt(rd());
@@ -55,10 +45,9 @@ void PlayerState::Update(Player * _player)
 	std::uniform_real_distribution<double> PatternB(200.0, 300.0);
 	std::uniform_real_distribution<double> PatternC(250.0, 450.0);
 	bool check;
-	//attackcolision_->Collision_detection_of_Sphere_and_Sphere();
+
 	D3DXMATRIX LeftHand = SceneGame::GetBossMonster()->GetSkinMesh()->GetBoneMatrix("Armature_Mutant_LeftHand");
 	LeftHand_.world = LeftHand_.scale * LeftHand_.rotation * LeftHand_.position * LeftHand;
-	//D3DXVec3TransformCoord(&weponPosTop, &D3DXVECTOR3(0.0f, 3.0f, 0.0f), &LeftHand);
 	D3DXVec3TransformCoord(&ColisionEnemy,&set,&LeftHand_.world);
 	D3DXVec3TransformCoord(&ColisionPlayer, &playerhitpos_, &_player->GetPlayerPosMatrix());
 	attackcheck_.colision01.modelpos = ColisionEnemy;
@@ -69,7 +58,7 @@ void PlayerState::Update(Player * _player)
 	SceneGame::GetBossAttackEfk()->SetScale(D3DXVECTOR3(50.0f, 50.0f, 50.0f));
 	SceneGame::GetBossAttackEfk()->SetPosition(ColisionPlayer);
 	SceneGame::GetBossAttackEfk()->SetFrameCount(1.0f);
-	//ImGui::GetFlagCheck("EnemyAttackHit",check);
+	
 	if (!_player->GetDiffenceMode())
 	{
 		if (check)
@@ -84,18 +73,18 @@ void PlayerState::Update(Player * _player)
 			{
 				if (SceneGame::GetBossMonster()->GetStateNum() == 0)
 				{
-					float setdamege = PatternA(mt);
+					float setdamege = (float)PatternA(mt);
 					_player->Damage(setdamege, knockbackpos);
 
 				}
 				if (SceneGame::GetBossMonster()->GetStateNum() == 1)
 				{
-					float setdamege = PatternB(mt);
+					float setdamege = (float)PatternB(mt);
 					_player->Damage(setdamege, knockbackpos);
 				}
 				if (SceneGame::GetBossMonster()->GetStateNum() == 2)
 				{
-					float setdamege = PatternC(mt);
+					float setdamege = (float)PatternC(mt);
 					_player->Damage(setdamege, knockbackpos);
 				}
 			}
@@ -119,6 +108,7 @@ void PlayerState::Update(Player * _player)
 		}
 		else
 		{
+			_player->SetMobileMotion(true);
 			damegeframe_ = 0;
 			_player->GetSkinMesh()->SetAnimSpeed(1.0f);
 			_player->GetSkinMesh()->MyChangeAnim(0.0);
@@ -173,8 +163,3 @@ void PlayerState::Update(Player * _player)
 	SceneGame::GetManaBar()->StatusSetUp(_player->GetMana(), _player->GetMaxMana());
 }
 
-void PlayerState::Draw()
-{
-	//monsterattackCheck->Draw(attackcheck_.colision01.modelpos, attackcheck_.colision01.r,0);
-	//playercheck_->Draw(attackcheck_.colision02.modelpos, attackcheck_.colision02.r,0);
-}

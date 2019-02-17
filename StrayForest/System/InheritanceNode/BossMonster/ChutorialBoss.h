@@ -15,12 +15,14 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Uninit() override;
+	//@Summary	Create	:	チュートリアル用のボスを作成する関数
 	static ChutorialBoss* Create();
+	//@Summary	GetPosition	:	位置情報
 	D3DXVECTOR3 GetPosition();
 private:
-	Entity::MATRIX3D matrix_;
-	D3DXVECTOR3 position_;
-	float rotation_;
-	int framecount_;
-	CSkinMesh* skinmesh_;
+	Entity::MATRIX3D matrix_;	//全ての行列をまとめた変数
+	D3DXVECTOR3 position_;	//座標変数
+	float rotation_;	//Y軸の回転変数
+	int framecount_;	//アニメーション用フレームカウント
+	CSkinMesh* skinmesh_;	//スキンメッシュ情報
 };

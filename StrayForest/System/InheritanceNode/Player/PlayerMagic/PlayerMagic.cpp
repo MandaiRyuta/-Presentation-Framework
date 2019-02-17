@@ -5,6 +5,9 @@
 #include "../../../../InputManager/XBoxController.h"
 #include "../../MagicObject/MagicObject.h"
 #include "../../BossMonster/BossMonster.h"
+#include "../../../Renderer/GameManager.h"
+#include "../../../System/Sound.h"
+
 PlayerMagic::PlayerMagic(Player * _player)
 	: FrameCounter_(0)
 	, EffectAddHeight(3.0f)
@@ -20,10 +23,11 @@ void PlayerMagic::Update(Player * _player)
 {
 	if (_player->GetMana() > 430.0f)
 	{
-		if (_player->GetKeyframe() > 40)
+		if (_player->GetKeyframe() > 80)
 		{
 			if (_player->GetGamePad()->GetButtonTrigger(GamePad_Button_X))
 			{
+				GameManager::GetEffectSound()->PlaySoundA(EffectSound::SOUND_LABEL::SOUND_PLAYERMAGIC);
 				_player->SetActionUseFlag(true);
 				SceneGame::GetPlayerMagicEfk()->SetScale(D3DXVECTOR3(20.0f, 20.0f, 20.0f));
 				SceneGame::GetPlayerMagicEfk()->SetPosition(_player->GetPlayerPosition());

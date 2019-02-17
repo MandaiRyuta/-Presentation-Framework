@@ -23,32 +23,18 @@ class CsvLoder
 	// メンバー関数
 	//****************************************************s
 public:
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
 	CsvLoder();
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
 	~CsvLoder();
 
 public:
-	/// <summary>
-	/// 読み込み専用関数
-	/// </summary>
-	//****************************************************
-	// @ _filename	: ファイルパス
-	// @ _table		: Vectorの二次元配列	(メッシュフィールドの高さ格納引数)
-	// @ delimiter	: マスの区切り点
-	//****************************************************
+	//@Summary	CsvRoad	:	読み込み専用関数
+	//@ParamName	=	_filename	:	ファイルパス
+	//@ParamName	=	_table	:	Vectorの2次元配列（メッシュフィールドの高さ格納引数
+	//@ParamName	=	delimiter	:	マスの区切り点
 	static bool CsvRead(const std::string& _filename, std::vector<std::vector<std::string>>& _table, const char delimiter = ',');
-	/// <summary>
-	/// 書き込み専用関数
-	/// </summary>
-	//****************************************************
-	// @ _filename	: ファイルパス
-	// @ _table		: Vectorの二次元配列	(メッシュフィールドの高さ格納引数)
-	// @ delimiter	: マスの区切り点
-	//****************************************************
+	//@Summary	CsvWrite	:	書き込み専用関数
+	//@ParamName	=	_filename	: ファイルパス
+	//@ParamName	=	_table		: Vectorの二次元配列	(メッシュフィールドの高さ格納引数)
+	//@ParamName	=	delimiter	: マスの区切り点
 	//static bool CsvWrite(const std::string& _filename, std::vector<std::vector<std::string>>& _table, const char delimiter = ',');
 };

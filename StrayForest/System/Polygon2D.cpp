@@ -206,7 +206,7 @@ void Polygon2D::SetDraw(bool _draw)
 	draw_ = _draw;
 }
 
-void Polygon2D::StatusSetUp(int status, int max_status)
+void Polygon2D::StatusSetUp(float status, float max_status)
 {
 	infomation_.dw_ = (float)((max_dw_ * status) / max_status);
 }

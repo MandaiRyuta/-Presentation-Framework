@@ -24,18 +24,17 @@ void CCamera::CameraReset()
 	front_ = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
 	right_ = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 	up_ = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	m_Dot_ = 0.0f;
 	camerainfo_.at = resetat_;
 	camerainfo_.eye = reseteye_;
 	camerainfo_.up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	offset_ = D3DXVECTOR3(0.0f, 20.0f, -200.0f);
 	zoom_ = D3DX_PI / 3;
-	lostcamerachangetime_ = 0;
-	lostzoomtime_ = 0;
+	lastcamerachangetime_ = 0;
+	lastzoomtime_ = 0;
 	yawpitchroll_.pitch = 0.0f;
 	yawpitchroll_.roll = 0.0f;
 	yawpitchroll_.yaw = 0.0f;
-	lostresultoffset_ = D3DXVECTOR3(offset_.x, offset_.y, offset_.z + 120.0f);
+	resultoffset_ = D3DXVECTOR3(offset_.x, offset_.y, offset_.z + 120.0f);
 	GameStartOffset_ = offset_;
 	gamestarttime_ = 0;
 	gamecameraflag_ = false;
@@ -63,11 +62,11 @@ void CCamera::CameraUpdate()
 	{
 		if (GamePad_->GetState()._right_thumbstick.y > 0.25f)
 		{
-			yawpitchroll_.pitch += D3DXToRadian(3.0f);
+			yawpitchroll_.pitch += D3DXToRadian(1.5f);
 		}
 		if (GamePad_->GetState()._right_thumbstick.y < -0.25f)
 		{
-			yawpitchroll_.pitch += D3DXToRadian(-3.0f);
+			yawpitchroll_.pitch += D3DXToRadian(-1.5f);
 		}
 		if (GamePad_->GetState()._right_thumbstick.x > 0.25f)
 		{
@@ -84,10 +83,6 @@ void CCamera::CameraUpdate()
 		else if (yawpitchroll_.pitch <= D3DXToRadian(0.0f))
 		{
 			yawpitchroll_.pitch = D3DXToRadian(0.0f);
-			//if (pInputKeyboard->GetKeyPress(DIK_DOWN))
-			//{
-			//	zoom_ += -0.002f;
-			//}
 		}
 	}
 	if (GameManager::GetSceneNumber() == SCENE_GAME)
@@ -96,11 +91,11 @@ void CCamera::CameraUpdate()
 		{
 			if (GamePad_->GetState()._right_thumbstick.y > 0.25f)
 			{
-				yawpitchroll_.pitch += D3DXToRadian(3.0f);
+				yawpitchroll_.pitch += D3DXToRadian(1.5f);
 			}
 			if (GamePad_->GetState()._right_thumbstick.y < -0.25f)
 			{
-				yawpitchroll_.pitch += D3DXToRadian(-3.0f);
+				yawpitchroll_.pitch += D3DXToRadian(-1.5f);
 			}
 			if (GamePad_->GetState()._right_thumbstick.x > 0.25f)
 			{
@@ -117,25 +112,10 @@ void CCamera::CameraUpdate()
 			else if (yawpitchroll_.pitch <= D3DXToRadian(0.0f))
 			{
 				yawpitchroll_.pitch = D3DXToRadian(0.0f);
-				//if (pInputKeyboard->GetKeyPress(DIK_DOWN))
-				//{
-				//	zoom_ += -0.002f;
-				//}
 			}
-			//if (!pInputKeyboard->GetKeyPress(DIK_DOWN))
-			//{
-			//	if (zoom_ <= D3DX_PI / 3)
-			//	{
-			//		zoom_ += 0.002f;
-			//	}
-			//}
-			//if (zoom_ <= D3DX_PI / 5)
-			//{
-			//	zoom_ = D3DX_PI / 5;
-			//}
 		}
 	}
-	//
+
 	D3DXMatrixRotationYawPitchRoll(&CameraRotation, yawpitchroll_.yaw, yawpitchroll_.pitch, yawpitchroll_.roll);
 	if (GameManager::GetSceneNumber() == SCENE_GAME)
 	{
@@ -153,8 +133,8 @@ void CCamera::CameraUpdate()
 	if (GameManager::GetSceneNumber() == SCENE_CHUTORIAL)
 	{
 		gamestarttime_ = 0;
-		SceneChutorial::GetRightController()->SetControllPosX(GamePad_->GetState()._right_thumbstick.x);
-		SceneChutorial::GetRightController()->SetControllPosY(GamePad_->GetState()._right_thumbstick.y);
+		SceneChutorial::GetRightController()->SetControllPosX((float)GamePad_->GetState()._right_thumbstick.x);
+		SceneChutorial::GetRightController()->SetControllPosY((float)GamePad_->GetState()._right_thumbstick.y);
 
 		camerainfo_.eye = offset_ + SceneChutorial::GetChutorialPlayer()->GetPosition();
 
@@ -298,11 +278,11 @@ void CCamera::CameraUpdate()
 
 		if (SceneLoseResult::GetLostPlayer()->DeadFlag())
 		{
-			if (lostcamerachangetime_ < 200)
+			if (lastcamerachangetime_ < 200)
 			{
-				lostresultoffset_.y += 1.0f;
+				resultoffset_.y += 1.0f;
 			}
-			if (lostcamerachangetime_ <= 350)
+			if (lastcamerachangetime_ <= 350)
 			{
 				zoom_ += -0.002f;
 			}
@@ -310,10 +290,10 @@ void CCamera::CameraUpdate()
 			{
 				SceneLoseResult::SetSepiaFlag(true);
 			}
-			lostcamerachangetime_++;
+			lastcamerachangetime_++;
 		}
 
-		camerainfo_.eye = lostresultoffset_ + SceneLoseResult::GetLostPlayer()->GetPlayerPos();
+		camerainfo_.eye = resultoffset_ + SceneLoseResult::GetLostPlayer()->GetPlayerPos();
 		camerainfo_.at = D3DXVECTOR3(SceneLoseResult::GetLostPlayer()->GetPlayerPos().x, SceneLoseResult::GetLostPlayer()->GetPlayerPos().y + 25.0f, SceneLoseResult::GetLostPlayer()->GetPlayerPos().z);
 	}
 
